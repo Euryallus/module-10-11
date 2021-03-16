@@ -6,14 +6,15 @@ using TMPro;
 
 public class InventorySlot : MonoBehaviour
 {
+    public InventoryItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
+
     //Set in inspector
     [SerializeField] private Image              itemImage;
     [SerializeField] private GameObject         itemCountPanel;
     [SerializeField] private TextMeshProUGUI    itemCountText;
 
-    public InventoryItemStack ItemStack { get { return m_itemStack; } private set { m_itemStack = value; } }
+    private InventoryItemStack itemStack = new InventoryItemStack();
 
-    private InventoryItemStack m_itemStack = new InventoryItemStack();
     private void Start()
     {
         //Hide slot UI by default
@@ -23,27 +24,20 @@ public class InventorySlot : MonoBehaviour
     }
 
 
-    public void UpdateUI(InventoryItem itemType)
+    public void UpdateUI(string itemId)
     {
-        int stackSize = m_itemStack.GetStackSize();
-
-        if(stackSize > 0)
+        if (!string.IsNullOrEmpty(itemId))
         {
-            itemImage.sprite = itemType.GetSprite();
-            itemImage.gameObject.SetActive(true);
-
-            itemCountPanel.SetActive(true);
-
-            itemCountText.text = stackSize.ToString();
-            itemCountText.gameObject.SetActive(true);
+            InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+            itemImage.sprite = item.GetSprite();
         }
-        else
-        {
-            itemImage.gameObject.SetActive(false);
 
-            itemCountPanel.SetActive(false);
+        int stackSize = itemStack.StackSize;
 
-            itemCountText.gameObject.SetActive(false);
-        }
+        itemCountText.text = stackSize.ToString();
+
+        itemImage.gameObject    .SetActive(stackSize > 0);
+        itemCountPanel          .SetActive(stackSize > 1);
+        itemCountText.gameObject.SetActive(stackSize > 1);
     }
 }

@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class InventoryItemStack
 {
-    private string m_stackItemsId;
-    private List<InventoryItem> m_items;
+    public string StackItemsID  { get { return m_stackItemsId; } }
+    public int StackSize        { get { return m_stackSize; } }
+
+    private string              m_stackItemsId;
+    private int                 m_stackSize;
 
     public InventoryItemStack()
     {
         m_stackItemsId = "";
-        m_items = new List<InventoryItem>();
+        m_stackSize = 0;
     }
 
-    public int GetStackSize()
+    private bool CanAddItemToStack(string itemId)
     {
-        return m_items.Count;
-    }
-
-    public bool CanAddItemToStack(InventoryItem item)
-    {
-        if(m_items.Count > 0)
+        if(m_stackSize > 0)
         {
             //Stack is not empty
-            if (m_stackItemsId == item.GetID())
+            if (m_stackItemsId == itemId)
             {
+                InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+
                 //This stack already contains some of item being added - check the max stack size is not already reached
-                if( m_items.Count < item.GetStackSize())
+                if ( m_stackSize < item.GetStackSize())
                 {
                     //Max stack size not reached - item can be added
                     return true;
@@ -50,10 +50,17 @@ public class InventoryItemStack
         }
     }
 
-    public void AddItemToStack(InventoryItem item)
+    public bool TryAddItemToStack(string itemId)
     {
-        m_items.Add(item);
+        if (CanAddItemToStack(itemId))
+        {
+            m_stackSize++;
 
-        m_stackItemsId = item.GetID();
+            m_stackItemsId = itemId;
+
+            return true;
+        }
+
+        return false;
     }
 }
