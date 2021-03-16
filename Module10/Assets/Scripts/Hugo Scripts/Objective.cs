@@ -10,13 +10,40 @@ public class Objective
     [SerializeField]
     protected string _objectiveName;
 
-    public string objectiveName
+    [SerializeField]
+    private Vector3 goToLocation;
+    [SerializeField]
+    private GameObject objectToCollect;
+    [SerializeField]
+    private int numberObjectToCollect;
+
+    public bool completed = false;
+
+    public enum objectiveType
     {
-        get { return _objectiveName; }
+        Collect,
+        GoTo
     }
+
+    public objectiveType type;
 
     virtual public bool checkComplete()
     {
+        switch (type)
+        {
+            case objectiveType.Collect:
+
+                break;
+
+            case objectiveType.GoTo:
+
+                return (Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, goToLocation) < 2);
+
+            default:
+                break;
+        }
+
+
         return false;
     }
 

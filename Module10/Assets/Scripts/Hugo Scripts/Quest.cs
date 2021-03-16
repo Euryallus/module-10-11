@@ -20,27 +20,33 @@ public class Quest
     }
 
     [SerializeField]
-    private List<Objective> objectives; //change to objectives list
+    private List<Objective> objectives = new List<Objective>(); //change to objectives list
 
     [SerializeField]
     private GameObject rewardItem; //change to inventory item, maybe add gold / XP??
 
-    private bool completed = false;
+    public bool completed = false;
     private GameObject questGiver; //change to questGiver obj
-    private GameObject completePoint; //change to questGiver obj or position?
 
     public bool checkObjectiveCompletion()
     {
         int complete = 0;
-        foreach(Objective objectiveNotYetComplete in objectives)
+
+        if(objectives.Count > 0)
         {
-            if(objectiveNotYetComplete.checkComplete())
+            foreach(Objective objectiveNotYetComplete in objectives)
             {
-                ++complete;
+                if(objectiveNotYetComplete.checkComplete())
+                {
+                    ++complete;
+                    objectiveNotYetComplete.completed = true;
+                }
             }
+
+            return (complete == objectives.Count);
         }
 
-        return (complete == objectives.Count);
+        return false;
     }
 
 
