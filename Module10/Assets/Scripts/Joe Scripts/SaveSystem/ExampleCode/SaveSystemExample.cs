@@ -11,7 +11,7 @@ public class SaveSystemExample : PersistentObject
 
     public override void OnSave(SaveData saveData)
     {
-        //OnLoad is called each time game data is saved to a file
+        //OnSave is called each time game data is saved to a file
 
         //This is where you add any values that you want to save to the save data
 
