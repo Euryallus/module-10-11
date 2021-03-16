@@ -7,15 +7,15 @@ public class InventoryItemStack
     private string m_stackItemsId;
     private List<InventoryItem> m_items;
 
-    public InventoryItemStack(InventoryItem[] items)
+    public InventoryItemStack()
     {
         m_stackItemsId = "";
         m_items = new List<InventoryItem>();
+    }
 
-        for (int i = 0; i < items.Length; i++)
-        {
-            m_items.Add(items[i]);
-        }
+    public int GetStackSize()
+    {
+        return m_items.Count;
     }
 
     public bool CanAddItemToStack(InventoryItem item)

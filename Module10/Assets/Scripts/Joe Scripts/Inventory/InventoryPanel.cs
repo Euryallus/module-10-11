@@ -8,13 +8,6 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField]
     private InventorySlot[] m_slots;
 
-    private const int InventoryGridWidth    = 8;
-    private const int InventoryGridHeight   = 3;
-
-    private void Start()
-    {
-    }
-
     public void TryAddItemToInventory(InventoryItem item)
     {
         //Loop through all slots to find a valid one
@@ -22,8 +15,15 @@ public class InventoryPanel : MonoBehaviour
         {
             if(m_slots[i].ItemStack.CanAddItemToStack(item))
             {
+                //Item can be added to this slot - add it
                 m_slots[i].ItemStack.AddItemToStack(item);
-                break;
+
+                Debug.Log("Added " + item.GetID() + " to inventory slot " + i);
+
+                //Update slot UI to show new item
+                m_slots[i].UpdateUI(item);
+
+                return;
             }
         }
 
