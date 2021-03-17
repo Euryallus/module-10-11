@@ -2312,6 +2312,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1268213148}
     m_Modifications:
+    - target: {fileID: 1970997108, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970997108, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4216848479496635066, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
       propertyPath: m_Name
       value: InventoryPanel

@@ -82,5 +82,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
 
         UpdateUI();
         otherSlot.UpdateUI();
+
+        parentPanel.UpdateTotalInventoryWeight();
     }
 }

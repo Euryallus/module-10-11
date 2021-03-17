@@ -24,5 +24,6 @@ public class InventoryItem : ScriptableObject
 
     public string GetID()       { return id; }
     public int GetStackSize()   { return stackSize; }
+    public float GetWeight()    { return weight; }
     public Sprite GetSprite()   { return sprite; }
 }
