@@ -63,4 +63,16 @@ public class InventoryItemStack
 
         return false;
     }
+
+    public bool TryRemoveItemFromStack()
+    {
+        if(m_stackSize > 0)
+        {
+            m_stackSize--;
+
+            return true;
+        }
+
+        return false;
+    }
 }

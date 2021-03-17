@@ -16,6 +16,9 @@ public class InventoryItem : ScriptableObject
     [SerializeField] [Tooltip("Maximum number of this item that can be stored in a single stack")]
     private int stackSize = 1;
 
+    [SerializeField] [Tooltip("The weight of this item - more desirable items should have a greater weight")]
+    private float weight = 0.0f;
+
     [SerializeField] [Tooltip("Sprite to be displayed in the UI for this item")]
     private Sprite sprite;
 

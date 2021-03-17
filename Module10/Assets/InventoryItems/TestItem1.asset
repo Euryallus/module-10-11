@@ -15,4 +15,5 @@ MonoBehaviour:
   id: testItem1
   uiName: Test Item 1
   stackSize: 1
+  weight: 3
   sprite: {fileID: 21300000, guid: e0a818ac3a8f34d45a60869d526a5a8d, type: 3}

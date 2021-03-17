@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class InventoryPanel : PersistentObject
 {
+    public InventorySlot HandSlot { get { return m_handSlot; } }
+
     //Set in inspector
-    [SerializeField]
-    private InventorySlot[] m_slots;
+    [SerializeField] private InventorySlot[]    m_slots;        //Main inventory grid
+    [SerializeField] private InventorySlot      m_handSlot;     //Slot used to pick up and move items
+
+    private void Update()
+    {
+        if (m_handSlot.ItemStack.StackSize > 0)
+        {
+            //When there are items in the hand slot, lerp its position to the mouse pointer
+            m_handSlot.transform.position = Vector3.Lerp(m_handSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
+        }
+    }
 
     public override void OnLoad(SaveData saveData)
     {
@@ -23,7 +34,7 @@ public class InventoryPanel : PersistentObject
                 m_slots[i].ItemStack.TryAddItemToStack(itemId);
             }
 
-            m_slots[i].UpdateUI(itemId);
+            m_slots[i].UpdateUI();
         }
     }
 
@@ -51,7 +62,7 @@ public class InventoryPanel : PersistentObject
                 Debug.Log("Added " + item.GetID() + " to inventory slot " + i);
 
                 //Update slot UI to show new item
-                m_slots[i].UpdateUI(item.GetID());
+                m_slots[i].UpdateUI();
 
                 return;
             }
