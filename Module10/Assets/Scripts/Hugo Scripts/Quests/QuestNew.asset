@@ -17,7 +17,7 @@ MonoBehaviour:
   questCompleteDialogue: Qurprise
   questCompleted: 0
   questHandedIn: 0
-  handInToGiver: 1
+  handInToGiver: 0
   rewards: []
   objectives:
   - {fileID: 11400000, guid: 2bf17d232a0fb5843bec80d31ed6b282, type: 2}

@@ -24,8 +24,9 @@ public class QuestManager : MonoBehaviour
 
     public bool TalkToQuestGiver(QuestGiver giver)
     {
-        foreach (QuestData quest in questBacklog)
+        for(int i = 0; i < questBacklog.Count; i++)
         {
+            QuestData quest = questBacklog[i];
             if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
             {
                 if(giver.checkQuestToHandIn(quest.questName))

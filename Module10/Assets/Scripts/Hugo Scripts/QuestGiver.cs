@@ -22,12 +22,14 @@ public class QuestGiver : MonoBehaviour
         questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
         self = gameObject.GetComponent<QuestGiver>();
 
-        foreach(QuestData quest in questsToGive) 
+        for(int i = 0; i < questsToGive.Count; i++)
         {
+            QuestData quest = questsToGive[i];
             if(quest.questHandedIn)
             {
                 questManager.completedQuests.Add(quest);
                 questsToGive.Remove(quest);
+                --i;
             }
         }
     }
@@ -39,6 +41,10 @@ public class QuestGiver : MonoBehaviour
             if(questsToGive.Count > 0)
             {
                 questManager.offerQuest(questsToGive[0], self);
+            }
+            else
+            {
+                Debug.Log("no quests left");
             }
         }
     }

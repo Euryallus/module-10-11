@@ -15,8 +15,8 @@ MonoBehaviour:
   questName: Go to the purple blob
   questDescription: F O O D
   questCompleteDialogue: Poop.
-  questCompleted: 0
-  questHandedIn: 0
+  questCompleted: 1
+  questHandedIn: 1
   handInToGiver: 1
   rewards: []
   objectives:
