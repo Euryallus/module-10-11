@@ -152,7 +152,7 @@ public class InventoryPanel : PersistentObject
 
         m_weightSlider.value = Mathf.Clamp(weightVal, 0.0f, 1.0f);
 
-        m_weightText.text = "Weight Limit (" + Mathf.RoundToInt(weightVal * 100.0f) + "%)";
+        m_weightText.text = "Weight Limit (" + Mathf.FloorToInt(weightVal * 100.0f) + "%)";
 
         if(m_totalWeight >= m_maxWeight)
         {

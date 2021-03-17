@@ -14,7 +14,8 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject         itemCountPanel;
     [SerializeField] private TextMeshProUGUI    itemCountText;
     [SerializeField] private InventoryPanel     parentPanel;
-    [SerializeField] private bool               clickableSlot = true;
+    [SerializeField] private bool               clickToAddItems = true;
+    [SerializeField] private bool               clickToRemoveItems = true;
 
     private InventoryItemStack itemStack = new InventoryItemStack();
 
@@ -46,21 +47,18 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (clickableSlot)
+        //Snap the hand slot position to mouse position
+        parentPanel.HandSlot.transform.position = Input.mousePosition;
+
+        bool rightClick = (eventData.button == PointerEventData.InputButton.Right);
+
+        if (clickToRemoveItems && itemStack.StackSize > 0)
         {
-            //Snap the hand slot position to mouse position
-            parentPanel.HandSlot.transform.position = Input.mousePosition;
-
-            bool rightClick = (eventData.button == PointerEventData.InputButton.Right);
-
-            if (itemStack.StackSize > 0)
-            {
-                MoveItemsToOtherSlot(parentPanel.HandSlot, rightClick);
-            }
-            else if (parentPanel.HandSlot.ItemStack.StackSize > 0)
-            {
-                parentPanel.HandSlot.MoveItemsToOtherSlot(this, rightClick);
-            }
+            MoveItemsToOtherSlot(parentPanel.HandSlot, rightClick);
+        }
+        else if (clickToAddItems && parentPanel.HandSlot.ItemStack.StackSize > 0)
+        {
+            parentPanel.HandSlot.MoveItemsToOtherSlot(this, rightClick);
         }
     }
 

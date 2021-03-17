@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour
+public class ItemManager : PersistentObject
 {
     public static ItemManager Instance;
 
     [SerializeField] private InventoryItem[] items;
 
-    private readonly Dictionary<string, InventoryItem> itemsDict = new Dictionary<string, InventoryItem>();
+    private Dictionary<string, InventoryItem> itemsDict = new Dictionary<string, InventoryItem>();
+
+    private Dictionary<string, InventoryItem> customItemsDict = new Dictionary<string, InventoryItem>();
 
     private void Awake()
     {
@@ -29,6 +31,23 @@ public class ItemManager : MonoBehaviour
         SetupItemsDict();
     }
 
+    public override void OnSave(SaveData saveData)
+    {
+        Debug.Log("Saving custom inventory items");
+
+        saveData.AddData("customItemCount", customItemsDict.Count);
+
+        //for (int i = 0; i < customItemsDict.Count; i++)
+        //{
+
+        //}
+    }
+
+    public override void OnLoad(SaveData saveData)
+    {
+        Debug.Log("Loading custom inventory items");
+    }
+
     private void SetupItemsDict()
     {
         for (int i = 0; i < items.Length; i++)
@@ -43,10 +62,25 @@ public class ItemManager : MonoBehaviour
         {
             return itemsDict[id];
         }
+        else if (customItemsDict.ContainsKey(id))
+        {
+            return customItemsDict[id];
+        }
         else
         {
             Debug.LogError("Trying to get item with invalid id: " + id);
             return null;
         }
+    }
+
+    public void AddCustomItem(string id, string baseItemId, string customUIName)
+    {
+        InventoryItem baseItem = GetItemWithID(baseItemId);
+
+        InventoryItem customItem = Instantiate(baseItem);
+
+        customItem.SetUIName(customUIName);
+
+        customItemsDict.Add(id, customItem);
     }
 }
