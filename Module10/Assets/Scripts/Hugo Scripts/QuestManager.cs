@@ -26,7 +26,7 @@ public class QuestManager : MonoBehaviour
     {
         foreach (QuestData quest in questBacklog)
         {
-            if (quest.questCompleted && !quest.questHandedIn)
+            if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
             {
                 if(giver.checkQuestToHandIn(quest.questName))
                 {
@@ -83,6 +83,11 @@ public class QuestManager : MonoBehaviour
                         Debug.Log("completed " + quest.questName);
 
                         UI.MarkHUDQuestComplete();
+
+                        if(!quest.handInToGiver)
+                        {
+                            CompleteQuest(quest);
+                        }
                     }
                 }
             }

@@ -22,7 +22,7 @@ public class QuestGiver : MonoBehaviour
         questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
         self = gameObject.GetComponent<QuestGiver>();
 
-        foreach(QuestData quest in questsToGive)
+        foreach(QuestData quest in questsToGive) 
         {
             if(quest.questHandedIn)
             {
