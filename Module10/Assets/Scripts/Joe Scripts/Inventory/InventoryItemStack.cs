@@ -18,7 +18,7 @@ public class InventoryItemStack
         m_stackSize = 0;
     }
 
-    private bool CanAddItemToStack(string itemId)
+    public bool CanAddItemToStack(string itemId)
     {
         if(m_stackSize > 0)
         {
@@ -52,9 +52,9 @@ public class InventoryItemStack
         }
     }
 
-    public bool TryAddItemToStack(string itemId)
+    public bool AddItemToStack(string itemId, bool checkIfValid = true)
     {
-        if (CanAddItemToStack(itemId))
+        if ( !checkIfValid || (checkIfValid && CanAddItemToStack(itemId)) )
         {
             InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
 

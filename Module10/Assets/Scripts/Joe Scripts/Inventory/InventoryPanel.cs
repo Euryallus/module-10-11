@@ -62,7 +62,7 @@ public class InventoryPanel : PersistentObject
 
             for (int j = 0; j < stackSize; j++)
             {
-                m_slots[i].ItemStack.TryAddItemToStack(itemId);
+                m_slots[i].ItemStack.AddItemToStack(itemId, false);
             }
 
             m_slots[i].UpdateUI();
@@ -73,26 +73,66 @@ public class InventoryPanel : PersistentObject
 
     public void TryAddItemToInventory(InventoryItem item)
     {
-        //Loop through all slots to find a valid one
+        //Step 1 - loop through all slots to find valid ones
+
+        FindValidInventorySlots(item, out int firstEmptySlot, out int firstStackableSlot);
+
+        //Step 2: If a slot was found, add the item to it in this priority: stackable slot > empty slot
+
+        if(firstStackableSlot == -1 && firstEmptySlot == -1)
+        {
+            //No empty or stackable slots, meaning the inventory is full - warn the player
+            Debug.LogWarning("INVENTORY FULL!");
+        }
+        else
+        {
+            int chosenSlotIndex;
+
+            if (firstStackableSlot != -1)
+            {
+                //Stackable slot was found, set it as the chosen slot
+                chosenSlotIndex = firstStackableSlot;
+            }
+            else
+            {
+                //No stackable slots but an empty slot was found, set it as the chosen slot
+                chosenSlotIndex = firstEmptySlot;
+            }
+
+            //Add the item to the chosen slot
+            m_slots[chosenSlotIndex].ItemStack.AddItemToStack(item.GetID());
+
+            //Update slot UI to show new item
+            m_slots[chosenSlotIndex].UpdateUI();
+
+            //Calculate and display new inventory weight
+            UpdateTotalInventoryWeight();
+        }
+    }
+
+    private void FindValidInventorySlots( InventoryItem item, out int firstEmptySlot, out int firstStackableSlot)
+    {
+        firstEmptySlot      = -1;   //Keeps track of the index of the first empty slot that is found
+        firstStackableSlot  = -1;   //Keeps track of the index of the first slot where the item can stack that is found
+
         for (int i = 0; i < m_slots.Length; i++)
         {
-            //Try adding the item to the stack
-            if(m_slots[i].ItemStack.TryAddItemToStack(item.GetID()))
+            //Check if the current stack can take the item
+            if (m_slots[i].ItemStack.CanAddItemToStack(item.GetID()))
             {
-                //Item was added
-                Debug.Log("Added " + item.GetID() + " to inventory slot " + i);
-
-                //Update slot UI to show new item
-                m_slots[i].UpdateUI();
-
-                UpdateTotalInventoryWeight();
-
-                return;
+                if (m_slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
+                {
+                    //The first empty slot was found
+                    firstEmptySlot = i;
+                }
+                else if (m_slots[i].ItemStack.StackSize > 0 && firstStackableSlot == -1)
+                {
+                    //The first stackable slot was found - no more searching is needed as stackable slots take priority
+                    firstStackableSlot = i;
+                    return;
+                }
             }
         }
-
-        //If we get here, the item could not be added to any slot. Warn the player that their inventory is full.
-        Debug.LogWarning("INVENTORY FULL!");
     }
 
     public void UpdateTotalInventoryWeight()

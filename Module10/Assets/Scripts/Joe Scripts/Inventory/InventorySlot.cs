@@ -70,7 +70,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
 
         for (int i = 0; i < currentStackSize; i++)
         {
-            if (otherSlot.ItemStack.TryAddItemToStack(itemStack.StackItemsID))
+            if (otherSlot.ItemStack.AddItemToStack(itemStack.StackItemsID))
             {
                 itemStack.TryRemoveItemFromStack();
             }
