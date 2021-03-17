@@ -4,13 +4,13 @@ using UnityEngine;
 
 public abstract class PersistentObject : MonoBehaviour
 {
-    private void Start()
+    protected virtual void Start()
     {
         SaveLoadManager.Instance.SaveObjectsEvent += OnSave;
         SaveLoadManager.Instance.LoadObjectsEvent += OnLoad;
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         SaveLoadManager.Instance.SaveObjectsEvent -= OnSave;
         SaveLoadManager.Instance.LoadObjectsEvent -= OnLoad;

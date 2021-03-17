@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class InventoryItemStack
 {
-    public string StackItemsID  { get { return m_stackItemsId; } }
-    public int StackSize        { get { return m_stackSize; } }
+    public string   StackItemsID    { get { return m_stackItemsId; } }
+    public int      StackSize       { get { return m_stackSize; } }
+    public float    StackWeight     { get { return m_stackWeight; } }
 
     private string              m_stackItemsId;
     private int                 m_stackSize;
+    private float               m_stackWeight;
 
     public InventoryItemStack()
     {
@@ -54,9 +56,29 @@ public class InventoryItemStack
     {
         if (CanAddItemToStack(itemId))
         {
+            InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+
             m_stackSize++;
 
+            m_stackWeight += item.GetWeight();
+
             m_stackItemsId = itemId;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool TryRemoveItemFromStack()
+    {
+        if(m_stackSize > 0)
+        {
+            InventoryItem item = ItemManager.Instance.GetItemWithID(m_stackItemsId);
+
+            m_stackSize--;
+
+            m_stackWeight -= item.GetWeight();
 
             return true;
         }
