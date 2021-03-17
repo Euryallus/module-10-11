@@ -18,9 +18,10 @@ public class PlayerInteractions : MonoBehaviour
         {
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out raycastHit, 4.0f))
             {
+                Debug.Log(raycastHit.transform.name);
                 if(raycastHit.transform.gameObject.GetComponent<QuestGiver>())
                 {
-                    raycastHit.transform.gameObject.GetComponent<QuestGiver>().issueQuest();
+                    raycastHit.transform.gameObject.GetComponent<QuestGiver>().interact();
                 }
             }
         }

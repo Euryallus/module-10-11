@@ -6,53 +6,106 @@ using UnityEngine.UI;
 public class QuestManager : MonoBehaviour
 {
     [SerializeField]
-    private Quest activeQuest = null;
+    private List<QuestData> questBacklog = new List<QuestData>();
+    public List<QuestData> completedQuests = new List<QuestData>();
 
-    [SerializeField]
-    private List<Quest> questBacklog = new List<Quest>();
+    private QuestData pendingQuest = null;
+    private QuestGiver offer = null;
 
-    private List<Quest> completedQuests = new List<Quest>();
+    private QuestUI UI;
 
-    [SerializeField]
-    private Text questName;
-    [SerializeField]
-    private Text questDescription;
+    private PlayerMovement playerMove;
 
     private void Start()
     {
-        activeQuest = null;
+        UI = gameObject.GetComponent<QuestUI>();
+        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
-    public void AcceptQuest(Quest questAccepted)
+    public bool TalkToQuestGiver(QuestGiver giver)
     {
-        questBacklog.Add(questAccepted);
-        activeQuest = questBacklog[0];
+        foreach (QuestData quest in questBacklog)
+        {
+            if (quest.questCompleted && !quest.questHandedIn)
+            {
+                if(giver.checkQuestToHandIn(quest.questName))
+                {
+                    CompleteQuest(quest);
 
-        questName.text = activeQuest.questName;
-        questDescription.text = activeQuest.questDescription;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void offerQuest(QuestData questToOffer, QuestGiver offerer)
+    {
+        playerMove.StopMoving();
+        pendingQuest = questToOffer;
+        UI.DisplayQuestAccept(pendingQuest);
+        offer = offerer;
+    }
+
+    public void AcceptQuest()
+    {
+        playerMove.StartMoving();
+        questBacklog.Add(pendingQuest);
+        UI.HideQuestAccept();
+        offer.playerAccepts();
+        UI.UpdateHUDQuestName(questBacklog[0].questName);
+
+        offer = null;
+        pendingQuest = null;
+    }
+
+    public void DeclineQuest()
+    {
+        playerMove.StartMoving();
+        UI.HideQuestAccept();
+        pendingQuest = null;
+        offer = null;
     }
 
     private void Update()
     {
-        if (activeQuest != null)
-        { 
-            if(!activeQuest.completed && activeQuest.checkObjectiveCompletion())
+        if(questBacklog.Count != 0)
+        {
+            for(int i = 0; i < questBacklog.Count; i++)
             {
-                completedQuests.Add(questBacklog[0]);
-                questBacklog[0].completed = true;
-                questBacklog.RemoveAt(0);
+                QuestData quest = questBacklog[i];
 
-                if (questBacklog.Count > 0)
+                if(!quest.questCompleted)
                 {
-                    activeQuest = questBacklog[0];
-                }
-                else
-                {
-                    activeQuest = null;
-                    questName.text = "no active quests";
-                    questDescription.text = "";
+                    if(quest.CheckCompleted())
+                    {
+                        Debug.Log("completed " + quest.questName);
+
+                        UI.MarkHUDQuestComplete();
+                    }
                 }
             }
         }
     }
+
+    public void CompleteQuest(QuestData quest)
+    {
+        quest.questHandedIn = true;
+        questBacklog.Remove(quest);
+        completedQuests.Add(quest);
+
+        if(questBacklog.Count != 0)
+        {
+            UI.UpdateHUDQuestName(questBacklog[0].questName);
+        }
+        else
+        {
+            UI.UpdateHUDQuestName("No active quests");
+        }
+
+        UI.DisplayQuestComplete(quest);
+        playerMove.StopMoving();
+    }
+
 }

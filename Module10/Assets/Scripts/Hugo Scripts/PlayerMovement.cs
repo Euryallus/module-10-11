@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
     private GameObject playerCamera;
@@ -22,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float mouseSensitivity = 400;
 
+    private bool canMove = true;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -30,20 +31,33 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        if(canMove)
+        {
+            mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        rotateY -= mouseY;
-        rotateY = Mathf.Clamp(rotateY, -75f, 75f);
+            rotateY -= mouseY;
+            rotateY = Mathf.Clamp(rotateY, -75f, 75f);
 
-        transform.Rotate(Vector3.up * mouseX);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
+            transform.Rotate(Vector3.up * mouseX);
+            playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
 
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
+            inputX = Input.GetAxis("Horizontal");
+            inputY = Input.GetAxis("Vertical");
 
-        moveTo = transform.right * inputX + transform.forward * inputY;
+            moveTo = transform.right * inputX + transform.forward * inputY;
 
-        controller.Move(moveTo * defaultSpeed * Time.deltaTime); //applies movement to player
+            controller.Move(moveTo * defaultSpeed * Time.deltaTime); //applies movement to player
+        }
+    }
+
+    public void StopMoving()
+    {
+        canMove = false;
+    }
+
+    public void StartMoving()
+    {
+        canMove = true;
     }
 }
