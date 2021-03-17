@@ -22,8 +22,10 @@ public class InventoryPanel : PersistentObject
 
     private float m_totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         UpdateTotalInventoryWeight();
     }
 
