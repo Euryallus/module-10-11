@@ -100,7 +100,7 @@ public class InventoryPanel : PersistentObject
             }
 
             //Add the item to the chosen slot
-            m_slots[chosenSlotIndex].ItemStack.AddItemToStack(item.GetID());
+            m_slots[chosenSlotIndex].ItemStack.AddItemToStack(item.Id);
 
             //Update slot UI to show new item
             m_slots[chosenSlotIndex].UpdateUI();
@@ -118,7 +118,7 @@ public class InventoryPanel : PersistentObject
         for (int i = 0; i < m_slots.Length; i++)
         {
             //Check if the current stack can take the item
-            if (m_slots[i].ItemStack.CanAddItemToStack(item.GetID()))
+            if (m_slots[i].ItemStack.CanAddItemToStack(item.Id))
             {
                 if (m_slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
                 {

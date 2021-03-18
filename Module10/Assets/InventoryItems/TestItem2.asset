@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30db721631325bd4aab1c03410f7bc54, type: 3}
   m_Name: TestItem2
   m_EditorClassIdentifier: 
-  id: testItem2
-  uiName: Test Item 2
-  stackSize: 2
-  weight: 0.8
-  sprite: {fileID: 21300000, guid: fb8059e9f6eb4e043a97578ae9d9284d, type: 3}
+  m_id: testItem2
+  m_uiName: Test Item 2
+  m_stackSize: 2
+  m_weight: 0.8
+  m_sprite: {fileID: 21300000, guid: fb8059e9f6eb4e043a97578ae9d9284d, type: 3}
+  m_customisable: 0
+  m_customiseItemId: 
+  m_customiseItemQuantity: 0

@@ -28,7 +28,7 @@ public class InventoryItemStack
                 InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
 
                 //This stack already contains some of item being added - check the max stack size is not already reached
-                if ( m_stackSize < item.GetStackSize())
+                if ( m_stackSize < item.StackSize)
                 {
                     //Max stack size not reached - item can be added
                     return true;
@@ -60,7 +60,7 @@ public class InventoryItemStack
 
             m_stackSize++;
 
-            m_stackWeight += item.GetWeight();
+            m_stackWeight += item.Weight;
 
             m_stackItemsId = itemId;
 
@@ -78,7 +78,7 @@ public class InventoryItemStack
 
             m_stackSize--;
 
-            m_stackWeight -= item.GetWeight();
+            m_stackWeight -= item.Weight;
 
             return true;
         }

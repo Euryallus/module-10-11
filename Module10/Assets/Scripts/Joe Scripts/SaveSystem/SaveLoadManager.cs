@@ -40,7 +40,7 @@ public class SaveLoadManager : MonoBehaviour
         SaveData dataToSave = new SaveData();
 
         //Call the OnSave function on all persistent objects - they will each add some data to the SavaData object
-        SaveObjectsEvent.Invoke(dataToSave);
+        SaveObjectsEvent?.Invoke(dataToSave);
 
         string saveDataPath = saveDirectory + "/" + SaveDataFileName;
 
@@ -116,7 +116,7 @@ public class SaveLoadManager : MonoBehaviour
             }
 
             //Setup all persistent objects with the loaded data
-            LoadObjectsEvent.Invoke(loadedData);
+            LoadObjectsEvent?.Invoke(loadedData);
 
             Debug.Log("Game loaded!");
         }

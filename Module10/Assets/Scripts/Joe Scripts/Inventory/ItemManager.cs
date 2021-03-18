@@ -52,7 +52,7 @@ public class ItemManager : PersistentObject
     {
         for (int i = 0; i < items.Length; i++)
         {
-            itemsDict.Add(items[i].GetID(), items[i]);
+            itemsDict.Add(items[i].Id, items[i]);
         }
     }
 
@@ -79,7 +79,7 @@ public class ItemManager : PersistentObject
 
         InventoryItem customItem = Instantiate(baseItem);
 
-        customItem.SetUIName(customUIName);
+        customItem.UIName = customUIName;
 
         customItemsDict.Add(id, customItem);
     }

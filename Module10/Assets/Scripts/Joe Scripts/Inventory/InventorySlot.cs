@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 public class InventorySlot : MonoBehaviour, IPointerDownHandler
 {
     public InventoryItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
+
+    public event Action ItemsMovedEvent;
 
     //Set in inspector
     [SerializeField] private Image              itemImage;
@@ -33,7 +36,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
         if (!string.IsNullOrEmpty(itemStack.StackItemsID))
         {
             InventoryItem item = ItemManager.Instance.GetItemWithID(itemStack.StackItemsID);
-            itemImage.sprite = item.GetSprite();
+            itemImage.sprite = item.Sprite;
         }
 
         int stackSize = itemStack.StackSize;
@@ -82,5 +85,9 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
         otherSlot.UpdateUI();
 
         parentPanel.UpdateTotalInventoryWeight();
+
+        ItemsMovedEvent?.Invoke();
+
+        otherSlot.ItemsMovedEvent?.Invoke();
     }
 }
