@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class InventoryPanel : PersistentObject
 {
     #region InspectorVariables
@@ -11,8 +12,8 @@ public class InventoryPanel : PersistentObject
 
     public InventoryItemPopup                   ItemInfoPopup;
 
-    [SerializeField] private InventorySlot[]    m_slots;                //Main inventory grid
-    [SerializeField] private InventorySlot      m_handSlot;             //Slot used to pick up and move items
+    [SerializeField] private InventorySlot[]    slots;                //Main inventory grid
+    [SerializeField] private InventorySlot      handSlot;             //Slot used to pick up and move items
 
     [SerializeField] private TextMeshProUGUI    weightText;           //Text displaying how full the inventory is
     [SerializeField] private Slider             weightSlider;         //Slider that shows how close the inventory is to holding its max weight
@@ -24,23 +25,34 @@ public class InventoryPanel : PersistentObject
 
     #endregion
 
-    public InventorySlot HandSlot { get { return m_handSlot; } }
+    public InventorySlot    HandSlot    { get { return handSlot; } }
+    public bool             Showing     { get { return showing; } }
 
-    private float totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
+    private CanvasGroup     canvasGroup;
+    private bool            showing;
+    private float           totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
+    private PlayerMovement  playerMovement;
 
     protected override void Start()
     {
         base.Start();
 
+        canvasGroup     = GetComponent<CanvasGroup>();
+        playerMovement  = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
         UpdateTotalInventoryWeight();
+
+        Hide();
     }
 
     private void Update()
     {
-        if (m_handSlot.ItemStack.StackSize > 0)
+        CheckForShowHideInput();
+
+        if (handSlot.ItemStack.StackSize > 0)
         {
             //When there are items in the hand slot, lerp its position to the mouse pointer
-            m_handSlot.transform.position = Vector3.Lerp(m_handSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
+            handSlot.transform.position = Vector3.Lerp(handSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
 
             ItemInfoPopup.SetCanShow(false);
         }
@@ -50,15 +62,51 @@ public class InventoryPanel : PersistentObject
         }
     }
 
+    private void CheckForShowHideInput()
+    {
+        //Show/hide input
+        if (!showing && Input.GetKeyDown(KeyCode.I))
+        {
+            Show();
+        }
+        else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
+    public void Show()
+    {
+        //Show inventory UI
+        canvasGroup.alpha = 1.0f;
+        showing = true;
+
+        //Stop the player from moving and unlock/show the cursor so they can interact with the inventory
+        playerMovement.StopMoving();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void Hide()
+    {
+        //Hide inventory UI
+        canvasGroup.alpha = 0.0f;
+        showing = false;
+
+        //Allow the player to move and lock their cursor to screen centre
+        playerMovement.StartMoving();
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public override void OnSave(SaveData saveData)
     {
         Debug.Log("Saving inventory panel data");
 
-        for (int i = 0; i < m_slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             //Save data for each inventory slot
-            saveData.AddData("slotStackSize" + i, m_slots[i].ItemStack.StackSize);
-            saveData.AddData("stackItemsId" + i, m_slots[i].ItemStack.StackItemsID);
+            saveData.AddData("slotStackSize" + i, slots[i].ItemStack.StackSize);
+            saveData.AddData("stackItemsId" + i, slots[i].ItemStack.StackItemsID);
         }
     }
 
@@ -70,7 +118,7 @@ public class InventoryPanel : PersistentObject
     {
         Debug.Log("Loading inventory panel data");
 
-        for (int i = 0; i < m_slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             //Load data for each inventory slot
             int stackSize = saveData.GetData<int>("slotStackSize" + i);
@@ -78,10 +126,10 @@ public class InventoryPanel : PersistentObject
 
             for (int j = 0; j < stackSize; j++)
             {
-                m_slots[i].ItemStack.AddItemToStack(itemId, false);
+                slots[i].ItemStack.AddItemToStack(itemId, false);
             }
 
-            m_slots[i].UpdateUI();
+            slots[i].UpdateUI();
         }
 
         UpdateTotalInventoryWeight();
@@ -116,10 +164,10 @@ public class InventoryPanel : PersistentObject
             }
 
             //Add the item to the chosen slot
-            m_slots[chosenSlotIndex].ItemStack.AddItemToStack(item.Id);
+            slots[chosenSlotIndex].ItemStack.AddItemToStack(item.Id);
 
             //Update slot UI to show new item
-            m_slots[chosenSlotIndex].UpdateUI();
+            slots[chosenSlotIndex].UpdateUI();
 
             //Calculate and display new inventory weight
             UpdateTotalInventoryWeight();
@@ -131,17 +179,17 @@ public class InventoryPanel : PersistentObject
         firstEmptySlot      = -1;   //Keeps track of the index of the first empty slot that is found
         firstStackableSlot  = -1;   //Keeps track of the index of the first slot where the item can stack that is found
 
-        for (int i = 0; i < m_slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             //Check if the current stack can take the item
-            if (m_slots[i].ItemStack.CanAddItemToStack(item.Id))
+            if (slots[i].ItemStack.CanAddItemToStack(item.Id))
             {
-                if (m_slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
+                if (slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
                 {
                     //The first empty slot was found
                     firstEmptySlot = i;
                 }
-                else if (m_slots[i].ItemStack.StackSize > 0 && firstStackableSlot == -1)
+                else if (slots[i].ItemStack.StackSize > 0 && firstStackableSlot == -1)
                 {
                     //The first stackable slot was found - no more searching is needed as stackable slots take priority
                     firstStackableSlot = i;
@@ -155,9 +203,9 @@ public class InventoryPanel : PersistentObject
     {
         float weight = 0.0f;
 
-        for (int i = 0; i < m_slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
-            weight += m_slots[i].ItemStack.StackWeight;
+            weight += slots[i].ItemStack.StackWeight;
         }
 
         totalWeight = weight;
