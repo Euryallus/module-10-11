@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465955}
   controller: {fileID: 3399754590433321698}
+  defaultSpeed: 5
 --- !u!143 &3399754590433321698
 CharacterController:
   m_ObjectHideFlags: 0
@@ -287,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465953}
+  qmanager: {fileID: 0}
 --- !u!1 &3399754590781465955
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,7 +465,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8d530ffe6c4968843806085897955b9d, type: 2}
+  - {fileID: 2100000, guid: 5e148de6cdf2d164aa3e3f90ce8c852c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

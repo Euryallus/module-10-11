@@ -25,7 +25,10 @@ public class PlayerInteractions : MonoBehaviour
                 {
                     Debug.Log(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
 
-                    qmanager.InteractWith(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
+                    if (qmanager != null)
+                    {
+                        qmanager.InteractWith(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
+                    }
                     //raycastHit.transform.gameObject.GetComponent<QuestGiver>().Interact();
                 }
             }
