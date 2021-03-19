@@ -6,7 +6,9 @@ using UnityEngine;
 public abstract class InteractableObject : MonoBehaviour
 {
     [Tooltip("How close the player needs to be to this object to interact with it")]
-    [SerializeField] private float interactionRange = 5.0f;
+    [SerializeField] private float  interactionRange        = 5.0f;
+    [SerializeField] private bool   pressEToInteract        = true;
+    [SerializeField] private bool   rightClickToInteract    = true;
 
     private bool        mouseOver;
     private bool        hoveringInRange;
@@ -27,7 +29,7 @@ public abstract class InteractableObject : MonoBehaviour
                 StartHover();
             }
 
-            if (mouseOver && Input.GetKeyDown(KeyCode.E))
+            if (pressEToInteract && mouseOver && Input.GetKeyDown(KeyCode.E))
             {
                 Interact();
             }
@@ -39,6 +41,15 @@ public abstract class InteractableObject : MonoBehaviour
                 hoveringInRange = false;
                 EndHover();
             }
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        //Right click
+        if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange())
+        {
+            Interact();
         }
     }
 

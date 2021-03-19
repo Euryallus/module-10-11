@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum InventoryShowMode
+{
+    InventoryOnly,
+    Customise,
+    Craft
+}
+
 [RequireComponent(typeof(CanvasGroup))]
 public class InventoryPanel : PersistentObject
 {
@@ -12,16 +19,19 @@ public class InventoryPanel : PersistentObject
 
     public InventoryItemPopup                   ItemInfoPopup;
 
-    [SerializeField] private InventorySlot[]    slots;                //Main inventory grid
-    [SerializeField] private InventorySlot      handSlot;             //Slot used to pick up and move items
+    [SerializeField] private InventorySlot[]    slots;                  //Main inventory grid
+    [SerializeField] private InventorySlot      handSlot;               //Slot used to pick up and move items
 
-    [SerializeField] private TextMeshProUGUI    weightText;           //Text displaying how full the inventory is
-    [SerializeField] private Slider             weightSlider;         //Slider that shows how close the inventory is to holding its max weight
-    [SerializeField] private Image              sliderFillImage;      //Image used on the slider to show how full the inventory is
-    [SerializeField] private Color              sliderStandardColour; //Default colour of the slider image
-    [SerializeField] private Color              sliderFullColour;     //Colour of the slider image when the inventory is full
+    [SerializeField] private LayoutElement      customiseLayoutElement;
+    [SerializeField] private CanvasGroup        customiseCanvasGroup;
 
-    [SerializeField] private float              maxWeight;            //Maximum amount of weight this inventory can hold
+    [SerializeField] private TextMeshProUGUI    weightText;             //Text displaying how full the inventory is
+    [SerializeField] private Slider             weightSlider;           //Slider that shows how close the inventory is to holding its max weight
+    [SerializeField] private Image              sliderFillImage;        //Image used on the slider to show how full the inventory is
+    [SerializeField] private Color              sliderStandardColour;   //Default colour of the slider image
+    [SerializeField] private Color              sliderFullColour;       //Colour of the slider image when the inventory is full
+
+    [SerializeField] private float              maxWeight;              //Maximum amount of weight this inventory can hold
 
     #endregion
 
@@ -67,7 +77,7 @@ public class InventoryPanel : PersistentObject
         //Show/hide input
         if (!showing && Input.GetKeyDown(KeyCode.I))
         {
-            Show();
+            Show(InventoryShowMode.InventoryOnly);
         }
         else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
         {
@@ -75,8 +85,19 @@ public class InventoryPanel : PersistentObject
         }
     }
 
-    public void Show()
+    public void Show(InventoryShowMode showMode)
     {
+        if(showMode == InventoryShowMode.Customise)
+        {
+            customiseLayoutElement.ignoreLayout = false;
+            customiseCanvasGroup.alpha = 1.0f;
+        }
+        else
+        {
+            customiseLayoutElement.ignoreLayout = true;
+            customiseCanvasGroup.alpha = 0.0f;
+        }
+
         //Show inventory UI
         canvasGroup.alpha = 1.0f;
         showing = true;

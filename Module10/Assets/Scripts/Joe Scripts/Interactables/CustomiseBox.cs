@@ -10,7 +10,7 @@ public class CustomiseBox : InteractableWithOutline
     {
         if (!inventoryPanel.Showing)
         {
-            inventoryPanel.Show();
+            inventoryPanel.Show(InventoryShowMode.Customise);
         }
     }
 }

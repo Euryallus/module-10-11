@@ -10,7 +10,7 @@ public class CraftingBox : InteractableWithOutline
     {
         if (!inventoryPanel.Showing)
         {
-            inventoryPanel.Show();
+            inventoryPanel.Show(InventoryShowMode.Craft);
         }
     }
 }

@@ -22,7 +22,6 @@ public class InventoryCustomisation : PersistentObject
         resultSlot   .ItemsMovedEvent   += OnResultSlotItemsMoved;
 
         customisationOptionsPanel.SetActive(false);
-        warningText.gameObject.SetActive(false);
     }
 
     protected override void Start()
@@ -30,6 +29,8 @@ public class InventoryCustomisation : PersistentObject
         base.Start();
 
         itemManager = ItemManager.Instance;
+
+        ShowDefaultWarningText();
     }
 
     public override void OnSave(SaveData saveData)
@@ -154,8 +155,6 @@ public class InventoryCustomisation : PersistentObject
     {
         if (customiseSlot.ItemStack.StackSize > 0)
         {
-            warningText.gameObject.SetActive(true);
-
             InventoryItem itemToCustomise = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
             if (itemToCustomise.Customisable)
@@ -171,27 +170,32 @@ public class InventoryCustomisation : PersistentObject
 
                 if ((currencySlot.ItemStack.StackSize >= requiredCurrencyQuantity) && (currencyItem == null || currencySlot.ItemStack.StackItemsID == currencyItem.Id))
                 {
-                    warningText.text = "<color=#464646>Item can be customised!</color>";
+                    warningText.text = "<color=#464646>Customising " + itemToCustomise.UIName + ".</color>";
                     return true;
 
                 }
                 else
                 {
-                    warningText.text = "Requires " + requiredCurrencyQuantity + "x " + currencyItem.UIName + " to customise";
+                    warningText.text = "Requires " + requiredCurrencyQuantity + "x " + currencyItem.UIName + " to customise.";
                     return false;
                 }
             }
             else
             {
-                warningText.text = itemToCustomise.UIName + " cannot be customised";
+                warningText.text = itemToCustomise.UIName + " cannot be customised.";
                 return false;
             }
         }
         else
         {
-            warningText.gameObject.SetActive(false);
+            ShowDefaultWarningText();
             return false;
         }
+    }
+
+    private void ShowDefaultWarningText()
+    {
+        warningText.text = "<color=#464646>Place an item in the first slot to customise it.</color>";
     }
 
     public void OnCustomNameInputChanged(string value)
