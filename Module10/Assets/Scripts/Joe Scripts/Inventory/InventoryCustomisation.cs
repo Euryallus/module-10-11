@@ -98,7 +98,7 @@ public class InventoryCustomisation : PersistentObject
 
         InventoryItem customiseSlotItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
-        for (int i = 0; i < customiseSlotItem.CustomiseItemQuantity; i++)
+        for (int i = 0; i < customiseSlotItem.CurrencyItemQuantity; i++)
         {
             currencySlot.ItemStack.TryRemoveItemFromStack();
         }
@@ -160,11 +160,16 @@ public class InventoryCustomisation : PersistentObject
 
             if (itemToCustomise.Customisable)
             {
-                InventoryItem currencyItem = itemManager.GetItemWithID(itemToCustomise.CustomiseItemId);
+                InventoryItem currencyItem = null;
+                int requiredCurrencyQuantity = 0;
 
-                int requiredCurrencyQuantity = itemToCustomise.CustomiseItemQuantity;
+                if(itemToCustomise.CurrencyItemQuantity > 0)
+                {
+                    currencyItem = itemManager.GetItemWithID(itemToCustomise.CurrencyItemId);
+                    requiredCurrencyQuantity = itemToCustomise.CurrencyItemQuantity;
+                }
 
-                if ((currencySlot.ItemStack.StackSize >= requiredCurrencyQuantity) && (currencySlot.ItemStack.StackItemsID == currencyItem.Id))
+                if ((currencySlot.ItemStack.StackSize >= requiredCurrencyQuantity) && (currencyItem == null || currencySlot.ItemStack.StackItemsID == currencyItem.Id))
                 {
                     warningText.text = "<color=#464646>Item can be customised!</color>";
                     return true;

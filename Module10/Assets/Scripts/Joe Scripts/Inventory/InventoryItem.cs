@@ -11,8 +11,8 @@ public class InventoryItem : ScriptableObject
     public float    Weight                  { get { return m_weight; } }
     public Sprite   Sprite                  { get { return m_sprite; } }
     public bool     Customisable            { get { return m_customisable; } }
-    public string   CustomiseItemId         { get { return m_customiseItemId; } }
-    public int      CustomiseItemQuantity   { get { return m_customiseItemQuantity; } }  
+    public string   CurrencyItemId          { get { return m_currencyItemId; } }
+    public int      CurrencyItemQuantity    { get { return m_currencyItemQuantity; } }  
     public bool     CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
     public string   BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }         
 
@@ -41,10 +41,10 @@ public class InventoryItem : ScriptableObject
     private bool m_customisable;
 
     [SerializeField] [Tooltip("The id of the item needed to rename this item type. Leave blank if this item is not renamable, or does not require another item to be renamed.")]
-    private string m_customiseItemId;
+    private string m_currencyItemId;
 
     [SerializeField] [Tooltip("The number of the above items required to rename this item type. Leave at 0 if this item is not renamable, or does not require another item to be renamed.")]
-    private int m_customiseItemQuantity;
+    private int m_currencyItemQuantity;
 
     //Non-editable fields
     private bool    m_customItem;
