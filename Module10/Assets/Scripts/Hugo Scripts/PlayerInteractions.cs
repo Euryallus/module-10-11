@@ -21,7 +21,7 @@ public class PlayerInteractions : MonoBehaviour
                 Debug.Log(raycastHit.transform.name);
                 if(raycastHit.transform.gameObject.GetComponent<QuestGiver>())
                 {
-                    raycastHit.transform.gameObject.GetComponent<QuestGiver>().interact();
+                    raycastHit.transform.gameObject.GetComponent<QuestGiver>().Interact();
                 }
             }
         }

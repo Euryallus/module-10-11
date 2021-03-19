@@ -16,3 +16,4 @@ MonoBehaviour:
   taskComplete: 0
   objectiveType: 0
   positionToGoTo: {x: -5.14, y: 0, z: 6.78}
+  distanceFlagged: 2.5

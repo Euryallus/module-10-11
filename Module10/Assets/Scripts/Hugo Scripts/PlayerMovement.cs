@@ -15,7 +15,9 @@ public class PlayerMovement : MonoBehaviour
     private float rotateY = 0;
     private float inputX;
     private float inputY;
-    private float defaultSpeed = 7;
+
+    [SerializeField]
+    private float defaultSpeed = 5;
 
     private Vector3 moveTo;
 

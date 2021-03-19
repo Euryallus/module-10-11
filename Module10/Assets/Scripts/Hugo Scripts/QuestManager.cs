@@ -33,6 +33,13 @@ public class QuestManager : MonoBehaviour
                 {
                     CompleteQuest(quest);
 
+                    Debug.Log(quest.questLineName);
+
+                    if(quest.questLineName != "")
+                    {
+                        giver.ContinueQuestline(quest.questLineName);
+                    }
+
                     return true;
                 }
             }
@@ -54,11 +61,13 @@ public class QuestManager : MonoBehaviour
         playerMove.StartMoving();
         questBacklog.Add(pendingQuest);
         UI.HideQuestAccept();
-        offer.playerAccepts();
-        UI.UpdateHUDQuestName(questBacklog[0].questName);
+        offer.PlayerAccepts();
+
+        UI.AddHUDQuestName(pendingQuest.questName);
 
         offer = null;
         pendingQuest = null;
+
     }
 
     public void DeclineQuest()
@@ -82,10 +91,10 @@ public class QuestManager : MonoBehaviour
                     if(quest.CheckCompleted())
                     {
                         Debug.Log("completed " + quest.questName);
+                        
+                        UI.SetHUDQuestNameCompleted(quest.questName);
 
-                        UI.MarkHUDQuestComplete();
-
-                        if(!quest.handInToGiver)
+                        if (!quest.handInToGiver)
                         {
                             CompleteQuest(quest);
                         }
@@ -97,18 +106,11 @@ public class QuestManager : MonoBehaviour
 
     public void CompleteQuest(QuestData quest)
     {
+        UI.RemoveHUDQuestName(quest.questName);
+        Debug.Log("REMOVED " + quest.questName);
         quest.questHandedIn = true;
         questBacklog.Remove(quest);
         completedQuests.Add(quest);
-
-        if(questBacklog.Count != 0)
-        {
-            UI.UpdateHUDQuestName(questBacklog[0].questName);
-        }
-        else
-        {
-            UI.UpdateHUDQuestName("No active quests");
-        }
 
         UI.DisplayQuestComplete(quest);
         playerMove.StopMoving();

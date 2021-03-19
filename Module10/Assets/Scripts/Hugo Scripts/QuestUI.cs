@@ -25,6 +25,14 @@ public class QuestUI : MonoBehaviour
     [SerializeField]
     private CanvasGroup questCompleteCanvasGroup;
 
+    private List<TMP_Text> questNamesHUD = new List<TMP_Text>();
+
+    [SerializeField]
+    private GameObject questMarkerBackground;
+
+    [SerializeField]
+    private TMP_Text defaultName;
+
     private void Start()
     {
          HideQuestAccept();
@@ -79,15 +87,62 @@ public class QuestUI : MonoBehaviour
         questCompleteCanvasGroup.blocksRaycasts = false;
     }
 
-    public void UpdateHUDQuestName(string name)
+    public void AddHUDQuestName(string name)
     {
-        questTitleHUD.color = Color.white;
-        questTitleHUD.text = name;
+        TMP_Text newName = Instantiate(defaultName);
+        newName.transform.gameObject.SetActive(true);
+        newName.transform.SetParent(questMarkerBackground.transform);
+
+        if(questNamesHUD.Count != 0)
+        {
+            newName.rectTransform.anchoredPosition = new Vector2(defaultName.rectTransform.anchoredPosition.x, defaultName.rectTransform.anchoredPosition.y - (60 * questNamesHUD.Count));
+        }
+        else
+        {
+            newName.rectTransform.anchoredPosition = defaultName.rectTransform.anchoredPosition;
+        }
+
+        newName.text = name;
+
+        questNamesHUD.Add(newName);
+        
     }
 
-    public void MarkHUDQuestComplete()
+    public void SetHUDQuestNameCompleted(string name)
     {
-        questTitleHUD.color = Color.green;
+        foreach(TMP_Text questName in questNamesHUD)
+        {
+            if(questName.text == name)
+            {
+                questName.color = Color.green;
+                return;
+            }
+        }
+    }
+
+    public void RemoveHUDQuestName(string name)
+    {
+        for(int i = 0; i < questNamesHUD.Count; i++)
+        {
+            if(questNamesHUD[i].text == name)
+            {
+                Destroy(questNamesHUD[i]);
+                questNamesHUD.RemoveAt(i);
+
+                if(questNamesHUD.Count != 0)
+                {
+                    for(int j = 0; j < questNamesHUD.Count; j ++)
+                    {
+                        questNamesHUD[j].rectTransform.anchoredPosition = new Vector2(defaultName.rectTransform.anchoredPosition.x, defaultName.rectTransform.anchoredPosition.y - (60 * j));
+                    }
+                }
+                
+
+                return;
+            }
+
+            
+        }
     }
 
 }

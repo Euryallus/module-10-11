@@ -5,7 +5,10 @@ using UnityEngine;
 public class QuestGiver : MonoBehaviour
 {
     [SerializeField]
-    private List<QuestData> questsToGive;
+    private List<QuestData> questsToGive = new List<QuestData>();
+
+    [SerializeField]
+    private List<QuestLine> questLines = new List<QuestLine>();
 
     [SerializeField]
     public List<string> questsToAccept;
@@ -32,9 +35,18 @@ public class QuestGiver : MonoBehaviour
                 --i;
             }
         }
+
+        if(questLines.Count!= 0)
+        {
+            if(!questLines[0].completed)
+            {
+                questsToGive.Add(questLines[0].ReturnNextQuest());
+            }
+
+        }
     }
 
-    public void interact()
+    public void Interact()
     {
         if(!questManager.TalkToQuestGiver(self))
         {
@@ -49,7 +61,7 @@ public class QuestGiver : MonoBehaviour
         }
     }
 
-    public void playerAccepts()
+    public void PlayerAccepts()
     {
         if(questsToGive[0].handInToGiver)
         {
@@ -70,9 +82,28 @@ public class QuestGiver : MonoBehaviour
                     return true;
                 }
             }
-
         }
         
         return false;
+    }
+
+    public void ContinueQuestline(string questLineName)
+    {
+        foreach(QuestLine questline in questLines)
+        {
+            if(questline.questLineName == questLineName)
+            {
+                if (!questline.completed)
+                {
+                    questsToGive.Add(questline.ReturnNextQuest());
+                }
+
+            }
+        }
+    }
+
+    public void AddQuest(QuestData quest)
+    {
+        questsToGive.Add(quest);
     }
 }
