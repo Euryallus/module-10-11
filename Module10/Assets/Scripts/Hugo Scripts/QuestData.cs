@@ -17,6 +17,9 @@ public class QuestData : ScriptableObject
     [SerializeField]
     public List<QuestData> nextQuests = new List<QuestData>();
 
+    public string handInNPCName;
+    public string handOutNPCName;
+
 
     public bool questCompleted = false;
     public bool questHandedIn = false;

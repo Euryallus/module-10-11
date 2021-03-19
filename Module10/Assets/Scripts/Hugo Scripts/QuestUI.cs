@@ -139,7 +139,6 @@ public class QuestUI : MonoBehaviour
                         questNamesHUD[j].rectTransform.anchoredPosition = new Vector2(defaultName.rectTransform.anchoredPosition.x, defaultName.rectTransform.anchoredPosition.y - (60 * j));
                     }
                 }
-                
 
                 return;
             }

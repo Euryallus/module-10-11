@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca1245acc3d61a4d904e0200233ed62, type: 3}
-  m_Name: Googily
+  m_Script: {fileID: 11500000, guid: d93999bd2b8d41e4b857b7bbadbfd840, type: 3}
+  m_Name: gotoyellowWIFE
   m_EditorClassIdentifier: 
-  questsToGive:
-  - {fileID: 11400000, guid: 69163dca5732ab247bcd41375faadae2, type: 2}
-  QuestGiverName: Googily
+  taskName: wife
+  taskComplete: 0
+  objectiveType: 0
+  positionToGoTo: {x: -5.14, y: 0, z: 6.78}
+  distanceFlagged: 2.5

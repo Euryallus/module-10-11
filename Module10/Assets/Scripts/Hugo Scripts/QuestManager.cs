@@ -36,33 +36,32 @@ public class QuestManager : MonoBehaviour
             QuestData quest = playerQuestData.questBacklog[i];
             if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
             {
-                if(giver.checkQuestToHandIn(quest.questName))
-                {
-                    CompleteQuest(quest);
+                //if(giver.checkQuestToHandIn(quest.handInNPCName))
+                //{
+                //    CompleteQuest(quest);
+                //
+                //    if(quest.nextQuests.Count != 0)
+                //    {
+                //        foreach(QuestData nextQuest in quest.nextQuests)
+                //        {
+                //            giver.AddQuest(nextQuest);
+                //        }
+                //    }
 
-                    Debug.Log(quest.questLineName);
-
-                    if(quest.nextQuests.Count != 0)
-                    {
-                        foreach(QuestData nextQuest in quest.nextQuests)
-                        {
-                            giver.AddQuest(nextQuest);
-                        }
-                    }
-
-                    return true;
-                }
+                    //return true;
+                //}
             }
         }
 
         return false;
     }
 
-    public void OfferQuest(QuestData questToOffer, QuestGiver offerer)
+    public void OfferQuest(QuestData questToOffer, QuestGiverData offerer)
     {
         playerMove.StopMoving();
         playerQuestData.pendingQuest = questToOffer;
         UI.DisplayQuestAccept(playerQuestData.pendingQuest);
+
         playerQuestData.offer = offerer;
     }
 
@@ -71,7 +70,7 @@ public class QuestManager : MonoBehaviour
         playerMove.StartMoving();
         playerQuestData.questBacklog.Add(playerQuestData.pendingQuest);
         UI.HideQuestAccept();
-        playerQuestData.offer.PlayerAccepts();
+        playerQuestData.offer.questsToGive.RemoveAt(0);
 
         UI.AddHUDQuestName(playerQuestData.pendingQuest.questName);
 
@@ -90,13 +89,13 @@ public class QuestManager : MonoBehaviour
 
     private void Update()
     {
-        if(playerQuestData.questBacklog.Count != 0)
+        if(playerQuestData.questBacklog.Count > 0)
         {
             for(int i = 0; i < playerQuestData.questBacklog.Count; i++)
             {
                 QuestData quest = playerQuestData.questBacklog[i];
 
-                if(!quest.questCompleted)
+                if(!(quest.questCompleted))
                 {
                     if(quest.CheckCompleted())
                     {
@@ -124,6 +123,51 @@ public class QuestManager : MonoBehaviour
 
         UI.DisplayQuestComplete(quest);
         playerMove.StopMoving();
+    }
+
+    public void InteractWith(string questGiverName)
+    {
+        foreach(QuestGiverData giver in playerQuestData.questGivers)
+        {
+            if (giver.QuestGiverName == questGiverName)
+            {
+                for (int i = 0; i < playerQuestData.questBacklog.Count; i++)
+                {
+                    QuestData quest = playerQuestData.questBacklog[i];
+
+                    if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
+                    {
+                        if (giver.QuestGiverName == quest.handInNPCName)
+                        {
+                            CompleteQuest(quest);
+
+                            if (quest.nextQuests.Count != 0)
+                            {
+                                foreach (QuestData nextquest in quest.nextQuests)
+                                {
+                                    foreach (QuestGiverData q in playerQuestData.questGivers)
+                                    {
+                                        if (q.QuestGiverName == nextquest.handOutNPCName)
+                                        {
+                                            q.questsToGive.Add(nextquest);
+                                        }
+                                    }
+                                }
+                            }
+
+                            return;
+
+                        }
+                    }
+                }
+
+                if(giver.questsToGive.Count != 0)
+                {
+                    OfferQuest(giver.questsToGive[0], giver);
+                }
+
+            }
+        }
     }
 
 }

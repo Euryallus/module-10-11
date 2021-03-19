@@ -10,6 +10,9 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField]
     private Camera playerCamera;
 
+    [SerializeField]
+    private QuestManager qmanager;
+
 
     // Update is called once per frame
     void Update()
@@ -18,10 +21,12 @@ public class PlayerInteractions : MonoBehaviour
         {
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out raycastHit, 4.0f))
             {
-                Debug.Log(raycastHit.transform.name);
                 if(raycastHit.transform.gameObject.GetComponent<QuestGiver>())
                 {
-                    raycastHit.transform.gameObject.GetComponent<QuestGiver>().Interact();
+                    Debug.Log(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
+
+                    qmanager.InteractWith(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
+                    //raycastHit.transform.gameObject.GetComponent<QuestGiver>().Interact();
                 }
             }
         }

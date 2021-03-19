@@ -16,6 +16,8 @@ MonoBehaviour:
   questDescription: Please go to the purple node
   questCompleteDialogue: Thank you for going to Purple
   nextQuests: []
+  handInNPCName: Googily
+  handOutNPCName: Googily
   questCompleted: 0
   questHandedIn: 0
   handInToGiver: 1
