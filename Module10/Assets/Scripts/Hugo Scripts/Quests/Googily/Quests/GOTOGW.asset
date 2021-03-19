@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 826f7111d4de19c409f4cb88f65e1284, type: 3}
   m_Name: GOTOGW
   m_EditorClassIdentifier: 
-  questName: WIFE
-  questDescription: STOP
-  questCompleteDialogue: HELLO
+  questName: y e l l o w
+  questDescription: Hello please go yellow
+  questCompleteDialogue: thank
   nextQuests: []
   handInNPCName: GoogilyWife
   handOutNPCName: GoogilyWife
