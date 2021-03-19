@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d93999bd2b8d41e4b857b7bbadbfd840, type: 3}
-  m_Name: gotoyellow
+  m_Name: GoToYellow
   m_EditorClassIdentifier: 
   taskName: Go to the yellow blob thing
   taskComplete: 0

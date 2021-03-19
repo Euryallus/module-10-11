@@ -895,7 +895,7 @@ GameObject:
   - component: {fileID: 441830196}
   - component: {fileID: 441830195}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: purple
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2089,7 +2089,7 @@ GameObject:
   - component: {fileID: 1029847188}
   - component: {fileID: 1029847187}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: yellow
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4682,7 +4682,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e06823b9cca4043bf168056effe4f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questsToGive: []
+  questsToGive:
+  - {fileID: 11400000, guid: ab1b7d7adba7280408699c3c026e62e8, type: 2}
   questLines:
   - {fileID: 11400000, guid: 65417b17cdf691e41ac06263c89e1b52, type: 2}
   questsToAccept: []
@@ -4893,7 +4894,7 @@ GameObject:
   - component: {fileID: 1348034671}
   - component: {fileID: 1348034670}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: blue
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
