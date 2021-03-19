@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestManager : MonoBehaviour
+public class QuestManager : PersistentObject
 {
     [SerializeField]
     private List<QuestData> questBacklog = new List<QuestData>();
@@ -16,7 +16,26 @@ public class QuestManager : MonoBehaviour
 
     private PlayerMovement playerMove;
 
-    private void Start()
+    public override void OnSave(SaveData saveData)
+    {
+        saveData.AddData("questsCompleted", completedQuests);
+        saveData.AddData("questsInBacklog", questBacklog);
+        //throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadSetup(SaveData saveData)
+    {
+        completedQuests = saveData.GetData<List<QuestData>>("questsCompleted");
+        questBacklog = saveData.GetData<List<QuestData>>("questsInBacklog");
+        //throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadConfigure(SaveData saveData)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    protected override void Start()
     {
         UI = gameObject.GetComponent<QuestUI>();
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -115,5 +134,7 @@ public class QuestManager : MonoBehaviour
         UI.DisplayQuestComplete(quest);
         playerMove.StopMoving();
     }
+
+
 
 }

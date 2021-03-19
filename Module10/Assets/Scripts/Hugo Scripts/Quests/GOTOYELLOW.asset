@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: GOTOYELLOW
   m_EditorClassIdentifier: 
   questName: Go to the yellow blob
-  questDescription: I need cheese
-  questCompleteDialogue: Qurprise
+  questDescription: Please go to the yellow node
+  questCompleteDialogue: Thanks!
   questCompleted: 0
   questHandedIn: 0
   handInToGiver: 1
-  questLineName: Tester Quester
+  questLineName: 
   rewards: []
   objectives:
   - {fileID: 11400000, guid: 2bf17d232a0fb5843bec80d31ed6b282, type: 2}

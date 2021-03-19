@@ -12,6 +12,9 @@ public class QuestUI : MonoBehaviour
     private TMP_Text questDescription;
     [SerializeField]
     private TMP_Text questObjectives;
+
+    [SerializeField]
+    private TMP_Text questCompleteTitle;
     [SerializeField]
     private TMP_Text questCompleteMessage;
     [SerializeField]
@@ -69,7 +72,7 @@ public class QuestUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
 
-        questTitle.text = quest.questName;
+        questCompleteTitle.text = quest.questName;
         questCompleteMessage.text = quest.questCompleteDialogue;
 
         string rewardText = "ADD LATER";

@@ -8,6 +8,8 @@ public class QuestLine : ScriptableObject
     [SerializeField]
     private List<QuestData> questLineData = new List<QuestData>();
 
+    private List<QuestData> completedQuests = new List<QuestData>();
+
 
     public string questLineName;
 
@@ -23,12 +25,13 @@ public class QuestLine : ScriptableObject
                 completed = true;
             }
 
-            QuestData returnQuest = questLineData[0];
-            returnQuest.questLineName = questLineName;
+            questLineData[0].questLineName = questLineName;
+
+            completedQuests.Add(questLineData[0]);
 
             questLineData.RemoveAt(0);
 
-            return returnQuest;
+            return completedQuests[completedQuests.Count - 1];
         }
 
         return null;

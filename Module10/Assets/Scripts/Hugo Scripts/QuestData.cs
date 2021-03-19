@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "Quest data", menuName = "Quests/Quest data/New single quest", order = 1)]
+[System.Serializable]
 public class QuestData : ScriptableObject
 {
     public string questName;
@@ -18,7 +20,6 @@ public class QuestData : ScriptableObject
 
     public bool handInToGiver = true;
 
-    [HideInInspector]
     public string questLineName = "";
 
     public List<InventoryItem> rewards = new List<InventoryItem>();

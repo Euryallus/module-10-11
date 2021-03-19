@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestGiver : MonoBehaviour
+public class QuestGiver : PersistentObject
 {
     [SerializeField]
     private List<QuestData> questsToGive = new List<QuestData>();
@@ -11,7 +11,7 @@ public class QuestGiver : MonoBehaviour
     private List<QuestLine> questLines = new List<QuestLine>();
 
     [SerializeField]
-    public List<string> questsToAccept;
+    public List<string> questsToAccept = new List<string>();
 
     [SerializeField]
     private bool issueInOrder = true;
@@ -20,7 +20,30 @@ public class QuestGiver : MonoBehaviour
 
     private QuestGiver self;
 
-    private void Start()
+    public override void OnSave(SaveData saveData)
+    {
+        saveData.AddData("questsToGive", questsToGive);
+
+        saveData.AddData("questlinesToGive", questLines);
+        saveData.AddData("questsToAccept", questsToAccept);
+        //throw new System.NotImplementedException();
+    }
+
+    public override void OnLoadConfigure(SaveData saveData)
+    {
+        questsToGive = saveData.GetData<List<QuestData>>("questsToGive");
+
+        questLines = saveData.GetData<List<QuestLine>>("questlinesToGive");
+        questsToAccept = saveData.GetData<List<string>>("questsToAccept");
+
+    }
+
+    public override void OnLoadSetup(SaveData saveData)
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    protected override void Start()
     {
         questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
         self = gameObject.GetComponent<QuestGiver>();
@@ -75,10 +98,14 @@ public class QuestGiver : MonoBehaviour
     {
         if(questsToAccept.Count != 0)
         {
-            foreach(string name in questsToAccept)
+            for(int nameID = 0; nameID < questsToAccept.Count; nameID ++)
             {
+                string name = questsToAccept[nameID];
+                
                 if(questname == name)
                 {
+                    questsToAccept.RemoveAt(nameID);
+
                     return true;
                 }
             }
@@ -106,4 +133,6 @@ public class QuestGiver : MonoBehaviour
     {
         questsToGive.Add(quest);
     }
+
+
 }
