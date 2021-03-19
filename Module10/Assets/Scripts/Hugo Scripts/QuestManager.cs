@@ -42,9 +42,12 @@ public class QuestManager : MonoBehaviour
 
                     Debug.Log(quest.questLineName);
 
-                    if(quest.questLineName != "")
+                    if(quest.nextQuests.Count != 0)
                     {
-                        giver.ContinueQuestline(quest.questLineName);
+                        foreach(QuestData nextQuest in quest.nextQuests)
+                        {
+                            giver.AddQuest(nextQuest);
+                        }
                     }
 
                     return true;
@@ -55,7 +58,7 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
-    public void offerQuest(QuestData questToOffer, QuestGiver offerer)
+    public void OfferQuest(QuestData questToOffer, QuestGiver offerer)
     {
         playerMove.StopMoving();
         playerQuestData.pendingQuest = questToOffer;

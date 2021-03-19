@@ -14,6 +14,9 @@ public class QuestData : ScriptableObject
     [TextArea(10, 10)]
     public string questCompleteDialogue;
 
+    [SerializeField]
+    public List<QuestData> nextQuests = new List<QuestData>();
+
 
     public bool questCompleted = false;
     public bool questHandedIn = false;

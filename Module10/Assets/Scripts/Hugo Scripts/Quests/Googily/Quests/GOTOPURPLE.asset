@@ -15,6 +15,7 @@ MonoBehaviour:
   questName: Go to the purple
   questDescription: Please go to the purple node
   questCompleteDialogue: Thank you for going to Purple
+  nextQuests: []
   questCompleted: 0
   questHandedIn: 0
   handInToGiver: 1

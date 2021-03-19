@@ -27,16 +27,6 @@ public class QuestGiver : MonoBehaviour
     {
         questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
         self = gameObject.GetComponent<QuestGiver>();
-
-
-        if(questGiverData.questLines.Count!= 0)
-        {
-            if(!questGiverData.questLines[0].completed)
-            {
-                questGiverData.questsToGive.Add(questGiverData.questLines[0].ReturnNextQuest());
-            }
-
-        }
     }
 
     public void Interact()
@@ -45,7 +35,7 @@ public class QuestGiver : MonoBehaviour
         {
             if(questGiverData.questsToGive.Count > 0)
             {
-                questManager.offerQuest(questGiverData.questsToGive[0], self);
+                questManager.OfferQuest(questGiverData.questsToGive[0], self);
             }
             else
             {
@@ -82,21 +72,6 @@ public class QuestGiver : MonoBehaviour
         }
         
         return false;
-    }
-
-    public void ContinueQuestline(string questLineName)
-    {
-        foreach(QuestLine questline in questGiverData.questLines)
-        {
-            if(questline.questLineName == questLineName)
-            {
-                if (!questline.completed)
-                {
-                    questGiverData.questsToGive.Add(questline.ReturnNextQuest());
-                }
-
-            }
-        }
     }
 
     public void AddQuest(QuestData quest)
