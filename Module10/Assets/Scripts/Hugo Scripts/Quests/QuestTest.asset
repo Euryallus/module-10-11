@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 826f7111d4de19c409f4cb88f65e1284, type: 3}
   m_Name: QuestTest
   m_EditorClassIdentifier: 
-  questName: Go to the purple & blue
+  questName: Go to the purple
   questDescription: F O O D
-  questCompleteDialogue: 'blue & purp
+  questCompleteDialogue: 'purp
 
 '
   questCompleted: 0
@@ -24,4 +24,3 @@ MonoBehaviour:
   rewards: []
   objectives:
   - {fileID: 11400000, guid: 2b55b364e328e654da939d331bf7960a, type: 2}
-  - {fileID: 11400000, guid: 4eccc8731ce241845a5c908fcb35ab2f, type: 2}

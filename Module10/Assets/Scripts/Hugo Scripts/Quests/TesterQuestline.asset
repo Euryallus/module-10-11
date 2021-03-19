@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TesterQuestline
   m_EditorClassIdentifier: 
   questLineData:
-  - {fileID: 11400000, guid: ab1b7d7adba7280408699c3c026e62e8, type: 2}
+  - {fileID: 11400000, guid: 8b27de8a97601884bb1113627e1cf88a, type: 2}
   - {fileID: 11400000, guid: 69163dca5732ab247bcd41375faadae2, type: 2}
   questLineName: Tester Quester
   completed: 0
