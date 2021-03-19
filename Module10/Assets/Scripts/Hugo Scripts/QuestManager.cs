@@ -3,49 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestManager : PersistentObject
+public class QuestManager : MonoBehaviour
 {
     [SerializeField]
-    private List<QuestData> questBacklog = new List<QuestData>();
-    public List<QuestData> completedQuests = new List<QuestData>();
-
-    private QuestData pendingQuest = null;
-    private QuestGiver offer = null;
+    private PlayerQuestBacklog playerQuestData;
 
     private QuestUI UI;
 
     private PlayerMovement playerMove;
 
-    public override void OnSave(SaveData saveData)
-    {
-        saveData.AddData("questsCompleted", completedQuests);
-        saveData.AddData("questsInBacklog", questBacklog);
-        //throw new System.NotImplementedException();
-    }
-
-    public override void OnLoadSetup(SaveData saveData)
-    {
-        completedQuests = saveData.GetData<List<QuestData>>("questsCompleted");
-        questBacklog = saveData.GetData<List<QuestData>>("questsInBacklog");
-        //throw new System.NotImplementedException();
-    }
-
-    public override void OnLoadConfigure(SaveData saveData)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    protected override void Start()
+    private void Start()
     {
         UI = gameObject.GetComponent<QuestUI>();
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
+
+        foreach(QuestData quest in playerQuestData.questBacklog)
+        {
+            UI.AddHUDQuestName(quest.questName);
+
+            if(quest.questCompleted)
+            {
+                UI.SetHUDQuestNameCompleted(quest.questName);
+            }
+        }
     }
 
     public bool TalkToQuestGiver(QuestGiver giver)
     {
-        for(int i = 0; i < questBacklog.Count; i++)
+        for(int i = 0; i < playerQuestData.questBacklog.Count; i++)
         {
-            QuestData quest = questBacklog[i];
+            QuestData quest = playerQuestData.questBacklog[i];
             if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
             {
                 if(giver.checkQuestToHandIn(quest.questName))
@@ -70,22 +58,22 @@ public class QuestManager : PersistentObject
     public void offerQuest(QuestData questToOffer, QuestGiver offerer)
     {
         playerMove.StopMoving();
-        pendingQuest = questToOffer;
-        UI.DisplayQuestAccept(pendingQuest);
-        offer = offerer;
+        playerQuestData.pendingQuest = questToOffer;
+        UI.DisplayQuestAccept(playerQuestData.pendingQuest);
+        playerQuestData.offer = offerer;
     }
 
     public void AcceptQuest()
     {
         playerMove.StartMoving();
-        questBacklog.Add(pendingQuest);
+        playerQuestData.questBacklog.Add(playerQuestData.pendingQuest);
         UI.HideQuestAccept();
-        offer.PlayerAccepts();
+        playerQuestData.offer.PlayerAccepts();
 
-        UI.AddHUDQuestName(pendingQuest.questName);
+        UI.AddHUDQuestName(playerQuestData.pendingQuest.questName);
 
-        offer = null;
-        pendingQuest = null;
+        playerQuestData.offer = null;
+        playerQuestData.pendingQuest = null;
 
     }
 
@@ -93,17 +81,17 @@ public class QuestManager : PersistentObject
     {
         playerMove.StartMoving();
         UI.HideQuestAccept();
-        pendingQuest = null;
-        offer = null;
+        playerQuestData.pendingQuest = null;
+        playerQuestData.offer = null;
     }
 
     private void Update()
     {
-        if(questBacklog.Count != 0)
+        if(playerQuestData.questBacklog.Count != 0)
         {
-            for(int i = 0; i < questBacklog.Count; i++)
+            for(int i = 0; i < playerQuestData.questBacklog.Count; i++)
             {
-                QuestData quest = questBacklog[i];
+                QuestData quest = playerQuestData.questBacklog[i];
 
                 if(!quest.questCompleted)
                 {
@@ -128,13 +116,11 @@ public class QuestManager : PersistentObject
         UI.RemoveHUDQuestName(quest.questName);
         Debug.Log("REMOVED " + quest.questName);
         quest.questHandedIn = true;
-        questBacklog.Remove(quest);
-        completedQuests.Add(quest);
+        playerQuestData.questBacklog.Remove(quest);
+        playerQuestData.completedQuests.Add(quest);
 
         UI.DisplayQuestComplete(quest);
         playerMove.StopMoving();
     }
-
-
 
 }

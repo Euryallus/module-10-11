@@ -38,7 +38,7 @@ public class QuestData : ScriptableObject
             {
                 switch(task.objectiveType)
                 {
-                    case QuestObjective.type.GoTo:
+                    case QuestObjective.Type.GoTo:
                         GoToQuestObjective o = (GoToQuestObjective)task;
                         
                         if(o.checkCcompleted())

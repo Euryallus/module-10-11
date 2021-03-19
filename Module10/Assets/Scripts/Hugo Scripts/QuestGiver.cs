@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestGiver : PersistentObject
+public class QuestGiver : MonoBehaviour
 {
-    [SerializeField]
-    private List<QuestData> questsToGive = new List<QuestData>();
+    //[SerializeField]
+    //private List<QuestData> questsToGive = new List<QuestData>();
+    //
+    //[SerializeField]
+    //private List<QuestLine> questLines = new List<QuestLine>();
+    //
+    //[SerializeField]
+    //public List<string> questsToAccept = new List<string>();
 
     [SerializeField]
-    private List<QuestLine> questLines = new List<QuestLine>();
-
-    [SerializeField]
-    public List<string> questsToAccept = new List<string>();
+    private QuestGiverData questGiverData;
 
     [SerializeField]
     private bool issueInOrder = true;
@@ -20,50 +23,17 @@ public class QuestGiver : PersistentObject
 
     private QuestGiver self;
 
-    public override void OnSave(SaveData saveData)
-    {
-        saveData.AddData("questsToGive", questsToGive);
-
-        saveData.AddData("questlinesToGive", questLines);
-        saveData.AddData("questsToAccept", questsToAccept);
-        //throw new System.NotImplementedException();
-    }
-
-    public override void OnLoadConfigure(SaveData saveData)
-    {
-        questsToGive = saveData.GetData<List<QuestData>>("questsToGive");
-
-        questLines = saveData.GetData<List<QuestLine>>("questlinesToGive");
-        questsToAccept = saveData.GetData<List<string>>("questsToAccept");
-
-    }
-
-    public override void OnLoadSetup(SaveData saveData)
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    protected override void Start()
+    private void Start()
     {
         questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
         self = gameObject.GetComponent<QuestGiver>();
 
-        for(int i = 0; i < questsToGive.Count; i++)
-        {
-            QuestData quest = questsToGive[i];
-            if(quest.questHandedIn)
-            {
-                questManager.completedQuests.Add(quest);
-                questsToGive.Remove(quest);
-                --i;
-            }
-        }
 
-        if(questLines.Count!= 0)
+        if(questGiverData.questLines.Count!= 0)
         {
-            if(!questLines[0].completed)
+            if(!questGiverData.questLines[0].completed)
             {
-                questsToGive.Add(questLines[0].ReturnNextQuest());
+                questGiverData.questsToGive.Add(questGiverData.questLines[0].ReturnNextQuest());
             }
 
         }
@@ -73,9 +43,9 @@ public class QuestGiver : PersistentObject
     {
         if(!questManager.TalkToQuestGiver(self))
         {
-            if(questsToGive.Count > 0)
+            if(questGiverData.questsToGive.Count > 0)
             {
-                questManager.offerQuest(questsToGive[0], self);
+                questManager.offerQuest(questGiverData.questsToGive[0], self);
             }
             else
             {
@@ -86,25 +56,25 @@ public class QuestGiver : PersistentObject
 
     public void PlayerAccepts()
     {
-        if(questsToGive[0].handInToGiver)
+        if(questGiverData.questsToGive[0].handInToGiver)
         {
-            questsToAccept.Add(questsToGive[0].questName);
+            questGiverData.questsToAccept.Add(questGiverData.questsToGive[0].questName);
         }
 
-        questsToGive.RemoveAt(0);
+        questGiverData.questsToGive.RemoveAt(0);
     }
 
     public bool checkQuestToHandIn(string questname)
     {
-        if(questsToAccept.Count != 0)
+        if(questGiverData.questsToAccept.Count != 0)
         {
-            for(int nameID = 0; nameID < questsToAccept.Count; nameID ++)
+            for(int nameID = 0; nameID < questGiverData.questsToAccept.Count; nameID ++)
             {
-                string name = questsToAccept[nameID];
+                string name = questGiverData.questsToAccept[nameID];
                 
                 if(questname == name)
                 {
-                    questsToAccept.RemoveAt(nameID);
+                    questGiverData.questsToAccept.RemoveAt(nameID);
 
                     return true;
                 }
@@ -116,13 +86,13 @@ public class QuestGiver : PersistentObject
 
     public void ContinueQuestline(string questLineName)
     {
-        foreach(QuestLine questline in questLines)
+        foreach(QuestLine questline in questGiverData.questLines)
         {
             if(questline.questLineName == questLineName)
             {
                 if (!questline.completed)
                 {
-                    questsToGive.Add(questline.ReturnNextQuest());
+                    questGiverData.questsToGive.Add(questline.ReturnNextQuest());
                 }
 
             }
@@ -131,7 +101,7 @@ public class QuestGiver : PersistentObject
 
     public void AddQuest(QuestData quest)
     {
-        questsToGive.Add(quest);
+        questGiverData.questsToGive.Add(quest);
     }
 
 

@@ -8,13 +8,13 @@ public class QuestObjective : ScriptableObject
     public string taskName;
     public bool taskComplete;
 
-    public enum type
+    public enum Type
     {
         GoTo
     }
 
     [HideInInspector]
-    public type objectiveType;
+    public Type objectiveType;
 
     public virtual bool checkCcompleted()
     {

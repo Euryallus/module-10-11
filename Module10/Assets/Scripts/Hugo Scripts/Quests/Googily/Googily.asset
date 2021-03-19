@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca1245acc3d61a4d904e0200233ed62, type: 3}
+  m_Name: Googily
+  m_EditorClassIdentifier: 
+  questsToGive:
+  - {fileID: 11400000, guid: 69163dca5732ab247bcd41375faadae2, type: 2}
+  - {fileID: 11400000, guid: 8b27de8a97601884bb1113627e1cf88a, type: 2}
+  - {fileID: 11400000, guid: ab1b7d7adba7280408699c3c026e62e8, type: 2}
+  questLines: []
+  questsToAccept: []
