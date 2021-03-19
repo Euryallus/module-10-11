@@ -26,11 +26,11 @@ public class SaveSystemExample : PersistentObject
         saveData.AddData("arrayToSave", exampleArray);
     }
 
-    public override void OnLoad(SaveData saveData)
+    public override void OnLoadSetup(SaveData saveData)
     {
-        //OnLoad is called each time game data is loaded from a file
+        //OnLoadSetup is called each time game data is loaded from a file
 
-        //This is where you initialise an object with the loaded values
+        //This is where you initialise variables with the loaded values
 
         //Example:
 
@@ -39,5 +39,12 @@ public class SaveSystemExample : PersistentObject
         exampleList = saveData.GetData<List<string>>("listToSave");
 
         exampleArray = saveData.GetData<float[]>("arrayToSave");
+    }
+
+    public override void OnLoadConfigure(SaveData saveData)
+    {
+        //OnLoadConfigure is called each time game data is loaded from a file AFTER OnLoadSetup has been called on all persistent objects
+
+        //This is where you call any functions/setup any data that is dependent on other data that was initialised in OnLoadSetup on this object or another object
     }
 }

@@ -9,8 +9,9 @@ public class SaveLoadManager : MonoBehaviour
 {
     public static SaveLoadManager Instance;
 
-    public event Action<SaveData> SaveObjectsEvent;
-    public event Action<SaveData> LoadObjectsEvent;
+    public event Action<SaveData>   SaveObjectsEvent;
+    public event Action<SaveData>   LoadObjectsSetupEvent;
+    public event Action<SaveData>   LoadObjectsConfigureEvent;
 
     private string saveDirectory;
 
@@ -83,6 +84,8 @@ public class SaveLoadManager : MonoBehaviour
 
     public void LoadGame()
     {
+        Debug.Log("Attempting to load game");
+
         string loadDataPath = saveDirectory + "/" + SaveDataFileName;
 
         if (File.Exists(loadDataPath))
@@ -115,8 +118,15 @@ public class SaveLoadManager : MonoBehaviour
                 return;
             }
 
-            //Setup all persistent objects with the loaded data
-            LoadObjectsEvent?.Invoke(loadedData);
+            //Setup then configure all persistent objects with the loaded data
+
+            Debug.Log("Load Stage 1: Setup");
+            LoadObjectsSetupEvent?      .Invoke(loadedData);
+
+            Debug.Log("Load Stage 2: Configure");
+            LoadObjectsConfigureEvent?  .Invoke(loadedData);
+
+            //Loading is done
 
             Debug.Log("Game loaded!");
         }

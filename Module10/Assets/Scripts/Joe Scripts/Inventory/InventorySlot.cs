@@ -6,21 +6,32 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System;
 
-public class InventorySlot : MonoBehaviour, IPointerDownHandler
+public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public InventoryItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
+    #region InspectorVariables
+    //Variables in this region are set in the inspector
 
-    public event Action ItemsMovedEvent;
-
-    //Set in inspector
     [SerializeField] private Image              itemImage;
     [SerializeField] private GameObject         itemCountPanel;
     [SerializeField] private TextMeshProUGUI    itemCountText;
     [SerializeField] private InventoryPanel     parentPanel;
+
+    [SerializeField] private int                maxItemCapacity = 0;        //0 means infinite capacity
     [SerializeField] private bool               clickToAddItems = true;
     [SerializeField] private bool               clickToRemoveItems = true;
 
-    private InventoryItemStack itemStack = new InventoryItemStack();
+    #endregion
+
+    public InventoryItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
+
+    public event Action ItemsMovedEvent;
+
+    private InventoryItemStack itemStack;
+
+    private void Awake()
+    {
+        ItemStack = new InventoryItemStack(maxItemCapacity);
+    }
 
     private void Start()
     {
@@ -33,19 +44,36 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler
 
     public void UpdateUI()
     {
-        if (!string.IsNullOrEmpty(itemStack.StackItemsID))
+        int stackSize = itemStack.StackSize;
+
+        if (stackSize > 0 && !string.IsNullOrEmpty(itemStack.StackItemsID))
         {
             InventoryItem item = ItemManager.Instance.GetItemWithID(itemStack.StackItemsID);
-            itemImage.sprite = item.Sprite;
-        }
 
-        int stackSize = itemStack.StackSize;
+            if(item != null)
+            {
+                itemImage.sprite = item.Sprite;
+            }
+        }
 
         itemCountText.text = stackSize.ToString();
 
         itemImage.gameObject    .SetActive(stackSize > 0);
         itemCountPanel          .SetActive(stackSize > 1);
         itemCountText.gameObject.SetActive(stackSize > 1);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(ItemStack.StackSize > 0)
+        {
+            parentPanel.ItemInfoPopup.ShowPopup(ItemStack.StackItemsID);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        parentPanel.ItemInfoPopup.HidePopup();
     }
 
     public void OnPointerDown(PointerEventData eventData)

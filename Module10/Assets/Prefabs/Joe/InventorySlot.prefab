@@ -111,7 +111,9 @@ MonoBehaviour:
   itemCountPanel: {fileID: 6774408764849720577}
   itemCountText: {fileID: 4198149024815125026}
   parentPanel: {fileID: 0}
-  clickableSlot: 1
+  maxItemCapacity: 0
+  clickToAddItems: 1
+  clickToRemoveItems: 1
 --- !u!114 &2310556327436598602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +141,7 @@ MonoBehaviour:
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0
+    m_FadeDuration: 0.03
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}

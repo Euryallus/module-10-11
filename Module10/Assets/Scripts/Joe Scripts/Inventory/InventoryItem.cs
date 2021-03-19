@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Inventory Item", menuName = "Inventory/Item")]
 public class InventoryItem : ScriptableObject
 {
-    public string   Id                      { get { return m_id; } }
+    public string   Id                      { get { return m_id; } set { m_id = value; } }
     public string   UIName                  { get { return m_uiName; } set { m_uiName = value; } }
     public int      StackSize               { get { return m_stackSize; } }
     public float    Weight                  { get { return m_weight; } }
@@ -13,6 +13,8 @@ public class InventoryItem : ScriptableObject
     public bool     Customisable            { get { return m_customisable; } }
     public string   CustomiseItemId         { get { return m_customiseItemId; } }
     public int      CustomiseItemQuantity   { get { return m_customiseItemQuantity; } }  
+    public bool     CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
+    public string   BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }         
 
     [Header("Info")]
     [Space]
@@ -43,5 +45,9 @@ public class InventoryItem : ScriptableObject
 
     [SerializeField] [Tooltip("The number of the above items required to rename this item type. Leave at 0 if this item is not renamable, or does not require another item to be renamed.")]
     private int m_customiseItemQuantity;
+
+    //Non-editable fields
+    private bool    m_customItem;
+    private string  m_baseItemId;
 
 }

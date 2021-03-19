@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemManager : PersistentObject
@@ -11,6 +12,8 @@ public class ItemManager : PersistentObject
     private Dictionary<string, InventoryItem> itemsDict = new Dictionary<string, InventoryItem>();
 
     private Dictionary<string, InventoryItem> customItemsDict = new Dictionary<string, InventoryItem>();
+
+    private int customItemUniqueId;
 
     private void Awake()
     {
@@ -35,17 +38,40 @@ public class ItemManager : PersistentObject
     {
         Debug.Log("Saving custom inventory items");
 
+        saveData.AddData("customItemUniqueId", customItemUniqueId);
+
         saveData.AddData("customItemCount", customItemsDict.Count);
 
-        //for (int i = 0; i < customItemsDict.Count; i++)
-        //{
-
-        //}
+        for (int i = 0; i < customItemsDict.Count; i++)
+        {
+            InventoryItem itemToSave = customItemsDict.ElementAt(i).Value;
+            saveData.AddData("customItem" + i, new CustomItemSaveData()
+            {
+                id            = itemToSave.Id,
+                baseItemId    = itemToSave.BaseItemId,
+                uiName        = itemToSave.UIName
+            } );
+        }
     }
 
-    public override void OnLoad(SaveData saveData)
+    public override void OnLoadSetup(SaveData saveData)
     {
         Debug.Log("Loading custom inventory items");
+
+        customItemUniqueId = saveData.GetData<int>("customItemUniqueId");
+
+        int customItemCount = saveData.GetData<int>("customItemCount");
+
+        for (int i = 0; i < customItemCount; i++)
+        {
+            CustomItemSaveData itemData = saveData.GetData<CustomItemSaveData>("customItem" + i);
+            AddCustomItem(itemData.id, itemData.baseItemId);
+            SetCustomItemData(itemData.id, itemData.uiName);
+        }
+    }
+
+    public override void OnLoadConfigure(SaveData saveData)
+    {
     }
 
     private void SetupItemsDict()
@@ -73,14 +99,68 @@ public class ItemManager : PersistentObject
         }
     }
 
-    public void AddCustomItem(string id, string baseItemId, string customUIName)
+    public void AddCustomItem(string id, string baseItemId)
     {
-        InventoryItem baseItem = GetItemWithID(baseItemId);
+        //Create a duplicate of the base item before editing certain values
+        InventoryItem customItem = Instantiate(GetItemWithID(baseItemId));
 
-        InventoryItem customItem = Instantiate(baseItem);
+        customItem.Id = id;
 
-        customItem.UIName = customUIName;
+        customItem.CustomItem = true;
 
-        customItemsDict.Add(id, customItem);
+        customItem.BaseItemId = baseItemId;
+
+        if (!customItemsDict.ContainsKey(customItem.Id))
+        {
+            customItemsDict.Add(customItem.Id, customItem);
+
+            Debug.Log("Added custom item with id: " + customItem.Id);
+        }
+        else
+        {
+            Debug.LogWarning("Trying to create custom item with id that already exists: " + customItem.Id);
+        }
     }
+
+    public void SetCustomItemData(string id, string customUIName)
+    {
+        if (customItemsDict.ContainsKey(id))
+        {
+            customItemsDict[id].UIName = customUIName;
+        }
+        else
+        {
+            Debug.LogError("Trying to set data on custom item with invalid id: " + id);
+        }
+    }
+
+    public void RemoveCustomItem(string id)
+    {
+        if (customItemsDict.ContainsKey(id))
+        {
+            customItemsDict.Remove(id);
+
+            Debug.Log("Removed custom item with id: " + id);
+        }
+    }
+
+    public string GetUniqueCustomItemId()
+    {
+        string id = "customItem" + customItemUniqueId;
+
+        return id;
+    }
+
+    public void IncrementUniqueCustomItemId()
+    {
+        customItemUniqueId++;
+    }
+}
+
+[System.Serializable]
+public struct CustomItemSaveData
+{
+    public string id;
+    public string baseItemId;
+    public string uiName;
 }

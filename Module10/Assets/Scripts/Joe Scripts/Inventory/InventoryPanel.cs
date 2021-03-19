@@ -6,21 +6,27 @@ using TMPro;
 
 public class InventoryPanel : PersistentObject
 {
-    public InventorySlot HandSlot { get { return m_handSlot; } }
+    #region InspectorVariables
+    //Variables in this region are set in the inspector
 
-    //Fields marked with [SerializeField] are set in the inspector
+    public InventoryItemPopup                   ItemInfoPopup;
+
     [SerializeField] private InventorySlot[]    m_slots;                //Main inventory grid
     [SerializeField] private InventorySlot      m_handSlot;             //Slot used to pick up and move items
 
-    [SerializeField] private TextMeshProUGUI    m_weightText;           //Text displaying how full the inventory is
-    [SerializeField] private Slider             m_weightSlider;         //Slider that shows how close the inventory is to holding its max weight
-    [SerializeField] private Image              m_sliderFillImage;      //Image used on the slider to show how full the inventory is
-    [SerializeField] private Color              m_sliderStandardColour; //Default colour of the slider image
-    [SerializeField] private Color              m_sliderFullColour;     //Colour of the slider image when the inventory is full
+    [SerializeField] private TextMeshProUGUI    weightText;           //Text displaying how full the inventory is
+    [SerializeField] private Slider             weightSlider;         //Slider that shows how close the inventory is to holding its max weight
+    [SerializeField] private Image              sliderFillImage;      //Image used on the slider to show how full the inventory is
+    [SerializeField] private Color              sliderStandardColour; //Default colour of the slider image
+    [SerializeField] private Color              sliderFullColour;     //Colour of the slider image when the inventory is full
 
-    [SerializeField] private float              m_maxWeight;            //Maximum amount of weight this inventory can hold
+    [SerializeField] private float              maxWeight;            //Maximum amount of weight this inventory can hold
 
-    private float m_totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
+    #endregion
+
+    public InventorySlot HandSlot { get { return m_handSlot; } }
+
+    private float totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
 
     protected override void Start()
     {
@@ -35,6 +41,12 @@ public class InventoryPanel : PersistentObject
         {
             //When there are items in the hand slot, lerp its position to the mouse pointer
             m_handSlot.transform.position = Vector3.Lerp(m_handSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
+
+            ItemInfoPopup.SetCanShow(false);
+        }
+        else
+        {
+            ItemInfoPopup.SetCanShow(true);
         }
     }
 
@@ -50,7 +62,11 @@ public class InventoryPanel : PersistentObject
         }
     }
 
-    public override void OnLoad(SaveData saveData)
+    public override void OnLoadSetup(SaveData saveData)
+    {
+    }
+
+    public override void OnLoadConfigure(SaveData saveData)
     {
         Debug.Log("Loading inventory panel data");
 
@@ -144,24 +160,22 @@ public class InventoryPanel : PersistentObject
             weight += m_slots[i].ItemStack.StackWeight;
         }
 
-        m_totalWeight = weight;
+        totalWeight = weight;
 
-        Debug.Log("Total inventory weight is " + m_totalWeight);
+        float weightVal = totalWeight / maxWeight;
 
-        float weightVal = m_totalWeight / m_maxWeight;
+        weightSlider.value = Mathf.Clamp(weightVal, 0.0f, 1.0f);
 
-        m_weightSlider.value = Mathf.Clamp(weightVal, 0.0f, 1.0f);
+        weightText.text = "Weight Limit (" + Mathf.FloorToInt(weightVal * 100.0f) + "%)";
 
-        m_weightText.text = "Weight Limit (" + Mathf.FloorToInt(weightVal * 100.0f) + "%)";
-
-        if(m_totalWeight >= m_maxWeight)
+        if(totalWeight >= maxWeight)
         {
-            m_sliderFillImage.color = m_sliderFullColour;
+            sliderFillImage.color = sliderFullColour;
             Debug.LogWarning("MAX INVENTORY WEIGHT REACHED!");
         }
         else
         {
-            m_sliderFillImage.color = m_sliderStandardColour;
+            sliderFillImage.color = sliderStandardColour;
         }
     }
 }

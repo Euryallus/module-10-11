@@ -10,45 +10,55 @@ public class InventoryItemStack
 
     private string              m_stackItemsId;
     private int                 m_stackSize;
+    private int                 m_maxStackSize;
     private float               m_stackWeight;
 
-    public InventoryItemStack()
+    public InventoryItemStack(int maxStackSize)
     {
         m_stackItemsId = "";
         m_stackSize = 0;
+        m_maxStackSize = maxStackSize;
     }
 
     public bool CanAddItemToStack(string itemId)
     {
-        if(m_stackSize > 0)
+        if(m_stackSize < m_maxStackSize || m_maxStackSize == 0)
         {
-            //Stack is not empty
-            if (m_stackItemsId == itemId)
+            if (m_stackSize > 0)
             {
-                InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
-
-                //This stack already contains some of item being added - check the max stack size is not already reached
-                if ( m_stackSize < item.StackSize)
+                //Stack is not empty
+                if (m_stackItemsId == itemId)
                 {
-                    //Max stack size not reached - item can be added
-                    return true;
+                    InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+
+                    //This stack already contains some of item being added - check the max stack size is not already reached
+                    if (m_stackSize < item.StackSize)
+                    {
+                        //Max stack size not reached - item can be added
+                        return true;
+                    }
+                    else
+                    {
+                        //Max stack size reached - item cannot be added
+                        return false;
+                    }
                 }
                 else
                 {
-                    //Max stack size reached - item cannot be added
+                    //This stack contains a different item type - item cannot be added
                     return false;
                 }
             }
             else
             {
-                //This stack contains a different item type - can't add item here
-                return false;
+                //This stack is empty - item can be added
+                return true;
             }
         }
         else
         {
-            //This stack is empty - item can be added
-            return true;
+            //This stack has reached its maximum allowed size - item cannot be added
+            return false;
         }
     }
 
@@ -58,13 +68,18 @@ public class InventoryItemStack
         {
             InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
 
-            m_stackSize++;
+            if(item != null)
+            {
+                m_stackSize++;
 
-            m_stackWeight += item.Weight;
+                m_stackWeight += item.Weight;
 
-            m_stackItemsId = itemId;
+                m_stackItemsId = itemId;
 
-            return true;
+                return true;
+            }
+
+            return false;
         }
 
         return false;
