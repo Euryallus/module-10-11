@@ -6,3 +6,5 @@ Each quest has a list of objectives (e.g. go to the blue and purple nodes before
 
 The quest giver can have a mix of quest lines and stand-alone objectives - all stand-alones ("quests to give") can be accepted at any time
 
+TEST
+
