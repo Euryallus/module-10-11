@@ -354,7 +354,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &261112767
 Transform:
@@ -1077,7 +1077,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &510884424
 Transform:
@@ -1309,7 +1309,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &514737455
 Transform:
@@ -1471,7 +1471,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &549059651
 Transform:
@@ -1567,7 +1567,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &650371355
 Transform:
@@ -2057,13 +2057,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983153946}
-  m_LocalRotation: {x: -0.105972484, y: -0.88917804, z: 0.2616993, w: -0.36006367}
+  m_LocalRotation: {x: 0, y: -0.96351373, z: 0.26765883, w: 0}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.8, y: -224.09, z: 0}
+  m_LocalEulerAnglesHint: {x: 31.05, y: -180, z: 0}
 --- !u!1 &984992495
 GameObject:
   m_ObjectHideFlags: 0
@@ -5747,7 +5747,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &1188765405
 MonoBehaviour:
@@ -5832,7 +5832,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188765404}
-  m_LocalRotation: {x: -0, y: 0.94342715, z: -0, w: 0.33157998}
+  m_LocalRotation: {x: -0, y: 0.9178898, z: -0, w: 0.39683545}
   m_LocalPosition: {x: 5.65, y: 1.5, z: -5.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5842,7 +5842,7 @@ Transform:
   - {fileID: 549059651}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 141.271, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 133.239, z: 0}
 --- !u!1 &1224272139
 GameObject:
   m_ObjectHideFlags: 0
@@ -5860,7 +5860,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1224272140
 Transform:
@@ -6505,7 +6505,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1770710208
 Transform:
@@ -7250,7 +7250,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2072749891
 Transform:
@@ -7347,7 +7347,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &2106686451
 MonoBehaviour:
@@ -7432,8 +7432,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106686450}
-  m_LocalRotation: {x: -0, y: 0.40948555, z: -0, w: 0.9123167}
-  m_LocalPosition: {x: -3.75, y: 1.697, z: -5.38}
+  m_LocalRotation: {x: -0, y: 0.6273302, z: -0, w: 0.7787534}
+  m_LocalPosition: {x: 3.75, y: 1.697, z: -5}
   m_LocalScale: {x: 1.2382439, y: 1.2382439, z: 1.2382439}
   m_Children:
   - {fileID: 2072749891}
@@ -7442,7 +7442,7 @@ Transform:
   - {fileID: 261112767}
   m_Father: {fileID: 0}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 48.345, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 77.707, z: 0}
 --- !u!1001 &3399754591766798786
 PrefabInstance:
   m_ObjectHideFlags: 0

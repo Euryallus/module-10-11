@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Go to the yellow blob
   questDescription: Please go to the yellow node
-  questCompleteDialogue: Thanks!
+  questCompleteDialogue: Thanks! Go talk to my wife
   nextQuests:
   - {fileID: 11400000, guid: f66063750b9284f4ca674fc7944c6db4, type: 2}
   handInNPCName: Googily
