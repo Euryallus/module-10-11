@@ -13,7 +13,6 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField]
     private QuestManager qmanager;
 
-
     // Update is called once per frame
     void Update()
     {
