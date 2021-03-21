@@ -8,16 +8,20 @@ public class InventoryItemStack
     public int      StackSize       { get { return m_stackSize; } }
     public float    StackWeight     { get { return m_stackWeight; } }
 
-    private string              m_stackItemsId;
-    private int                 m_stackSize;
-    private int                 m_maxStackSize;
-    private float               m_stackWeight;
+    private string  m_stackItemsId;
+    private int     m_stackSize;
+    private int     m_maxStackSize;
+    private float   m_stackWeight;
 
-    public InventoryItemStack(int maxStackSize)
+    private InventorySlot slot;
+
+    public InventoryItemStack(InventorySlot slot, int maxStackSize)
     {
-        m_stackItemsId = "";
-        m_stackSize = 0;
-        m_maxStackSize = maxStackSize;
+        this.slot = slot;
+
+        m_stackItemsId  = "";
+        m_stackSize     = 0;
+        m_maxStackSize  = maxStackSize;
     }
 
     public bool CanAddItemToStack(string itemId)
@@ -76,6 +80,8 @@ public class InventoryItemStack
 
                 m_stackItemsId = itemId;
 
+                slot.ParentPanel.InventoryStateChanged();
+
                 return true;
             }
 
@@ -94,6 +100,8 @@ public class InventoryItemStack
             m_stackSize--;
 
             m_stackWeight -= item.Weight;
+
+            slot.ParentPanel.InventoryStateChanged();
 
             return true;
         }

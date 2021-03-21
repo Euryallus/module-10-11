@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30db721631325bd4aab1c03410f7bc54, type: 3}
-  m_Name: TestItem3
+  m_Name: Rock
   m_EditorClassIdentifier: 
-  m_id: testItem3
-  m_uiName: Test Item 3
-  m_stackSize: 16
-  m_weight: 0.3
-  m_sprite: {fileID: 21300000, guid: 94144b182ddbd6c49bdc82a524d7d00d, type: 3}
+  m_id: rock
+  m_uiName: Rock
+  m_stackSize: 64
+  m_weight: 0.5
+  m_sprite: {fileID: 21300000, guid: 61cce3d7447f8ec4dbca5d4a893b1da3, type: 3}
   m_customisable: 0
-  m_customiseItemId: 
-  m_customiseItemQuantity: 0
+  m_currencyItemId: 
+  m_currencyItemQuantity: 0

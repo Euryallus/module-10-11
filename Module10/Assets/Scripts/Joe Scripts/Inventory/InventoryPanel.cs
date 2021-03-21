@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public enum InventoryShowMode
 {
@@ -24,6 +25,7 @@ public class InventoryPanel : PersistentObject
 
     [SerializeField] private LayoutElement      customiseLayoutElement;
     [SerializeField] private CanvasGroup        customiseCanvasGroup;
+    [SerializeField] private CanvasGroup        craftCanvasGroup;
 
     [SerializeField] private TextMeshProUGUI    weightText;             //Text displaying how full the inventory is
     [SerializeField] private Slider             weightSlider;           //Slider that shows how close the inventory is to holding its max weight
@@ -38,10 +40,12 @@ public class InventoryPanel : PersistentObject
     public InventorySlot    HandSlot    { get { return handSlot; } }
     public bool             Showing     { get { return showing; } }
 
+    public  event Action    InventoryStateChangedEvent;
     private CanvasGroup     canvasGroup;
     private bool            showing;
     private float           totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
     private PlayerMovement  playerMovement;
+    private bool            inventoryStateChanged;
 
     protected override void Start()
     {
@@ -70,53 +74,12 @@ public class InventoryPanel : PersistentObject
         {
             ItemInfoPopup.SetCanShow(true);
         }
-    }
 
-    private void CheckForShowHideInput()
-    {
-        //Show/hide input
-        if (!showing && Input.GetKeyDown(KeyCode.I))
+        if (inventoryStateChanged)
         {
-            Show(InventoryShowMode.InventoryOnly);
+            InventoryStateChangedThisFrame();
+            inventoryStateChanged = false;
         }
-        else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
-        {
-            Hide();
-        }
-    }
-
-    public void Show(InventoryShowMode showMode)
-    {
-        if(showMode == InventoryShowMode.Customise)
-        {
-            customiseLayoutElement.ignoreLayout = false;
-            customiseCanvasGroup.alpha = 1.0f;
-        }
-        else
-        {
-            customiseLayoutElement.ignoreLayout = true;
-            customiseCanvasGroup.alpha = 0.0f;
-        }
-
-        //Show inventory UI
-        canvasGroup.alpha = 1.0f;
-        showing = true;
-
-        //Stop the player from moving and unlock/show the cursor so they can interact with the inventory
-        playerMovement.StopMoving();
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    public void Hide()
-    {
-        //Hide inventory UI
-        canvasGroup.alpha = 0.0f;
-        showing = false;
-
-        //Allow the player to move and lock their cursor to screen centre
-        playerMovement.StartMoving();
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void OnSave(SaveData saveData)
@@ -156,7 +119,69 @@ public class InventoryPanel : PersistentObject
         UpdateTotalInventoryWeight();
     }
 
+    private void CheckForShowHideInput()
+    {
+        //Show/hide input
+        if (!showing && Input.GetKeyDown(KeyCode.I))
+        {
+            Show(InventoryShowMode.InventoryOnly);
+        }
+        else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
+    public void Show(InventoryShowMode showMode)
+    {
+        //Customise panel should ignore UI layout unless in the Customise showMode so it doesn't take up space
+        customiseLayoutElement.ignoreLayout = (showMode != InventoryShowMode.Customise);
+
+        //Show/hide crafting and customisation panels depending on showMode
+        if (showMode == InventoryShowMode.InventoryOnly)
+        {
+            customiseCanvasGroup.alpha = 0.0f;
+            craftCanvasGroup.alpha = 0.0f;
+        }
+        else if(showMode == InventoryShowMode.Craft)
+        {
+            customiseCanvasGroup.alpha = 0.0f;
+            craftCanvasGroup.alpha = 1.0f;
+        }
+        else //Customise
+        {
+            customiseCanvasGroup.alpha = 1.0f;
+            craftCanvasGroup.alpha = 0.0f;
+        }
+
+        //Show inventory UI
+        canvasGroup.alpha = 1.0f;
+        showing = true;
+
+        //Stop the player from moving and unlock/show the cursor so they can interact with the inventory
+        playerMovement.StopMoving();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void Hide()
+    {
+        //Hide inventory UI
+        canvasGroup.alpha = 0.0f;
+        showing = false;
+
+        //Allow the player to move and lock their cursor to screen centre
+        playerMovement.StartMoving();
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void TryAddItemToInventory(InventoryItem item)
+    {
+        //Optional overload for when a bool out type is not needed
+        TryAddItemToInventory(item, out bool unused);
+    }
+
+    public void TryAddItemToInventory(InventoryItem item, out bool itemAdded)
     {
         //Step 1 - loop through all slots to find valid ones
 
@@ -168,6 +193,7 @@ public class InventoryPanel : PersistentObject
         {
             //No empty or stackable slots, meaning the inventory is full - warn the player
             Debug.LogWarning("INVENTORY FULL!");
+            itemAdded = false;
         }
         else
         {
@@ -192,31 +218,8 @@ public class InventoryPanel : PersistentObject
 
             //Calculate and display new inventory weight
             UpdateTotalInventoryWeight();
-        }
-    }
 
-    private void FindValidInventorySlots( InventoryItem item, out int firstEmptySlot, out int firstStackableSlot)
-    {
-        firstEmptySlot      = -1;   //Keeps track of the index of the first empty slot that is found
-        firstStackableSlot  = -1;   //Keeps track of the index of the first slot where the item can stack that is found
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            //Check if the current stack can take the item
-            if (slots[i].ItemStack.CanAddItemToStack(item.Id))
-            {
-                if (slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
-                {
-                    //The first empty slot was found
-                    firstEmptySlot = i;
-                }
-                else if (slots[i].ItemStack.StackSize > 0 && firstStackableSlot == -1)
-                {
-                    //The first stackable slot was found - no more searching is needed as stackable slots take priority
-                    firstStackableSlot = i;
-                    return;
-                }
-            }
+            itemAdded = true;
         }
     }
 
@@ -245,6 +248,63 @@ public class InventoryPanel : PersistentObject
         else
         {
             sliderFillImage.color = sliderStandardColour;
+        }
+    }
+
+    public bool ContainsQuantityOfItem(InventoryItemGroup itemGroup, out List<InventorySlot> containingSlots)
+    {
+        int numberOfItemType = 0;
+        containingSlots = new List<InventorySlot>();
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].ItemStack.StackSize > 0 && slots[i].ItemStack.StackItemsID == itemGroup.Item.Id)
+            {
+                numberOfItemType += slots[i].ItemStack.StackSize;
+                containingSlots.Add(slots[i]);
+            }
+
+            if(numberOfItemType >= itemGroup.Quantity)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void InventoryStateChanged()
+    {
+        inventoryStateChanged = true;
+    }
+
+    private void InventoryStateChangedThisFrame()
+    {
+        InventoryStateChangedEvent?.Invoke();
+    }
+
+    private void FindValidInventorySlots(InventoryItem item, out int firstEmptySlot, out int firstStackableSlot)
+    {
+        firstEmptySlot = -1;   //Keeps track of the index of the first empty slot that is found
+        firstStackableSlot = -1;   //Keeps track of the index of the first slot where the item can stack that is found
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            //Check if the current stack can take the item
+            if (slots[i].ItemStack.CanAddItemToStack(item.Id))
+            {
+                if (slots[i].ItemStack.StackSize == 0 && firstEmptySlot == -1)
+                {
+                    //The first empty slot was found
+                    firstEmptySlot = i;
+                }
+                else if (slots[i].ItemStack.StackSize > 0 && firstStackableSlot == -1)
+                {
+                    //The first stackable slot was found - no more searching is needed as stackable slots take priority
+                    firstStackableSlot = i;
+                    return;
+                }
+            }
         }
     }
 }

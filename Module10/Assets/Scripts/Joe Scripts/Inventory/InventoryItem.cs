@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Inventory Item", menuName = "Inventory/Item")]
+[CreateAssetMenu(fileName = "Inventory Item", menuName = "Inventory/Inventory Item")]
 public class InventoryItem : ScriptableObject
 {
     public string   Id                      { get { return m_id; } set { m_id = value; } }

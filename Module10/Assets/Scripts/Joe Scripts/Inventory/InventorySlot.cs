@@ -11,10 +11,11 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
     #region InspectorVariables
     //Variables in this region are set in the inspector
 
+    public InventoryPanel     ParentPanel;
+
     [SerializeField] private Image              itemImage;
     [SerializeField] private GameObject         itemCountPanel;
     [SerializeField] private TextMeshProUGUI    itemCountText;
-    [SerializeField] private InventoryPanel     parentPanel;
 
     [SerializeField] private int                maxItemCapacity = 0;        //0 means infinite capacity
     [SerializeField] private bool               clickToAddItems = true;
@@ -26,11 +27,11 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
     public event Action ItemsMovedEvent;
 
-    private InventoryItemStack itemStack;
+    private InventoryItemStack  itemStack;
 
     private void Awake()
     {
-        ItemStack = new InventoryItemStack(maxItemCapacity);
+        ItemStack = new InventoryItemStack(this, maxItemCapacity);
     }
 
     private void Start()
@@ -67,29 +68,29 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
     {
         if(ItemStack.StackSize > 0)
         {
-            parentPanel.ItemInfoPopup.ShowPopup(ItemStack.StackItemsID);
+            ParentPanel.ItemInfoPopup.ShowPopup(ItemStack.StackItemsID);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        parentPanel.ItemInfoPopup.HidePopup();
+        ParentPanel.ItemInfoPopup.HidePopup();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         //Snap the hand slot position to mouse position
-        parentPanel.HandSlot.transform.position = Input.mousePosition;
+        ParentPanel.HandSlot.transform.position = Input.mousePosition;
 
         bool rightClick = (eventData.button == PointerEventData.InputButton.Right);
 
         if (clickToRemoveItems && itemStack.StackSize > 0)
         {
-            MoveItemsToOtherSlot(parentPanel.HandSlot, rightClick);
+            MoveItemsToOtherSlot(ParentPanel.HandSlot, rightClick);
         }
-        else if (clickToAddItems && parentPanel.HandSlot.ItemStack.StackSize > 0)
+        else if (clickToAddItems && ParentPanel.HandSlot.ItemStack.StackSize > 0)
         {
-            parentPanel.HandSlot.MoveItemsToOtherSlot(this, rightClick);
+            ParentPanel.HandSlot.MoveItemsToOtherSlot(this, rightClick);
         }
     }
 
@@ -112,7 +113,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         UpdateUI();
         otherSlot.UpdateUI();
 
-        parentPanel.UpdateTotalInventoryWeight();
+        ParentPanel.UpdateTotalInventoryWeight();
 
         ItemsMovedEvent?.Invoke();
 

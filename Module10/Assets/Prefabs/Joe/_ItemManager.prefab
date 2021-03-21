@@ -44,7 +44,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - {fileID: 11400000, guid: 27e80f5c17e5e2e4da67e9af47bd9717, type: 2}
-  - {fileID: 11400000, guid: 1764984372e1f0c4cb9eedca4132aedf, type: 2}
-  - {fileID: 11400000, guid: 2aa5559ab65c50d45ae84eaf663ed4ab, type: 2}
-  - {fileID: 11400000, guid: a421dc6ce33555844b4cd993899fa351, type: 2}
+  - {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
+  - {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
+  - {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
+  - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
+  - {fileID: 11400000, guid: f9b8adbe7bc1087428585c5e61dea451, type: 2}
+  - {fileID: 11400000, guid: 5a86715d1aa7a024d914679571e7564b, type: 2}
+  CraftingRecipes:
+  - {fileID: 11400000, guid: 257d2e1fd5a6e4c40a52582e9903e316, type: 2}
+  - {fileID: 11400000, guid: d0b78d587d1adda49aeb8123b9f25ea3, type: 2}
+  - {fileID: 11400000, guid: 5f79dd0c932b9844495955426215630c, type: 2}

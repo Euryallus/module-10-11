@@ -7,11 +7,12 @@ public class ItemManager : PersistentObject
 {
     public static ItemManager Instance;
 
-    [SerializeField] private InventoryItem[] items;
+    [SerializeField] private InventoryItem[]    items;
+    public CraftingRecipe[]                     CraftingRecipes;
 
-    private Dictionary<string, InventoryItem> itemsDict = new Dictionary<string, InventoryItem>();
-
-    private Dictionary<string, InventoryItem> customItemsDict = new Dictionary<string, InventoryItem>();
+    private Dictionary<string, InventoryItem>   itemsDict           = new Dictionary<string, InventoryItem>();
+    private Dictionary<string, InventoryItem>   customItemsDict     = new Dictionary<string, InventoryItem>();
+    private Dictionary<string, CraftingRecipe>  craftingRecipesDict = new Dictionary<string, CraftingRecipe>();
 
     private int customItemUniqueId;
 
@@ -31,7 +32,7 @@ public class ItemManager : PersistentObject
             return;
         }
 
-        SetupItemsDict();
+        SetupDictionaries();
     }
 
     public override void OnSave(SaveData saveData)
@@ -74,11 +75,18 @@ public class ItemManager : PersistentObject
     {
     }
 
-    private void SetupItemsDict()
+    private void SetupDictionaries()
     {
+        //Add all items to a dictionary indexed by their ids
         for (int i = 0; i < items.Length; i++)
         {
             itemsDict.Add(items[i].Id, items[i]);
+        }
+
+        //Add all crafting recipes to a dictionary indexed by the resulting item ids
+        for (int i = 0; i < CraftingRecipes.Length; i++)
+        {
+            craftingRecipesDict.Add(CraftingRecipes[i].ResultItem.Item.Id, CraftingRecipes[i]);
         }
     }
 
@@ -102,23 +110,33 @@ public class ItemManager : PersistentObject
     public void AddCustomItem(string id, string baseItemId)
     {
         //Create a duplicate of the base item before editing certain values
-        InventoryItem customItem = Instantiate(GetItemWithID(baseItemId));
 
-        customItem.Id = id;
+        InventoryItem baseItem = GetItemWithID(baseItemId);
 
-        customItem.CustomItem = true;
-
-        customItem.BaseItemId = baseItemId;
-
-        if (!customItemsDict.ContainsKey(customItem.Id))
+        if(baseItem!= null)
         {
-            customItemsDict.Add(customItem.Id, customItem);
+            InventoryItem customItem = Instantiate(GetItemWithID(baseItemId));
 
-            Debug.Log("Added custom item with id: " + customItem.Id);
+            customItem.Id = id;
+
+            customItem.CustomItem = true;
+
+            customItem.BaseItemId = baseItemId;
+
+            if (!customItemsDict.ContainsKey(customItem.Id))
+            {
+                customItemsDict.Add(customItem.Id, customItem);
+
+                Debug.Log("Added custom item with id: " + customItem.Id);
+            }
+            else
+            {
+                Debug.LogWarning("Trying to create custom item with id that already exists: " + customItem.Id);
+            }
         }
         else
         {
-            Debug.LogWarning("Trying to create custom item with id that already exists: " + customItem.Id);
+            Debug.LogError("Trying to create custom item with invalid base item id: " + baseItemId);
         }
     }
 
