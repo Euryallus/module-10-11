@@ -40,12 +40,12 @@ public class InventoryPanel : PersistentObject
     public InventorySlot    HandSlot    { get { return handSlot; } }
     public bool             Showing     { get { return showing; } }
 
-    public  event Action    InventoryStateChangedEvent;
-    private CanvasGroup     canvasGroup;
-    private bool            showing;
-    private float           totalWeight = 0.0f;   //The current amount of weight of all items in the inventory
-    private PlayerMovement  playerMovement;
-    private bool            inventoryStateChanged;
+    public  event Action    InventoryStateChangedEvent;     //Event that is invoked when the inventory state changes (i.e. items are added/removed/moved)
+    private bool            inventoryStateChanged;          //Set to true each time an action occurs that changes the inventory's state
+    private PlayerMovement  playerMovement;                 //Reference to the PlayerMovement script attached to the player character
+    private CanvasGroup     canvasGroup;                    //CanvasGroup attathed to the panel
+    private bool            showing;                        //Whether or not the panel is currently showing
+    private float           totalWeight = 0.0f;             //The weight of all items in the inventory combined
 
     protected override void Start()
     {
@@ -54,13 +54,13 @@ public class InventoryPanel : PersistentObject
         canvasGroup     = GetComponent<CanvasGroup>();
         playerMovement  = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 
-        UpdateTotalInventoryWeight();
-
+        //Hide the UI panel by default
         Hide();
     }
 
     private void Update()
     {
+        //Check if the player pressed a key that should cause the panel to be shown/hidden
         CheckForShowHideInput();
 
         if (handSlot.ItemStack.StackSize > 0)
@@ -68,15 +68,18 @@ public class InventoryPanel : PersistentObject
             //When there are items in the hand slot, lerp its position to the mouse pointer
             handSlot.transform.position = Vector3.Lerp(handSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
 
+            //Don't allow the item info popup to be shown when items are in the player's hand
             ItemInfoPopup.SetCanShow(false);
         }
         else
         {
+            //No items are in the player's hand - allow the ItemInfoPopup to show info about each item in the inventory
             ItemInfoPopup.SetCanShow(true);
         }
 
         if (inventoryStateChanged)
         {
+            //The inventory state was changed one or more times this frame
             InventoryStateChangedThisFrame();
             inventoryStateChanged = false;
         }
@@ -96,6 +99,8 @@ public class InventoryPanel : PersistentObject
 
     public override void OnLoadSetup(SaveData saveData)
     {
+        //Loading for InventoryPanel occurs in the OnLoadConfigure function since it
+        //  depends on data that is initialised by other objects in the OnLoadSetup function
     }
 
     public override void OnLoadConfigure(SaveData saveData)
@@ -104,19 +109,19 @@ public class InventoryPanel : PersistentObject
 
         for (int i = 0; i < slots.Length; i++)
         {
-            //Load data for each inventory slot
+            //Load data for each inventory slot - the stack size and item type
             int stackSize = saveData.GetData<int>("slotStackSize" + i);
             string itemId = saveData.GetData<string>("stackItemsId" + i);
 
+            //Add items based on the loaded values
             for (int j = 0; j < stackSize; j++)
             {
                 slots[i].ItemStack.AddItemToStack(itemId, false);
             }
 
+            //Update the UI for each slot to reflect changes
             slots[i].UpdateUI();
         }
-
-        UpdateTotalInventoryWeight();
     }
 
     private void CheckForShowHideInput()
@@ -216,14 +221,11 @@ public class InventoryPanel : PersistentObject
             //Update slot UI to show new item
             slots[chosenSlotIndex].UpdateUI();
 
-            //Calculate and display new inventory weight
-            UpdateTotalInventoryWeight();
-
             itemAdded = true;
         }
     }
 
-    public void UpdateTotalInventoryWeight()
+    private void UpdateTotalInventoryWeight()
     {
         float weight = 0.0f;
 
@@ -281,12 +283,14 @@ public class InventoryPanel : PersistentObject
     private void InventoryStateChangedThisFrame()
     {
         InventoryStateChangedEvent?.Invoke();
+
+        UpdateTotalInventoryWeight();
     }
 
     private void FindValidInventorySlots(InventoryItem item, out int firstEmptySlot, out int firstStackableSlot)
     {
-        firstEmptySlot = -1;   //Keeps track of the index of the first empty slot that is found
-        firstStackableSlot = -1;   //Keeps track of the index of the first slot where the item can stack that is found
+        firstEmptySlot      = -1;   //Keeps track of the index of the first empty slot that is found
+        firstStackableSlot  = -1;   //Keeps track of the index of the first slot where the item can stack that is found
 
         for (int i = 0; i < slots.Length; i++)
         {

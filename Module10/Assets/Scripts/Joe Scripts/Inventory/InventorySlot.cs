@@ -113,8 +113,6 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         UpdateUI();
         otherSlot.UpdateUI();
 
-        ParentPanel.UpdateTotalInventoryWeight();
-
         ItemsMovedEvent?.Invoke();
 
         otherSlot.ItemsMovedEvent?.Invoke();
