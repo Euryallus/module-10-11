@@ -1,15 +1,33 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class SaveSystemExample : PersistentObject
+public class SaveSystemExample : MonoBehaviour, IPersistentObject
 {
-
     private int exampleInt;
 
     private List<string> exampleList = new List<string>() { "thing1", "thing2", "thing3" };
 
     private float[] exampleArray = new float[] { 0.1f, 7.8f, 69.0f };
 
-    public override void OnSave(SaveData saveData)
+    private void Start()
+    {
+        //Subscribe to save and load events on start
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            += OnSave;
+        slm.LoadObjectsSetupEvent       += OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+    }
+
+    private void OnDestroy()
+    {
+        //Unsubscribe from save and load events if the object is destroyed
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            += OnSave;
+        slm.LoadObjectsSetupEvent       += OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+    }
+
+    public void OnSave(SaveData saveData)
     {
         //OnSave is called each time game data is saved to a file
 
@@ -26,7 +44,7 @@ public class SaveSystemExample : PersistentObject
         saveData.AddData("arrayToSave", exampleArray);
     }
 
-    public override void OnLoadSetup(SaveData saveData)
+    public void OnLoadSetup(SaveData saveData)
     {
         //OnLoadSetup is called each time game data is loaded from a file
 
@@ -41,7 +59,7 @@ public class SaveSystemExample : PersistentObject
         exampleArray = saveData.GetData<float[]>("arrayToSave");
     }
 
-    public override void OnLoadConfigure(SaveData saveData)
+    public void OnLoadConfigure(SaveData saveData)
     {
         //OnLoadConfigure is called each time game data is loaded from a file AFTER OnLoadSetup has been called on all persistent objects
 

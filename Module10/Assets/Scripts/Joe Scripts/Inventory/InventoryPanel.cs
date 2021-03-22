@@ -12,35 +12,33 @@ public enum InventoryShowMode
     Craft
 }
 
-[RequireComponent(typeof(CanvasGroup))]
-public class InventoryPanel : MonoBehaviour
+public class InventoryPanel : UIPanel
 {
     #region InspectorVariables
     //Variables in this region are set in the inspector
 
-    [SerializeField] private ItemContainer      itemContainer;
+    [SerializeField] private List<ContainerSlotUI>  slotsUI;
+    [SerializeField] private ItemContainer          itemContainer;
 
-    [SerializeField] private LayoutElement      customiseLayoutElement;
-    [SerializeField] private CanvasGroup        customiseCanvasGroup;
-    [SerializeField] private CraftingPanel      craftingPanel;
+    [SerializeField] private LayoutElement          customiseLayoutElement;
+    [SerializeField] private CanvasGroup            customiseCanvasGroup;
+    [SerializeField] private CraftingPanel          craftingPanel;
 
-    [SerializeField] private TextMeshProUGUI    weightText;             //Text displaying how full the inventory is
-    [SerializeField] private Slider             weightSlider;           //Slider that shows how close the inventory is to holding its max weight
-    [SerializeField] private Image              sliderFillImage;        //Image used on the slider to show how full the inventory is
-    [SerializeField] private Color              sliderStandardColour;   //Default colour of the slider image
-    [SerializeField] private Color              sliderFullColour;       //Colour of the slider image when the inventory is full
+    [SerializeField] private TextMeshProUGUI        weightText;             //Text displaying how full the inventory is
+    [SerializeField] private Slider                 weightSlider;           //Slider that shows how close the inventory is to holding its max weight
+    [SerializeField] private Image                  sliderFillImage;        //Image used on the slider to show how full the inventory is
+    [SerializeField] private Color                  sliderStandardColour;   //Default colour of the slider image
+    [SerializeField] private Color                  sliderFullColour;       //Colour of the slider image when the inventory is full
 
-    [SerializeField] private float              maxWeight;              //Maximum amount of weight this inventory can hold
+    [SerializeField] private float                  maxWeight;              //Maximum amount of weight this inventory can hold
 
     #endregion
 
     public ItemContainer    ItemContainer   { get { return itemContainer; } }
-    public bool             Showing         { get { return showing; } }
 
     private PlayerMovement  playerMovement;                 //Reference to the PlayerMovement script attached to the player character
-    private CanvasGroup     canvasGroup;                    //CanvasGroup attathed to the panel
-    private bool            showing;                        //Whether or not the panel is currently showing
     private float           totalWeight = 0.0f;             //The weight of all items in the inventory combined
+    private HandSlotUI      handSlotUI;
 
     private void Awake()
     {
@@ -48,10 +46,15 @@ public class InventoryPanel : MonoBehaviour
         itemContainer.ContainerStateChangedEvent += UpdateTotalInventoryWeight;
     }
 
-    protected void Start()
+    protected override void Start()
     {
-        canvasGroup     = GetComponent<CanvasGroup>();
+        base.Start();
+
         playerMovement  = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
+        itemContainer.LinkSlotsToUI(slotsUI);
+
+        handSlotUI = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
 
         //Hide the UI panel by default
         Hide();
@@ -62,10 +65,10 @@ public class InventoryPanel : MonoBehaviour
         //Check if the player pressed a key that should cause the panel to be shown/hidden
         CheckForShowHideInput();
 
-        if (itemContainer.HandSlot.ItemStack.StackSize > 0)
+        if (handSlotUI.Slot.ItemStack.StackSize > 0)
         {
             //When there are items in the hand slot, lerp its position to the mouse pointer
-            itemContainer.HandSlot.transform.position = Vector3.Lerp(itemContainer.HandSlot.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
+            handSlotUI.transform.position = Vector3.Lerp(handSlotUI.transform.position, Input.mousePosition, Time.unscaledDeltaTime * 20.0f);
 
             //Don't allow the item info popup to be shown when items are in the player's hand
             itemContainer.ItemInfoPopup.SetCanShow(false);
@@ -86,15 +89,17 @@ public class InventoryPanel : MonoBehaviour
             {
                 Show(InventoryShowMode.InventoryOnly);
             }
-            else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
+            else if (showing && (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)))
             {
                 Hide();
             }
         }
     }
 
-    public void Show(InventoryShowMode showMode)
+    public void Show(InventoryShowMode showMode, float yOffset = 30.0f)
     {
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, yOffset);
+
         //Customise panel should ignore UI layout unless in the Customise showMode so it doesn't take up space
         customiseLayoutElement.ignoreLayout = (showMode != InventoryShowMode.Customise);
 
@@ -115,9 +120,7 @@ public class InventoryPanel : MonoBehaviour
             craftingPanel.Hide();
         }
 
-        //Show inventory UI
-        canvasGroup.alpha = 1.0f;
-        showing = true;
+        base.Show();
 
         //Stop the player from moving and unlock/show the cursor so they can interact with the inventory
         playerMovement.StopMoving();
@@ -125,11 +128,14 @@ public class InventoryPanel : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void Hide()
+    public override void Show()
     {
-        //Hide inventory UI
-        canvasGroup.alpha = 0.0f;
-        showing = false;
+        Debug.LogError("Should not use default Show function for InventoryPanel - use overload that takes InventoryShowMode and y-offset instead");
+    }
+
+    public override void Hide()
+    {
+        base.Hide();
 
         //Allow the player to move and lock their cursor to screen centre
         playerMovement.StartMoving();

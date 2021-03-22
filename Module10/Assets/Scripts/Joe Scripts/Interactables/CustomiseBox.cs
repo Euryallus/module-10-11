@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CustomiseBox : InteractableWithOutline
 {
+    [Header("Customise Box Properties")]
     public InventoryPanel inventoryPanel;
 
     public override void Interact()

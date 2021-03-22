@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class CraftingPanel : MonoBehaviour
+public class CraftingPanel : UIPanel
 {
     #region InspectorVariables
     //Variables in this region are set in the inspector
@@ -27,12 +26,9 @@ public class CraftingPanel : MonoBehaviour
 
     #region Properties
     public CraftingRecipe   SelectedRecipe  { get { return selectedRecipe; } }
-    public bool             Showing         { get { return showing; } }
 
     #endregion
 
-    private CanvasGroup                 canvasGroup;
-    private bool                        showing;
     private CraftingRecipe              selectedRecipe;             //The currently selected crafting recipe
     private CraftingItemButton          selectedButton;             //The button corresponding to the selected recipe
     private List<ContainerSlot>[]       slotsContainingRecipeItems; //An array containing lists on inventory slots, the array index corresponds to the index of
@@ -42,12 +38,12 @@ public class CraftingPanel : MonoBehaviour
     private void Awake()
     {
         InventoryPanel.ItemContainer.ContainerStateChangedEvent += CheckForValidCraftingSetup;
-
-        canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         //Deselect all recipes by default
         SelectRecipe(null, null);
 
@@ -59,18 +55,6 @@ public class CraftingPanel : MonoBehaviour
             GameObject craftingItemButton = Instantiate(prefabCraftingItemButton, craftingItemsContent);
             craftingItemButton.GetComponent<CraftingItemButton>().Setup(this, craftingRecipes[i]);
         }
-    }
-
-    public void Show()
-    {
-        canvasGroup.alpha = 1.0f;
-        showing = true;
-    }
-
-    public void Hide()
-    {
-        canvasGroup.alpha = 0.0f;
-        showing = false;
     }
 
     public void SelectRecipe(CraftingRecipe recipe, CraftingItemButton button)
@@ -192,7 +176,7 @@ public class CraftingPanel : MonoBehaviour
 
                 //Remove the recipe item from the stack in the target slot and update the slot UI to reflect changes
                 currentRecipeItemSlot.ItemStack.TryRemoveItemFromStack();
-                currentRecipeItemSlot.UpdateUI();
+                currentRecipeItemSlot.SlotUI.UpdateUI();
 
                 if (currentRecipeItemSlot.ItemStack.StackSize == 0)
                 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ItemManager : PersistentObject
+public class ItemManager : MonoBehaviour, IPersistentObject
 {
     public static ItemManager Instance;
 
@@ -35,7 +35,23 @@ public class ItemManager : PersistentObject
         SetupDictionaries();
     }
 
-    public override void OnSave(SaveData saveData)
+    private void Start()
+    {
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent           += OnSave;
+        slm.LoadObjectsSetupEvent      += OnLoadSetup;
+        slm.LoadObjectsConfigureEvent  += OnLoadConfigure;
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            -= OnSave;
+        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
+    }
+
+    public void OnSave(SaveData saveData)
     {
         Debug.Log("Saving custom inventory items");
 
@@ -55,7 +71,7 @@ public class ItemManager : PersistentObject
         }
     }
 
-    public override void OnLoadSetup(SaveData saveData)
+    public void OnLoadSetup(SaveData saveData)
     {
         Debug.Log("Loading custom inventory items");
 
@@ -71,7 +87,7 @@ public class ItemManager : PersistentObject
         }
     }
 
-    public override void OnLoadConfigure(SaveData saveData)
+    public void OnLoadConfigure(SaveData saveData)
     {
     }
 

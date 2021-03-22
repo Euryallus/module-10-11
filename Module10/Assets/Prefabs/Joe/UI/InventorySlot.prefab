@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 687906263147042522}
   - component: {fileID: 687906263147042517}
   - component: {fileID: 663844487752240407}
-  - component: {fileID: 7732154104530810068}
   - component: {fileID: 2310556327436598602}
+  - component: {fileID: 3765050980303820424}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -95,25 +95,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &7732154104530810068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687906263147042518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa724e6237d8cb40abafa2f50e439bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemImage: {fileID: 888827872766340625}
-  itemCountPanel: {fileID: 6774408764849720577}
-  itemCountText: {fileID: 4198149024815125026}
-  parentPanel: {fileID: 0}
-  maxItemCapacity: 0
-  clickToAddItems: 1
-  clickToRemoveItems: 1
 --- !u!114 &2310556327436598602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +139,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3765050980303820424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687906263147042518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529567ad3c936424588b8f99b2b048fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemImage: {fileID: 888827872766340625}
+  itemCountPanel: {fileID: 6774408764849720577}
+  itemCountText: {fileID: 4198149024815125026}
+  clickToAddItems: 1
+  clickToRemoveItems: 1
+  slot: {fileID: 0}
 --- !u!1 &3000521374188559174
 GameObject:
   m_ObjectHideFlags: 0

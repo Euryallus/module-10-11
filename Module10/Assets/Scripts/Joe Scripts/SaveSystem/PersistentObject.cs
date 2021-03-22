@@ -2,22 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PersistentObject : MonoBehaviour
+public interface IPersistentObject
 {
-    protected virtual void Start()
-    {
-        SaveLoadManager.Instance.SaveObjectsEvent           += OnSave;
-        SaveLoadManager.Instance.LoadObjectsSetupEvent      += OnLoadSetup;
-        SaveLoadManager.Instance.LoadObjectsConfigureEvent  += OnLoadConfigure;
-    }
-
-    protected virtual void OnDestroy()
-    {
-        SaveLoadManager.Instance.SaveObjectsEvent           -= OnSave;
-        SaveLoadManager.Instance.LoadObjectsSetupEvent      -= OnLoadSetup;
-        SaveLoadManager.Instance.LoadObjectsConfigureEvent  -= OnLoadConfigure;
-    }
-
     //OnLoadSetup is the first function called on this object when the game is loaded,
     //  it should be used for loading initial data that other objects depend on
     public abstract void OnLoadSetup(SaveData saveData);

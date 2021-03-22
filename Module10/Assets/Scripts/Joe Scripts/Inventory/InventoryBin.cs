@@ -9,18 +9,20 @@ public class InventoryBin : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        int handStackSize = itemContainer.HandSlot.ItemStack.StackSize;
+        HandSlotUI handSlotUI = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
+
+        int handStackSize = handSlotUI.Slot.ItemStack.StackSize;
 
         //If the hand stack contains any items, remove them all when this bin is clicked
         if (handStackSize > 0)
         {
             for (int i = 0; i < handStackSize; i++)
             {
-                itemContainer.HandSlot.ItemStack.TryRemoveItemFromStack();
+                handSlotUI.Slot.ItemStack.TryRemoveItemFromStack();
             }
 
             //Update hand slot UI to show the player they are no longer holding items
-            itemContainer.HandSlot.UpdateUI();
+            handSlotUI.UpdateUI();
         }
     }
 }

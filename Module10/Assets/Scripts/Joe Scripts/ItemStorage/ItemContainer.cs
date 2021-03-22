@@ -2,18 +2,44 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemContainer : PersistentObject
+public class ItemContainer : MonoBehaviour, IPersistentObject
 {
     public ItemInfoPopup ItemInfoPopup;
 
-    [SerializeField] private ContainerSlot[]    slots;                  //Main inventory grid
-    [SerializeField] private HandSlot           handSlot;               //Slot used to pick up and move items
+    [SerializeField] private string             itemContainerId;    //Unique id used when saving/loading the contents of this container
+    [SerializeField] private int                numberOfSlots;
+    [SerializeField] private ContainerSlot[]    slots;              //Main inventory grid
 
-    public ContainerSlot[]  Slots       { get { return slots; } }
-    public HandSlot         HandSlot    { get { return handSlot; } }
+    public ContainerSlot[]  Slots           { get { return slots; } }
 
     public event Action ContainerStateChangedEvent;     //Event that is invoked when the container state changes (i.e. items are added/removed/moved)
     private bool        containerStateChanged;          //Set to true each time an action occurs that changes the item container's state
+
+    private void Awake()
+    {
+        //Initialise empty container slots
+        slots = new ContainerSlot[numberOfSlots];
+        for (int i = 0; i < numberOfSlots; i++)
+        {
+            slots[i] = new ContainerSlot(0, this);
+        }
+    }
+
+    private void Start()
+    {
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            += OnSave;
+        slm.LoadObjectsSetupEvent       += OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            -= OnSave;
+        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
+    }
 
     private void Update()
     {
@@ -22,6 +48,56 @@ public class ItemContainer : PersistentObject
             //The container state was changed one or more times this frame
             ContainerStateChangedThisFrame();
             containerStateChanged = false;
+        }
+    }
+
+    public void OnSave(SaveData saveData)
+    {
+        Debug.Log("Saving item container data for " + itemContainerId);
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            //Save data for each container slot
+            saveData.AddData(itemContainerId + "_slotStackSize" + i, slots[i].ItemStack.StackSize);
+            saveData.AddData(itemContainerId + "_stackItemsId" + i, slots[i].ItemStack.StackItemsID);
+        }
+    }
+
+    public void OnLoadSetup(SaveData saveData)
+    {
+        //Loading for ItemContainer occurs in the OnLoadConfigure function since it
+        //  depends on data that is initialised by other objects in the OnLoadSetup function
+    }
+
+    public void OnLoadConfigure(SaveData saveData)
+    {
+        Debug.Log("Loading item container data for " + itemContainerId);
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            //Load data for each container slot - the stack size and item type
+            int stackSize = saveData.GetData<int>(itemContainerId + "_slotStackSize" + i);
+            string itemId = saveData.GetData<string>(itemContainerId + "_stackItemsId" + i);
+
+            //Add items based on the loaded values
+            for (int j = 0; j < stackSize; j++)
+            {
+                slots[i].ItemStack.AddItemToStack(itemId, false);
+            }
+
+            //If slots are linked to UI, update it for each one to reflect changes
+            if(slots[i].SlotUI != null)
+            {
+                slots[i].SlotUI.UpdateUI();
+            }
+        }
+    }
+
+    public void LinkSlotsToUI(List<ContainerSlotUI> slotUIList)
+    {
+        for (int i = 0; i < numberOfSlots; i++)
+        {
+            slotUIList[i].LinkToContainerSlot(slots[i]);
         }
     }
 
@@ -35,45 +111,6 @@ public class ItemContainer : PersistentObject
         ContainerStateChangedEvent?.Invoke();
     }
 
-    public override void OnSave(SaveData saveData)
-    {
-        Debug.Log("Saving item containerdata");
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            //Save data for each container slot
-            saveData.AddData("slotStackSize" + i, slots[i].ItemStack.StackSize);
-            saveData.AddData("stackItemsId" + i, slots[i].ItemStack.StackItemsID);
-        }
-    }
-
-    public override void OnLoadSetup(SaveData saveData)
-    {
-        //Loading for ItemContainer occurs in the OnLoadConfigure function since it
-        //  depends on data that is initialised by other objects in the OnLoadSetup function
-    }
-
-    public override void OnLoadConfigure(SaveData saveData)
-    {
-        Debug.Log("Loading inventory panel data");
-
-        for (int i = 0; i < slots.Length; i++)
-        {
-            //Load data for each container slot - the stack size and item type
-            int stackSize = saveData.GetData<int>("slotStackSize" + i);
-            string itemId = saveData.GetData<string>("stackItemsId" + i);
-
-            //Add items based on the loaded values
-            for (int j = 0; j < stackSize; j++)
-            {
-                slots[i].ItemStack.AddItemToStack(itemId, false);
-            }
-
-            //Update the UI for each slot to reflect changes
-            slots[i].UpdateUI();
-        }
-    }
-
     public void TryAddItemToContainer(Item item)
     {
         //Optional overload for when a bool out type is not needed
@@ -84,7 +121,7 @@ public class ItemContainer : PersistentObject
     {
         //Step 1 - loop through all slots to find valid ones
 
-        FindValidInventorySlots(item, out int firstEmptySlot, out int firstStackableSlot);
+        FindValidContainerSlots(item, out int firstEmptySlot, out int firstStackableSlot);
 
         //Step 2: If a slot was found, add the item to it in this priority: stackable slot > empty slot
 
@@ -113,13 +150,13 @@ public class ItemContainer : PersistentObject
             slots[chosenSlotIndex].ItemStack.AddItemToStack(item.Id);
 
             //Update slot UI to show new item
-            slots[chosenSlotIndex].UpdateUI();
+            slots[chosenSlotIndex].SlotUI.UpdateUI();
 
             itemAdded = true;
         }
     }
 
-    private void FindValidInventorySlots(Item item, out int firstEmptySlot, out int firstStackableSlot)
+    private void FindValidContainerSlots(Item item, out int firstEmptySlot, out int firstStackableSlot)
     {
         firstEmptySlot = -1;   //Keeps track of the index of the first empty slot that is found
         firstStackableSlot = -1;   //Keeps track of the index of the first slot where the item can stack that is found

@@ -1,22 +1,34 @@
 using UnityEngine;
 using TMPro;
 
-public class InventoryCustomisation : PersistentObject
+public class InventoryCustomisation : MonoBehaviour, IPersistentObject
 {
-    [SerializeField] private ContainerSlot   customiseSlot;             //Slot for the item that will be customised NOTE: SHOULD ONLY EVER ALLOW 1 ITEM
-    [SerializeField] private ContainerSlot   currencySlot;              //Slot for the item(s) used as currency when customising the item in the above slot
-    [SerializeField] private ContainerSlot   resultSlot;                //Slot for the resulting customised item
+    [SerializeField] private ItemContainer      inventoryItemContainer;
+    [SerializeField] private ContainerSlotUI    customiseSlotUI;             //Slot for the item that will be customised NOTE: SHOULD ONLY EVER ALLOW 1 ITEM
+    [SerializeField] private ContainerSlotUI    currencySlotUI;              //Slot for the item(s) used as currency when customising the item in the above slot
+    [SerializeField] private ContainerSlotUI    resultSlotUI;                //Slot for the resulting customised item
     
     [SerializeField] private GameObject      customisationOptionsPanel;
     [SerializeField] private TMP_InputField  customNameInput;
     
     [SerializeField] private TextMeshProUGUI warningText;
 
-    private ItemManager itemManager;
-    private string      customisedItemName;
+    private ItemManager     itemManager;
+    private string          customisedItemName;
+    private ContainerSlot   customiseSlot;
+    private ContainerSlot   currencySlot;
+    private ContainerSlot   resultSlot;
 
     private void Awake()
     {
+        customiseSlot   = new ContainerSlot(1, inventoryItemContainer);
+        currencySlot    = new ContainerSlot(0, inventoryItemContainer);
+        resultSlot      = new ContainerSlot(0, inventoryItemContainer);
+
+        customiseSlotUI .LinkToContainerSlot(customiseSlot);
+        currencySlotUI  .LinkToContainerSlot(currencySlot);
+        resultSlotUI    .LinkToContainerSlot(resultSlot);
+
         customiseSlot.ItemsMovedEvent   += OnCustomiseSlotItemsMoved;
         currencySlot .ItemsMovedEvent   += OnCurrencySlotItemsMoved;
         resultSlot   .ItemsMovedEvent   += OnResultSlotItemsMoved;
@@ -24,16 +36,19 @@ public class InventoryCustomisation : PersistentObject
         customisationOptionsPanel.SetActive(false);
     }
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        SaveLoadManager slm = SaveLoadManager.Instance;
+        slm.SaveObjectsEvent            += OnSave;
+        slm.LoadObjectsSetupEvent       += OnLoadSetup;
+        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
 
         itemManager = ItemManager.Instance;
 
         ShowDefaultWarningText();
     }
 
-    public override void OnSave(SaveData saveData)
+    public void OnSave(SaveData saveData)
     {
         saveData.AddData("customiseStackItemId", customiseSlot.ItemStack.StackSize > 0 ? customiseSlot.ItemStack.StackItemsID : "");
 
@@ -43,11 +58,11 @@ public class InventoryCustomisation : PersistentObject
         saveData.AddData("resultStackItemId", resultSlot.ItemStack.StackSize > 0 ? resultSlot.ItemStack.StackItemsID : "");
     }
 
-    public override void OnLoadSetup(SaveData saveData)
+    public void OnLoadSetup(SaveData saveData)
     {
     }
 
-    public override void OnLoadConfigure(SaveData saveData)
+    public void OnLoadConfigure(SaveData saveData)
     {
         //Load any item that was in the customise slot
         string customiseItemId = saveData.GetData<string>("customiseStackItemId");
@@ -72,8 +87,8 @@ public class InventoryCustomisation : PersistentObject
         }
 
         //Update all UI based on loaded values
-        customiseSlot.UpdateUI();
-        currencySlot.UpdateUI();
+        customiseSlotUI.UpdateUI();
+        currencySlotUI.UpdateUI();
         ItemInputChanged();
     }
 
@@ -104,8 +119,8 @@ public class InventoryCustomisation : PersistentObject
             currencySlot.ItemStack.TryRemoveItemFromStack();
         }
 
-        customiseSlot.UpdateUI();
-        currencySlot.UpdateUI();
+        customiseSlotUI.UpdateUI();
+        currencySlotUI.UpdateUI();
 
         ItemInputChanged();
     }
@@ -148,7 +163,7 @@ public class InventoryCustomisation : PersistentObject
         }
 
         //Update the result slot UI to reflect changes
-        resultSlot.UpdateUI();
+        resultSlotUI.UpdateUI();
     }
 
     private bool CheckForValidItemInputs()

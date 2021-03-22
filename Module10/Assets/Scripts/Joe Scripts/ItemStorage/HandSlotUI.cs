@@ -1,8 +1,12 @@
-using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HandSlot : ContainerSlot
+public class HandSlotUI : ContainerSlotUI
 {
+    private void Awake()
+    {
+        LinkToContainerSlot(new ContainerSlot(0, null));
+    }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CraftingBox : InteractableWithOutline
 {
+    [Header("Crafting Box Properties")]
     public InventoryPanel inventoryPanel;
 
     public override void Interact()

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class InteractableObject : MonoBehaviour
 {
+    [Header("Interactable Properties")]
     [Tooltip("How close the player needs to be to this object to interact with it")]
     [SerializeField] private float  interactionRange        = 5.0f;
     [SerializeField] private bool   pressEToInteract        = true;
