@@ -29,7 +29,10 @@ public class CraftingItemButton : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        parentPanel.InventoryPanel.ItemInfoPopup.ShowPopup(recipe.ResultItem.Item.Id);
+        if (parentPanel.Showing)
+        {
+            parentPanel.InventoryPanel.ItemInfoPopup.ShowPopup(recipe.ResultItem.Item.Id);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -1427,10 +1427,10 @@ RectTransform:
   m_Father: {fileID: 141160865}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 8, y: -25}
+  m_SizeDelta: {x: 224, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3761207718764152186
 CanvasRenderer:
@@ -2801,7 +2801,7 @@ MonoBehaviour:
   handSlot: {fileID: 4515532514891835014}
   customiseLayoutElement: {fileID: 538348363571761362}
   customiseCanvasGroup: {fileID: 1382413889506538577}
-  craftCanvasGroup: {fileID: 639656379970761105}
+  craftingPanel: {fileID: 6253872106192893639}
   weightText: {fileID: 2138324646}
   weightSlider: {fileID: 520954470}
   sliderFillImage: {fileID: 1970997109}
@@ -3886,10 +3886,10 @@ RectTransform:
   m_Father: {fileID: 141160865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 25}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 8, y: 0}
+  m_SizeDelta: {x: 224, y: 25}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7313079104699282895
 CanvasRenderer:

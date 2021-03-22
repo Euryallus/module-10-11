@@ -25,7 +25,7 @@ public class InventoryPanel : PersistentObject
 
     [SerializeField] private LayoutElement      customiseLayoutElement;
     [SerializeField] private CanvasGroup        customiseCanvasGroup;
-    [SerializeField] private CanvasGroup        craftCanvasGroup;
+    [SerializeField] private CraftingPanel      craftingPanel;
 
     [SerializeField] private TextMeshProUGUI    weightText;             //Text displaying how full the inventory is
     [SerializeField] private Slider             weightSlider;           //Slider that shows how close the inventory is to holding its max weight
@@ -146,17 +146,17 @@ public class InventoryPanel : PersistentObject
         if (showMode == InventoryShowMode.InventoryOnly)
         {
             customiseCanvasGroup.alpha = 0.0f;
-            craftCanvasGroup.alpha = 0.0f;
+            craftingPanel.Hide();
         }
         else if(showMode == InventoryShowMode.Craft)
         {
             customiseCanvasGroup.alpha = 0.0f;
-            craftCanvasGroup.alpha = 1.0f;
+            craftingPanel.Show();
         }
         else //Customise
         {
             customiseCanvasGroup.alpha = 1.0f;
-            craftCanvasGroup.alpha = 0.0f;
+            craftingPanel.Hide();
         }
 
         //Show inventory UI
