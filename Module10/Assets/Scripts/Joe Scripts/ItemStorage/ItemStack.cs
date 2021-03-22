@@ -80,7 +80,10 @@ public class ItemStack
 
                 m_stackItemsId = itemId;
 
-                slot.ParentContainer.ContainerStateChanged();
+                if(slot.ParentContainer != null)
+                {
+                    slot.ParentContainer.ContainerStateChanged();
+                }
 
                 return true;
             }
@@ -101,7 +104,10 @@ public class ItemStack
 
             m_stackWeight -= item.Weight;
 
-            slot.ParentContainer.ContainerStateChanged();
+            if (slot.ParentContainer != null)
+            {
+                slot.ParentContainer.ContainerStateChanged();
+            }
 
             return true;
         }

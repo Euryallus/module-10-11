@@ -7,10 +7,10 @@ public class ItemContainer : PersistentObject
     public ItemInfoPopup ItemInfoPopup;
 
     [SerializeField] private ContainerSlot[]    slots;                  //Main inventory grid
-    [SerializeField] private ContainerSlot      handSlot;               //Slot used to pick up and move items
+    [SerializeField] private HandSlot           handSlot;               //Slot used to pick up and move items
 
     public ContainerSlot[]  Slots       { get { return slots; } }
-    public ContainerSlot    HandSlot    { get { return handSlot; } }
+    public HandSlot         HandSlot    { get { return handSlot; } }
 
     public event Action ContainerStateChangedEvent;     //Event that is invoked when the container state changes (i.e. items are added/removed/moved)
     private bool        containerStateChanged;          //Set to true each time an action occurs that changes the item container's state

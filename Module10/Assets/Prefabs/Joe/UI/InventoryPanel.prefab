@@ -1352,10 +1352,10 @@ RectTransform:
   m_Father: {fileID: 141160865}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8, y: -25}
-  m_SizeDelta: {x: 224, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3761207718764152186
 CanvasRenderer:
@@ -3347,10 +3347,10 @@ RectTransform:
   m_Father: {fileID: 141160865}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8, y: 0}
-  m_SizeDelta: {x: 224, y: 25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 25}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7313079104699282895
 CanvasRenderer:
@@ -4074,6 +4074,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3083255714923588027}
     - target: {fileID: 7732154104530810068, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
+      propertyPath: ParentContainer
+      value: 
+      objectReference: {fileID: 2017352706499166436}
+    - target: {fileID: 7732154104530810068, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
       propertyPath: clickToAddItems
       value: 0
       objectReference: {fileID: 0}
@@ -4198,6 +4202,10 @@ PrefabInstance:
       propertyPath: parentPanel
       value: 
       objectReference: {fileID: 3083255714923588027}
+    - target: {fileID: 7732154104530810068, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
+      propertyPath: ParentContainer
+      value: 
+      objectReference: {fileID: 2017352706499166436}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
 --- !u!224 &3679069552625123048 stripped
@@ -4277,7 +4285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 397222242797805750, guid: 68bbeb500aa0413468eb1d0ff9a50d6f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 495
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 397222242797805750, guid: 68bbeb500aa0413468eb1d0ff9a50d6f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4313,7 +4321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 397222242797805750, guid: 68bbeb500aa0413468eb1d0ff9a50d6f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 252.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 397222242797805750, guid: 68bbeb500aa0413468eb1d0ff9a50d6f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5200,6 +5208,10 @@ PrefabInstance:
       propertyPath: parentPanel
       value: 
       objectReference: {fileID: 3083255714923588027}
+    - target: {fileID: 7732154104530810068, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
+      propertyPath: ParentContainer
+      value: 
+      objectReference: {fileID: 2017352706499166436}
     - target: {fileID: 7732154104530810068, guid: c02098545b15fef4fb5209bb4ce73b12, type: 3}
       propertyPath: maxItemCapacity
       value: 1

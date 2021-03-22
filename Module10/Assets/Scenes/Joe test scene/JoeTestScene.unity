@@ -4639,6 +4639,7 @@ GameObject:
   - component: {fileID: 1272615299}
   - component: {fileID: 1272615298}
   - component: {fileID: 1272615297}
+  - component: {fileID: 1272615300}
   m_Layer: 5
   m_Name: HandSlot
   m_TagString: Untagged
@@ -4706,6 +4707,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272615295}
   m_CullTransparentMesh: 1
+--- !u!114 &1272615300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272615295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc943ef0b7d2a544b96aa46c17e5472c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentContainer: {fileID: 0}
+  itemImage: {fileID: 1920907639}
+  itemCountPanel: {fileID: 887127352}
+  itemCountText: {fileID: 1837489476}
+  maxItemCapacity: 0
+  clickToAddItems: 0
+  clickToRemoveItems: 0
 --- !u!1 &1370307113
 GameObject:
   m_ObjectHideFlags: 0
@@ -5750,7 +5770,7 @@ PrefabInstance:
     - target: {fileID: 2017352706499166436, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
       propertyPath: handSlot
       value: 
-      objectReference: {fileID: 1272615298}
+      objectReference: {fileID: 1272615300}
     - target: {fileID: 2017352706499166436, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
       propertyPath: ItemInfoPopup
       value: 
@@ -6463,14 +6483,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4234199526464491715, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
-      propertyPath: ParentContainer
-      value: 
-      objectReference: {fileID: 1753892896}
-    - target: {fileID: 5893910541510548715, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
-      propertyPath: ParentContainer
-      value: 
-      objectReference: {fileID: 1753892896}
     - target: {fileID: 6096018845264925253, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6519,10 +6531,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8226879272963461788, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
-      propertyPath: ParentContainer
-      value: 
-      objectReference: {fileID: 1753892896}
     - target: {fileID: 8252580245972767030, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0

@@ -9,7 +9,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
     #region InspectorVariables
     //Variables in this region are set in the inspector
 
-    public ItemContainer     ParentContainer;
+    public ItemContainer                        ParentContainer;
 
     [SerializeField] private Image              itemImage;
     [SerializeField] private GameObject         itemCountPanel;
@@ -25,14 +25,14 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
     public event Action ItemsMovedEvent;
 
-    private ItemStack  itemStack;
+    private ItemStack itemStack;
 
     private void Awake()
     {
         ItemStack = new ItemStack(this, maxItemCapacity);
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         //Hide slot UI by default
         itemImage.gameObject    .SetActive(false);
@@ -62,7 +62,7 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         itemCountText.gameObject.SetActive(stackSize > 1);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         if(ItemStack.StackSize > 0)
         {
@@ -70,12 +70,12 @@ public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         ParentContainer.ItemInfoPopup.HidePopup();
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         //Snap the hand slot position to mouse position
         ParentContainer.HandSlot.transform.position = Input.mousePosition;
