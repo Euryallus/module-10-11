@@ -1405,6 +1405,7 @@ GameObject:
   - component: {fileID: 3761207718764152186}
   - component: {fileID: 150778707431385767}
   - component: {fileID: 2865896108606896644}
+  - component: {fileID: 8619746259576769454}
   m_Layer: 5
   m_Name: RenameInput
   m_TagString: Untagged
@@ -1580,6 +1581,18 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &8619746259576769454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793816942819697951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b259a90bbdfb445a218cfba148c9bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1905817848835086798
 GameObject:
   m_ObjectHideFlags: 0
@@ -2801,7 +2814,7 @@ MonoBehaviour:
   handSlot: {fileID: 4515532514891835014}
   customiseLayoutElement: {fileID: 538348363571761362}
   customiseCanvasGroup: {fileID: 1382413889506538577}
-  craftCanvasGroup: {fileID: 639656379970761105}
+  craftingPanel: {fileID: 6253872106192893639}
   weightText: {fileID: 2138324646}
   weightSlider: {fileID: 520954470}
   sliderFillImage: {fileID: 1970997109}
@@ -2881,8 +2894,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 252.5, y: 0}
-  m_SizeDelta: {x: 495, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4216848480526953134
 CanvasRenderer:
