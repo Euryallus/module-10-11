@@ -7,11 +7,11 @@ public class ItemManager : PersistentObject
 {
     public static ItemManager Instance;
 
-    [SerializeField] private InventoryItem[]    items;
+    [SerializeField] private Item[]    items;
     public CraftingRecipe[]                     CraftingRecipes;
 
-    private Dictionary<string, InventoryItem>   itemsDict           = new Dictionary<string, InventoryItem>();
-    private Dictionary<string, InventoryItem>   customItemsDict     = new Dictionary<string, InventoryItem>();
+    private Dictionary<string, Item>   itemsDict           = new Dictionary<string, Item>();
+    private Dictionary<string, Item>   customItemsDict     = new Dictionary<string, Item>();
     private Dictionary<string, CraftingRecipe>  craftingRecipesDict = new Dictionary<string, CraftingRecipe>();
 
     private int customItemUniqueId;
@@ -45,7 +45,7 @@ public class ItemManager : PersistentObject
 
         for (int i = 0; i < customItemsDict.Count; i++)
         {
-            InventoryItem itemToSave = customItemsDict.ElementAt(i).Value;
+            Item itemToSave = customItemsDict.ElementAt(i).Value;
             saveData.AddData("customItem" + i, new CustomItemSaveData()
             {
                 id            = itemToSave.Id,
@@ -90,7 +90,7 @@ public class ItemManager : PersistentObject
         }
     }
 
-    public InventoryItem GetItemWithID(string id)
+    public Item GetItemWithID(string id)
     {
         if (itemsDict.ContainsKey(id))
         {
@@ -111,11 +111,11 @@ public class ItemManager : PersistentObject
     {
         //Create a duplicate of the base item before editing certain values
 
-        InventoryItem baseItem = GetItemWithID(baseItemId);
+        Item baseItem = GetItemWithID(baseItemId);
 
         if(baseItem!= null)
         {
-            InventoryItem customItem = Instantiate(GetItemWithID(baseItemId));
+            Item customItem = Instantiate(GetItemWithID(baseItemId));
 
             customItem.Id = id;
 

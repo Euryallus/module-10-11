@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItemStack
+public class ItemStack
 {
     public string   StackItemsID    { get { return m_stackItemsId; } }
     public int      StackSize       { get { return m_stackSize; } }
@@ -13,9 +13,9 @@ public class InventoryItemStack
     private int     m_maxStackSize;
     private float   m_stackWeight;
 
-    private InventorySlot slot;
+    private ContainerSlot slot;
 
-    public InventoryItemStack(InventorySlot slot, int maxStackSize)
+    public ItemStack(ContainerSlot slot, int maxStackSize)
     {
         this.slot = slot;
 
@@ -33,7 +33,7 @@ public class InventoryItemStack
                 //Stack is not empty
                 if (m_stackItemsId == itemId)
                 {
-                    InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+                    Item item = ItemManager.Instance.GetItemWithID(itemId);
 
                     //This stack already contains some of item being added - check the max stack size is not already reached
                     if (m_stackSize < item.StackSize)
@@ -70,7 +70,7 @@ public class InventoryItemStack
     {
         if ( !checkIfValid || (checkIfValid && CanAddItemToStack(itemId)) )
         {
-            InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+            Item item = ItemManager.Instance.GetItemWithID(itemId);
 
             if(item != null)
             {
@@ -95,7 +95,7 @@ public class InventoryItemStack
     {
         if(m_stackSize > 0)
         {
-            InventoryItem item = ItemManager.Instance.GetItemWithID(m_stackItemsId);
+            Item item = ItemManager.Instance.GetItemWithID(m_stackItemsId);
 
             m_stackSize--;
 

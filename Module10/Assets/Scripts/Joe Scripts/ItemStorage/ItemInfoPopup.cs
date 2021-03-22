@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class InventoryItemPopup : MonoBehaviour
+public class ItemInfoPopup : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemCustomisedText;
@@ -42,7 +42,7 @@ public class InventoryItemPopup : MonoBehaviour
 
     public void ShowPopup(string itemId)
     {
-        InventoryItem item = ItemManager.Instance.GetItemWithID(itemId);
+        Item item = ItemManager.Instance.GetItemWithID(itemId);
 
         if (canShow)
         {

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ItemContainer : PersistentObject
 {
-    public InventoryItemPopup ItemInfoPopup;
+    public ItemInfoPopup ItemInfoPopup;
 
-    [SerializeField] private InventorySlot[]    slots;                  //Main inventory grid
-    [SerializeField] private InventorySlot      handSlot;               //Slot used to pick up and move items
+    [SerializeField] private ContainerSlot[]    slots;                  //Main inventory grid
+    [SerializeField] private ContainerSlot      handSlot;               //Slot used to pick up and move items
 
-    public InventorySlot[]  Slots       { get { return slots; } }
-    public InventorySlot    HandSlot    { get { return handSlot; } }
+    public ContainerSlot[]  Slots       { get { return slots; } }
+    public ContainerSlot    HandSlot    { get { return handSlot; } }
 
     public event Action ContainerStateChangedEvent;     //Event that is invoked when the container state changes (i.e. items are added/removed/moved)
     private bool        containerStateChanged;          //Set to true each time an action occurs that changes the item container's state
@@ -19,7 +19,7 @@ public class ItemContainer : PersistentObject
     {
         if (containerStateChanged)
         {
-            //The inventory state was changed one or more times this frame
+            //The container state was changed one or more times this frame
             ContainerStateChangedThisFrame();
             containerStateChanged = false;
         }
@@ -41,7 +41,7 @@ public class ItemContainer : PersistentObject
 
         for (int i = 0; i < slots.Length; i++)
         {
-            //Save data for each inventory slot
+            //Save data for each container slot
             saveData.AddData("slotStackSize" + i, slots[i].ItemStack.StackSize);
             saveData.AddData("stackItemsId" + i, slots[i].ItemStack.StackItemsID);
         }
@@ -59,7 +59,7 @@ public class ItemContainer : PersistentObject
 
         for (int i = 0; i < slots.Length; i++)
         {
-            //Load data for each inventory slot - the stack size and item type
+            //Load data for each container slot - the stack size and item type
             int stackSize = saveData.GetData<int>("slotStackSize" + i);
             string itemId = saveData.GetData<string>("stackItemsId" + i);
 
@@ -74,13 +74,13 @@ public class ItemContainer : PersistentObject
         }
     }
 
-    public void TryAddItemToContainer(InventoryItem item)
+    public void TryAddItemToContainer(Item item)
     {
         //Optional overload for when a bool out type is not needed
         TryAddItemToContainer(item, out bool unused);
     }
 
-    public void TryAddItemToContainer(InventoryItem item, out bool itemAdded)
+    public void TryAddItemToContainer(Item item, out bool itemAdded)
     {
         //Step 1 - loop through all slots to find valid ones
 
@@ -119,7 +119,7 @@ public class ItemContainer : PersistentObject
         }
     }
 
-    private void FindValidInventorySlots(InventoryItem item, out int firstEmptySlot, out int firstStackableSlot)
+    private void FindValidInventorySlots(Item item, out int firstEmptySlot, out int firstStackableSlot)
     {
         firstEmptySlot = -1;   //Keeps track of the index of the first empty slot that is found
         firstStackableSlot = -1;   //Keeps track of the index of the first slot where the item can stack that is found
@@ -144,10 +144,10 @@ public class ItemContainer : PersistentObject
         }
     }
 
-    public bool ContainsQuantityOfItem(InventoryItemGroup itemGroup, out List<InventorySlot> containingSlots)
+    public bool ContainsQuantityOfItem(InventoryItemGroup itemGroup, out List<ContainerSlot> containingSlots)
     {
         int numberOfItemType = 0;
-        containingSlots = new List<InventorySlot>();
+        containingSlots = new List<ContainerSlot>();
 
         for (int i = 0; i < slots.Length; i++)
         {

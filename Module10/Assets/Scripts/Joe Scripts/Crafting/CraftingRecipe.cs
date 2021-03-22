@@ -21,6 +21,6 @@ public class CraftingRecipe : ScriptableObject
 [System.Serializable]
 public class InventoryItemGroup
 {
-    public InventoryItem    Item;
+    public Item    Item;
     public int              Quantity;
 }

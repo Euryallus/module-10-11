@@ -35,7 +35,7 @@ public class CraftingPanel : MonoBehaviour
     private bool                        showing;
     private CraftingRecipe              selectedRecipe;             //The currently selected crafting recipe
     private CraftingItemButton          selectedButton;             //The button corresponding to the selected recipe
-    private List<InventorySlot>[]       slotsContainingRecipeItems; //An array containing lists on inventory slots, the array index corresponds to the index of
+    private List<ContainerSlot>[]       slotsContainingRecipeItems; //An array containing lists on inventory slots, the array index corresponds to the index of
                                                                     //  the recipe item that requires items from the slot(s) that are in the list to be crafted
 
 
@@ -130,14 +130,14 @@ public class CraftingPanel : MonoBehaviour
 
             bool requiredItemsAreInInventory = true;    //Keeps track of whether the player has all required items in their inventory
 
-            slotsContainingRecipeItems = new List<InventorySlot>[requiredItems.Count];  //Keeps track of the slots that contain the required items
+            slotsContainingRecipeItems = new List<ContainerSlot>[requiredItems.Count];  //Keeps track of the slots that contain the required items
 
             for (int i = 0; i < requiredItems.Count; i++)
             {
                 //Create a new item preview for each of the required items
                 GameObject itemPreviewGameObject = Instantiate(prefabRequiredItemPreview, requiredItemsContent);
 
-                if (InventoryPanel.ItemContainer.ContainsQuantityOfItem(requiredItems[i], out List<InventorySlot> containingSlots))
+                if (InventoryPanel.ItemContainer.ContainsQuantityOfItem(requiredItems[i], out List<ContainerSlot> containingSlots))
                 {
                     //The player has the necessary amount of the current item in their inventory, show that on the preview
                     itemPreviewGameObject.GetComponent<CraftingItemPreview>().Setup(true, requiredItems[i]);
@@ -188,7 +188,7 @@ public class CraftingPanel : MonoBehaviour
 
             for (int j = 0; j < selectedRecipe.RecipeItems[i].Quantity; j++)
             {
-                InventorySlot currentRecipeItemSlot = slotsContainingRecipeItems[i][removeSlotIndex];
+                ContainerSlot currentRecipeItemSlot = slotsContainingRecipeItems[i][removeSlotIndex];
 
                 //Remove the recipe item from the stack in the target slot and update the slot UI to reflect changes
                 currentRecipeItemSlot.ItemStack.TryRemoveItemFromStack();

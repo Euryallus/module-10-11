@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
 
-public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class ContainerSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     #region InspectorVariables
     //Variables in this region are set in the inspector
@@ -23,15 +21,15 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
     #endregion
 
-    public InventoryItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
+    public ItemStack ItemStack { get { return itemStack; } private set { itemStack = value; } }
 
     public event Action ItemsMovedEvent;
 
-    private InventoryItemStack  itemStack;
+    private ItemStack  itemStack;
 
     private void Awake()
     {
-        ItemStack = new InventoryItemStack(this, maxItemCapacity);
+        ItemStack = new ItemStack(this, maxItemCapacity);
     }
 
     private void Start()
@@ -49,7 +47,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
         if (stackSize > 0 && !string.IsNullOrEmpty(itemStack.StackItemsID))
         {
-            InventoryItem item = ItemManager.Instance.GetItemWithID(itemStack.StackItemsID);
+            Item item = ItemManager.Instance.GetItemWithID(itemStack.StackItemsID);
 
             if(item != null)
             {
@@ -94,7 +92,7 @@ public class InventorySlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         }
     }
 
-    public void MoveItemsToOtherSlot(InventorySlot otherSlot, bool moveHalf = false)
+    public void MoveItemsToOtherSlot(ContainerSlot otherSlot, bool moveHalf = false)
     {
         int currentStackSize = (moveHalf ? itemStack.StackSize / 2 : itemStack.StackSize);
 

@@ -3,9 +3,9 @@ using TMPro;
 
 public class InventoryCustomisation : PersistentObject
 {
-    [SerializeField] private InventorySlot   customiseSlot;             //Slot for the item that will be customised NOTE: SHOULD ONLY EVER ALLOW 1 ITEM
-    [SerializeField] private InventorySlot   currencySlot;              //Slot for the item(s) used as currency when customising the item in the above slot
-    [SerializeField] private InventorySlot   resultSlot;                //Slot for the resulting customised item
+    [SerializeField] private ContainerSlot   customiseSlot;             //Slot for the item that will be customised NOTE: SHOULD ONLY EVER ALLOW 1 ITEM
+    [SerializeField] private ContainerSlot   currencySlot;              //Slot for the item(s) used as currency when customising the item in the above slot
+    [SerializeField] private ContainerSlot   resultSlot;                //Slot for the resulting customised item
     
     [SerializeField] private GameObject      customisationOptionsPanel;
     [SerializeField] private TMP_InputField  customNameInput;
@@ -97,7 +97,7 @@ public class InventoryCustomisation : PersistentObject
 
         customiseSlot.ItemStack.TryRemoveItemFromStack();
 
-        InventoryItem customiseSlotItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+        Item customiseSlotItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
         for (int i = 0; i < customiseSlotItem.CurrencyItemQuantity; i++)
         {
@@ -123,7 +123,7 @@ public class InventoryCustomisation : PersistentObject
         {
             customisationOptionsPanel.SetActive(true);
 
-            InventoryItem baseItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+            Item baseItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
             //By default, the new 'result' item will be based on the item in the customise slot. However, if the item in the customise slot is already
             //  a custom item, the resulting item should be based on the original base item (i.e. the non-custom item at the top of the heirarchy)
@@ -155,11 +155,11 @@ public class InventoryCustomisation : PersistentObject
     {
         if (customiseSlot.ItemStack.StackSize > 0)
         {
-            InventoryItem itemToCustomise = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+            Item itemToCustomise = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
             if (itemToCustomise.Customisable)
             {
-                InventoryItem currencyItem = null;
+                Item currencyItem = null;
                 int requiredCurrencyQuantity = 0;
 
                 if(itemToCustomise.CurrencyItemQuantity > 0)
