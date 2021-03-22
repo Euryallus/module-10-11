@@ -6,7 +6,7 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 {
     public ItemInfoPopup ItemInfoPopup;
 
-    [SerializeField] private string             itemContainerId;    //Unique id used when saving/loading the contents of this container
+    public string                               ContainerId;        //Unique id used when saving/loading the contents of this container
     [SerializeField] private int                numberOfSlots;
     [SerializeField] private ContainerSlot[]    slots;              //Main inventory grid
 
@@ -53,13 +53,13 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 
     public void OnSave(SaveData saveData)
     {
-        Debug.Log("Saving item container data for " + itemContainerId);
+        Debug.Log("Saving item container data for " + ContainerId);
 
         for (int i = 0; i < slots.Length; i++)
         {
             //Save data for each container slot
-            saveData.AddData(itemContainerId + "_slotStackSize" + i, slots[i].ItemStack.StackSize);
-            saveData.AddData(itemContainerId + "_stackItemsId" + i, slots[i].ItemStack.StackItemsID);
+            saveData.AddData(ContainerId + "_slotStackSize" + i, slots[i].ItemStack.StackSize);
+            saveData.AddData(ContainerId + "_stackItemsId" + i, slots[i].ItemStack.StackItemsID);
         }
     }
 
@@ -71,13 +71,13 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 
     public void OnLoadConfigure(SaveData saveData)
     {
-        Debug.Log("Loading item container data for " + itemContainerId);
+        Debug.Log("Loading item container data for " + ContainerId);
 
         for (int i = 0; i < slots.Length; i++)
         {
             //Load data for each container slot - the stack size and item type
-            int stackSize = saveData.GetData<int>(itemContainerId + "_slotStackSize" + i);
-            string itemId = saveData.GetData<string>(itemContainerId + "_stackItemsId" + i);
+            int stackSize = saveData.GetData<int>(ContainerId + "_slotStackSize" + i);
+            string itemId = saveData.GetData<string>(ContainerId + "_stackItemsId" + i);
 
             //Add items based on the loaded values
             for (int j = 0; j < stackSize; j++)

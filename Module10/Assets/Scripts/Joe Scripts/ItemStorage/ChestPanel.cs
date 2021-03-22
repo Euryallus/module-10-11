@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ChestPanel : UIPanel
 {
-    public List<ContainerSlotUI> slotsUI;
+    public TextMeshProUGUI          chestNameText;
+    public List<ContainerSlotUI>    slotsUI;
 
     protected override void Start()
     {
@@ -11,6 +13,25 @@ public class ChestPanel : UIPanel
 
         //Hide the UI panel by default
         Hide();
+    }
+
+    public void Show(bool linkedChest)
+    {
+        if (linkedChest)
+        {
+            chestNameText.text = "Linked Chest";
+        }
+        else
+        {
+            chestNameText.text = "Chest";
+        }
+
+        base.Show();
+    }
+
+    public override void Show()
+    {
+        Debug.LogError("Should not use default Show function for ChestPanel - use overload that takes a linkedChest bool instead");
     }
 
     private void Update()

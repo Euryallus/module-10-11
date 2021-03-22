@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Chest : InteractableWithOutline
@@ -19,7 +17,7 @@ public class Chest : InteractableWithOutline
             chestPanel.slotsUI[i].UpdateUI();
         }
 
-        chestPanel.Show();
+        chestPanel.Show(itemContainer.ContainerId == "linkedChest");
 
         playerInventoryPanel.Show(InventoryShowMode.InventoryOnly, 150.0f);
     }
