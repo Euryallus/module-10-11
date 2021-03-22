@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerInteractions : MonoBehaviour
 {
-
     RaycastHit raycastHit;
 
     [SerializeField]
     private Camera playerCamera;
 
     [SerializeField]
-    private QuestManager qmanager;
+    private NPCManager npcManager;
 
     // Update is called once per frame
     void Update()
@@ -20,15 +19,13 @@ public class PlayerInteractions : MonoBehaviour
         {
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out raycastHit, 4.0f))
             {
-                if(raycastHit.transform.gameObject.GetComponent<QuestGiver>())
+                if(raycastHit.transform.gameObject.GetComponent<NPC>())
                 {
-                    Debug.Log(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
-
-                    if (qmanager != null)
+                    if (npcManager != null)
                     {
-                        qmanager.InteractWith(raycastHit.transform.gameObject.GetComponent<QuestGiver>().npcName);
+                        NPC hitNPC = raycastHit.transform.gameObject.GetComponent<NPC>();
+                        npcManager.InteractWithNPC(hitNPC);
                     }
-                    //raycastHit.transform.gameObject.GetComponent<QuestGiver>().Interact();
                 }
             }
         }

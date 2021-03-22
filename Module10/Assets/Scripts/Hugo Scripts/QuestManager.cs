@@ -29,33 +29,6 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public bool TalkToQuestGiver(QuestGiver giver)
-    {
-        for(int i = 0; i < playerQuestData.questBacklog.Count; i++)
-        {
-            QuestData quest = playerQuestData.questBacklog[i];
-            if (quest.questCompleted && !quest.questHandedIn && quest.handInToGiver)
-            {
-                //if(giver.checkQuestToHandIn(quest.handInNPCName))
-                //{
-                //    CompleteQuest(quest);
-                //
-                //    if(quest.nextQuests.Count != 0)
-                //    {
-                //        foreach(QuestData nextQuest in quest.nextQuests)
-                //        {
-                //            giver.AddQuest(nextQuest);
-                //        }
-                //    }
-
-                    //return true;
-                //}
-            }
-        }
-
-        return false;
-    }
-
     public void OfferQuest(QuestData questToOffer, QuestGiverData offerer)
     {
         playerMove.StopMoving();
