@@ -41,7 +41,7 @@ public class CraftingPanel : MonoBehaviour
 
     private void Awake()
     {
-        InventoryPanel.InventoryStateChangedEvent += CheckForValidCraftingSetup;
+        InventoryPanel.ItemContainer.ContainerStateChangedEvent += CheckForValidCraftingSetup;
 
         canvasGroup = GetComponent<CanvasGroup>();
     }
@@ -137,7 +137,7 @@ public class CraftingPanel : MonoBehaviour
                 //Create a new item preview for each of the required items
                 GameObject itemPreviewGameObject = Instantiate(prefabRequiredItemPreview, requiredItemsContent);
 
-                if (InventoryPanel.ContainsQuantityOfItem(requiredItems[i], out List<InventorySlot> containingSlots))
+                if (InventoryPanel.ItemContainer.ContainsQuantityOfItem(requiredItems[i], out List<InventorySlot> containingSlots))
                 {
                     //The player has the necessary amount of the current item in their inventory, show that on the preview
                     itemPreviewGameObject.GetComponent<CraftingItemPreview>().Setup(true, requiredItems[i]);
@@ -205,7 +205,7 @@ public class CraftingPanel : MonoBehaviour
         for (int i = 0; i < SelectedRecipe.ResultItem.Quantity; i++)
         {
             //Attempt to add the crafted item to the player's inventory
-            InventoryPanel.TryAddItemToInventory(SelectedRecipe.ResultItem.Item, out bool itemAdded);
+            InventoryPanel.ItemContainer.TryAddItemToContainer(SelectedRecipe.ResultItem.Item, out bool itemAdded);
 
             if (itemAdded)
             {

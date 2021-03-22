@@ -80,7 +80,7 @@ public class InventoryItemStack
 
                 m_stackItemsId = itemId;
 
-                slot.ParentPanel.InventoryStateChanged();
+                slot.ParentContainer.ContainerStateChanged();
 
                 return true;
             }
@@ -101,7 +101,7 @@ public class InventoryItemStack
 
             m_stackWeight -= item.Weight;
 
-            slot.ParentPanel.InventoryStateChanged();
+            slot.ParentContainer.ContainerStateChanged();
 
             return true;
         }

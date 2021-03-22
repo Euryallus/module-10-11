@@ -31,13 +31,13 @@ public class CraftingItemButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if (parentPanel.Showing)
         {
-            parentPanel.InventoryPanel.ItemInfoPopup.ShowPopup(recipe.ResultItem.Item.Id);
+            parentPanel.InventoryPanel.ItemContainer.ItemInfoPopup.ShowPopup(recipe.ResultItem.Item.Id);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        parentPanel.InventoryPanel.ItemInfoPopup.HidePopup();
+        parentPanel.InventoryPanel.ItemContainer.ItemInfoPopup.HidePopup();
     }
 
     public void OnClick()
