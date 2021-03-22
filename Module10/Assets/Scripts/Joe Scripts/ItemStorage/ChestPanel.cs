@@ -23,7 +23,7 @@ public class ChestPanel : UIPanel
         //Block keyboard input if an input field is selected
         if (!CustomInputField.AnyFieldSelected)
         {
-            if (showing && Input.GetKeyDown(KeyCode.Escape))
+            if (showing && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.I)))
             {
                 Hide();
             }

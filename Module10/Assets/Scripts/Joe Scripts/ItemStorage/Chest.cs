@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : InteractableWithOutline, IPersistentObject
+public class Chest : InteractableWithOutline
 {
     [Header("Chest Properties")]
-    [SerializeField] private bool           linkedChest;
     [SerializeField] private ChestPanel     chestPanel;
     [SerializeField] private ItemContainer  itemContainer;
     [SerializeField] private InventoryPanel playerInventoryPanel;
@@ -23,21 +22,6 @@ public class Chest : InteractableWithOutline, IPersistentObject
         chestPanel.Show();
 
         playerInventoryPanel.Show(InventoryShowMode.InventoryOnly, 150.0f);
-    }
-
-    public void OnSave(SaveData saveData)
-    {
-        
-    }
-
-    public void OnLoadSetup(SaveData saveData)
-    {
-
-    }
-
-    public void OnLoadConfigure(SaveData saveData)
-    {
-
     }
 
 }

@@ -84,7 +84,7 @@ public class ContainerSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        if (slot != null && parentPanel.Showing)
+        if (slot != null)
         {
             slot.ParentContainer.ItemInfoPopup.HidePopup();
         }
