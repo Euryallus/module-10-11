@@ -29,7 +29,7 @@ public abstract class InteractableObject : MonoBehaviour
                 StartHover();
             }
 
-            if (pressEToInteract && mouseOver && Input.GetKeyDown(KeyCode.E))
+            if (pressEToInteract && mouseOver && Input.GetKeyDown(KeyCode.E) && !CustomInputField.AnyFieldSelected)
             {
                 Interact();
             }

@@ -126,14 +126,17 @@ public class InventoryPanel : PersistentObject
 
     private void CheckForShowHideInput()
     {
-        //Show/hide input
-        if (!showing && Input.GetKeyDown(KeyCode.I))
+        //Block keyboard input if an input field is selected
+        if (!CustomInputField.AnyFieldSelected)
         {
-            Show(InventoryShowMode.InventoryOnly);
-        }
-        else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
-        {
-            Hide();
+            if (!showing && Input.GetKeyDown(KeyCode.I))
+            {
+                Show(InventoryShowMode.InventoryOnly);
+            }
+            else if (showing && Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                Hide();
+            }
         }
     }
 
