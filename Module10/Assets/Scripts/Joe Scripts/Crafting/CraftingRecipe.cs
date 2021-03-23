@@ -1,26 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Crafting Recipe", menuName = "Crafting/Crafting Recipe")]
+[CreateAssetMenu(fileName = "Crafting Recipe", menuName = "Crafting Recipe")]
 public class CraftingRecipe : ScriptableObject
 {
-    public List<InventoryItemGroup> RecipeItems { get { return m_recipeItems; } }
-    public InventoryItemGroup       ResultItem  { get { return m_resultItem; } }
+    public List<ItemGroup> RecipeItems { get { return m_recipeItems; } }
+    public ItemGroup       ResultItem  { get { return m_resultItem; } }
 
+    [Space]
     [Header("Recipe Setup")]
     [Space]
     [Header("Hover over variable names for tooltips with more info.")]
 
     [SerializeField] [Tooltip("Items required to craft the result item")]
-    private List<InventoryItemGroup> m_recipeItems;
+    private List<ItemGroup> m_recipeItems;
 
     [SerializeField] [Tooltip("Items required to craft the result item")]
-    private InventoryItemGroup m_resultItem;
+    private ItemGroup m_resultItem;
 }
 
 [System.Serializable]
-public class InventoryItemGroup
+public class ItemGroup
 {
-    public Item    Item;
-    public int              Quantity;
+    public Item Item;
+    public int  Quantity;
 }

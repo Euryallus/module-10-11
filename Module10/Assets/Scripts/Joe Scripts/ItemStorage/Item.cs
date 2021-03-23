@@ -12,8 +12,9 @@ public class Item : ScriptableObject
     public string   CurrencyItemId          { get { return m_currencyItemId; } }
     public int      CurrencyItemQuantity    { get { return m_currencyItemQuantity; } }  
     public bool     CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
-    public string   BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }         
+    public string   BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }
 
+    [Space]
     [Header("Info")]
     [Space]
     [Header("Hover over variable names for tooltips with more info.")]
@@ -33,6 +34,7 @@ public class Item : ScriptableObject
     [SerializeField] [Tooltip("Sprite to be displayed in the UI for this item")]
     private Sprite m_sprite;
 
+    [Space]
     [Header("Player Customisation")]
 
     [SerializeField] [Tooltip("Whether or not the player can rename this item type")]

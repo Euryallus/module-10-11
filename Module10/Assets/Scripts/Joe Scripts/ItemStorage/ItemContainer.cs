@@ -181,7 +181,7 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
         }
     }
 
-    public bool ContainsQuantityOfItem(InventoryItemGroup itemGroup, out List<ContainerSlot> containingSlots)
+    public bool ContainsQuantityOfItem(ItemGroup itemGroup, out List<ContainerSlot> containingSlots)
     {
         int numberOfItemType = 0;
         containingSlots = new List<ContainerSlot>();

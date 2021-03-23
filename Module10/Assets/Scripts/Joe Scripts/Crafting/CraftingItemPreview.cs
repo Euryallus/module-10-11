@@ -13,7 +13,7 @@ public class CraftingItemPreview : MonoBehaviour
     [SerializeField] private Color validColour;
     [SerializeField] private Color invalidColour;
 
-    public void Setup(bool valid, InventoryItemGroup itemGroup)
+    public void Setup(bool valid, ItemGroup itemGroup)
     {
         if (valid)
         {

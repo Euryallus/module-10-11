@@ -77,7 +77,7 @@ public class CraftingPanel : UIPanel
             //Recipe is not null, i.e. a recipe was selected
             selectedRecipe = recipe;
 
-            InventoryItemGroup resultItem = recipe.ResultItem;
+            ItemGroup resultItem = recipe.ResultItem;
 
             //Update craft button text based on the result item and quantity that will be crafted
             craftButtonText.text = "Craft " + (resultItem.Quantity > 1 ? (resultItem.Quantity + "x ") : "") + resultItem.Item.UIName;
@@ -104,7 +104,7 @@ public class CraftingPanel : UIPanel
     {
         if(selectedRecipe != null)
         {
-            List<InventoryItemGroup> requiredItems = selectedRecipe.RecipeItems;
+            List<ItemGroup> requiredItems = selectedRecipe.RecipeItems;
 
             //Destroy any existing item previews to make way for the updated ones
             foreach (Transform requiredItemTransform in requiredItemsContent.transform)
