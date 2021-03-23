@@ -13,6 +13,8 @@ public class NPC : MonoBehaviour
     [HideInInspector]
     public bool haveTalkedToBefore = false;
 
+    public Transform cameraFocusPoint;
+
     public string ReturnDialoguePoint()
     {
         if(dialogueProgression < dialogueLines.Length)

@@ -11,14 +11,17 @@ public class QuestManager : MonoBehaviour
     private QuestUI UI;
 
     private PlayerMovement playerMove;
+    private NPCManager npcManager;
+
+    private bool runupdate = true;
 
     private void Start()
     {
         UI = gameObject.GetComponent<QuestUI>();
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        npcManager = gameObject.GetComponent<NPCManager>();
 
-
-        foreach(QuestData quest in playerQuestData.questBacklog)
+        foreach (QuestData quest in playerQuestData.questBacklog)
         {
             UI.AddHUDQuestName(quest.questName);
 
@@ -50,6 +53,7 @@ public class QuestManager : MonoBehaviour
         playerQuestData.offer = null;
         playerQuestData.pendingQuest = null;
 
+        npcManager.StopFocusCamera();
     }
 
     public void DeclineQuest()
@@ -58,11 +62,13 @@ public class QuestManager : MonoBehaviour
         UI.HideQuestAccept();
         playerQuestData.pendingQuest = null;
         playerQuestData.offer = null;
+
+        npcManager.StopFocusCamera();
     }
 
     private void Update()
     {
-        if(playerQuestData.questBacklog.Count > 0)
+        if(playerQuestData.questBacklog.Count > 0 && runupdate)
         {
             for(int i = 0; i < playerQuestData.questBacklog.Count; i++)
             {
@@ -76,10 +82,10 @@ public class QuestManager : MonoBehaviour
                         
                         UI.SetHUDQuestNameCompleted(quest.questName);
 
-                        if (!quest.handInToGiver)
-                        {
-                            CompleteQuest(quest);
-                        }
+                        //if (!quest.handInToGiver)
+                        //{
+                        //    CompleteQuest(quest);
+                        //}
                     }
                 }
             }
@@ -89,16 +95,21 @@ public class QuestManager : MonoBehaviour
     public void CompleteQuest(QuestData quest)
     {
         UI.RemoveHUDQuestName(quest.questName);
+
         Debug.Log("REMOVED " + quest.questName);
+
         quest.questHandedIn = true;
+
         playerQuestData.questBacklog.Remove(quest);
         playerQuestData.completedQuests.Add(quest);
 
-        UI.DisplayQuestComplete(quest);
         playerMove.StopMoving();
+        runupdate = false;
+
+        UI.DisplayQuestComplete(quest);
     }
 
-    public void InteractWith(string questGiverName)
+    public bool InteractWith(string questGiverName)
     {
         foreach(QuestGiverData giver in playerQuestData.questGivers)
         {
@@ -128,7 +139,7 @@ public class QuestManager : MonoBehaviour
                                 }
                             }
 
-                            return;
+                            return true;
 
                         }
                     }
@@ -137,10 +148,26 @@ public class QuestManager : MonoBehaviour
                 if(giver.questsToGive.Count != 0)
                 {
                     OfferQuest(giver.questsToGive[0], giver);
+                    return true;
                 }
 
             }
         }
+
+        return false;
+    }
+
+    public void CloseQuestHandIn()
+    {
+        Debug.Log("Closed");
+        UI.HideQuestComplete();
+
+        runupdate = true;
+
+
+        npcManager.StopFocusCamera();
+
+        playerMove.StartMoving();
     }
 
 }

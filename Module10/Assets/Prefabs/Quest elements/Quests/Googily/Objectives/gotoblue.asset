@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93999bd2b8d41e4b857b7bbadbfd840, type: 3}
   m_Name: gotoblue
   m_EditorClassIdentifier: 
-  taskName: Go to blue
+  taskName: -> Blue node
   taskComplete: 0
   objectiveType: 0
   positionToGoTo: {x: 9.5, y: 0, z: 6.78}

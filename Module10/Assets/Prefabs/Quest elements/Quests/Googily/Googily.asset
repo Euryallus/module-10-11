@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca1245acc3d61a4d904e0200233ed62, type: 3}
   m_Name: Googily
   m_EditorClassIdentifier: 
-  questsToGive:
-  - {fileID: 11400000, guid: 69163dca5732ab247bcd41375faadae2, type: 2}
+  questsToGive: []
   QuestGiverName: Googily

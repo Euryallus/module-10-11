@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93999bd2b8d41e4b857b7bbadbfd840, type: 3}
   m_Name: gotoyellowWIFE
   m_EditorClassIdentifier: 
-  taskName: wife
-  taskComplete: 0
+  taskName: -> Yellow node
+  taskComplete: 1
   objectiveType: 0
   positionToGoTo: {x: -5.14, y: 0, z: 6.78}
   distanceFlagged: 2.5
