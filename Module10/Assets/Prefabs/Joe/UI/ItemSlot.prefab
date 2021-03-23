@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2310556327436598602}
   - component: {fileID: 3765050980303820424}
   m_Layer: 5
-  m_Name: InventorySlot
+  m_Name: ItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,12 +151,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 529567ad3c936424588b8f99b2b048fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentPanel: {fileID: 0}
   itemImage: {fileID: 888827872766340625}
   itemCountPanel: {fileID: 6774408764849720577}
   itemCountText: {fileID: 4198149024815125026}
+  outline: {fileID: 663844487752240407}
+  standardOutlineColour: {r: 0.7176471, g: 0.7176471, b: 0.7176471, a: 1}
+  selectedOutlineColour: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
   clickToAddItems: 1
   clickToRemoveItems: 1
-  slot: {fileID: 0}
 --- !u!1 &3000521374188559174
 GameObject:
   m_ObjectHideFlags: 0

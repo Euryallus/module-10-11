@@ -9,12 +9,15 @@ public class ContainerSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnter
     public GameObject       ItemCountPanel  { get { return itemCountPanel; } }
     public TextMeshProUGUI  ItemCountText   { get { return itemCountText; } }
 
-    [SerializeField] private UIPanel            parentPanel;
-    [SerializeField] private Image              itemImage;
-    [SerializeField] private GameObject         itemCountPanel;
-    [SerializeField] private TextMeshProUGUI    itemCountText;
-    [SerializeField] private bool               clickToAddItems     = true;
-    [SerializeField] private bool               clickToRemoveItems  = true;
+    [SerializeField] private UIPanel                parentPanel;
+    [SerializeField] private Image                  itemImage;
+    [SerializeField] private GameObject             itemCountPanel;
+    [SerializeField] private TextMeshProUGUI        itemCountText;
+    [SerializeField] private UnityEngine.UI.Outline outline;
+    [SerializeField] private Color                  standardOutlineColour;
+    [SerializeField] private Color                  selectedOutlineColour;
+    [SerializeField] private bool                   clickToAddItems     = true;
+    [SerializeField] private bool                   clickToRemoveItems  = true;
 
     public ContainerSlot Slot { get { return slot; } }
 
@@ -61,6 +64,20 @@ public class ContainerSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnter
         else
         {
             ErrorNotLinked();
+        }
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if (selected)
+        {
+            outline.effectDistance = new Vector2(2f, 2f);
+            outline.effectColor = selectedOutlineColour;
+        }
+        else
+        {
+            outline.effectDistance = Vector2.one;
+            outline.effectColor = standardOutlineColour;
         }
     }
 
