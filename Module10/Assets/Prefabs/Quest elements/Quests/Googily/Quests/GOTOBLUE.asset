@@ -20,8 +20,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ab1b7d7adba7280408699c3c026e62e8, type: 2}
   handInNPCName: Googily
   handOutNPCName: Googily
-  questCompleted: 1
-  questHandedIn: 1
+  questCompleted: 0
+  questHandedIn: 0
   handInToGiver: 1
   questLineName: 
   rewards: []

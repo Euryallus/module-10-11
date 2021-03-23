@@ -26,7 +26,11 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            haveTalkedToBefore = true;
+            if(isQuestGiver)
+            {
+                haveTalkedToBefore = true;
+            }
+
         }
 
         return null;

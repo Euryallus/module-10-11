@@ -82,10 +82,6 @@ public class QuestManager : MonoBehaviour
                         
                         UI.SetHUDQuestNameCompleted(quest.questName);
 
-                        //if (!quest.handInToGiver)
-                        //{
-                        //    CompleteQuest(quest);
-                        //}
                     }
                 }
             }

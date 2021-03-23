@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: gotoyellow
   m_EditorClassIdentifier: 
   taskName: -> Yellow node
-  taskComplete: 1
+  taskComplete: 0
   objectiveType: 0
   positionToGoTo: {x: -5.14, y: 0, z: 6.78}
   distanceFlagged: 2.5

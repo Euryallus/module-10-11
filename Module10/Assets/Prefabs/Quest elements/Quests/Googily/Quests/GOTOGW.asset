@@ -18,8 +18,8 @@ MonoBehaviour:
   nextQuests: []
   handInNPCName: GoogilyWife
   handOutNPCName: GoogilyWife
-  questCompleted: 1
-  questHandedIn: 1
+  questCompleted: 0
+  questHandedIn: 0
   handInToGiver: 1
   questLineName: 
   rewards: []
