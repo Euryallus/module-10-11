@@ -13,7 +13,7 @@ public class Tree : DestructableObject
 
         //topSection.AddExplosionForce(100f, transform.position, 20f);
 
-        Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position ).normalized * 200;
+        Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position ).normalized * 100;
 
         topSection.AddForce(forceDir);
 

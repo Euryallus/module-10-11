@@ -113,7 +113,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Height: 1
+    - _Height: 1.25
     - _LightPower: 0.05
     - _MaxHeight: 0.7
     - _Metallic: 0

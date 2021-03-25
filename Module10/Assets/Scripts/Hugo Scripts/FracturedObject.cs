@@ -11,7 +11,7 @@ public class FracturedObject : MonoBehaviour
     {
         for(int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(20f, transform.position, 20f);
+            transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(50f, transform.position, 20f);
         } 
     }
 }
