@@ -16,5 +16,7 @@ public class Tree : DestructableObject
         Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position ).normalized * 100;
 
         topSection.AddForce(forceDir);
+
+        base.Destroyed();
     }
 }

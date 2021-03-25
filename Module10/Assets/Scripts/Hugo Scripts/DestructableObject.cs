@@ -22,6 +22,9 @@ public class DestructableObject : MonoBehaviour
 
     public virtual void TakeHit() 
     {
+        //if(GameObject.FindGameObjectWithTag())
+        
+
         --health;
 
         if(health == 0)
@@ -32,6 +35,13 @@ public class DestructableObject : MonoBehaviour
 
     public virtual void Destroyed()
     {
-        
+        InventoryPanel inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
+        foreach(ItemGroup stack in itemDroppedOnDestroy)
+        {
+            for (int i = 0; i < stack.Quantity; i++)
+            {
+                inventory.AddItemToInventory(stack.Item);
+            }
+        }
     }
 }

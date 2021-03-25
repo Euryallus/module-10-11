@@ -25,6 +25,8 @@ MonoBehaviour:
   questLineName: 
   rewards:
   - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
-    Quantity: 1
+    Quantity: 4
+  - Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
+    Quantity: 2
   objectives:
   - {fileID: 11400000, guid: 2bf17d232a0fb5843bec80d31ed6b282, type: 2}

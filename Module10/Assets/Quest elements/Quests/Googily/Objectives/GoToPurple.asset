@@ -15,5 +15,5 @@ MonoBehaviour:
   taskName: -> Purple node
   taskComplete: 0
   objectiveType: 0
-  positionToGoTo: {x: 0, y: 0, z: 0}
+  positionToGoTo: {x: 3.41, y: 0, z: 0}
   distanceFlagged: 2.5

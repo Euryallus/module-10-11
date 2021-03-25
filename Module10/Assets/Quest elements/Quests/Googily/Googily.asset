@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Googily
   m_EditorClassIdentifier: 
   questsToGive:
-  - {fileID: 11400000, guid: 69163dca5732ab247bcd41375faadae2, type: 2}
+  - {fileID: 11400000, guid: a9df044064bc52c45a7ca9f51ab658f4, type: 2}
   QuestGiverName: Googily

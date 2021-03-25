@@ -113,11 +113,20 @@ public class QuestManager : MonoBehaviour
         {
             if(objective.objectiveType == QuestObjective.Type.Collect)
             {
+                GatherItemsQuestObjective ob = (GatherItemsQuestObjective)objective;
 
-
+                for (int i = 0; i < ob.toCollect.Quantity; i++)
+                {
+                    if(!GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>().RemoveItemFromInventory(ob.toCollect.Item))
+                    {
+                        Debug.Log("none in inventory");
+                    }
+                }
+               
 
                 //TODO: remove items from inventory if quest is collection quest
-                GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>().
+                //GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>().ItemContainer.
+
             }
         }
 

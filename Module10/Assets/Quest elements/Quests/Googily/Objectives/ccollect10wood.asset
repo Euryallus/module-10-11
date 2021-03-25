@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93999bd2b8d41e4b857b7bbadbfd840, type: 3}
-  m_Name: gotoyellowWIFE
+  m_Script: {fileID: 11500000, guid: a89370bf0629614478e9fe967124bf9e, type: 3}
+  m_Name: ccollect10wood
   m_EditorClassIdentifier: 
-  taskName: -> Green
+  taskName: Collect 10 wood
   taskComplete: 0
-  objectiveType: 0
-  positionToGoTo: {x: -14.35, y: 0, z: -16.88}
-  distanceFlagged: 2.5
+  objectiveType: 1
+  toCollect:
+    Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
+    Quantity: 10

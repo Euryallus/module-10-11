@@ -8,10 +8,10 @@ using UnityEngine;
 public class QuestData : ScriptableObject
 {
     public string questName;
-    [TextArea(10, 10)]
+    [TextArea(5, 10)]
     public string questDescription;
 
-    [TextArea(10, 10)]
+    [TextArea(5, 10)]
     public string questCompleteDialogue;
 
     [SerializeField]
@@ -42,27 +42,10 @@ public class QuestData : ScriptableObject
             }
             else
             {
-                switch(task.objectiveType)
+                if (task.checkCcompleted())
                 {
-                    case QuestObjective.Type.GoTo:
-                        GoToQuestObjective o = (GoToQuestObjective)task;
-                        
-                        if(o.checkCcompleted())
-                        {
-                            task.taskComplete = true;
-                            ++objectiveCount;
-                        }
-
-                        break;
-
-                    default:
-                        if (task.checkCcompleted())
-                        {
-                            task.taskComplete = true;
-                            ++objectiveCount;
-                        }
-                        
-                        break;
+                    task.taskComplete = true;
+                    ++objectiveCount;
                 }
             }
         }

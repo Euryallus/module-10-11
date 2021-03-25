@@ -10,7 +10,8 @@ public class QuestObjective : ScriptableObject
 
     public enum Type
     {
-        GoTo
+        GoTo,
+        Collect
     }
 
     [HideInInspector]

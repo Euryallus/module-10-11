@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 826f7111d4de19c409f4cb88f65e1284, type: 3}
   m_Name: GOTOGW
   m_EditorClassIdentifier: 
-  questName: Go to the YELLOW node
-  questDescription: Please go to the yellow node for me
+  questName: Go to the GREEN node
+  questDescription: Please go to the green node for me
   questCompleteDialogue: Thank you so much!
   nextQuests: []
   handInNPCName: GoogilyWife
@@ -24,6 +24,6 @@ MonoBehaviour:
   questLineName: 
   rewards:
   - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
-    Quantity: 1
+    Quantity: 2
   objectives:
   - {fileID: 11400000, guid: bf54faf3acafe134aaddfd95408f76ff, type: 2}

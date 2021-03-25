@@ -23,7 +23,7 @@ MonoBehaviour:
   handInToGiver: 1
   questLineName: 
   rewards:
-  - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
-    Quantity: 1
+  - Item: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
+    Quantity: 3
   objectives:
   - {fileID: 11400000, guid: 2b55b364e328e654da939d331bf7960a, type: 2}

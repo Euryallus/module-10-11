@@ -18,6 +18,9 @@ public class Rock : DestructableObject
             fract.transform.rotation = gameObject.transform.rotation;
 
             fract.GetComponent<FracturedObject>().Explode();
+
+            base.Destroyed();
+
             Destroy(gameObject);
         }
     }
