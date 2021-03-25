@@ -105,6 +105,11 @@ public class InventoryPanel : UIPanel
         return itemContainer.TryRemoveItemFromContainer(itemId);
     }
 
+    public bool ContainsQuantityOfItem(ItemGroup itemGroup)
+    {
+        return itemContainer.ContainsQuantityOfItem(itemGroup, out _);
+    }
+
     private void CheckForShowHideInput()
     {
         //Block keyboard input if an input field is selected
