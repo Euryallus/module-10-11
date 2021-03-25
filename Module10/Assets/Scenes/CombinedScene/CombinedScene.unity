@@ -64103,9 +64103,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684650936}
-        m_TargetAssemblyTypeName: ItemContainer, Assembly-CSharp
-        m_MethodName: TryAddItemToContainer
+      - m_Target: {fileID: 1519107152}
+        m_TargetAssemblyTypeName: InventoryPanel, Assembly-CSharp
+        m_MethodName: DebugAddItemButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
@@ -64482,9 +64482,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684650936}
-        m_TargetAssemblyTypeName: ItemContainer, Assembly-CSharp
-        m_MethodName: TryAddItemToContainer
+      - m_Target: {fileID: 1519107152}
+        m_TargetAssemblyTypeName: InventoryPanel, Assembly-CSharp
+        m_MethodName: DebugAddItemButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
@@ -66404,17 +66404,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
---- !u!114 &1684650936 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2017352706499166436, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
-  m_PrefabInstance: {fileID: 1684650935}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efb494e7a616f7742954e28f21b37abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1684650937 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4216848479496635067, guid: d822f342a04761644a0c7f696c18e60f, type: 3}
@@ -66950,9 +66939,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684650936}
-        m_TargetAssemblyTypeName: ItemContainer, Assembly-CSharp
-        m_MethodName: TryAddItemToContainer
+      - m_Target: {fileID: 1519107152}
+        m_TargetAssemblyTypeName: InventoryPanel, Assembly-CSharp
+        m_MethodName: DebugAddItemButton
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}

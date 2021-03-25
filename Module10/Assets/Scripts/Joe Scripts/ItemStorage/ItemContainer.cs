@@ -111,13 +111,7 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
         ContainerStateChangedEvent?.Invoke();
     }
 
-    public void TryAddItemToContainer(Item item)
-    {
-        //Optional overload for when a bool out type is not needed
-        TryAddItemToContainer(item, out bool unused);
-    }
-
-    public void TryAddItemToContainer(Item item, out bool itemAdded)
+    public bool TryAddItemToContainer(Item item)
     {
         //Step 1 - loop through all slots to find valid ones
 
@@ -129,7 +123,7 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
         {
             //No empty or stackable slots, meaning the inventory is full - warn the player
             Debug.LogWarning("INVENTORY FULL!");
-            itemAdded = false;
+            return false;
         }
         else
         {
@@ -152,8 +146,29 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
             //Update slot UI to show new item
             slots[chosenSlotIndex].SlotUI.UpdateUI();
 
-            itemAdded = true;
+           return true;
         }
+    }
+
+    public bool TryRemoveItemFromContainer(string itemId)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            //Find a slot that is not empty and contains item with the given id
+            if(slots[i].ItemStack.StackSize > 0 && slots[i].ItemStack.StackItemsID == itemId)
+            {
+                //Remove an item and update UI to show changes
+                slots[i].ItemStack.TryRemoveItemFromStack();
+
+                slots[i].SlotUI.UpdateUI();
+
+                //Item was removed
+                return true;
+            }
+        }
+
+        //No matching items in the inventory - item was not removed
+        return false;
     }
 
     private void FindValidContainerSlots(Item item, out int firstEmptySlot, out int firstStackableSlot)

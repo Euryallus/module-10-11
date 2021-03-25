@@ -189,9 +189,7 @@ public class CraftingPanel : UIPanel
         for (int i = 0; i < SelectedRecipe.ResultItem.Quantity; i++)
         {
             //Attempt to add the crafted item to the player's inventory
-            InventoryPanel.ItemContainer.TryAddItemToContainer(SelectedRecipe.ResultItem.Item, out bool itemAdded);
-
-            if (itemAdded)
+            if (InventoryPanel.ItemContainer.TryAddItemToContainer(SelectedRecipe.ResultItem.Item))
             {
                 //Successfully added item to inventory
             }

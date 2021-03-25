@@ -80,9 +80,29 @@ public class InventoryPanel : UIPanel
         }
     }
 
+    public void DebugAddItemButton(Item item)
+    {
+        AddItemToInventory(item);
+    }
+
+    public void DebugRemoveItemButton(Item item)
+    {
+        RemoveItemFromInventory(item);
+    }
+
     public void AddItemToInventory(Item item)
     {
         itemContainer.TryAddItemToContainer(item);
+    }
+
+    public bool RemoveItemFromInventory(Item item)
+    {
+        return RemoveItemFromInventory(item.Id);
+    }
+
+    public bool RemoveItemFromInventory(string itemId)
+    {
+        return itemContainer.TryRemoveItemFromContainer(itemId);
     }
 
     private void CheckForShowHideInput()
