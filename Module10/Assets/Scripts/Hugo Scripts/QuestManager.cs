@@ -96,6 +96,8 @@ public class QuestManager : MonoBehaviour
 
         quest.questHandedIn = true;
 
+        // TODO: GIVE PLAYER REWARD
+
         playerQuestData.questBacklog.Remove(quest);
         playerQuestData.completedQuests.Add(quest);
 

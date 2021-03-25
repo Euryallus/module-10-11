@@ -6,6 +6,7 @@ using TMPro;
 
 public class QuestUI : MonoBehaviour
 {
+    [Header("Accept quest UI")]
     [SerializeField]
     private TMP_Text questTitle;
     [SerializeField]
@@ -13,6 +14,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField]
     private TMP_Text questObjectives;
 
+    [Header("Complete quest UI")]
     [SerializeField]
     private TMP_Text questCompleteTitle;
     [SerializeField]
@@ -20,9 +22,13 @@ public class QuestUI : MonoBehaviour
     [SerializeField]
     private TMP_Text questReward;
 
+    [Header("Quest HUD list")]
     [SerializeField]
     private TMP_Text questTitleHUD;
+    [SerializeField]
+    private GameObject questMarkerBackground;
 
+    [Header("Canvas groups")]
     [SerializeField]
     private CanvasGroup questAcceptCanvasGroup;
     [SerializeField]
@@ -30,9 +36,7 @@ public class QuestUI : MonoBehaviour
 
     private List<TMP_Text> questNamesHUD = new List<TMP_Text>();
 
-    [SerializeField]
-    private GameObject questMarkerBackground;
-
+    [Header("HUD list element blueprint")]
     [SerializeField]
     private TMP_Text defaultName;
 

@@ -28,7 +28,7 @@ public class QuestData : ScriptableObject
 
     public string questLineName = "";
 
-    public List<Item> rewards = new List<Item>();
+    public List<ItemGroup> rewards = new List<ItemGroup>();
     public List<QuestObjective> objectives = new List<QuestObjective>();
 
     public bool CheckCompleted()

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using TMPro;
 
 public class DialogueUI : MonoBehaviour
@@ -12,6 +11,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField]
     private TMP_Text dialogueText;
 
+    //sets canvas group alpha to 1 and changes dialogue text component to display string passed
     public void ShowDialogue(string dialogue)
     {
         Cursor.lockState = CursorLockMode.None;
@@ -21,6 +21,7 @@ public class DialogueUI : MonoBehaviour
         dialogueText.text = dialogue;
     }
 
+    //hides all dialogue
     public void HideDialogue()
     {
         Cursor.lockState = CursorLockMode.Locked;

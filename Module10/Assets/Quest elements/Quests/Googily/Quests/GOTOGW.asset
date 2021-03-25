@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 826f7111d4de19c409f4cb88f65e1284, type: 3}
-  m_Name: GOTOYELLOW
+  m_Name: GOTOGW
   m_EditorClassIdentifier: 
   questName: Go to the YELLOW node
-  questDescription: Please go to the yellow node
-  questCompleteDialogue: Thanks! I think my friend wants to talk to you!
-  nextQuests:
-  - {fileID: 11400000, guid: f66063750b9284f4ca674fc7944c6db4, type: 2}
-  handInNPCName: Googily
-  handOutNPCName: Googily
+  questDescription: Please go to the yellow node for me
+  questCompleteDialogue: Thank you so much!
+  nextQuests: []
+  handInNPCName: GoogilyWife
+  handOutNPCName: GoogilyWife
   questCompleted: 0
   questHandedIn: 0
   handInToGiver: 1
   questLineName: 
-  rewards: []
+  rewards:
+  - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
+    Quantity: 1
   objectives:
-  - {fileID: 11400000, guid: 2bf17d232a0fb5843bec80d31ed6b282, type: 2}
+  - {fileID: 11400000, guid: bf54faf3acafe134aaddfd95408f76ff, type: 2}
