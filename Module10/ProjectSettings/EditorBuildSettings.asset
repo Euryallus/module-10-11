@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/CombinedScene/CombinedScene.unity
+    guid: a9c15bd7595c42344932f1980034790e
   m_configObjects: {}

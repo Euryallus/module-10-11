@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         saveDirectory = Application.persistentDataPath + "/Saves";
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void SaveGame()
@@ -134,5 +137,23 @@ public class SaveLoadManager : MonoBehaviour
         {
             Debug.LogError("File does not exist: " + saveDirectory);
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene loaded: " + scene.name);
+
+        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene")
+        {
+            StartCoroutine(LoadSceneCoroutine());
+        }
+    }
+
+    private IEnumerator LoadSceneCoroutine()
+    {
+        yield return null;
+        yield return null;
+
+        LoadGame();
     }
 }
