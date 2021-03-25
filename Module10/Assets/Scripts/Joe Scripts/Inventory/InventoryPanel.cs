@@ -80,6 +80,11 @@ public class InventoryPanel : UIPanel
         }
     }
 
+    public void AddItemToInventory(Item item)
+    {
+        itemContainer.TryAddItemToContainer(item);
+    }
+
     private void CheckForShowHideInput()
     {
         //Block keyboard input if an input field is selected

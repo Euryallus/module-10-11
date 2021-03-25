@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2246740e49653c448acfd3bff328a85, type: 3}
   m_Name: Loot Table
   m_EditorClassIdentifier: 
-  m_minItems: 0
-  m_maxItems: 0
-  m_itemPool: []
+  m_minItems: 5
+  m_maxItems: 8
+  m_itemPool:
+  - item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
+    weight: 1
+  - item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
+    weight: 5
