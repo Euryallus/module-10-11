@@ -22,25 +22,33 @@ public abstract class InteractableObject : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (PlayerIsWithinRange())
+        //Interabtables can only be interacted with when the cursor is locked (i.e. the player is moving around the world/not in a menu)
+        if(Cursor.lockState == CursorLockMode.Locked)
         {
-            if(mouseOver && !hoveringInRange)
+            //Check if the player is within the set interaction range
+            if (PlayerIsWithinRange())
             {
-                hoveringInRange = true;
-                StartHover();
-            }
+                if (mouseOver && !hoveringInRange)
+                {
+                    //Player is in range and their mouse is over the object, start hovering
+                    hoveringInRange = true;
+                    StartHover();
+                }
 
-            if (pressEToInteract && mouseOver && Input.GetKeyDown(KeyCode.E) && !CustomInputField.AnyFieldSelected)
-            {
-                Interact();
+                if (pressEToInteract && mouseOver && Input.GetKeyDown(KeyCode.E) && !CustomInputField.AnyFieldSelected)
+                {
+                    //Ensure no input field is selected to prevent pressing E while typing causing unintended behaviour
+                    //The player has pressed E while hovering over the object, interact with it
+                    Interact();
+                }
             }
-        }
-        else
-        {
-            if (hoveringInRange)
+            else
             {
-                hoveringInRange = false;
-                EndHover();
+                if (hoveringInRange)
+                {
+                    //Player is no longer in range, end hovering
+                    EndHover();
+                }
             }
         }
     }
@@ -50,6 +58,7 @@ public abstract class InteractableObject : MonoBehaviour
         //Right click
         if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange())
         {
+            //The player has right clicked on the object while in range, interact with it
             Interact();
         }
     }
