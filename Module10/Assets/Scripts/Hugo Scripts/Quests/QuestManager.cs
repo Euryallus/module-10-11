@@ -15,10 +15,15 @@ public class QuestManager : MonoBehaviour
 
     private bool runupdate = true;
 
+    [SerializeField]
+    private InventoryPanel inventory;
+
     private void Start()
     {
         UI = gameObject.GetComponent<QuestUI>();
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
+        //inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
         npcManager = gameObject.GetComponent<NPCManager>();
 
         foreach (QuestData quest in playerQuestData.questBacklog)
@@ -96,8 +101,6 @@ public class QuestManager : MonoBehaviour
 
         quest.questHandedIn = true;
 
-        // TODO: GIVE PLAYER REWARD
-
         playerQuestData.questBacklog.Remove(quest);
         playerQuestData.completedQuests.Add(quest);
 
@@ -105,6 +108,27 @@ public class QuestManager : MonoBehaviour
         runupdate = false;
 
         UI.DisplayQuestComplete(quest);
+
+        foreach(QuestObjective objective in quest.objectives)
+        {
+            if(objective.objectiveType == QuestObjective.Type.Collect)
+            {
+
+
+
+                //TODO: remove items from inventory if quest is collection quest
+                GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>().
+            }
+        }
+
+        foreach (ItemGroup stack in quest.rewards)
+        {
+            for (int i = 0; i < stack.Quantity; i++)
+            {
+                inventory.AddItemToInventory(stack.Item);
+            }
+            
+        }
     }
 
     public bool InteractWith(string questGiverName)
