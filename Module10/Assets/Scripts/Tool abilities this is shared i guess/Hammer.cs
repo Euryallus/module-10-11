@@ -12,6 +12,7 @@ public class Hammer : HeldItem
     private PlayerMovement  playerMovementScript;
     private GameObject      launchIndicator;
     private float           launchTimer;
+    private bool            launched;
 
     private const float launchDelay = 0.5f;
     private const float indicatorShrinkSpeed = 1.8f;
@@ -65,6 +66,8 @@ public class Hammer : HeldItem
         {
             Destroy(launchIndicator);
         }
+
+        launched = false;
     }
 
     private void Update()
@@ -73,7 +76,7 @@ public class Hammer : HeldItem
         {
             launchTimer += Time.deltaTime;
 
-            if(launchTimer >= launchDelay)
+            if(launchTimer >= launchDelay && !launched)
             {
                 LaunchPlayer();
             }
@@ -93,5 +96,7 @@ public class Hammer : HeldItem
         {
             Destroy(launchIndicator);
         }
+
+        launched = true;
     }
 }
