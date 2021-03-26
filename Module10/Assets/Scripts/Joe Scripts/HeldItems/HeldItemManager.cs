@@ -81,6 +81,7 @@ public class HeldItemManager : MonoBehaviour
                 {
                     heldGameObject = Instantiate(heldItem.HeldItemGameObject, playerTransform);
                     heldItemScript = heldGameObject.GetComponent<HeldItem>();
+                    heldItemScript.Setup(heldItem);
                 }
             }
         }

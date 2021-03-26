@@ -7,11 +7,15 @@ public class HeldItem : MonoBehaviour
     public bool PerformingPuzzleAbility { get { return performingPuzzleAbility; } }
 
     protected bool performingPuzzleAbility;
+    protected Item item;
+
+    public void Setup(Item item)
+    {
+        this.item = item;
+    }
 
     public virtual void PerformMainAbility()
     {
-        Debug.Log("Performing main ability");
-
         //For example, break a rock
     }
 

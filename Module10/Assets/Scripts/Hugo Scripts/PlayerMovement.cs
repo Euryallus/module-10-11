@@ -173,9 +173,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void AddJumpVelocity(float velocity)
+    public void SetJumpVelocity(float velocity)
     {
-        velocityY += velocity;
+        velocityY = velocity;
     }
 
     public void StopMoving()
