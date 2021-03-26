@@ -18,7 +18,7 @@ public class PickAxe : HeldItem
             {
                 foreach(Item tool in destructable.toolToBreak)
                 {
-                    if(tool.Id == "pickaxe")
+                    if(tool.Id == item.Id)
                     {
                         destructable.TakeHit();
                     }

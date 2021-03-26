@@ -36,7 +36,7 @@ public class Hammer : HeldItem
             {
                 foreach (Item tool in destructable.toolToBreak)
                 {
-                    if (tool.Id == item.BaseItemId)
+                    if (tool.Id == item.Id)
                     {
                         destructable.TakeHit();
                         break;
