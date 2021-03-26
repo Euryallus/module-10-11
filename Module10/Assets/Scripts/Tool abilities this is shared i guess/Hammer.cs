@@ -17,7 +17,7 @@ public class Hammer : HeldItem
     private const float launchDelay = 0.5f;
     private const float indicatorShrinkSpeed = 1.8f;
 
-    private void Start()
+    private void Awake()
     {
         playerTransform         = GameObject.FindGameObjectWithTag("Player").transform;
         playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
