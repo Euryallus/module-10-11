@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123072319324555290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.25, z: 0.05}
+  m_LocalPosition: {x: 0.8, y: -0.51, z: 1.05}
+  m_LocalScale: {x: 0.083915, y: 0.2995178, z: 0.083915}
   m_Children: []
   m_Father: {fileID: 3747724852345925877}
   m_RootOrder: 0
@@ -91,7 +91,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2123072319324555290}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -120,15 +120,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3980045559517520853}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.9492793, z: -0, w: 0.31443423}
+  m_LocalPosition: {x: 0.8149885, y: 0, z: 2.3699594}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8976613341834368926}
   - {fileID: 1627640422869079874}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 143.347, z: 0}
 --- !u!114 &3844556695188731212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,13 +167,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6126898853575930828}
-  m_LocalRotation: {x: 0.706944, y: -0, z: -0, w: 0.70726955}
-  m_LocalPosition: {x: 0, y: 0.182, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.1419775, z: 0.05}
+  m_LocalRotation: {x: 0.67560047, y: 0.20826286, z: -0.20816673, w: 0.67591214}
+  m_LocalPosition: {x: 0.8, y: -0.323, z: 1.05}
+  m_LocalScale: {x: 0.116654046, y: 0.20339437, z: 0.116654046}
   m_Children: []
   m_Father: {fileID: 3747724852345925877}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: -34.235}
 --- !u!33 &2789750629336269347
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -232,7 +232,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6126898853575930828}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1

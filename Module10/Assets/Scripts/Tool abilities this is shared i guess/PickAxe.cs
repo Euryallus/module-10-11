@@ -50,8 +50,11 @@ public class PickAxe : HeldItem
 
     public override void EndPuzzleAbility()
     {
-        heldObj.DropObject(transform.forward);
-        heldObj = null;
+        if(heldObj != null)
+        {
+            heldObj.DropObject(transform.forward);
+            heldObj = null;
+        }
 
         base.EndPuzzleAbility();
     }
