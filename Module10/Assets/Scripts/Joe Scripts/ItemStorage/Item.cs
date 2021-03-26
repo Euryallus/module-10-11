@@ -50,8 +50,19 @@ public class Item : ScriptableObject
     [SerializeField] [Tooltip("The number of the above items required to rename this item type. Leave at 0 if this item is not renamable, or does not require another item to be renamed.")]
     private int m_currencyItemQuantity;
 
+    [Space]
+    [SerializeField]
+    private ItemFloatProperty[] customFloatProperties;
+
     //Non-editable fields
     private bool    m_customItem;
     private string  m_baseItemId;
 
+}
+
+[System.Serializable]
+public struct ItemFloatProperty
+{
+    public string  Name;
+    public float   Value;
 }

@@ -4,30 +4,29 @@ using UnityEngine;
 
 public class PickAxe : HeldItem
 {
-    RaycastHit raycastHit;
-
     MovableObject heldObj = null;
-    public override void PerformMainAbility()
-    {
-        GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
-        {
-            DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
-            if (destructable != null)
-            {
-                foreach(Item tool in destructable.toolToBreak)
-                {
-                    if(tool.Id == "pickaxe")
-                    {
-                        destructable.TakeHit();
-                    }
-                }
-            }
-        }
+    //public override void PerformMainAbility()
+    //{
+    //    GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
-        base.PerformMainAbility();
-    }
+    //    if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
+    //    {
+    //        DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
+    //        if (destructable != null)
+    //        {
+    //            foreach(Item tool in destructable.toolToBreak)
+    //            {
+    //                if(tool.Id == "pickaxe")
+    //                {
+    //                    destructable.TakeHit();
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    base.PerformMainAbility();
+    //}
 
     public override void StartPuzzleAbility()
     {
