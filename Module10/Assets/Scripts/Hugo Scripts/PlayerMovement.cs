@@ -173,6 +173,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public bool PlayerIsGrounded()
+    {
+        return controller.isGrounded;
+    }
+
     public void SetJumpVelocity(float velocity)
     {
         velocityY = velocity;
