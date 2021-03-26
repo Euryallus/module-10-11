@@ -58,6 +58,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1268420018608165988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6852306256867200341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea18d9375b40584ab3c4c2acec05473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachedRB: {fileID: 6041897679748096692}
+  originalRBConstraints: 0
+--- !u!114 &5696283322421503900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6852306256867200341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d885d14997c4e4d9bf28a294023f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDroppedOnDestroy:
+  - Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
+    Quantity: 3
+  toolToBreak:
+  - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
+  health: 0
+  topSection: {fileID: 6041897679748096692}
+  colliderComp: {fileID: 0}
 --- !u!1 &6852306256938751593
 GameObject:
   m_ObjectHideFlags: 0
@@ -69,9 +103,7 @@ GameObject:
   - component: {fileID: 6076368069913283795}
   - component: {fileID: 7204707195017626486}
   - component: {fileID: 4906870034269927356}
-  - component: {fileID: 6041897681004098552}
   - component: {fileID: 6041897681004098500}
-  - component: {fileID: 6041897681004098553}
   m_Layer: 0
   m_Name: treeBase
   m_TagString: Untagged
@@ -88,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 6852306256938751593}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: -14.125, y: 0.5, z: 9.5}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 43.5, y: 43.5, z: 43.5}
   m_Children:
   - {fileID: 6076368070093428719}
   m_Father: {fileID: 0}
@@ -143,19 +175,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6041897681004098552
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6852306256938751593}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.049999993, y: 0.050000004, z: 0.061262436}
-  m_Center: {x: 0, y: 0.00024585487, z: 0.021010393}
 --- !u!64 &6041897681004098500
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -170,24 +189,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: a61782f6b06f01b4ca437032c09ee6e1, type: 3}
---- !u!114 &6041897681004098553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6852306256938751593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5d885d14997c4e4d9bf28a294023f97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDroppedOnDestroy:
-  - Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
-    Quantity: 3
-  toolToBreak:
-  - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
-  topSection: {fileID: 6041897679748096692}
 --- !u!64 &6041897679316393943
 MeshCollider:
   m_ObjectHideFlags: 0

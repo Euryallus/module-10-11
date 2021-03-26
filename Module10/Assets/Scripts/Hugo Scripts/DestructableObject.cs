@@ -11,8 +11,10 @@ public class DestructableObject : MonoBehaviour
     public Item[] toolToBreak;
 
     [Header("Object health")]
-    private int hitsToBreak = 3;
-    private int health;
+    protected int hitsToBreak = 3;
+
+    [SerializeField]
+    protected int health;
 
     private void Start()
     {

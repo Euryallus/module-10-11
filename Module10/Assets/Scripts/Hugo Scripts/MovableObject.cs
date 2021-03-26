@@ -28,7 +28,7 @@ public class MovableObject : MonoBehaviour
         //if the player is currently holding the object, move towards the players hand position
         if (isHeld)
         {
-            transform.position = Vector3.LerpUnclamped(transform.position, target.position, 5 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, target.position, 15 * Time.deltaTime);
         }
     }
 

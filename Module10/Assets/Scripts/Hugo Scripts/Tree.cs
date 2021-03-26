@@ -6,6 +6,12 @@ public class Tree : DestructableObject
 {
     public Rigidbody topSection;
 
+
+    private void Start()
+    {
+        health = hitsToBreak;
+    }
+
     public override void Destroyed()
     {
         topSection.useGravity = true;
@@ -16,6 +22,8 @@ public class Tree : DestructableObject
         Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position ).normalized * 100;
 
         topSection.AddForce(forceDir);
+
+
 
         base.Destroyed();
     }
