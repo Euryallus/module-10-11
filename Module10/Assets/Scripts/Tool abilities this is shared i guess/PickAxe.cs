@@ -5,6 +5,8 @@ using UnityEngine;
 public class PickAxe : HeldItem
 {
     RaycastHit raycastHit;
+
+    MovableObject heldObj = null;
     public override void PerformMainAbility()
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
@@ -23,6 +25,34 @@ public class PickAxe : HeldItem
                 }
             }
         }
+
         base.PerformMainAbility();
+    }
+
+    public override void StartPuzzleAbility()
+    {
+        GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
+
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
+        {
+            MovableObject moveObj = raycastHit.transform.gameObject.GetComponent<MovableObject>();
+
+            if(moveObj != null && !moveObj.isHeld && heldObj == null)
+            {
+                moveObj.PickUp(GameObject.FindGameObjectWithTag("PlayerHand").transform);
+
+                heldObj = moveObj;
+            }
+        }
+
+        base.StartPuzzleAbility();
+    }
+
+    public override void EndPuzzleAbility()
+    {
+        heldObj.DropObject(transform.forward);
+        heldObj = null;
+
+        base.EndPuzzleAbility();
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Inventory
   - HandSlot
   - Hotbar
+  - PlayerHand
   layers:
   - Default
   - TransparentFX
