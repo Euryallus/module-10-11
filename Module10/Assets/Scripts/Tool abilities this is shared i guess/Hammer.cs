@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class Hammer : HeldItem
 {
-    RaycastHit      raycastHit;
-    Transform       playerCameraTransform;
-    PlayerMovement  playerMovementScript;
+    [SerializeField] private GameObject prefabLaunchIndicator;
+
+    private RaycastHit      raycastHit;
+    private Transform       playerTransform;
+    private Transform       playerCameraTransform;
+    private PlayerMovement  playerMovementScript;
+    private GameObject      launchIndicator;
+    private float           launchTimer;
+
+    private const float launchDelay = 0.5f;
+    private const float indicatorShrinkSpeed = 1.8f;
 
     private void Start()
     {
-        playerCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        playerMovementScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        playerTransform         = GameObject.FindGameObjectWithTag("Player").transform;
+        playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        playerMovementScript    = playerTransform.GetComponent<PlayerMovement>();
     }
 
     public override void PerformMainAbility()
@@ -38,9 +47,51 @@ public class Hammer : HeldItem
 
     public override void StartPuzzleAbility()
     {
-        base.StartPuzzleAbility();
+        if (playerMovementScript.PlayerIsGrounded())
+        {
+            base.StartPuzzleAbility();
 
+            launchTimer = 0.0f;
+
+            launchIndicator = Instantiate(prefabLaunchIndicator, playerTransform);
+        }
+    }
+
+    public override void EndPuzzleAbility()
+    {
+        base.EndPuzzleAbility();
+
+        if(launchIndicator != null)
+        {
+            Destroy(launchIndicator);
+        }
+    }
+
+    private void Update()
+    {
+        if (performingPuzzleAbility)
+        {
+            launchTimer += Time.deltaTime;
+
+            if(launchTimer >= launchDelay)
+            {
+                LaunchPlayer();
+            }
+            else if(launchIndicator != null)
+            {
+                launchIndicator.transform.localScale -= new Vector3(Time.deltaTime * indicatorShrinkSpeed, 0.0f,
+                                                                    Time.deltaTime * indicatorShrinkSpeed);
+            }
+        }
+    }
+
+    private void LaunchPlayer()
+    {
         playerMovementScript.SetJumpVelocity(8.0f);   //Change to item.LaunchVelocity or similar
-        Debug.Log("WTF");
+
+        if (launchIndicator != null)
+        {
+            Destroy(launchIndicator);
+        }
     }
 }
