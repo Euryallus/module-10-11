@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HotbarPanel : UIPanel, IPersistentObject
 {
     [SerializeField] private List<ContainerSlotUI>  slotsUI;
     [SerializeField] private ItemContainer          itemContainer;
+
+    public event Action<Item> HeldItemChangedEvent;
 
     private int selectedSlotIndex;
 
@@ -20,6 +22,8 @@ public class HotbarPanel : UIPanel, IPersistentObject
         slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
 
         itemContainer.LinkSlotsToUI(slotsUI);
+
+        itemContainer.ContainerStateChangedEvent += UpdateCurrentSlotSelection;
 
         SelectSlot(0);
 
@@ -97,6 +101,11 @@ public class HotbarPanel : UIPanel, IPersistentObject
         }
     }
 
+    private void UpdateCurrentSlotSelection()
+    {
+        SelectSlot(selectedSlotIndex);
+    }
+
     private void SelectSlot(int slotIndex)
     {
         slotsUI[selectedSlotIndex].SetSelected(false);
@@ -104,6 +113,8 @@ public class HotbarPanel : UIPanel, IPersistentObject
         selectedSlotIndex = slotIndex;
 
         slotsUI[selectedSlotIndex].SetSelected(true);
+
+        HeldItemChangedEvent?.Invoke(GetSelectedItem());
     }
 
     public Item GetSelectedItem()

@@ -9,6 +9,7 @@ TagManager:
   - Customising
   - Inventory
   - HandSlot
+  - Hotbar
   layers:
   - Default
   - TransparentFX

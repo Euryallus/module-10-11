@@ -3,16 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Item")]
 public class Item : ScriptableObject
 {
-    public string   Id                      { get { return m_id; } set { m_id = value; } }
-    public string   UIName                  { get { return m_uiName; } set { m_uiName = value; } }
-    public int      StackSize               { get { return m_stackSize; } }
-    public float    Weight                  { get { return m_weight; } }
-    public Sprite   Sprite                  { get { return m_sprite; } }
-    public bool     Customisable            { get { return m_customisable; } }
-    public string   CurrencyItemId          { get { return m_currencyItemId; } }
-    public int      CurrencyItemQuantity    { get { return m_currencyItemQuantity; } }  
-    public bool     CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
-    public string   BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }
+    public string       Id                      { get { return m_id; } set { m_id = value; } }
+    public string       UIName                  { get { return m_uiName; } set { m_uiName = value; } }
+    public int          StackSize               { get { return m_stackSize; } }
+    public float        Weight                  { get { return m_weight; } }
+    public Sprite       Sprite                  { get { return m_sprite; } }
+    public GameObject   HeldItemGameObject      { get { return m_heldItemGameObject; } }
+    public bool         Customisable            { get { return m_customisable; } }
+    public string       CurrencyItemId          { get { return m_currencyItemId; } }
+    public int          CurrencyItemQuantity    { get { return m_currencyItemQuantity; } }  
+    public bool         CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
+    public string       BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }
 
     [Space]
     [Header("Info")]
@@ -33,6 +34,9 @@ public class Item : ScriptableObject
 
     [SerializeField] [Tooltip("Sprite to be displayed in the UI for this item")]
     private Sprite m_sprite;
+
+    [SerializeField] [Tooltip("The GameObject to be instantiated when the player holds this item, leave blank if no held item should be shown")]
+    private GameObject m_heldItemGameObject;
 
     [Space]
     [Header("Player Customisation")]
