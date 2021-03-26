@@ -12,6 +12,7 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField]
     private NPCManager npcManager;
 
+
     void Update()
     {
         // runs when player interacts with an object
@@ -28,11 +29,11 @@ public class PlayerInteractions : MonoBehaviour
                         npcManager.InteractWithNPC(hitNPC);
                     }
                 }
-                else if(raycastHit.transform.gameObject.GetComponent<DestructableObject>() != null)
-                {
-                    // if player tries to interact with destructable object, check if object is hit
-                    raycastHit.transform.gameObject.GetComponent<DestructableObject>().TakeHit();
-                }
+                //else if(raycastHit.transform.gameObject.GetComponent<DestructableObject>() != null)
+                //{
+                //    // if player tries to interact with destructable object, check if object is hit
+                //    raycastHit.transform.gameObject.GetComponent<DestructableObject>().TakeHit();
+                //}
             }
         }
         
