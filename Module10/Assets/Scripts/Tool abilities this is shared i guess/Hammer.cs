@@ -6,9 +6,6 @@ public class Hammer : HeldItem
 {
     [SerializeField] private GameObject prefabLaunchIndicator;
 
-    private RaycastHit      raycastHit;
-    private Transform       playerTransform;
-    private Transform       playerCameraTransform;
     private PlayerMovement  playerMovementScript;
     private GameObject      launchIndicator;
     private float           launchTimer;
@@ -17,33 +14,10 @@ public class Hammer : HeldItem
     private const float launchDelay = 0.5f;
     private const float indicatorShrinkSpeed = 1.8f;
 
-    private void Awake()
+    protected override void Awake()
     {
-        playerTransform         = GameObject.FindGameObjectWithTag("Player").transform;
-        playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        base.Awake();
         playerMovementScript    = playerTransform.GetComponent<PlayerMovement>();
-    }
-
-    public override void PerformMainAbility()
-    {
-        base.PerformMainAbility();
-
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out raycastHit, 4.0f))
-        {
-            DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
-
-            if (destructable != null)
-            {
-                foreach (Item tool in destructable.toolToBreak)
-                {
-                    if (tool.Id == item.Id)
-                    {
-                        destructable.TakeHit();
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     public override void StartPuzzleAbility()
