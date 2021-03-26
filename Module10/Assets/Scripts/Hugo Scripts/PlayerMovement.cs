@@ -180,7 +180,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetJumpVelocity(float velocity)
     {
-        velocityY = velocity;
+        if(controller.isGrounded)
+        {
+            velocityY = velocity;
+        }
+
     }
 
     public void StopMoving()
