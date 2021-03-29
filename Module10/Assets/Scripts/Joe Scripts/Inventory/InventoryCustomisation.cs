@@ -138,8 +138,6 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
         //If the player has put a valid combination of items into the customise/currency slots, show the output item
         if (CheckForValidItemInputs())
         {
-            customisationOptionsPanel.SetActive(true);
-
             Item baseItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
 
             //By default, the new 'result' item will be based on the item in the customise slot. However, if the item in the customise slot is already
@@ -151,36 +149,13 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
             }
 
             //Add a new custom item; this will be the resulting item type that the player can take
-            itemManager.AddCustomItem(customItemId, originalBaseItemId);
+            itemManager.AddCustomItem(customItemId, baseItem.Id, originalBaseItemId);
 
             SetCustomisedItemName(itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).UIName);
 
             resultSlot.ItemStack.AddItemToStack(customItemId, false);
 
-            //Clear existing custom upgrade properties UI
-            foreach(Transform t in customisationOptionsPanel.transform)
-            {
-                if (!t.CompareTag("DoNotDestroy"))
-                {
-                    Destroy(t.gameObject);
-                }
-            }
-
-            //Add custom upgrade properties UI for this item
-            for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
-            {
-                CustomItemProperty<float> floatProperty = baseItem.CustomFloatProperties[i];
-
-                GameObject propertyText = Instantiate(propertyTextPrefab, customisationOptionsPanel.transform);
-                propertyText.GetComponent<TextMeshProUGUI>().text = floatProperty.UIName;
-
-                CustomFloatPropertyPanel propertyPanel = Instantiate(customFloatPropertyPrefab, customisationOptionsPanel.transform)
-                                                            .GetComponent<CustomFloatPropertyPanel>();
-
-                propertyPanel.ValueText.text = floatProperty.Value.ToString();
-                propertyPanel.AddButton     .onClick.AddListener(delegate { PropertyAddButton        (floatProperty.Name, propertyPanel.ValueText); });
-                propertyPanel.SubtractButton.onClick.AddListener(delegate { PropertySubtractButton   (floatProperty.Name, propertyPanel.ValueText); });
-            }
+            SetupCustomisationPanel(baseItem);
         }
         else
         {
@@ -193,9 +168,40 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
         resultSlotUI.UpdateUI();
     }
 
+    private void SetupCustomisationPanel(Item baseItem)
+    {
+        //Clear existing custom upgrade properties UI that may be leftover from another item that was customised
+        foreach (Transform t in customisationOptionsPanel.transform)
+        {
+            if (!t.CompareTag("DoNotDestroy"))
+            {
+                Destroy(t.gameObject);
+            }
+        }
+
+        //Add custom upgrade properties UI for this item
+        for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
+        {
+            CustomItemProperty<float> floatProperty = baseItem.CustomFloatProperties[i];
+
+            GameObject propertyText = Instantiate(propertyTextPrefab, customisationOptionsPanel.transform);
+            propertyText.GetComponent<TextMeshProUGUI>().text = floatProperty.UIName;
+
+            CustomFloatPropertyPanel propertyPanel = Instantiate(customFloatPropertyPrefab, customisationOptionsPanel.transform)
+                                                        .GetComponent<CustomFloatPropertyPanel>();
+
+            propertyPanel.ValueText.text = floatProperty.Value.ToString();
+            propertyPanel.AddButton.onClick.AddListener(delegate { PropertyAddButton(floatProperty.Name, propertyPanel.ValueText); });
+            propertyPanel.SubtractButton.onClick.AddListener(delegate { PropertySubtractButton(floatProperty.Name, propertyPanel.ValueText); });
+        }
+
+        customisationOptionsPanel.SetActive(true);
+    }
+
     private void PropertyAddButton(string propertyName, TextMeshProUGUI valueText)
     {
         Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
+        Debug.Log("item being customised: " + itemBeingCustomised.Id);
         CustomItemProperty<float> property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
 
         float addedValue = property.Value + property.UpgradeIncrease;

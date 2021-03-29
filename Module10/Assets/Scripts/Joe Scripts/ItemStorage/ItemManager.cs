@@ -93,36 +93,49 @@ public class ItemManager : MonoBehaviour, IPersistentObject
     {
         Debug.Log("Loading custom inventory items");
 
+        //Load the unique id to be used when creating a custom item
         customItemUniqueId = saveData.GetData<int>("customItemUniqueId");
 
+        //Load the number of custom items that player had created
         int customItemCount = saveData.GetData<int>("customItemCount");
 
+        //Load all custom items
         for (int i = 0; i < customItemCount; i++)
         {
+            //Get the save data for the current custom item
             CustomItemSaveData itemData = saveData.GetData<CustomItemSaveData>("customItem" + i);
 
-            Item loadedItem = AddCustomItem(itemData.Id, itemData.BaseItemId);
+            //Add the custom item based on the loaded ids
+            Item loadedItem = AddCustomItem(itemData.Id, itemData.BaseItemId, itemData.BaseItemId);
 
+            //Set the UI name of the custom item from the loaded value
             SetCustomGenericItemData(itemData.Id, itemData.UIName);
 
-            var baseItemProperties = GetItemWithID(itemData.BaseItemId).CustomFloatProperties;
+            //Get all of the default custom float properties from the base item
+            var baseItemFloatProperties = GetItemWithID(itemData.BaseItemId).CustomFloatProperties;
 
-            for (int j = 0; j < baseItemProperties.Length; j++)
+            //Setup all custom float properties on the new item
+            for (int j = 0; j < baseItemFloatProperties.Length; j++)
             {
+                //Get the loaded data for the current custom float property
                 var propertyData = itemData.CustomFloatProperties[j];
 
-                if(propertyData != null && propertyData.Name == baseItemProperties[j].Name)
+                //If the loaded data is not null (may occur if the item was created before the custom property was added to the game)
+                //  and its property name matches that of the base item (again, old items may have unused properties which should be skipped),
+                //  then setup the property data from the loaded values
+                if(propertyData != null && propertyData.Name == baseItemFloatProperties[j].Name)
                 {
                     loadedItem.CustomFloatProperties[j] = new CustomItemProperty<float>()
                     {
-                        Name = propertyData.Name,
-                        UIName = propertyData.UIName,
-                        Value = propertyData.Value,
+                        Name            = propertyData.Name,
+                        UIName          = propertyData.UIName,
+                        Value           = propertyData.Value,
                         UpgradeIncrease = propertyData.UpgradeIncrease,
-                        MinValue = propertyData.MinValue,
-                        MaxValue = propertyData.MaxValue
+                        MinValue        = propertyData.MinValue,
+                        MaxValue        = propertyData.MaxValue
                     };
                 }
+                //If the above condition fails, the item will retain the default property values of its base item
             }
         }
     }
@@ -163,21 +176,35 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         }
     }
 
-    public Item AddCustomItem(string id, string baseItemId)
+    public Item AddCustomItem(string id, string baseItemId, string originalBaseItemId)
     {
         //Create a duplicate of the base item before editing certain values
 
         Item baseItem = GetItemWithID(baseItemId);
+        Item originalBaseItem = GetItemWithID(originalBaseItemId);
 
-        if(baseItem!= null)
+        if(originalBaseItem != null)
         {
-            Item customItem = Instantiate(GetItemWithID(baseItemId));
+            Item customItem = Instantiate(GetItemWithID(originalBaseItemId));
 
             customItem.Id = id;
 
             customItem.CustomItem = true;
 
-            customItem.BaseItemId = baseItemId;
+            customItem.BaseItemId = originalBaseItemId;
+
+            if(baseItem != null)
+            {
+                //Setup custom float properties from base item
+                for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
+                {
+                    customItem.CustomFloatProperties[i] = baseItem.CustomFloatProperties[i];
+                }
+            }
+            else
+            {
+                Debug.LogError("Trying to create custom item with invalid base item id: " + originalBaseItemId);
+            }
 
             if (!customItemsDict.ContainsKey(customItem.Id))
             {
@@ -195,7 +222,7 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         }
         else
         {
-            Debug.LogError("Trying to create custom item with invalid base item id: " + baseItemId);
+            Debug.LogError("Trying to create custom item with invalid original base item id: " + originalBaseItemId);
             return null;
         }
     }
