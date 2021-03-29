@@ -16,6 +16,15 @@ public class ItemInfoPopup : MonoBehaviour
     private bool canShow;
     private bool showing;
 
+    private Canvas canvas;
+    private RectTransform rectTransform;
+
+    private void Awake()
+    {
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        rectTransform = GetComponent<RectTransform>();
+    }
+
     private void Start()
     {
         HidePopup();
@@ -38,7 +47,12 @@ public class ItemInfoPopup : MonoBehaviour
         {
             canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1.0f, Time.unscaledDeltaTime * 25.0f);
 
-            transform.position = Input.mousePosition;
+            //transform.position = Input.mousePosition;
+
+            float width =   (rectTransform.rect.width / 2)  * canvas.scaleFactor;
+            float height =  (rectTransform.rect.height / 2) * canvas.scaleFactor;
+
+            transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x, width, Screen.width - width), Mathf.Clamp(Input.mousePosition.y, height, Screen.height - height));
         }
     }
 
