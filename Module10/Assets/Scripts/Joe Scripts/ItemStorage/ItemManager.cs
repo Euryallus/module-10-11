@@ -198,7 +198,7 @@ public class ItemManager : MonoBehaviour, IPersistentObject
                 //Setup custom float properties from base item
                 for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
                 {
-                    customItem.CustomFloatProperties[i] = baseItem.CustomFloatProperties[i];
+                    customItem.CustomFloatProperties[i].Value = baseItem.CustomFloatProperties[i].Value;
                 }
             }
             else
