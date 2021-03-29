@@ -102,7 +102,7 @@ public class CustomItemProperty<T>
     [Tooltip("The default value of this property")]
     public T        Value;
 
-    [Tooltip("How much the value increases by each time the item is customised")]
+    [Tooltip("How much the value changed by each time the +/- button is pressed when customising")]
     public T        UpgradeIncrease;
 
     [Tooltip("The Value cannot go below this no matter how many times the item is customised")]
