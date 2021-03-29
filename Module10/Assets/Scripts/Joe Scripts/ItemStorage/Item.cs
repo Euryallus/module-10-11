@@ -43,13 +43,13 @@ public class Item : ScriptableObject
     [Space]
     [Header("Player Customisation")]
 
-    [SerializeField] [Tooltip("Whether or not the player can rename this item type")]
+    [SerializeField] [Tooltip("Whether or not the player can customise this item type's name/properties")]
     private bool m_customisable;
 
-    [SerializeField] [Tooltip("The id of the item needed to rename this item type. Leave blank if this item is not renamable, or does not require another item to be renamed.")]
+    [SerializeField] [Tooltip("The id of the item needed to customise this item type. Leave blank if this item is not customisable, or does not require another item to be customised.")]
     private string m_currencyItemId;
 
-    [SerializeField] [Tooltip("The number of the above items required to rename this item type. Leave at 0 if this item is not renamable, or does not require another item to be renamed.")]
+    [SerializeField] [Tooltip("The number of the above items required to customise this item type. Leave at 0 if this item is not customisable, or does not require another item to be customised.")]
     private int m_currencyItemQuantity;
 
     [Space]
