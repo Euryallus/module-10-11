@@ -33,35 +33,38 @@ public class HeldItemManager : MonoBehaviour
 
     private void CheckForPlayerInput()
     {
-        if(heldItem != null && heldGameObject != null)
+        if(heldItemScript != null)
         {
-            if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
+            if (heldItem != null && heldGameObject != null)
             {
-                if(mouseHoldTimer < mouseHoldThreshold)
+                if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    heldItemScript.PerformMainAbility();
-                }
+                    if (mouseHoldTimer < mouseHoldThreshold)
+                    {
+                        heldItemScript.PerformMainAbility();
+                    }
 
-                if (heldItemScript.PerformingPuzzleAbility)
+                    if (heldItemScript.PerformingPuzzleAbility)
+                    {
+                        heldItemScript.EndPuzzleAbility();
+                    }
+
+                    mouseHoldTimer = 0.0f;
+                }
+                else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    heldItemScript.EndPuzzleAbility();
-                }
+                    mouseHoldTimer += Time.deltaTime;
 
+                    if (!heldItemScript.PerformingPuzzleAbility && mouseHoldTimer > mouseHoldThreshold)
+                    {
+                        heldItemScript.StartPuzzleAbility();
+                    }
+                }
+            }
+            else
+            {
                 mouseHoldTimer = 0.0f;
             }
-            else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
-                mouseHoldTimer += Time.deltaTime;
-
-                if(!heldItemScript.PerformingPuzzleAbility && mouseHoldTimer > mouseHoldThreshold)
-                {
-                    heldItemScript.StartPuzzleAbility();
-                }
-            }
-        }
-        else
-        {
-            mouseHoldTimer = 0.0f;
         }
     }
 
@@ -82,7 +85,11 @@ public class HeldItemManager : MonoBehaviour
                 {
                     heldGameObject = Instantiate(heldItem.HeldItemGameObject, playerTransform);
                     heldItemScript = heldGameObject.GetComponent<HeldItem>();
-                    heldItemScript.Setup(heldItem);
+
+                    if(heldItemScript != null)
+                    {
+                        heldItemScript.Setup(heldItem);
+                    }
                 }
             }
         }
