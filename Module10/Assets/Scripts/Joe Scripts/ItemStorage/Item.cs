@@ -1,19 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Item")]
 public class Item : ScriptableObject
 {
-    public string       Id                      { get { return m_id; } set { m_id = value; } }
-    public string       UIName                  { get { return m_uiName; } set { m_uiName = value; } }
-    public int          StackSize               { get { return m_stackSize; } }
-    public float        Weight                  { get { return m_weight; } }
-    public Sprite       Sprite                  { get { return m_sprite; } }
-    public GameObject   HeldItemGameObject      { get { return m_heldItemGameObject; } }
-    public bool         Customisable            { get { return m_customisable; } }
-    public string       CurrencyItemId          { get { return m_currencyItemId; } }
-    public int          CurrencyItemQuantity    { get { return m_currencyItemQuantity; } }  
-    public bool         CustomItem              { get { return m_customItem; } set { m_customItem = value; } }         
-    public string       BaseItemId              { get { return m_baseItemId; } set { m_baseItemId = value; } }
+    public string                       Id { get { return m_id; } set { m_id = value; } }
+    public string                       UIName { get { return m_uiName; } set { m_uiName = value; } }
+    public int                          StackSize { get { return m_stackSize; } }
+    public float                        Weight { get { return m_weight; } }
+    public Sprite                       Sprite { get { return m_sprite; } }
+    public GameObject                   HeldItemGameObject { get { return m_heldItemGameObject; } }
+    public bool                         Customisable { get { return m_customisable; } }
+    public string                       CurrencyItemId { get { return m_currencyItemId; } }
+    public int                          CurrencyItemQuantity { get { return m_currencyItemQuantity; } }
+    public bool                         CustomItem { get { return m_customItem; } set { m_customItem = value; } }
+    public string                       BaseItemId { get { return m_baseItemId; } set { m_baseItemId = value; } }
+    public CustomItemProperty<float>[]  CustomFloatProperties { get { return m_customFloatProperties; } set { m_customFloatProperties = value; } }
 
     [Space]
     [Header("Info")]
@@ -51,18 +53,61 @@ public class Item : ScriptableObject
     private int m_currencyItemQuantity;
 
     [Space]
-    [SerializeField]
-    private ItemFloatProperty[] customFloatProperties;
+    [SerializeField] [Tooltip("Properties with float values that can be upgraded/customised by the player.")]
+    private CustomItemProperty<float>[] m_customFloatProperties;
 
     //Non-editable fields
     private bool    m_customItem;
     private string  m_baseItemId;
 
+    public float GetCustomFloatPropertyWithName(string propertyName)
+    {
+        for (int i = 0; i < m_customFloatProperties.Length; i++)
+        {
+            if(m_customFloatProperties[i].Name == propertyName)
+            {
+                return m_customFloatProperties[i].Value;
+            }
+        }
+
+        Debug.LogError("Trying to get invalid custom float property: " + propertyName);
+        return 0.0f;
+    }
+
+    public void SetCustomFloatProperty(string propertyName, float value)
+    {
+        for (int i = 0; i < m_customFloatProperties.Length; i++)
+        {
+            if (m_customFloatProperties[i].Name == propertyName)
+            {
+                m_customFloatProperties[i].Value = value;
+                return;
+            }
+        }
+
+        Debug.LogError("Trying to set invalid custom float property: " + propertyName);
+    }
+
 }
 
 [System.Serializable]
-public struct ItemFloatProperty
+public struct CustomItemProperty<T>
 {
-    public string  Name;
-    public float   Value;
+    [Tooltip("The name used to get/set this property in code")]
+    public string   Name;
+
+    [Tooltip("The name that will be displayed for this property in the user interface")]
+    public string   UIName;
+
+    [Tooltip("The default value of this property")]
+    public T        Value;
+
+    [Tooltip("How much the value increases by each time the item is customised")]
+    public T        UpgradeIncrease;
+
+    [Tooltip("The Value cannot go below this no matter how many times the item is customised")]
+    public T        MinValue;
+
+    [Tooltip("The Value cannot surpass this no matter how many times the item is customised")]
+    public T        MaxValue;
 }

@@ -17,7 +17,8 @@ public class Hammer : HeldItem
     protected override void Awake()
     {
         base.Awake();
-        playerMovementScript    = playerTransform.GetComponent<PlayerMovement>();
+
+        playerMovementScript = playerTransform.GetComponent<PlayerMovement>();
     }
 
     public override void StartPuzzleAbility()
@@ -64,7 +65,7 @@ public class Hammer : HeldItem
 
     private void LaunchPlayer()
     {
-        playerMovementScript.SetJumpVelocity(8.0f);   //Change to item.LaunchVelocity or similar
+        playerMovementScript.SetJumpVelocity(item.GetCustomFloatPropertyWithName("LaunchForce"));
 
         if (launchIndicator != null)
         {

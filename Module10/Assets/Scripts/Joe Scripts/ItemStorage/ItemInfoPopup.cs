@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class ItemInfoPopup : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemCustomisedText;
+    [SerializeField] private TextMeshProUGUI customPropertiesText;
     [SerializeField] private TextMeshProUGUI itemIdText;
     [SerializeField] private CanvasGroup     canvasGroup;
 
@@ -48,11 +50,11 @@ public class ItemInfoPopup : MonoBehaviour
         {
             if (item != null)
             {
-                UpdatePopupInfo(item.UIName, item.CustomItem, item.Id, item.BaseItemId);
+                UpdatePopupInfo(item.UIName, item.CustomItem, item.Id, item.BaseItemId, item.CustomFloatProperties);
             }
             else
             {
-                UpdatePopupInfo("Error: Unknown Item", false, "unknown", "");
+                UpdatePopupInfo("Error: Unknown Item", false, "unknown", "", new CustomItemProperty<float>[] { });
             }
         }
 
@@ -66,7 +68,7 @@ public class ItemInfoPopup : MonoBehaviour
         canvasGroup.alpha = 0.0f;
     }
 
-    private void UpdatePopupInfo(string itemName, bool customItem, string itemId, string baseItemId)
+    private void UpdatePopupInfo(string itemName, bool customItem, string itemId, string baseItemId, CustomItemProperty<float>[] customFloatProperties)
     {
         itemNameText.text = itemName;
 
@@ -78,6 +80,28 @@ public class ItemInfoPopup : MonoBehaviour
         else
         {
             itemCustomisedText.gameObject.SetActive(false);
+        }
+
+        if(customFloatProperties.Length > 0)
+        {
+            customPropertiesText.text = "";
+
+            for (int i = 0; i < customFloatProperties.Length; i++)
+            {
+                customPropertiesText.text += (customFloatProperties[i].UIName + ": " + customFloatProperties[i].Value);
+
+                if(i < customFloatProperties.Length - 1)
+                {
+                    customPropertiesText.text += "\n";
+                }
+            }
+
+            customPropertiesText.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150.0f, 16.0f * customFloatProperties.Length);
+            customPropertiesText.gameObject.SetActive(true);
+        }
+        else
+        {
+            customPropertiesText.gameObject.SetActive(false);
         }
 
         string baseIdText = customItem ? (": " + baseItemId) : "";

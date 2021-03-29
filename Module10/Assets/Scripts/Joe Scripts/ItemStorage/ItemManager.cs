@@ -62,12 +62,30 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         for (int i = 0; i < customItemsDict.Count; i++)
         {
             Item itemToSave = customItemsDict.ElementAt(i).Value;
-            saveData.AddData("customItem" + i, new CustomItemSaveData()
+
+            CustomItemSaveData itemData = new CustomItemSaveData()
             {
-                id            = itemToSave.Id,
-                baseItemId    = itemToSave.BaseItemId,
-                uiName        = itemToSave.UIName
-            } );
+                Id = itemToSave.Id,
+                BaseItemId = itemToSave.BaseItemId,
+                UIName = itemToSave.UIName,
+            };
+
+            itemData.CustomFloatProperties = new CustomItemProperty<float>[itemToSave.CustomFloatProperties.Length];
+
+            for (int j = 0; j < itemToSave.CustomFloatProperties.Length; j++)
+            {
+                itemData.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                {
+                    Name            = itemToSave.CustomFloatProperties[j].Name,
+                    UIName          = itemToSave.CustomFloatProperties[j].UIName,
+                    Value           = itemToSave.CustomFloatProperties[j].Value,
+                    UpgradeIncrease = itemToSave.CustomFloatProperties[j].UpgradeIncrease,
+                    MinValue        = itemToSave.CustomFloatProperties[j].MinValue,
+                    MaxValue        = itemToSave.CustomFloatProperties[j].MaxValue
+                };
+            }
+
+            saveData.AddData("customItem" + i, itemData );
         }
     }
 
@@ -82,8 +100,25 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         for (int i = 0; i < customItemCount; i++)
         {
             CustomItemSaveData itemData = saveData.GetData<CustomItemSaveData>("customItem" + i);
-            AddCustomItem(itemData.id, itemData.baseItemId);
-            SetCustomItemData(itemData.id, itemData.uiName);
+
+            Item loadedItem = AddCustomItem(itemData.Id, itemData.BaseItemId);
+
+            SetCustomGenericItemData(itemData.Id, itemData.UIName);
+
+            loadedItem.CustomFloatProperties = new CustomItemProperty<float>[loadedItem.CustomFloatProperties.Length];
+
+            for (int j = 0; j < itemData.CustomFloatProperties.Length; j++)
+            {
+                loadedItem.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                {
+                    Name            = itemData.CustomFloatProperties[j].Name,
+                    UIName          = itemData.CustomFloatProperties[j].UIName,
+                    Value           = itemData.CustomFloatProperties[j].Value,
+                    UpgradeIncrease = itemData.CustomFloatProperties[j].UpgradeIncrease,
+                    MinValue        = itemData.CustomFloatProperties[j].MinValue,
+                    MaxValue        = itemData.CustomFloatProperties[j].MaxValue
+                };
+            }
         }
     }
 
@@ -123,7 +158,7 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         }
     }
 
-    public void AddCustomItem(string id, string baseItemId)
+    public Item AddCustomItem(string id, string baseItemId)
     {
         //Create a duplicate of the base item before editing certain values
 
@@ -144,19 +179,48 @@ public class ItemManager : MonoBehaviour, IPersistentObject
                 customItemsDict.Add(customItem.Id, customItem);
 
                 Debug.Log("Added custom item with id: " + customItem.Id);
+
+                return customItem;
             }
             else
             {
                 Debug.LogWarning("Trying to create custom item with id that already exists: " + customItem.Id);
+                return null;
             }
         }
         else
         {
             Debug.LogError("Trying to create custom item with invalid base item id: " + baseItemId);
+            return null;
         }
     }
 
-    public void SetCustomItemData(string id, string customUIName)
+    public Item GetCustomItem(string id)
+    {
+        if (customItemsDict.ContainsKey(id))
+        {
+            return customItemsDict[id];
+        }
+        else
+        {
+            Debug.LogError("Trying to get custom item with invalid id: " + id);
+            return null;
+        }
+    }
+
+    public void SetCustomFloatItemData(string id, string customPropertyName, float value)
+    {
+        if (customItemsDict.ContainsKey(id))
+        {
+            customItemsDict[id].SetCustomFloatProperty(customPropertyName, value);
+        }
+        else
+        {
+            Debug.LogError("Trying to set data on custom item with invalid id: " + id);
+        }
+    }
+
+    public void SetCustomGenericItemData(string id, string customUIName)
     {
         if (customItemsDict.ContainsKey(id))
         {
@@ -194,7 +258,10 @@ public class ItemManager : MonoBehaviour, IPersistentObject
 [System.Serializable]
 public struct CustomItemSaveData
 {
-    public string id;
-    public string baseItemId;
-    public string uiName;
+    public string   Id;
+    public string   BaseItemId;
+    public string   UIName;
+    public int      UpgradeLevel;
+
+    public CustomItemProperty<float>[] CustomFloatProperties;
 }

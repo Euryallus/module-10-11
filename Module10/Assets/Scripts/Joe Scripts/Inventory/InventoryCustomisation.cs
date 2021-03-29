@@ -230,6 +230,6 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
         customisedItemName = name;
         customNameInput.text = customisedItemName;
 
-        itemManager.SetCustomItemData(itemManager.GetUniqueCustomItemId(), customisedItemName);
+        itemManager.SetCustomGenericItemData(itemManager.GetUniqueCustomItemId(), customisedItemName);
     }
 }

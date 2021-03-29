@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class HeldItemManager : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class HeldItemManager : MonoBehaviour
     {
         if(heldItem != null && heldGameObject != null)
         {
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 if(mouseHoldTimer < mouseHoldThreshold)
                 {
@@ -48,7 +49,7 @@ public class HeldItemManager : MonoBehaviour
 
                 mouseHoldTimer = 0.0f;
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 mouseHoldTimer += Time.deltaTime;
 
