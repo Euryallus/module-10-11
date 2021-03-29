@@ -22,7 +22,7 @@ public class PressEffectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private Vector3 startPos;
     private Vector3 targetPos;
-    private bool    interactable;
+    private bool    interactable = true;
 
     private void Start()
     {
@@ -77,7 +77,7 @@ public class PressEffectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(inputType == ButtonPressInputType.DepressOnClick && interactable)
+        if (inputType == ButtonPressInputType.DepressOnClick && interactable)
         {
             Press();
         }

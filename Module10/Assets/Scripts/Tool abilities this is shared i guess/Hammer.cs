@@ -65,7 +65,7 @@ public class Hammer : HeldItem
 
     private void LaunchPlayer()
     {
-        playerMovementScript.SetJumpVelocity(item.GetCustomFloatPropertyWithName("LaunchForce"));
+        playerMovementScript.SetJumpVelocity(item.GetCustomFloatPropertyWithName("LaunchForce").Value);
 
         if (launchIndicator != null)
         {

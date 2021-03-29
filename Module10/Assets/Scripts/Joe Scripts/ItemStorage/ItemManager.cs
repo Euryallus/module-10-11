@@ -7,11 +7,11 @@ public class ItemManager : MonoBehaviour, IPersistentObject
 {
     public static ItemManager Instance;
 
-    [SerializeField] private Item[]    items;
+    [SerializeField] private Item[]             items;
     public CraftingRecipe[]                     CraftingRecipes;
 
-    private Dictionary<string, Item>   itemsDict           = new Dictionary<string, Item>();
-    private Dictionary<string, Item>   customItemsDict     = new Dictionary<string, Item>();
+    private Dictionary<string, Item>            itemsDict           = new Dictionary<string, Item>();
+    private Dictionary<string, Item>            customItemsDict     = new Dictionary<string, Item>();
     private Dictionary<string, CraftingRecipe>  craftingRecipesDict = new Dictionary<string, CraftingRecipe>();
 
     private int customItemUniqueId;
@@ -105,19 +105,24 @@ public class ItemManager : MonoBehaviour, IPersistentObject
 
             SetCustomGenericItemData(itemData.Id, itemData.UIName);
 
-            loadedItem.CustomFloatProperties = new CustomItemProperty<float>[loadedItem.CustomFloatProperties.Length];
+            var baseItemProperties = GetItemWithID(itemData.BaseItemId).CustomFloatProperties;
 
-            for (int j = 0; j < itemData.CustomFloatProperties.Length; j++)
+            for (int j = 0; j < baseItemProperties.Length; j++)
             {
-                loadedItem.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                var propertyData = itemData.CustomFloatProperties[j];
+
+                if(propertyData != null && propertyData.Name == baseItemProperties[j].Name)
                 {
-                    Name            = itemData.CustomFloatProperties[j].Name,
-                    UIName          = itemData.CustomFloatProperties[j].UIName,
-                    Value           = itemData.CustomFloatProperties[j].Value,
-                    UpgradeIncrease = itemData.CustomFloatProperties[j].UpgradeIncrease,
-                    MinValue        = itemData.CustomFloatProperties[j].MinValue,
-                    MaxValue        = itemData.CustomFloatProperties[j].MaxValue
-                };
+                    loadedItem.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                    {
+                        Name = propertyData.Name,
+                        UIName = propertyData.UIName,
+                        Value = propertyData.Value,
+                        UpgradeIncrease = propertyData.UpgradeIncrease,
+                        MinValue = propertyData.MinValue,
+                        MaxValue = propertyData.MaxValue
+                    };
+                }
             }
         }
     }

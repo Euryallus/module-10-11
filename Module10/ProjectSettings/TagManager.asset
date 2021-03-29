@@ -11,6 +11,7 @@ TagManager:
   - HandSlot
   - Hotbar
   - PlayerHand
+  - DoNotDestroy
   layers:
   - Default
   - TransparentFX

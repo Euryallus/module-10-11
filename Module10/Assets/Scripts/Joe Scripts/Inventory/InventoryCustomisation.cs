@@ -7,11 +7,13 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
     [SerializeField] private ContainerSlotUI    customiseSlotUI;             //Slot for the item that will be customised NOTE: SHOULD ONLY EVER ALLOW 1 ITEM
     [SerializeField] private ContainerSlotUI    currencySlotUI;              //Slot for the item(s) used as currency when customising the item in the above slot
     [SerializeField] private ContainerSlotUI    resultSlotUI;                //Slot for the resulting customised item
+
+    [SerializeField] private GameObject         customFloatPropertyPrefab;
+    [SerializeField] private GameObject         propertyTextPrefab;
+    [SerializeField] private GameObject         customisationOptionsPanel;
+    [SerializeField] private TMP_InputField     customNameInput;
     
-    [SerializeField] private GameObject      customisationOptionsPanel;
-    [SerializeField] private TMP_InputField  customNameInput;
-    
-    [SerializeField] private TextMeshProUGUI warningText;
+    [SerializeField] private TextMeshProUGUI    warningText;
 
     private ItemManager     itemManager;
     private string          customisedItemName;
@@ -154,6 +156,31 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
             SetCustomisedItemName(itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).UIName);
 
             resultSlot.ItemStack.AddItemToStack(customItemId, false);
+
+            //Clear existing custom upgrade properties UI
+            foreach(Transform t in customisationOptionsPanel.transform)
+            {
+                if (!t.CompareTag("DoNotDestroy"))
+                {
+                    Destroy(t.gameObject);
+                }
+            }
+
+            //Add custom upgrade properties UI for this item
+            for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
+            {
+                CustomItemProperty<float> floatProperty = baseItem.CustomFloatProperties[i];
+
+                GameObject propertyText = Instantiate(propertyTextPrefab, customisationOptionsPanel.transform);
+                propertyText.GetComponent<TextMeshProUGUI>().text = floatProperty.UIName;
+
+                CustomFloatPropertyPanel propertyPanel = Instantiate(customFloatPropertyPrefab, customisationOptionsPanel.transform)
+                                                            .GetComponent<CustomFloatPropertyPanel>();
+
+                propertyPanel.ValueText.text = floatProperty.Value.ToString();
+                propertyPanel.AddButton     .onClick.AddListener(delegate { PropertyAddButton        (floatProperty.Name, propertyPanel.ValueText); });
+                propertyPanel.SubtractButton.onClick.AddListener(delegate { PropertySubtractButton   (floatProperty.Name, propertyPanel.ValueText); });
+            }
         }
         else
         {
@@ -164,6 +191,34 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
 
         //Update the result slot UI to reflect changes
         resultSlotUI.UpdateUI();
+    }
+
+    private void PropertyAddButton(string propertyName, TextMeshProUGUI valueText)
+    {
+        Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
+        CustomItemProperty<float> property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
+
+        float addedValue = property.Value + property.UpgradeIncrease;
+
+        if (addedValue <= property.MaxValue)
+        {
+            itemManager.SetCustomFloatItemData(itemManager.GetUniqueCustomItemId(), propertyName, addedValue);
+            valueText.text = addedValue.ToString();
+        }
+    }
+
+    private void PropertySubtractButton(string propertyName, TextMeshProUGUI valueText)
+    {
+        Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
+        CustomItemProperty<float> property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
+
+        float subtractedValue = property.Value - property.UpgradeIncrease;
+
+        if (subtractedValue >= property.MinValue)
+        {
+            itemManager.SetCustomFloatItemData(itemManager.GetUniqueCustomItemId(), propertyName, subtractedValue);
+            valueText.text = subtractedValue.ToString();
+        }
     }
 
     private bool CheckForValidItemInputs()

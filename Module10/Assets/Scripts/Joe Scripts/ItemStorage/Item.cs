@@ -60,18 +60,18 @@ public class Item : ScriptableObject
     private bool    m_customItem;
     private string  m_baseItemId;
 
-    public float GetCustomFloatPropertyWithName(string propertyName)
+    public CustomItemProperty<float> GetCustomFloatPropertyWithName(string propertyName)
     {
         for (int i = 0; i < m_customFloatProperties.Length; i++)
         {
             if(m_customFloatProperties[i].Name == propertyName)
             {
-                return m_customFloatProperties[i].Value;
+                return m_customFloatProperties[i];
             }
         }
 
         Debug.LogError("Trying to get invalid custom float property: " + propertyName);
-        return 0.0f;
+        return default;
     }
 
     public void SetCustomFloatProperty(string propertyName, float value)
@@ -91,7 +91,7 @@ public class Item : ScriptableObject
 }
 
 [System.Serializable]
-public struct CustomItemProperty<T>
+public class CustomItemProperty<T>
 {
     [Tooltip("The name used to get/set this property in code")]
     public string   Name;
