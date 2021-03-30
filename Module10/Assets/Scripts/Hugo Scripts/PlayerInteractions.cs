@@ -12,6 +12,9 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField]
     private NPCManager npcManager;
 
+    [SerializeField]
+    private MapUI mapUI;
+
 
     void Update()
     {
@@ -37,5 +40,13 @@ public class PlayerInteractions : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<MapTriggerArea>() != null)
+        {
+            mapUI.UpdateMap(other.gameObject.GetComponent<MapTriggerArea>().AreaName);
+        }
     }
 }
