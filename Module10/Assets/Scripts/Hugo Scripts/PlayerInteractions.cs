@@ -42,11 +42,4 @@ public class PlayerInteractions : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.GetComponent<MapTriggerArea>() != null)
-        {
-            mapUI.UpdateMap(other.gameObject.GetComponent<MapTriggerArea>().AreaName);
-        }
-    }
 }

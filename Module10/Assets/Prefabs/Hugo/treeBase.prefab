@@ -91,7 +91,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
   health: 0
   topSection: {fileID: 6041897679748096692}
-  colliderComp: {fileID: 0}
 --- !u!1 &6852306256938751593
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +118,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6852306256938751593}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
-  m_LocalPosition: {x: -14.125, y: 0.5, z: 9.5}
-  m_LocalScale: {x: 43.5, y: 43.5, z: 43.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 88.5, y: 88.5, z: 123.5}
   m_Children:
   - {fileID: 6076368070093428719}
   m_Father: {fileID: 0}
