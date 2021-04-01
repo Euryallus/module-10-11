@@ -951,6 +951,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 474361422}
     - target: {fileID: 2207638255584391532, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: healthSlider
+      value: 
+      objectReference: {fileID: 517937396}
+    - target: {fileID: 2207638255584391532, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: foodSliderFill
+      value: 
+      objectReference: {fileID: 1628928033}
+    - target: {fileID: 2207638255584391532, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
       propertyPath: foodLevelSlider
       value: 
       objectReference: {fileID: 521030483}
@@ -2009,6 +2017,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 732a055aa633d0b45b53cb653a010518, type: 3}
   m_PrefabInstance: {fileID: 641794438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &517937396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5400460774534467757, guid: fb31b606960550043ac0577bd25972f8, type: 3}
+  m_PrefabInstance: {fileID: 7222653337260033481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &521030483 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5811139080191020762, guid: fb31b606960550043ac0577bd25972f8, type: 3}
@@ -2651,7 +2670,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19194
+  m_Name: pb_Mesh119032
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10411,7 +10430,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19274
+  m_Name: pb_Mesh119112
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10972,7 +10991,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18778
+  m_Name: pb_Mesh118616
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -78768,7 +78787,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19062
+  m_Name: pb_Mesh118900
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -79202,6 +79221,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba83d7df00e095345a7c6f914a6db407, type: 3}
+--- !u!114 &1628928033 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7251098309911257337, guid: fb31b606960550043ac0577bd25972f8, type: 3}
+  m_PrefabInstance: {fileID: 7222653337260033481}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1650665882
 GameObject:
   m_ObjectHideFlags: 0
@@ -81619,7 +81649,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh18912
+  m_Name: pb_Mesh118750
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -82468,7 +82498,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19124
+  m_Name: pb_Mesh118962
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -82949,6 +82979,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 642911269}
     m_Modifications:
+    - target: {fileID: 320465278970354187, guid: fb31b606960550043ac0577bd25972f8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 320465278970354187, guid: fb31b606960550043ac0577bd25972f8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2146076480648976802, guid: fb31b606960550043ac0577bd25972f8, type: 3}
       propertyPath: m_Name
       value: PlayerHotbarAndInfo

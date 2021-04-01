@@ -196,4 +196,18 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = true;
     }
+
+    public bool PlayerIsMoving()
+    {
+        if( Mathf.Abs(inputX) > 0.01f || Mathf.Abs(inputY) > 0.01f)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public MovementStates GetCurrentMovementState()
+    {
+        return currentMovementState;
+    }
 }
