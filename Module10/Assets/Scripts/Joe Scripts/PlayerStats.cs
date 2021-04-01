@@ -17,20 +17,32 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     [SerializeField] [Tooltip("How many times quicker the player's food level will decrease when they are running.")]
     private float  runHungerMultiplier     = 1.5f;
 
+    [SerializeField] [Tooltip("How much the player's health decreases by every [starveDamageInterval] seconds when starving.")]
+    private float starveDamage = 0.05f;
+
+    [SerializeField] [Tooltip("How frequently (in seconds) the player takes damage when starving.")]
+    private float starveDamageInterval = 2.0f;
+
     [Header("UI")]
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image  healthSliderFill;
     [SerializeField] private Slider foodLevelSlider;
     [SerializeField] private Image  foodSliderFill;
 
     private float           health                  = 1.0f;
     private float           foodLevel               = 1.0f;
+
+    private float           starveDamageTimer;
     private PlayerMovement  playerMovementScript;
+    private Animator        healthSliderAnimator;
     private Animator        foodSliderAnimator;
 
     private void Awake()
     {
         playerMovementScript = GetComponent<PlayerMovement>();
-        foodSliderAnimator = foodSliderFill.gameObject.GetComponent<Animator>();
+
+        healthSliderAnimator = healthSliderFill .gameObject.GetComponent<Animator>();
+        foodSliderAnimator   = foodSliderFill   .gameObject.GetComponent<Animator>();
     }
 
     protected void Start()
@@ -39,29 +51,43 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
         slm.SaveObjectsEvent            += OnSave;
         slm.LoadObjectsSetupEvent       += OnLoadSetup;
         slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
-
-        UpdateHealthUI();
     }
 
     private void Update()
     {
-        UpdateFoodLevelUI();
-
         float foodLevelDecreaseAmount = Time.deltaTime / baseTimeToStarve;
 
-        if (playerMovementScript.PlayerIsMoving())
+        if(foodLevel > 0.0f)
         {
-            if(playerMovementScript.GetCurrentMovementState() == PlayerMovement.MovementStates.run)
+            //Decrease food level depending on player state
+            if (playerMovementScript.PlayerIsMoving())
             {
-                foodLevelDecreaseAmount *= runHungerMultiplier;
+                if (playerMovementScript.GetCurrentMovementState() == PlayerMovement.MovementStates.run)
+                {
+                    foodLevelDecreaseAmount *= runHungerMultiplier;
+                }
+                else
+                {
+                    foodLevelDecreaseAmount *= walkHungerMultiplier;
+                }
             }
-            else
+
+            DecreaseFoodLevel(foodLevelDecreaseAmount);
+        }
+        else
+        {
+            //Player is starving
+            starveDamageTimer += Time.deltaTime;
+            if(starveDamageTimer >= starveDamageInterval)
             {
-                foodLevelDecreaseAmount *= walkHungerMultiplier;
+                DecreaseHealth(starveDamage);
+
+                starveDamageTimer = 0.0f;
             }
         }
 
-        DecreaseFoodLevel(foodLevelDecreaseAmount);
+        UpdateHealthUI();
+        UpdateFoodLevelUI();
     }
 
     private void OnDestroy()
@@ -92,8 +118,6 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
         {
             health = loadedHealth;
         }
-
-        UpdateHealthUI();
     }
 
     public void OnLoadConfigure(SaveData saveData)
@@ -117,9 +141,26 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
         }
     }
 
+    public void IncreaseHealth(float amount)
+    {
+        health += amount;
+
+        health = Mathf.Clamp(health, 0.0f, 1.0f);
+    }
+
+    public void DecreaseHealth(float amount)
+    {
+        health -= amount;
+
+        if (health < 0.0f)
+        {
+            health = 0.0f;
+        }
+    }
+
     private void UpdateFoodLevelUI()
     {
-        foodLevelSlider.value = foodLevel;
+        foodLevelSlider.value = Mathf.Lerp(foodLevelSlider.value, foodLevel, Time.deltaTime * 25.0f);
 
         if(foodLevel < 0.1f)
         {
@@ -133,6 +174,15 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
 
     private void UpdateHealthUI()
     {
-        healthSlider.value = health;
+        healthSlider.value = Mathf.Lerp(healthSlider.value, health, Time.deltaTime * 25.0f);
+
+        if (health < 0.1f)
+        {
+            healthSliderAnimator.SetBool("Flash", true);
+        }
+        else
+        {
+            healthSliderAnimator.SetBool("Flash", false);
+        }
     }
 }

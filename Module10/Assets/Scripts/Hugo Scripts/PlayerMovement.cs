@@ -199,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool PlayerIsMoving()
     {
-        if( Mathf.Abs(inputX) > 0.01f || Mathf.Abs(inputY) > 0.01f)
+        if(canMove && (Mathf.Abs(inputX) > 0.01f || Mathf.Abs(inputY) > 0.01f))
         {
             return true;
         }
