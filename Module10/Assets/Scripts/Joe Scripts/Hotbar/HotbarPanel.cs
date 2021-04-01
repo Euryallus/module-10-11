@@ -7,10 +7,18 @@ public class HotbarPanel : UIPanel, IPersistentObject
 {
     [SerializeField] private List<ContainerSlotUI>  slotsUI;
     [SerializeField] private ItemContainer          itemContainer;
+    [SerializeField] private GameObject             itemEatPanel;
 
     public event Action<Item> HeldItemChangedEvent;
 
-    private int selectedSlotIndex;
+    private int         selectedSlotIndex;
+    private HandSlotUI  handSlot;
+    private bool        showingItemEatPanel;
+
+    private void Awake()
+    {
+        handSlot = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
+    }
 
     protected override void Start()
     {
@@ -20,6 +28,8 @@ public class HotbarPanel : UIPanel, IPersistentObject
         slm.SaveObjectsEvent            += OnSave;
         slm.LoadObjectsSetupEvent       += OnLoadSetup;
         slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+
+        itemEatPanel.SetActive(false);
 
         itemContainer.LinkSlotsToUI(slotsUI);
 
@@ -41,6 +51,21 @@ public class HotbarPanel : UIPanel, IPersistentObject
     private void Update()
     {
         CheckForPlayerInput();
+
+        if(handSlot.Slot.ItemStack.StackSize > 0 &&
+            ItemManager.Instance.IsItemConsumable(handSlot.Slot.ItemStack.StackItemsID))
+        {
+            if (!showingItemEatPanel)
+            {
+                itemEatPanel.SetActive(true);
+                showingItemEatPanel = true;
+            }
+        }
+        else if(showingItemEatPanel)
+        {
+            itemEatPanel.SetActive(false);
+            showingItemEatPanel = false;
+        }
     }
 
     public void OnSave(SaveData saveData)

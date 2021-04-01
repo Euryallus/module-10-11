@@ -23,4 +23,4 @@ MonoBehaviour:
   m_currencyItemId: 
   m_currencyItemQuantity: 0
   m_customFloatProperties: []
-  m_hungerIncrease: 0
+  m_hungerIncrease: 0.5

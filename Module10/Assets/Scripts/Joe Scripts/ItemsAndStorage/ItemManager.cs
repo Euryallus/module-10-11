@@ -285,6 +285,18 @@ public class ItemManager : MonoBehaviour, IPersistentObject
     {
         customItemUniqueId++;
     }
+
+    public bool IsItemConsumable(string id)
+    {
+        Item item = GetItemWithID(id);
+
+        if(item != null && item is ConsumableItem)
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 [System.Serializable]

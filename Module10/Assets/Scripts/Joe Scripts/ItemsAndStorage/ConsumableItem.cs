@@ -3,6 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Consumable Item", menuName = "Item/Consumable Item")]
 public class ConsumableItem : Item
 {
+    public float HungerIncrease { get { return m_hungerIncrease; } }
+
+
     [Space]
     [Header("Consumable Item Options")]
 
