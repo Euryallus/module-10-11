@@ -231,6 +231,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b5962898e17a74e92990f5504ff2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseTimeToStarve: 600
+  walkHungerMultiplier: 1.25
+  runHungerMultiplier: 1.5
+  healthSlider: {fileID: 0}
+  foodLevelSlider: {fileID: 0}
 --- !u!1 &3399754590781465955
 GameObject:
   m_ObjectHideFlags: 0
