@@ -29,7 +29,7 @@ public class PickAxe : HeldItem
     //    base.PerformMainAbility();
     //}
 
-    public override void StartPuzzleAbility()
+    public override void StartSecondardAbility()
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
@@ -45,10 +45,10 @@ public class PickAxe : HeldItem
             }
         }
 
-        base.StartPuzzleAbility();
+        base.StartSecondardAbility();
     }
 
-    public override void EndPuzzleAbility()
+    public override void EndSecondaryAbility()
     {
         if(heldObj != null)
         {
@@ -56,6 +56,6 @@ public class PickAxe : HeldItem
             heldObj = null;
         }
 
-        base.EndPuzzleAbility();
+        base.EndSecondaryAbility();
     }
 }

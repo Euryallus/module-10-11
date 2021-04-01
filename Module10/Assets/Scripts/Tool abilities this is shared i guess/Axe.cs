@@ -32,7 +32,7 @@ public class Axe : HeldItem
     //    base.PerformMainAbility();
     //}
 
-    public override void StartPuzzleAbility()
+    public override void StartSecondardAbility()
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
@@ -48,10 +48,10 @@ public class Axe : HeldItem
             }
         }
 
-        base.StartPuzzleAbility();
+        base.StartSecondardAbility();
     }
 
-    public override void EndPuzzleAbility()
+    public override void EndSecondaryAbility()
     {
         if(frozenObject != null)
         {
@@ -59,6 +59,6 @@ public class Axe : HeldItem
             frozenObject = null;
         }
 
-        base.EndPuzzleAbility();
+        base.EndSecondaryAbility();
     }
 }

@@ -21,11 +21,11 @@ public class Hammer : HeldItem
         playerMovementScript = playerTransform.GetComponent<PlayerMovement>();
     }
 
-    public override void StartPuzzleAbility()
+    public override void StartSecondardAbility()
     {
         if (playerMovementScript.PlayerIsGrounded())
         {
-            base.StartPuzzleAbility();
+            base.StartSecondardAbility();
 
             launchTimer = 0.0f;
 
@@ -33,9 +33,9 @@ public class Hammer : HeldItem
         }
     }
 
-    public override void EndPuzzleAbility()
+    public override void EndSecondaryAbility()
     {
-        base.EndPuzzleAbility();
+        base.EndSecondaryAbility();
 
         if(launchIndicator != null)
         {

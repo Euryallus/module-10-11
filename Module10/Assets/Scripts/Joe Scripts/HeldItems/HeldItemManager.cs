@@ -46,7 +46,7 @@ public class HeldItemManager : MonoBehaviour
 
                     if (heldItemScript.PerformingPuzzleAbility)
                     {
-                        heldItemScript.EndPuzzleAbility();
+                        heldItemScript.EndSecondaryAbility();
                     }
 
                     mouseHoldTimer = 0.0f;
@@ -57,7 +57,7 @@ public class HeldItemManager : MonoBehaviour
 
                     if (!heldItemScript.PerformingPuzzleAbility && mouseHoldTimer > mouseHoldThreshold)
                     {
-                        heldItemScript.StartPuzzleAbility();
+                        heldItemScript.StartSecondardAbility();
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class HeldItemManager : MonoBehaviour
         }
     }
 
-    public void OnHeldItemSelectionChanged(Item item)
+    public void OnHeldItemSelectionChanged(Item item, ContainerSlotUI containerSlot)
     {
         Item oldHeldItem = heldItem;
         heldItem = item;
@@ -88,7 +88,7 @@ public class HeldItemManager : MonoBehaviour
 
                     if(heldItemScript != null)
                     {
-                        heldItemScript.Setup(heldItem);
+                        heldItemScript.Setup(heldItem, containerSlot);
                     }
                 }
             }

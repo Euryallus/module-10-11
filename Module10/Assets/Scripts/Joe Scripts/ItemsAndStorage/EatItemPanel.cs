@@ -5,8 +5,6 @@ public class EatItemPanel : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("EAT POINTER");
-
         HandSlotUI handSlotUI = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
 
         int handStackSize = handSlotUI.Slot.ItemStack.StackSize;
@@ -18,12 +16,16 @@ public class EatItemPanel : MonoBehaviour, IPointerDownHandler
 
             if(itemInHand is ConsumableItem consumable)
             {
-                handSlotUI.Slot.ItemStack.TryRemoveItemFromStack();
-
                 PlayerStats playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-                playerStats.IncreaseFoodLevel(consumable.HungerIncrease);
 
-                handSlotUI.UpdateUI();
+                if (!playerStats.PlayerIsFull())
+                {
+                    handSlotUI.Slot.ItemStack.TryRemoveItemFromStack();
+
+                    playerStats.IncreaseFoodLevel(consumable.HungerIncrease);
+
+                    handSlotUI.UpdateUI();
+                }
             }
             else
             {

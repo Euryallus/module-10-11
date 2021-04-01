@@ -9,19 +9,22 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     [Header("Hunger Options (See tooltips for info)")]
 
     [SerializeField] [Tooltip("The number of seconds it will take for the player to starve if they are idle.")]
-    private float  baseTimeToStarve        = 600.0f;
+    private float   baseTimeToStarve        = 600.0f;
 
     [SerializeField] [Tooltip("How many times quicker the player's food level will decrease when they are walking/crouching.")]
-    private float  walkHungerMultiplier    = 1.25f;
+    private float   walkHungerMultiplier    = 1.25f;
 
     [SerializeField] [Tooltip("How many times quicker the player's food level will decrease when they are running.")]
-    private float  runHungerMultiplier     = 1.5f;
+    private float   runHungerMultiplier     = 1.5f;
+
+    [SerializeField] [Tooltip("How full the player's food level has to be before that cannot eat any more food (1.0 = full, 0.0 = starving)")]
+    private float   fullThreshold           = 0.9f;
 
     [SerializeField] [Tooltip("How much the player's health decreases by every [starveDamageInterval] seconds when starving.")]
-    private float starveDamage = 0.05f;
+    private float   starveDamage            = 0.05f;
 
     [SerializeField] [Tooltip("How frequently (in seconds) the player takes damage when starving.")]
-    private float starveDamageInterval = 2.0f;
+    private float   starveDamageInterval    = 2.0f;
 
     [Header("UI")]
     [SerializeField] private Slider healthSlider;
@@ -36,13 +39,15 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     private PlayerMovement  playerMovementScript;
     private Animator        healthSliderAnimator;
     private Animator        foodSliderAnimator;
+    private Animator        foodSliderBgAnimator;
 
     private void Awake()
     {
         playerMovementScript = GetComponent<PlayerMovement>();
 
-        healthSliderAnimator = healthSliderFill .gameObject.GetComponent<Animator>();
-        foodSliderAnimator   = foodSliderFill   .gameObject.GetComponent<Animator>();
+        healthSliderAnimator = healthSliderFill.gameObject.GetComponent<Animator>();
+        foodSliderAnimator   = foodSliderFill.gameObject.GetComponent<Animator>();
+        foodSliderBgAnimator = foodLevelSlider.transform.Find("Background").GetComponent<Animator>();
     }
 
     protected void Start()
@@ -162,27 +167,20 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     {
         foodLevelSlider.value = Mathf.Lerp(foodLevelSlider.value, foodLevel, Time.deltaTime * 25.0f);
 
-        if(foodLevel < 0.1f)
-        {
-            foodSliderAnimator.SetBool("Flash", true);
-        }
-        else
-        {
-            foodSliderAnimator.SetBool("Flash", false);
-        }
+        foodSliderAnimator.SetBool("Flash", (foodLevel < 0.1f));
+
+        foodSliderBgAnimator.SetBool("Flash", (foodLevel == 0.0f));
     }
 
     private void UpdateHealthUI()
     {
         healthSlider.value = Mathf.Lerp(healthSlider.value, health, Time.deltaTime * 25.0f);
 
-        if (health < 0.1f)
-        {
-            healthSliderAnimator.SetBool("Flash", true);
-        }
-        else
-        {
-            healthSliderAnimator.SetBool("Flash", false);
-        }
+        healthSliderAnimator.SetBool("Flash", (health < 0.1f));
+    }
+
+    public bool PlayerIsFull()
+    {
+        return (foodLevel > fullThreshold);
     }
 }

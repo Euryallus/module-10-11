@@ -11,10 +11,12 @@ public class HeldItem : MonoBehaviour
     protected   Transform       playerCameraTransform;
     protected   bool            performingPuzzleAbility;
     protected   Item            item;
+    protected   ContainerSlotUI containerSlot;
 
-    public void Setup(Item item)
+    public void Setup(Item item, ContainerSlotUI containerSlot)
     {
-        this.item = item;
+        this.item           = item;
+        this.containerSlot  = containerSlot;
     }
 
     protected virtual void Awake()
@@ -45,17 +47,17 @@ public class HeldItem : MonoBehaviour
         }
     }
 
-    public virtual void StartPuzzleAbility()
+    public virtual void StartSecondardAbility()
     {
-        Debug.Log("Starting puzzle ability");
+        Debug.Log("Starting secondary ability");
         performingPuzzleAbility = true;
 
         //For example, pick up and start moving an object
     }
 
-    public virtual void EndPuzzleAbility()
+    public virtual void EndSecondaryAbility()
     {
-        Debug.Log("Ending puzzle ability");
+        Debug.Log("Ending secondary ability");
         performingPuzzleAbility = false;
 
         //For example, drop an object
@@ -67,7 +69,7 @@ public class HeldItem : MonoBehaviour
         //  make sure the puzzle ability behaviour is stopped
         if (performingPuzzleAbility)
         {
-            EndPuzzleAbility();
+            EndSecondaryAbility();
         }
     }
 }

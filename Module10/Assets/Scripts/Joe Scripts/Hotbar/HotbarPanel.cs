@@ -9,7 +9,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
     [SerializeField] private ItemContainer          itemContainer;
     [SerializeField] private GameObject             itemEatPanel;
 
-    public event Action<Item> HeldItemChangedEvent;
+    public event Action<Item, ContainerSlotUI> HeldItemChangedEvent;
 
     private int         selectedSlotIndex;
     private HandSlotUI  handSlot;
@@ -139,7 +139,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
 
         slotsUI[selectedSlotIndex].SetSelected(true);
 
-        HeldItemChangedEvent?.Invoke(GetSelectedItem());
+        HeldItemChangedEvent?.Invoke(GetSelectedItem(), slotsUI[selectedSlotIndex]);
     }
 
     public Item GetSelectedItem()
