@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Item")]
+[CreateAssetMenu(fileName = "Item", menuName = "Item/Item")]
 public class Item : ScriptableObject
 {
     public string                       Id { get { return m_id; } set { m_id = value; } }
     public string                       UIName { get { return m_uiName; } set { m_uiName = value; } }
+    public string                       UIDescription { get { return m_uiDescription; } }
     public int                          StackSize { get { return m_stackSize; } }
     public float                        Weight { get { return m_weight; } }
     public Sprite                       Sprite { get { return m_sprite; } }
@@ -27,6 +27,9 @@ public class Item : ScriptableObject
 
     [SerializeField] [Tooltip("Name to be displayed in the user interface")]
     private string m_uiName;
+
+    [SerializeField] [Tooltip("Short description to be displayed in the user interface. Can be left blank")]
+    private string m_uiDescription;
 
     [SerializeField] [Tooltip("Maximum number of this item that can be stored in a single stack")]
     private int m_stackSize = 1;

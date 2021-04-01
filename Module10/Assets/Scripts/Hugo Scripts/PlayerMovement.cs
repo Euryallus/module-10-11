@@ -197,6 +197,11 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
     }
 
+    public bool GetCanMove()
+    {
+        return canMove;
+    }
+
     public bool PlayerIsMoving()
     {
         if(canMove && (Mathf.Abs(inputX) > 0.01f || Mathf.Abs(inputY) > 0.01f))

@@ -115,8 +115,9 @@ public class InventoryPanel : UIPanel
         //Block keyboard input if an input field is selected
         if (!CustomInputField.AnyFieldSelected)
         {
-            if (!showing && Input.GetKeyDown(KeyCode.I))
+            if (!showing && Input.GetKeyDown(KeyCode.I) && playerMovement.GetCanMove())
             {
+                //Show the inventory if p the player presses I when it's not already showing and they can move (i.e. not in another menu)
                 Show(InventoryShowMode.InventoryOnly);
             }
             else if (showing && (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)))
