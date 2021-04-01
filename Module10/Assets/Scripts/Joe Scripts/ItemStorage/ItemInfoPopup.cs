@@ -45,13 +45,14 @@ public class ItemInfoPopup : MonoBehaviour
     {
         if (showing)
         {
+            //Fade the popup in slightly each frame that it's showing
             canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1.0f, Time.unscaledDeltaTime * 25.0f);
-
-            //transform.position = Input.mousePosition;
-
+            
+            //Get the current width/height of the popup
             float width =   (rectTransform.rect.width / 2)  * canvas.scaleFactor;
             float height =  (rectTransform.rect.height / 2) * canvas.scaleFactor;
 
+            //Move the popup to the mouse pointer position, and clamp the position to be within screen bounds
             transform.position = new Vector2(Mathf.Clamp(Input.mousePosition.x, width, Screen.width - width), Mathf.Clamp(Input.mousePosition.y, height, Screen.height - height));
         }
     }

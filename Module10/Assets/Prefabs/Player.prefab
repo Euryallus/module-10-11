@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 3399754590433321698}
   - component: {fileID: 1401635617}
   - component: {fileID: 868819069326215492}
+  - component: {fileID: 2207638255584391532}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465953}
   npcManager: {fileID: 0}
+  mapUI: {fileID: 0}
 --- !u!114 &868819069326215492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +217,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f06f7402edccdcf4b8aaf34436de5a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2207638255584391532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399754590433321695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b5962898e17a74e92990f5504ff2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3399754590781465955

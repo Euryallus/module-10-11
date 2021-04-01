@@ -20,16 +20,23 @@ public class SaveData
         }
     }
 
-    public T GetData<T>(string id)
+    public T GetData<T>(string id, out bool loadSuccess)
     {
         if (saveDataEntries.ContainsKey(id))
         {
+            loadSuccess = true;
             return (T)saveDataEntries[id];
         }
         else
         {
+            loadSuccess = false;
             Debug.LogError("Trying to load data with invalid id: " + id);
             return default;
         }
+    }
+
+    public T GetData<T>(string id)
+    {
+        return GetData<T>(id, out _);
     }
 }

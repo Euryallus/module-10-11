@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6810096471039563641}
   - component: {fileID: 6810096471039563642}
   - component: {fileID: 6810096471039563643}
-  - component: {fileID: 6810096471039563636}
   - component: {fileID: 6810096471039563647}
   - component: {fileID: 6810096471039563640}
   - component: {fileID: 6810096471039563646}
+  - component: {fileID: 5388249085198231864}
   m_Layer: 5
   m_Name: Hotbar
   m_TagString: Hotbar
@@ -104,27 +104,13 @@ MonoBehaviour:
     m_Bottom: 5
   m_ChildAlignment: 7
   m_Spacing: 5
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &6810096471039563636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6810096471039563638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 2
-  m_VerticalFit: 2
 --- !u!225 &6810096471039563647
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -171,6 +157,20 @@ MonoBehaviour:
   ItemInfoPopup: {fileID: 0}
   ContainerId: playerHotbar
   numberOfSlots: 5
+--- !u!114 &5388249085198231864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810096471039563638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1001 &6810096470501764597
 PrefabInstance:
   m_ObjectHideFlags: 0
