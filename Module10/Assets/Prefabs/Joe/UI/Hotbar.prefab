@@ -142,6 +142,7 @@ MonoBehaviour:
   - {fileID: 7692842246107364221}
   - {fileID: 7692842246416525912}
   itemContainer: {fileID: 6810096471039563646}
+  itemEatPanel: {fileID: 0}
 --- !u!114 &6810096471039563646
 MonoBehaviour:
   m_ObjectHideFlags: 0

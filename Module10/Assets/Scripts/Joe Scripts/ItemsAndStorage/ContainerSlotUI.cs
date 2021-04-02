@@ -11,6 +11,7 @@ public class ContainerSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnter
 
     [SerializeField] private UIPanel                parentPanel;
     [SerializeField] private Image                  itemImage;
+    [SerializeField] private Image                  coverImage;
     [SerializeField] private GameObject             itemCountPanel;
     [SerializeField] private TextMeshProUGUI        itemCountText;
     [SerializeField] private UnityEngine.UI.Outline outline;
@@ -64,6 +65,19 @@ public class ContainerSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnter
         else
         {
             ErrorNotLinked();
+        }
+    }
+
+    public void SetCoverFillAmount(float value)
+    {
+        if(value == 0.0f)
+        {
+            coverImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            coverImage.gameObject.SetActive(true);
+            coverImage.fillAmount = value;
         }
     }
 

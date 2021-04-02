@@ -9,8 +9,9 @@ public class HeldItemManager : MonoBehaviour
     private HotbarPanel hotbarPanel;
     private Transform playerTransform;
 
-    private GameObject heldGameObject;
-    private HeldItem heldItemScript;
+    private GameObject      heldGameObject;
+    private HeldItem        heldItemScript;
+    private ContainerSlotUI heldItemSlot;
 
     private float mouseHoldTimer;
 
@@ -49,11 +50,11 @@ public class HeldItemManager : MonoBehaviour
                         heldItemScript.EndSecondaryAbility();
                     }
 
-                    mouseHoldTimer = 0.0f;
+                    UpdateMouseHoldTimer(0.0f);
                 }
                 else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    mouseHoldTimer += Time.deltaTime;
+                    UpdateMouseHoldTimer(mouseHoldTimer + Time.deltaTime);
 
                     if (!heldItemScript.PerformingPuzzleAbility && mouseHoldTimer > mouseHoldThreshold)
                     {
@@ -63,8 +64,18 @@ public class HeldItemManager : MonoBehaviour
             }
             else
             {
-                mouseHoldTimer = 0.0f;
+                UpdateMouseHoldTimer(0.0f);
             }
+        }
+    }
+
+    private void UpdateMouseHoldTimer(float value)
+    {
+        mouseHoldTimer = value;
+
+        if (heldItemSlot != null && (value == 0.0f || heldItem is ConsumableItem))
+        {
+            heldItemSlot.SetCoverFillAmount(value / mouseHoldThreshold);
         }
     }
 
@@ -72,6 +83,12 @@ public class HeldItemManager : MonoBehaviour
     {
         Item oldHeldItem = heldItem;
         heldItem = item;
+
+        UpdateMouseHoldTimer(0.0f);
+
+        heldItemSlot = containerSlot;
+
+        //UpdateMouseHoldTimer(0.0f);
 
         if (heldItem != null)
         {
