@@ -12,6 +12,7 @@ TagManager:
   - Hotbar
   - PlayerHand
   - DoNotDestroy
+  - JoeCanvas
   layers:
   - Default
   - TransparentFX

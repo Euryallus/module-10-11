@@ -26,6 +26,10 @@ public class EatItemPanel : MonoBehaviour, IPointerDownHandler
 
                     handSlotUI.UpdateUI();
                 }
+                else
+                {
+                    NotificationManager.Instance.ShowNotification(NotificationTextType.TooFull);
+                }
             }
             else
             {

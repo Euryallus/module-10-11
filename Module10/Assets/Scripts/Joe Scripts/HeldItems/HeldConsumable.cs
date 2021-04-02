@@ -22,6 +22,10 @@ public class HeldConsumable : HeldItem
                 //Update the slot UI to show that an item was removed
                 containerSlot.UpdateUI();
             }
+            else
+            {
+                NotificationManager.Instance.ShowNotification(NotificationTextType.TooFull);
+            }
         }
         else
         {
