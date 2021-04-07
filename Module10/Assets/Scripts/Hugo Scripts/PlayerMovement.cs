@@ -163,11 +163,8 @@ public class PlayerMovement : MonoBehaviour
 
             moveTo = transform.right * inputX + transform.forward * inputY;
 
-            if(!controller.isGrounded)
-            {
-                velocityY -= 9.81f * Time.deltaTime;
-                moveTo.y = velocityY;
-            }
+            velocityY -= 9.81f * Time.deltaTime;
+            moveTo.y = velocityY;
 
             controller.Move(moveTo * speedMap[currentMovementState] * Time.deltaTime); //applies movement to player
         }

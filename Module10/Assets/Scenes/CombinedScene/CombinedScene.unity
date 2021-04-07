@@ -1014,9 +1014,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3399754590433321693, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: jumpVelocity
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3399754590433321695, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399754590433321698, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: m_SkinWidth
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399754590433321698, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: m_MinMoveDistance
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
@@ -81156,7 +81168,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704902098}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -82399,7 +82411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6076368069913283795, guid: 0c788600e6357874099470169200a498, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 6076368069913283795, guid: 0c788600e6357874099470169200a498, type: 3}
       propertyPath: m_LocalPosition.z
