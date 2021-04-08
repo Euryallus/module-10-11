@@ -38,32 +38,48 @@ public class HeldItemManager : MonoBehaviour
         {
             if (heldItem != null && heldGameObject != null)
             {
+                //Player is holding an item with a HeldItem script attached
+
                 if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
+                    //Player released the left mouse button while their pointer was not over a UI object
+
                     if (mouseHoldTimer < mouseHoldThreshold)
                     {
+                        //If the threshold for a click and release counting as a 'hold' was not reached, perform the held item's main ability
                         heldItemScript.PerformMainAbility();
                     }
 
                     if (heldItemScript.PerformingSecondaryAbility)
                     {
+                        //If the player is currently performing the held item's secondary ability, stop when the mouse button is released
                         heldItemScript.EndSecondaryAbility();
                     }
-
-                    UpdateMouseHoldTimer(0.0f);
                 }
                 else if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    UpdateMouseHoldTimer(mouseHoldTimer + Time.deltaTime);
+                    //The left mouse button is down and not over a UI object
+
+                    //Increment the timer that keeps track of how long the mouse is held down for
+                    UpdateMouseHoldTimer(mouseHoldTimer + Time.unscaledDeltaTime);
 
                     if (!heldItemScript.PerformingSecondaryAbility && mouseHoldTimer > mouseHoldThreshold)
                     {
+                        //If the player is not already performing a secondary ability and the threshold for a mouse 'hold' was reached,
+                        //  start the secondary ability behaviour for the held item
                         heldItemScript.StartSecondardAbility();
                     }
+                }
+                else
+                {
+                    //Player is not holding/releasing the mouse, default the mouse hold timer to 0
+                    UpdateMouseHoldTimer(0.0f);
                 }
             }
             else
             {
+                //Player is holding nothing/holding an item without an attached GameObject, there is no mouse click/hold
+                //  behaviour needed so default the mouse hold timer to 0
                 UpdateMouseHoldTimer(0.0f);
             }
         }
@@ -71,11 +87,14 @@ public class HeldItemManager : MonoBehaviour
 
     private void UpdateMouseHoldTimer(float value)
     {
-        mouseHoldTimer = value;
-
-        if (heldItemSlot != null && (value == 0.0f || heldItem is ConsumableItem))
+        if(mouseHoldTimer != value)
         {
-            heldItemSlot.SetCoverFillAmount(value / mouseHoldThreshold);
+            mouseHoldTimer = value;
+
+            if (heldItemSlot != null && (value == 0.0f || heldItem is ConsumableItem))
+            {
+                heldItemSlot.SetCoverFillAmount(value / mouseHoldThreshold);
+            }
         }
     }
 
@@ -87,8 +106,6 @@ public class HeldItemManager : MonoBehaviour
         UpdateMouseHoldTimer(0.0f);
 
         heldItemSlot = containerSlot;
-
-        //UpdateMouseHoldTimer(0.0f);
 
         if (heldItem != null)
         {
