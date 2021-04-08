@@ -4,33 +4,8 @@ using UnityEngine;
 
 public class Axe : HeldItem
 {
-    //RaycastHit raycastHit;
 
     Freezable frozenObject = null;
-
-    //public override void PerformMainAbility()
-    //{
-    //    GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
-
-    //    if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
-    //    {
-    //        Debug.Log(raycastHit.transform.name);
-
-    //        DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
-    //        if (destructable != null)
-    //        {
-    //            foreach (Item tool in destructable.toolToBreak)
-    //            {
-    //                if (tool.Id == item.Id)
-    //                {
-    //                    destructable.TakeHit();
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    base.PerformMainAbility();
-    //}
 
     public override void StartSecondardAbility()
     {
@@ -42,6 +17,8 @@ public class Axe : HeldItem
 
             if(freeze != null)
             {
+                playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+
                 frozenObject = freeze;
 
                 frozenObject.Freeze();

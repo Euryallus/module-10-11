@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class HeldItem : MonoBehaviour
 {
-    public bool PerformingPuzzleAbility { get { return performingPuzzleAbility; } }
+    [Header("Food level reduction when item is used (for tools):")]
+
+    [SerializeField] [Tooltip("How much the player's food level decreases when the item's main ability is used")]
+    protected float mainAbilityHunger;
+    [SerializeField] [Tooltip("How much the player's food level decreases when the item's secondary ability is used")]
+    protected float secondaryAbilityHunger;
+
+    public bool PerformingSecondaryAbility { get { return performingSecondaryAbility; } }
 
     protected   RaycastHit      raycastHit;
     protected   Transform       playerTransform;
     protected   Transform       playerCameraTransform;
-    protected   bool            performingPuzzleAbility;
+    protected   bool            performingSecondaryAbility;
     protected   Item            item;
     protected   ContainerSlotUI containerSlot;
+    protected   PlayerStats     playerStatsScript;
 
     public void Setup(Item item, ContainerSlotUI containerSlot)
     {
@@ -21,8 +29,9 @@ public class HeldItem : MonoBehaviour
 
     protected virtual void Awake()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        playerCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        playerTransform         = GameObject.FindGameObjectWithTag("Player").transform;
+        playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        playerStatsScript       = playerTransform.GetComponent<PlayerStats>();
     }
 
     public virtual void PerformMainAbility()
@@ -39,6 +48,8 @@ public class HeldItem : MonoBehaviour
 
                     if (tool.Id == compareId)
                     {
+                        playerStatsScript.DecreaseFoodLevel(mainAbilityHunger);
+
                         destructable.TakeHit();
                         break;
                     }
@@ -50,7 +61,7 @@ public class HeldItem : MonoBehaviour
     public virtual void StartSecondardAbility()
     {
         Debug.Log("Starting secondary ability");
-        performingPuzzleAbility = true;
+        performingSecondaryAbility = true;
 
         //For example, pick up and start moving an object
     }
@@ -58,7 +69,7 @@ public class HeldItem : MonoBehaviour
     public virtual void EndSecondaryAbility()
     {
         Debug.Log("Ending secondary ability");
-        performingPuzzleAbility = false;
+        performingSecondaryAbility = false;
 
         //For example, drop an object
     }
@@ -67,7 +78,7 @@ public class HeldItem : MonoBehaviour
     {
         //If the player is performing an ability when this held item is destroyed,
         //  make sure the puzzle ability behaviour is stopped
-        if (performingPuzzleAbility)
+        if (performingSecondaryAbility)
         {
             EndSecondaryAbility();
         }

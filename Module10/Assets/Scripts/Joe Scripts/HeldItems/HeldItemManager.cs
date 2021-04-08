@@ -45,7 +45,7 @@ public class HeldItemManager : MonoBehaviour
                         heldItemScript.PerformMainAbility();
                     }
 
-                    if (heldItemScript.PerformingPuzzleAbility)
+                    if (heldItemScript.PerformingSecondaryAbility)
                     {
                         heldItemScript.EndSecondaryAbility();
                     }
@@ -56,7 +56,7 @@ public class HeldItemManager : MonoBehaviour
                 {
                     UpdateMouseHoldTimer(mouseHoldTimer + Time.deltaTime);
 
-                    if (!heldItemScript.PerformingPuzzleAbility && mouseHoldTimer > mouseHoldThreshold)
+                    if (!heldItemScript.PerformingSecondaryAbility && mouseHoldTimer > mouseHoldThreshold)
                     {
                         heldItemScript.StartSecondardAbility();
                     }

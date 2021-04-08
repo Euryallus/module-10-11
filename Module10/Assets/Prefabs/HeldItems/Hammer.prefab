@@ -140,6 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c13f33daac6e9e347b50ba9bd71557fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainAbilityHunger: 0.01
+  secondaryAbilityHunger: 0.1
   prefabLaunchIndicator: {fileID: 5471077257805614410, guid: 2f3f530dde1702e4891d824138cee50f, type: 3}
 --- !u!1 &8274484603331225469
 GameObject:

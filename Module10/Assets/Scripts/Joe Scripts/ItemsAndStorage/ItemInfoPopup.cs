@@ -22,7 +22,7 @@ public class ItemInfoPopup : MonoBehaviour
 
     private void Awake()
     {
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        canvas = GameObject.FindGameObjectWithTag("JoeCanvas").GetComponent<Canvas>();
         rectTransform = GetComponent<RectTransform>();
     }
 

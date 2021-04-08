@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hammer : HeldItem
@@ -47,7 +45,7 @@ public class Hammer : HeldItem
 
     private void Update()
     {
-        if (performingPuzzleAbility)
+        if (performingSecondaryAbility)
         {
             launchTimer += Time.deltaTime;
 
@@ -65,6 +63,8 @@ public class Hammer : HeldItem
 
     private void LaunchPlayer()
     {
+        playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+
         playerMovementScript.SetJumpVelocity(item.GetCustomFloatPropertyWithName("LaunchForce").Value);
 
         if (launchIndicator != null)
