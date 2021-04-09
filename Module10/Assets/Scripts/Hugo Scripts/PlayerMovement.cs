@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private float inputX;
     private float inputY;
 
+    [SerializeField]
     private float velocityY = 0;
 
     [SerializeField]
@@ -29,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [Tooltip("Rate at which player falls when gliding, default is 9.81 (normal grav.)")]
     private float gliderFallRate = 3f;
+    [SerializeField]
+    private float gravity = 9.81f;
 
     private Vector3 moveTo;
 
@@ -38,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float jumpVelocity = 3f;
 
-
+    private bool jumpForceAdded = false;
 
     private bool canMove = true;
 
@@ -101,22 +104,7 @@ public class PlayerMovement : MonoBehaviour
             currentMovementState = (currentMovementState == MovementStates.crouch ? MovementStates.walk : MovementStates.crouch);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && currentMovementState != MovementStates.crouch)
-        {
-            if(controller.isGrounded)
-            {
-                velocityY = jumpVelocity;
-            }
-            else if(currentMovementState != MovementStates.glide)
-            {
-                currentMovementState = MovementStates.glide;
-            }
-            else
-            {
-                currentMovementState = MovementStates.walk;
-            }
-
-        }
+        
 
         switch (currentCrouchState)
         {
@@ -179,24 +167,59 @@ public class PlayerMovement : MonoBehaviour
             inputY = Input.GetAxis("Vertical");
 
             moveTo = transform.right * inputX + transform.forward * inputY;
+            moveTo.Normalize();
 
-            if(currentMovementState == MovementStates.glide)
-            {
-                velocityY -= gliderFallRate * Time.deltaTime;
-            }
-            else
-            {
-                velocityY -= 9.81f * Time.deltaTime;
-            }
-
-            moveTo.y = velocityY;
 
             if(controller.isGrounded && currentMovementState == MovementStates.glide)
             {
                 currentMovementState = MovementStates.walk;
             }
 
-            controller.Move(moveTo * speedMap[currentMovementState] * Time.deltaTime); //applies movement to player
+            if (controller.isGrounded)
+            {
+                if(velocityY > 30f)
+                {
+                    velocityY = -0.1f;
+                }
+
+            }
+            else if(currentMovementState != MovementStates.glide)
+            {
+                velocityY -= gravity * gravity * Time.deltaTime;
+            }            
+
+            if (Input.GetKeyDown(KeyCode.Space) && currentMovementState != MovementStates.crouch)
+            {
+                if (controller.isGrounded)
+                {
+                    velocityY = jumpVelocity;
+                }
+                else if (currentMovementState != MovementStates.glide)
+                {
+                    currentMovementState = MovementStates.glide;
+
+                    velocityY = 0.1f;
+                }
+                else
+                {
+                    currentMovementState = MovementStates.walk;
+                }
+
+            }
+
+            if (currentMovementState == MovementStates.glide)
+            {
+                velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
+            }
+
+
+            Vector3 moveVect = moveTo * speedMap[currentMovementState];
+
+            moveVect.y = velocityY;
+
+            Debug.Log(moveVect);
+
+            controller.Move(moveVect * Time.deltaTime); //applies movement to player
         }
     }
 
