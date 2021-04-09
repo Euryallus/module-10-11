@@ -24,6 +24,11 @@ public class PlayerMovement : MonoBehaviour
     private float runSpeed = 8;
     [SerializeField]
     private float crouchSpeed = 3;
+    [SerializeField]
+    private float defaultGlideSpeed = 2f;
+    [SerializeField]
+    [Tooltip("Rate at which player falls when gliding, default is 9.81 (normal grav.)")]
+    private float gliderFallRate = 3f;
 
     private Vector3 moveTo;
 
@@ -31,7 +36,9 @@ public class PlayerMovement : MonoBehaviour
     private float mouseSensitivity = 400f;
 
     [SerializeField]
-    private float jumpVelocity = 100f;
+    private float jumpVelocity = 3f;
+
+
 
     private bool canMove = true;
 
@@ -40,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         walk,
         run,
         crouch,
+        glide
     }
 
     private enum CrouchState
@@ -65,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         speedMap[MovementStates.walk] = walkSpeed;
         speedMap[MovementStates.run] = runSpeed;
         speedMap[MovementStates.crouch] = crouchSpeed;
+        speedMap[MovementStates.glide] = defaultGlideSpeed;
     }
 
     // Update is called once per frame
@@ -97,6 +106,14 @@ public class PlayerMovement : MonoBehaviour
             if(controller.isGrounded)
             {
                 velocityY = jumpVelocity;
+            }
+            else if(currentMovementState != MovementStates.glide)
+            {
+                currentMovementState = MovementStates.glide;
+            }
+            else
+            {
+                currentMovementState = MovementStates.walk;
             }
 
         }
@@ -163,8 +180,21 @@ public class PlayerMovement : MonoBehaviour
 
             moveTo = transform.right * inputX + transform.forward * inputY;
 
-            velocityY -= 9.81f * Time.deltaTime;
+            if(currentMovementState == MovementStates.glide)
+            {
+                velocityY -= gliderFallRate * Time.deltaTime;
+            }
+            else
+            {
+                velocityY -= 9.81f * Time.deltaTime;
+            }
+
             moveTo.y = velocityY;
+
+            if(controller.isGrounded && currentMovementState == MovementStates.glide)
+            {
+                currentMovementState = MovementStates.walk;
+            }
 
             controller.Move(moveTo * speedMap[currentMovementState] * Time.deltaTime); //applies movement to player
         }

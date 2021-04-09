@@ -6209,9 +6209,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -851.0000610351563,
-            "y": -614.0,
-            "width": 118.00000762939453,
+            "x": -922.0,
+            "y": -612.0,
+            "width": 118.0,
             "height": 34.0
         }
     },
