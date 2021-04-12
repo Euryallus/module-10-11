@@ -244,6 +244,8 @@ public class PlayerMovement : MonoBehaviour
                 //base glide velocity x
                 
 
+
+
                 //if no y input, decrease forward momentum
                 if(inputY == 0)
                 {
@@ -255,7 +257,10 @@ public class PlayerMovement : MonoBehaviour
                     glideVelocity.y += inputY * (gliderSensitivity / 2) * Time.deltaTime;
                 }
 
-                if (inputX == 0)
+
+
+
+                if (Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround * 2))
                 {
                     if (glideVelocity.x > 0.01f || glideVelocity.x < -0.01f)
                     {
@@ -268,34 +273,35 @@ public class PlayerMovement : MonoBehaviour
                             glideVelocity.x -= 3 * Time.deltaTime;
                         }
                     }
+
                 }
                 else
                 {
-                    glideVelocity.x += inputX * gliderSensitivity * Time.deltaTime;
+                    if (inputX == 0)
+                    {
+                        if (glideVelocity.x > 0.01f || glideVelocity.x < -0.01f)
+                        {
+                            if (glideVelocity.x < 0)
+                            {
+                                glideVelocity.x += 3 * Time.deltaTime;
+                            }
+                            else
+                            {
+                                glideVelocity.x -= 3 * Time.deltaTime;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        glideVelocity.x += inputX * gliderSensitivity * Time.deltaTime;
+                    }
                 }
 
                 Quaternion target = playerCamera.transform.localRotation;
-
-                if(Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround * 2))
-                {
-
-                    if (glideVelocity.x > 0.01f || glideVelocity.x < -0.01f)
-                    {
-                        if (glideVelocity.x < 0)
-                        {
-                            glideVelocity.x += 3 * Time.deltaTime;
-                        }
-                        else
-                        {
-                            glideVelocity.x -= 3 * Time.deltaTime;
-                        }
-                    }
-
-                }
-
-                target.z = Mathf.Deg2Rad * -glideVelocity.x; 
+                target.z = Mathf.Deg2Rad * -glideVelocity.x;
 
                 playerCamera.transform.localRotation = target;
+
                 glideVelocity.x = Mathf.Clamp(glideVelocity.x, -speedMap[currentMovementState], speedMap[currentMovementState]);
 
                 glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.2f, speedMap[currentMovementState]);
@@ -304,8 +310,10 @@ public class PlayerMovement : MonoBehaviour
                 moveTo.Normalize();
 
                 velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
+
             }
 
+    
             Vector3 moveVect = moveTo * speedMap[currentMovementState];
 
             moveVect.y = velocityY;
