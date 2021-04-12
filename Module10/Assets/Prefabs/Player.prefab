@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044087294}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3399754590433321692}
@@ -173,11 +173,15 @@ MonoBehaviour:
   walkSpeed: 5
   runSpeed: 8
   crouchSpeed: 3
-  defaultGlideSpeed: 2
-  gliderFallRate: 3
-  gravity: 9.81
+  defaultGlideSpeed: 5
+  gliderFallRate: 2
+  gravity: 6.5
   mouseSensitivity: 400
-  jumpVelocity: 2
+  gliderSensitivity: 4
+  jumpVelocity: 10
+  gliderTiltAmount: 0.2
+  glideVelocity: {x: 0, y: 0}
+  gliderOpenDistanceFromGround: 5
   currentMovementState: 0
 --- !u!143 &3399754590433321698
 CharacterController:
@@ -193,9 +197,9 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_StepOffset: 0.03
+  m_SkinWidth: 0.0001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1401635617
 MonoBehaviour:
@@ -288,7 +292,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3399754590781465955}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
