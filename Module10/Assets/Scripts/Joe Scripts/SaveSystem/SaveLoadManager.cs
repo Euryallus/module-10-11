@@ -39,7 +39,21 @@ public class SaveLoadManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void SaveGame()
+    public void SubscribeSaveLoadEvents(Action<SaveData> onSave, Action<SaveData> onLoadSetup, Action<SaveData> onLoadConfig)
+    {
+        SaveObjectsEvent            += onSave;
+        LoadObjectsSetupEvent       += onLoadSetup;
+        LoadObjectsConfigureEvent   += onLoadConfig;
+    }
+
+    public void UnsubscribeSaveLoadEvents(Action<SaveData> onSave, Action<SaveData> onLoadSetup, Action<SaveData> onLoadConfig)
+    {
+        SaveObjectsEvent            -= onSave;
+        LoadObjectsSetupEvent       -= onLoadSetup;
+        LoadObjectsConfigureEvent   -= onLoadConfig;
+    }
+
+    public bool SaveGame()
     {
         SaveData dataToSave = new SaveData();
 
@@ -58,7 +72,7 @@ public class SaveLoadManager : MonoBehaviour
             catch
             {
                 Debug.LogError("Could not create save directory: " + saveDirectory);
-                return;
+                return false;
             }
         }
 
@@ -72,7 +86,7 @@ public class SaveLoadManager : MonoBehaviour
         catch
         {
             Debug.LogError("Could not open/create file at " + saveDataPath);
-            return;
+            return false;
         }
 
         //Seralize the save data to the file
@@ -83,6 +97,8 @@ public class SaveLoadManager : MonoBehaviour
         file.Close();
 
         Debug.Log("Game saved!");
+
+        return true;
     }
 
     public void LoadGame()

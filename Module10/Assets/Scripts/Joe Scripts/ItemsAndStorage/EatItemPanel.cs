@@ -28,7 +28,7 @@ public class EatItemPanel : MonoBehaviour, IPointerDownHandler
                 }
                 else
                 {
-                    NotificationManager.Instance.ShowNotification(NotificationTextType.TooFull);
+                    NotificationManager.Instance.ShowNotification(NotificationTextType.PlayerTooFull);
                 }
             }
             else

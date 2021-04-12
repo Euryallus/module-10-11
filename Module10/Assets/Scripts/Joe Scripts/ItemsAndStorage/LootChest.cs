@@ -13,18 +13,12 @@ public class LootChest : Chest, IPersistentObject
     {
         base.Start();
 
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            += OnSave;
-        slm.LoadObjectsSetupEvent       += OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void OnDestroy()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            -= OnSave;
-        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     public override void Interact()

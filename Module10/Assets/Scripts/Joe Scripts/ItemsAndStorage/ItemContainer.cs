@@ -27,18 +27,12 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 
     private void Start()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            += OnSave;
-        slm.LoadObjectsSetupEvent       += OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void OnDestroy()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            -= OnSave;
-        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void Update()

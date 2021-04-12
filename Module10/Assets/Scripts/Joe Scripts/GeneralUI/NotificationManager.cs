@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 public enum NotificationTextType
 {
-    TooFull
+    PlayerTooFull,
+
+    SaveSuccess,
+    SaveError
 }
 
 public class NotificationManager : MonoBehaviour
@@ -16,7 +19,9 @@ public class NotificationManager : MonoBehaviour
 
     private readonly Dictionary<NotificationTextType, string> notificationTextDict = new Dictionary<NotificationTextType, string>()
     {
-        { NotificationTextType.TooFull, "You're too full to eat that!" }
+        { NotificationTextType.PlayerTooFull,   "You're too full to eat that!" },
+        { NotificationTextType.SaveSuccess,     "Progress saved successfully!" },
+        { NotificationTextType.SaveError,       "Error: Progress could not be saved." }
     };
 
     private void Awake()

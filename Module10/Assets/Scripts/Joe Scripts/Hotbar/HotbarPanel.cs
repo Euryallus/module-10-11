@@ -24,10 +24,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
     {
         base.Start();
 
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            += OnSave;
-        slm.LoadObjectsSetupEvent       += OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
 
         itemEatPanel.SetActive(false);
 
@@ -42,10 +39,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
 
     private void OnDestroy()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            -= OnSave;
-        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void Update()

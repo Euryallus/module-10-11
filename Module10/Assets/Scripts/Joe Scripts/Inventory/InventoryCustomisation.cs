@@ -40,14 +40,16 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
 
     protected void Start()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            += OnSave;
-        slm.LoadObjectsSetupEvent       += OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
 
         itemManager = ItemManager.Instance;
 
         ShowDefaultWarningText();
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     public void OnSave(SaveData saveData)

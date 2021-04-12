@@ -6,6 +6,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerStats : MonoBehaviour, IPersistentObject
 {
+    #region InspectorVariables
+    //Variables in this region are set in the inspector. See tooltips for more info.
+
     [Header("Hunger Options (See tooltips for info)")]
 
     [SerializeField] [Tooltip("The number of seconds it will take for the player to starve if they are idle.")]
@@ -27,19 +30,21 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     private float   starveDamageInterval    = 2.0f;
 
     [Header("UI")]
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private Image  healthSliderFill;
-    [SerializeField] private Slider foodLevelSlider;
-    [SerializeField] private Image  foodSliderFill;
+    [SerializeField] private Slider healthSlider;       //The slider showing health
+    [SerializeField] private Image  healthSliderFill;   //The fill bar for the above slider
+    [SerializeField] private Slider foodLevelSlider;    //The slider showing food level
+    [SerializeField] private Image  foodSliderFill;     //The fill bar for the above slider
 
-    private float           health                  = 1.0f;
-    private float           foodLevel               = 1.0f;
+    #endregion
 
-    private float           starveDamageTimer;
-    private PlayerMovement  playerMovementScript;
-    private Animator        healthSliderAnimator;
-    private Animator        foodSliderAnimator;
-    private Animator        foodSliderBgAnimator;
+    private float           health    = 1.0f;       //The player's health (0 = death, 1 = full)
+    private float           foodLevel = 1.0f;       //The player's food level (0 = starving, 1 = full)
+
+    private float           starveDamageTimer;      //Keeps track of seconds passed since damage was taken from starving
+    private PlayerMovement  playerMovementScript;   //Reference to the script that controls player movement
+    private Animator        healthSliderAnimator;   //Animator used for flashing the health slider bar red when health is low
+    private Animator        foodSliderAnimator;     //Animator used for flashing the food slider bar red when food level is low
+    private Animator        foodSliderBgAnimator;   //Animator used for flashing the food slider background red when player is starving
 
     private void Awake()
     {
@@ -52,10 +57,12 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
 
     protected void Start()
     {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            += OnSave;
-        slm.LoadObjectsSetupEvent       += OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   += OnLoadConfigure;
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void Update()
@@ -93,14 +100,6 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
 
         UpdateHealthUI();
         UpdateFoodLevelUI();
-    }
-
-    private void OnDestroy()
-    {
-        SaveLoadManager slm = SaveLoadManager.Instance;
-        slm.SaveObjectsEvent            -= OnSave;
-        slm.LoadObjectsSetupEvent       -= OnLoadSetup;
-        slm.LoadObjectsConfigureEvent   -= OnLoadConfigure;
     }
 
     public void OnSave(SaveData saveData)
@@ -167,7 +166,7 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     {
         foodLevelSlider.value = Mathf.Lerp(foodLevelSlider.value, foodLevel, Time.deltaTime * 25.0f);
 
-        foodSliderAnimator.SetBool("Flash", (foodLevel < 0.1f));
+        foodSliderAnimator.SetBool("Flash", (foodLevel < 0.15f));
 
         foodSliderBgAnimator.SetBool("Flash", (foodLevel == 0.0f));
     }
@@ -176,7 +175,7 @@ public class PlayerStats : MonoBehaviour, IPersistentObject
     {
         healthSlider.value = Mathf.Lerp(healthSlider.value, health, Time.deltaTime * 25.0f);
 
-        healthSliderAnimator.SetBool("Flash", (health < 0.1f));
+        healthSliderAnimator.SetBool("Flash", (health < 0.15f));
     }
 
     public bool PlayerIsFull()

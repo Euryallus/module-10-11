@@ -24,7 +24,7 @@ public class HeldConsumable : HeldItem
             }
             else
             {
-                NotificationManager.Instance.ShowNotification(NotificationTextType.TooFull);
+                NotificationManager.Instance.ShowNotification(NotificationTextType.PlayerTooFull);
             }
         }
         else
