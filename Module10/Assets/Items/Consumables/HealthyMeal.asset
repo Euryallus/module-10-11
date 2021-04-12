@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: HealthyMeal
   m_EditorClassIdentifier: 
   m_id: nuggets
-  m_uiName: 20 Chicken McNuggets
-  m_uiDescription: A delicacy
+  m_uiName: Some sort of food
+  m_uiDescription: 
   m_stackSize: 4
   m_weight: 0.1
-  m_sprite: {fileID: 21300000, guid: c73cf6d508d4aa344a6a5eef387152d9, type: 3}
+  m_sprite: {fileID: 21300000, guid: b4fdfbd0abdad5941a2b88de68e09668, type: 3}
   m_heldItemGameObject: {fileID: 2978869022576664170, guid: 565e60afd9fc7504290b9a5d5514f0cf, type: 3}
   m_customisable: 0
   m_currencyItemId: 
