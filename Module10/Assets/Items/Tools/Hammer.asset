@@ -25,7 +25,7 @@ MonoBehaviour:
   m_customFloatProperties:
   - Name: LaunchForce
     UIName: Launch Force
-    Value: 20
-    UpgradeIncrease: 2
-    MinValue: 5
-    MaxValue: 9
+    Value: 50
+    UpgradeIncrease: 20
+    MinValue: 50
+    MaxValue: 90

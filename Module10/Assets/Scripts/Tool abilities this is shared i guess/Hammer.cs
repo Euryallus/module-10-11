@@ -65,7 +65,9 @@ public class Hammer : HeldItem
     {
         playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
 
-        playerMovementScript.SetJumpVelocity(item.GetCustomFloatPropertyWithName("LaunchForce").Value);
+        float launchForce = item.GetCustomFloatPropertyWithName("LaunchForce").Value;
+
+        playerMovementScript.SetJumpVelocity(launchForce);
 
         if (launchIndicator != null)
         {

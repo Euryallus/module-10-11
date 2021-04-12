@@ -38,10 +38,10 @@ public class PlayerHeadBobbing : MonoBehaviour
             }
             else if (crouching)
             {
-                bobSpeed     *= 0.5f;
+                bobSpeed *= 0.5f;
             }
 
-            //Increment the timer used for sin calculations
+            //Increment the timer used for sin calculation
             time += (Time.deltaTime * bobSpeed);
 
             //Set the target y position using a sin function based on the bob intensity to give a smooth up/down movement over time
