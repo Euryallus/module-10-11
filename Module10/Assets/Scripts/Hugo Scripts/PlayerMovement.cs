@@ -39,13 +39,27 @@ public class PlayerMovement : MonoBehaviour
     private float mouseSensitivity = 400f;
 
     [SerializeField]
+    private float gliderSensitivity = 2.0f;
+
+    [SerializeField]
     private float jumpVelocity = 3f;
+
+    [SerializeField]
+    private float gliderTiltAmount = 0.5f;
 
     private bool jumpForceAdded = false;
 
     private bool canMove = true;
 
+    [Header("DJKDSa")]
+    [SerializeField]
     private Vector2 glideVelocity;
+
+    private bool canGlide = false;
+
+    [SerializeField]
+    private float gliderOpenDistanceFromGround = 5.0f;
+
 
     public enum MovementStates
     {
@@ -86,6 +100,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround))
+        {
+            canGlide = false;
+        }
+        else
+        {
+            canGlide = true;
+        }
+
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             if(currentMovementState == MovementStates.walk && controller.isGrounded)
@@ -196,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     velocityY = jumpVelocity;
                 }
-                else if (currentMovementState != MovementStates.glide)
+                else if (currentMovementState != MovementStates.glide && canGlide)
                 {
                     currentMovementState = MovementStates.glide;
 
@@ -217,31 +241,74 @@ public class PlayerMovement : MonoBehaviour
                 // s decreases speed, decreases downward velocity
                 // rotate l or r based on velocity
 
-                glideVelocity.x += inputX * 2f * Time.deltaTime;
-                glideVelocity.y += inputY * 1f * Time.deltaTime;
+                //base glide velocity x
+                
 
-                glideVelocity.x = Mathf.Clamp(glideVelocity.x, -2.0f, 2.0f);
-                glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.3f, 1.0f);
+                //if no y input, decrease forward momentum
+                if(inputY == 0)
+                {
+                    glideVelocity.y -= glideVelocity.y * 0.25f;
+                }
+                //if y input, increase forward velocity
+                else
+                {
+                    glideVelocity.y += inputY * (gliderSensitivity / 2) * Time.deltaTime;
+                }
+
+                if (inputX == 0)
+                {
+                    if (glideVelocity.x > 0.01f || glideVelocity.x < -0.01f)
+                    {
+                        if (glideVelocity.x < 0)
+                        {
+                            glideVelocity.x += 3 * Time.deltaTime;
+                        }
+                        else
+                        {
+                            glideVelocity.x -= 3 * Time.deltaTime;
+                        }
+                    }
+                }
+                else
+                {
+                    glideVelocity.x += inputX * gliderSensitivity * Time.deltaTime;
+                }
+
+                Quaternion target = playerCamera.transform.localRotation;
+
+                if(Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround * 2))
+                {
+
+                    if (glideVelocity.x > 0.01f || glideVelocity.x < -0.01f)
+                    {
+                        if (glideVelocity.x < 0)
+                        {
+                            glideVelocity.x += 3 * Time.deltaTime;
+                        }
+                        else
+                        {
+                            glideVelocity.x -= 3 * Time.deltaTime;
+                        }
+                    }
+
+                }
+
+                target.z = Mathf.Deg2Rad * -glideVelocity.x; 
+
+                playerCamera.transform.localRotation = target;
+                glideVelocity.x = Mathf.Clamp(glideVelocity.x, -speedMap[currentMovementState], speedMap[currentMovementState]);
+
+                glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.2f, speedMap[currentMovementState]);
 
                 moveTo = transform.right * glideVelocity.x + transform.forward * glideVelocity.y;
                 moveTo.Normalize();
 
-                //moveTo.Normalize();
-
-                float vert = glideVelocity.y * 1.3f;
-                vert = Mathf.Clamp(vert, 0.3f, 1.3f);
-
-                velocityY -= (gliderFallRate * vert) * (gliderFallRate * vert) * Time.deltaTime;
-
-                //velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
+                velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
             }
-
 
             Vector3 moveVect = moveTo * speedMap[currentMovementState];
 
             moveVect.y = velocityY;
-
-            Debug.Log(moveVect);
 
             controller.Move(moveVect * Time.deltaTime); //applies movement to player
         }
