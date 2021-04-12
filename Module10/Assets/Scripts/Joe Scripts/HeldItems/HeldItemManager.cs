@@ -7,7 +7,7 @@ public class HeldItemManager : MonoBehaviour
 {
     private Item heldItem;
     private HotbarPanel hotbarPanel;
-    private Transform playerTransform;
+    private Transform playerCameraTransform;
 
     private GameObject      heldGameObject;
     private HeldItem        heldItemScript;
@@ -20,8 +20,8 @@ public class HeldItemManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hotbarPanel = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform.Find("Main Camera").transform;
+        hotbarPanel             = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
+        playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
         hotbarPanel.HeldItemChangedEvent += OnHeldItemSelectionChanged;
     }
@@ -117,7 +117,7 @@ public class HeldItemManager : MonoBehaviour
 
                 if (heldItem.HeldItemGameObject != null)
                 {
-                    heldGameObject = Instantiate(heldItem.HeldItemGameObject, playerTransform);
+                    heldGameObject = Instantiate(heldItem.HeldItemGameObject, playerCameraTransform);
                     heldItemScript = heldGameObject.GetComponent<HeldItem>();
 
                     if(heldItemScript != null)
