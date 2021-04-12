@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canMove = true;
 
+    private Vector2 glideVelocity;
+
     public enum MovementStates
     {
         walk,
@@ -77,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
         speedMap[MovementStates.run] = runSpeed;
         speedMap[MovementStates.crouch] = crouchSpeed;
         speedMap[MovementStates.glide] = defaultGlideSpeed;
+
+        glideVelocity = new Vector2(0, 0);
     }
 
     // Update is called once per frame
@@ -96,15 +100,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentMovementState = MovementStates.walk;
             }
-
         }
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
             currentMovementState = (currentMovementState == MovementStates.crouch ? MovementStates.walk : MovementStates.crouch);
         }
-
-        
 
         switch (currentCrouchState)
         {
@@ -173,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
             if(controller.isGrounded && currentMovementState == MovementStates.glide)
             {
                 currentMovementState = MovementStates.walk;
+                glideVelocity = new Vector2(0, 0);
             }
 
             if (controller.isGrounded)
@@ -198,18 +200,40 @@ public class PlayerMovement : MonoBehaviour
                 {
                     currentMovementState = MovementStates.glide;
 
+                    glideVelocity = new Vector2(inputX, inputY).normalized;
+
                     velocityY = 0.1f;
                 }
                 else
                 {
                     currentMovementState = MovementStates.walk;
                 }
-
             }
 
             if (currentMovementState == MovementStates.glide)
             {
-                velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
+                //cumilative r / l velocity
+                // w increases speed, increases downward velocity
+                // s decreases speed, decreases downward velocity
+                // rotate l or r based on velocity
+
+                glideVelocity.x += inputX * 2f * Time.deltaTime;
+                glideVelocity.y += inputY * 1f * Time.deltaTime;
+
+                glideVelocity.x = Mathf.Clamp(glideVelocity.x, -2.0f, 2.0f);
+                glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.3f, 1.0f);
+
+                moveTo = transform.right * glideVelocity.x + transform.forward * glideVelocity.y;
+                moveTo.Normalize();
+
+                //moveTo.Normalize();
+
+                float vert = glideVelocity.y * 1.3f;
+                vert = Mathf.Clamp(vert, 0.3f, 1.3f);
+
+                velocityY -= (gliderFallRate * vert) * (gliderFallRate * vert) * Time.deltaTime;
+
+                //velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
             }
 
 
@@ -234,7 +258,6 @@ public class PlayerMovement : MonoBehaviour
         {
             velocityY = velocity;
         }
-
     }
 
     public void StopMoving()
