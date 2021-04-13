@@ -101,7 +101,21 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if(Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround))
+        moveTo = new Vector3(0, 0, 0);
+
+        mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity * Time.deltaTime;
+        mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+        rotateY -= mouseY;
+        rotateY = Mathf.Clamp(rotateY, -75f, 75f);
+
+        transform.Rotate(Vector3.up * mouseX);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
+
+        inputX = Input.GetAxis("Horizontal");
+        inputY = Input.GetAxis("Vertical");
+
+        if (Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround))
         {
             canGlide = false;
         }
@@ -179,21 +193,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(canMove)
         {
-            mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
-            rotateY -= mouseY;
-            rotateY = Mathf.Clamp(rotateY, -75f, 75f);
-
-            transform.Rotate(Vector3.up * mouseX);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
-
-            inputX = Input.GetAxis("Horizontal");
-            inputY = Input.GetAxis("Vertical");
 
             moveTo = transform.right * inputX + transform.forward * inputY;
-            moveTo.Normalize();
-
 
             if(controller.isGrounded && currentMovementState == MovementStates.glide)
             {
@@ -307,13 +308,16 @@ public class PlayerMovement : MonoBehaviour
                 glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.2f, speedMap[currentMovementState]);
 
                 moveTo = transform.right * glideVelocity.x + transform.forward * glideVelocity.y;
-                moveTo.Normalize();
 
                 velocityY -= gliderFallRate * gliderFallRate * Time.deltaTime;
 
             }
 
-    
+            if(moveTo.magnitude > 1)
+            {
+                moveTo.Normalize();
+            }
+
             Vector3 moveVect = moveTo * speedMap[currentMovementState];
 
             moveVect.y = velocityY;
@@ -334,7 +338,6 @@ public class PlayerMovement : MonoBehaviour
             velocityY = velocity;
         }
     }
-
     public void StopMoving()
     {
         canMove = false;
