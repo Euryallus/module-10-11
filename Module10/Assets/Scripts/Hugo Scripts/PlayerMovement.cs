@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     private float inputX;
     private float inputY;
 
-    [SerializeField]
     private float velocityY = 0;
 
     [SerializeField]
@@ -109,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
         rotateY -= mouseY;
         rotateY = Mathf.Clamp(rotateY, -75f, 75f);
 
-        transform.Rotate(Vector3.up * mouseX);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
+
+        
 
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
@@ -193,7 +192,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(canMove)
         {
-
+            transform.Rotate(Vector3.up * mouseX);
+            playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
             moveTo = transform.right * inputX + transform.forward * inputY;
 
             if(controller.isGrounded && currentMovementState == MovementStates.glide)
@@ -301,9 +301,33 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion target = playerCamera.transform.localRotation;
                 target.z = Mathf.Deg2Rad * -glideVelocity.x;
 
-                playerCamera.transform.localRotation = target;
+                if(target.z < gliderTiltAmount && target.z > - gliderTiltAmount)
+                {
+                    playerCamera.transform.localRotation = target;
+                    Debug.Log(target);
+                }
+                else
+                {
+                    if(target.z < 0)
+                    {
+                        target.z = -gliderTiltAmount;
+                        
+                    }
+                    else
+                    {
+                        target.z = gliderTiltAmount;
+                    }
 
-                glideVelocity.x = Mathf.Clamp(glideVelocity.x, -speedMap[currentMovementState], speedMap[currentMovementState]);
+                    playerCamera.transform.localRotation = target;
+                }
+
+                //transform.Rotate(Vector3.up * -glideVelocity.x * 0.3f);
+
+
+
+                //transform.localRotation = target;
+
+                glideVelocity.x = Mathf.Clamp(glideVelocity.x, -speedMap[currentMovementState] / 2, speedMap[currentMovementState] / 2);
 
                 glideVelocity.y = Mathf.Clamp(glideVelocity.y, -0.2f, speedMap[currentMovementState]);
 
