@@ -75,5 +75,7 @@ public class Hammer : HeldItem
         }
 
         launched = true;
+
+        AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
     }
 }

@@ -21,6 +21,8 @@ public class HeldConsumable : HeldItem
 
                 //Update the slot UI to show that an item was removed
                 containerSlot.UpdateUI();
+
+                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
             }
             else
             {

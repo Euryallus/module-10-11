@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class WorldSave : MonoBehaviour, IPersistentObject
 {
-    [SerializeField] private Transform spawnPlatformTransform;
-
     public string UsedSavePointId { get { return usedSavePointId; } set { usedSavePointId = value; } }
 
     public static WorldSave Instance;

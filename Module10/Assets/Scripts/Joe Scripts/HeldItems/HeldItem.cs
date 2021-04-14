@@ -8,8 +8,12 @@ public class HeldItem : MonoBehaviour
 
     [SerializeField] [Tooltip("How much the player's food level decreases when the item's main ability is used")]
     protected float mainAbilityHunger;
+
     [SerializeField] [Tooltip("How much the player's food level decreases when the item's secondary ability is used")]
     protected float secondaryAbilityHunger;
+
+    [SerializeField] protected SoundClass primaryAbilitySound;
+    [SerializeField] protected SoundClass secondaryAbilitySound;
 
     public bool PerformingSecondaryAbility { get { return performingSecondaryAbility; } }
 
@@ -51,6 +55,9 @@ public class HeldItem : MonoBehaviour
                         playerStatsScript.DecreaseFoodLevel(mainAbilityHunger);
 
                         destructable.TakeHit();
+
+                        AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
+
                         break;
                     }
                 }

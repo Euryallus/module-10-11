@@ -22,6 +22,8 @@ public class Axe : HeldItem
                 frozenObject = freeze;
 
                 frozenObject.Freeze();
+
+                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
             }
         }
 

@@ -21,6 +21,8 @@ public class PickAxe : HeldItem
                 moveObj.PickUp(GameObject.FindGameObjectWithTag("PlayerHand").transform);
 
                 heldObj = moveObj;
+
+                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
             }
         }
 
