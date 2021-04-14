@@ -159,7 +159,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log("Scene loaded: " + scene.name);
 
-        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene")
+        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene")
         {
             StartCoroutine(LoadSceneCoroutine());
         }
