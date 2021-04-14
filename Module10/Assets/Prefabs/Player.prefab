@@ -169,7 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465955}
   controller: {fileID: 3399754590433321698}
-  velocityY: 0
   walkSpeed: 5
   runSpeed: 8
   crouchSpeed: 3
