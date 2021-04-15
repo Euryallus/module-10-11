@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private float inputX;
     private float inputY;
 
+    [SerializeField]
     private float velocityY = 0;
 
     [Header("Speeds")]
@@ -69,6 +70,12 @@ public class PlayerMovement : MonoBehaviour
 
     private bool jumpForceAdded = false;
 
+    [SerializeField]
+    private bool inWater = false;
+    GameObject waterPlane = null;
+
+    RaycastHit waterRay;
+
     private bool canMove = true;
 
     private bool canGlide = false;
@@ -81,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         run,
         crouch,
         glide,
+        dive,
         swim
     }
 
@@ -92,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         gettingUp
     }
 
+    [SerializeField]
     private CrouchState currentCrouchState;
     public MovementStates currentMovementState;
 
@@ -108,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
         speedMap[MovementStates.run] = runSpeed;
         speedMap[MovementStates.crouch] = crouchSpeed;
         speedMap[MovementStates.glide] = defaultGlideSpeed;
+        speedMap[MovementStates.dive] = swimSpeed;
         speedMap[MovementStates.swim] = swimSpeed;
 
         glideVelocity = new Vector2(0, 0);
@@ -141,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if(currentMovementState == MovementStates.walk && controller.isGrounded)
             {
-                currentMovementState =MovementStates.run;
+                currentMovementState = MovementStates.run;
             }
 
         }
@@ -155,7 +165,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            currentMovementState = (currentMovementState == MovementStates.crouch ? MovementStates.walk : MovementStates.crouch);
+                currentMovementState = (currentMovementState == MovementStates.crouch ? MovementStates.walk : MovementStates.crouch);
         }
 
         switch (currentCrouchState)
@@ -204,6 +214,25 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
+        int mask = 1 << 4;
+
+        if (Physics.Raycast(transform.position - new Vector3(0,0.5f,0), transform.up, out waterRay, 100f, mask ))
+        {
+            inWater = true;
+            currentMovementState = MovementStates.dive;
+
+            waterPlane = waterRay.collider.gameObject;
+        }
+        else 
+        {
+            if (inWater == true)
+            {
+
+                //inWater = false;
+                currentMovementState = MovementStates.swim;
+            }
+        }
+
         if(canMove)
         {
             transform.Rotate(Vector3.up * mouseX);
@@ -212,6 +241,27 @@ public class PlayerMovement : MonoBehaviour
 
             switch(currentMovementState)
             {
+                case MovementStates.swim:
+
+                    if(controller.isGrounded)
+                    {
+                        currentMovementState = MovementStates.walk;
+                        inWater = false;
+                    }
+
+
+                    velocityY -= gravity * gravity * Time.deltaTime;
+                    
+                    
+                    if(Input.GetKeyDown(KeyCode.Space))
+                    {
+                        velocityY = jumpVelocity * 2;
+                    }
+
+                    
+
+                    break;
+
                 case MovementStates.glide:
                     if (controller.isGrounded)
                     {
@@ -299,7 +349,14 @@ public class PlayerMovement : MonoBehaviour
 
                     break;
 
-                case MovementStates.swim:
+                case MovementStates.dive:
+
+                    if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(transform.position.y - waterPlane.transform.position.y) < 2)
+                    {
+                        velocityY = jumpVelocity * 2;
+                        break;
+                    }
+
                     moveTo = transform.right * inputX + transform.forward * inputY;
 
                     velocityY = playerCamera.transform.forward.y * 4f * inputY;
@@ -314,7 +371,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if (velocityY > 30f)
                         {
-                            velocityY = -0.1f;
+                            //velocityY = -0.1f;
                         }
                     }
                     else
@@ -327,7 +384,8 @@ public class PlayerMovement : MonoBehaviour
                 
             }         
 
-            if (Input.GetKeyDown(KeyCode.Space) && currentMovementState != MovementStates.crouch)
+
+            if (Input.GetKeyDown(KeyCode.Space) && currentMovementState != MovementStates.crouch && currentMovementState != MovementStates.swim)
             {
                 if (controller.isGrounded)
                 {
@@ -400,4 +458,5 @@ public class PlayerMovement : MonoBehaviour
     {
         return currentMovementState;
     }
+
 }
