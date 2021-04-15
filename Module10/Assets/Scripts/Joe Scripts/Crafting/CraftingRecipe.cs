@@ -22,6 +22,12 @@ public class CraftingRecipe : ScriptableObject
 [System.Serializable]
 public class ItemGroup
 {
+    public ItemGroup(Item item, int quantity)
+    {
+        Item        = item;
+        Quantity    = quantity;
+    }
+
     public Item Item;
     public int  Quantity;
 }

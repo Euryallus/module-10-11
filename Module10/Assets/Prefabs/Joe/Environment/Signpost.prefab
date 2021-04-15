@@ -98,7 +98,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'I once was a man.
+  m_text: 'I was once a man.
 
 
     Have a nice day.'

@@ -80,6 +80,21 @@ public class HotbarPanel : UIPanel, IPersistentObject
     {
     }
 
+    public bool ContainsQuantityOfItem(ItemGroup items)
+    {
+        return itemContainer.ContainsQuantityOfItem(items, out _);
+    }
+
+    public bool RemoveItemFromHotbar(Item item)
+    {
+        return RemoveItemFromHotbar(item.Id);
+    }
+
+    public bool RemoveItemFromHotbar(string itemId)
+    {
+        return itemContainer.TryRemoveItemFromContainer(itemId);
+    }
+
     private void CheckForPlayerInput()
     {
         //Number keys input
