@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,6 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private float velocityY = 0;
+
+    [SerializeField]
+    private Volume pp;
+    private DepthOfField dof;
+    private Vignette v;
 
     [Header("Speeds")]
     [SerializeField]
@@ -113,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
 
         currentCrouchState = CrouchState.standing;
         currentMovementState = MovementStates.walk;
+
+        
         speedMap[MovementStates.walk] = walkSpeed;
         speedMap[MovementStates.run] = runSpeed;
         speedMap[MovementStates.crouch] = crouchSpeed;
@@ -121,6 +130,9 @@ public class PlayerMovement : MonoBehaviour
         speedMap[MovementStates.swim] = swimSpeed;
 
         glideVelocity = new Vector2(0, 0);
+
+        pp.profile.TryGet<Vignette>(out v);
+        pp.profile.TryGet<DepthOfField>(out dof);
     }
 
     // Update is called once per frame
@@ -218,6 +230,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.Raycast(transform.position - new Vector3(0,0.5f,0), transform.up, out waterRay, 100f, mask ))
         {
+            if(currentMovementState != MovementStates.dive)
+            {
+                dof.active = true;
+                v.active = true;
+            }
+
             inWater = true;
             currentMovementState = MovementStates.dive;
 
@@ -227,7 +245,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (inWater == true)
             {
-
+                dof.active = false;
+                v.active = false;
                 //inWater = false;
                 currentMovementState = MovementStates.swim;
             }
@@ -249,16 +268,12 @@ public class PlayerMovement : MonoBehaviour
                         inWater = false;
                     }
 
-
                     velocityY -= gravity * gravity * Time.deltaTime;
-                    
                     
                     if(Input.GetKeyDown(KeyCode.Space))
                     {
-                        velocityY = jumpVelocity * 2;
+                        velocityY = jumpVelocity;
                     }
-
-                    
 
                     break;
 
@@ -322,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
                     if (target.z < gliderTiltAmount && target.z > -gliderTiltAmount)
                     {
                         playerCamera.transform.localRotation = target;
-                        Debug.Log(target);
+
                     }
                     else
                     {
@@ -351,16 +366,13 @@ public class PlayerMovement : MonoBehaviour
 
                 case MovementStates.dive:
 
-                    if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(transform.position.y - waterPlane.transform.position.y) < 2)
-                    {
-                        velocityY = jumpVelocity * 2;
-                        break;
-                    }
-
                     moveTo = transform.right * inputX + transform.forward * inputY;
-
                     velocityY = playerCamera.transform.forward.y * 4f * inputY;
 
+                    if (Input.GetKey(KeyCode.Space))
+                    {
+                        velocityY = 4f;
+                    }
                     break;
 
                 case MovementStates.run:
@@ -379,9 +391,7 @@ public class PlayerMovement : MonoBehaviour
                         velocityY -= gravity * gravity * Time.deltaTime;
                     }
 
-                    break;
-
-                
+                    break; 
             }         
 
 
