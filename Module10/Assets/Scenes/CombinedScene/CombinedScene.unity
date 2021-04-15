@@ -698,6 +698,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3399754590433321693, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: pp
+      value: 
+      objectReference: {fileID: 1234118863}
+    - target: {fileID: 3399754590433321693, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
       propertyPath: mouseSensitivity
       value: 4
       objectReference: {fileID: 0}
@@ -12706,6 +12710,17 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5a26de236ce89e94b963be8fa2b7ade6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd1443c2a36b84b429add690cc64c24f, type: 3}
+--- !u!114 &1234118863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6364599890850676087, guid: 4b6fc4b4d5252c849ae14eca05183b91, type: 3}
+  m_PrefabInstance: {fileID: 6364599890143559681}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1268612349
 PrefabInstance:
   m_ObjectHideFlags: 0
