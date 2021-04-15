@@ -6,6 +6,9 @@ public enum NotificationTextType
 {
     PlayerTooFull,
 
+    ItemRequiredForDoor,
+    DoorUnlocked,
+
     SaveSuccess,
     SaveError
 }
@@ -19,9 +22,13 @@ public class NotificationManager : MonoBehaviour
 
     private readonly Dictionary<NotificationTextType, string> notificationTextDict = new Dictionary<NotificationTextType, string>()
     {
-        { NotificationTextType.PlayerTooFull,   "You're too full to eat that!" },
-        { NotificationTextType.SaveSuccess,     "Progress saved successfully!" },
-        { NotificationTextType.SaveError,       "Error: Progress could not be saved." }
+        { NotificationTextType.PlayerTooFull,       "You're too full to eat that!" },
+
+        { NotificationTextType.ItemRequiredForDoor, "* is required to unlock this door." },
+        { NotificationTextType.DoorUnlocked,        "The door was unlocked with *" },
+
+        { NotificationTextType.SaveSuccess,         "Progress saved successfully!" },
+        { NotificationTextType.SaveError,           "Error: Progress could not be saved." }
     };
 
     private void Awake()
@@ -40,13 +47,26 @@ public class NotificationManager : MonoBehaviour
         }
     }
 
-    public void ShowNotification(NotificationTextType textType)
+    public void ShowNotification(NotificationTextType textType, string[] parameters = null)
     {
         GameObject notification = Instantiate(prefabNotificationPanel, notificationParentTransform);
 
         if (notificationTextDict.ContainsKey(textType))
         {
-            notification.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = notificationTextDict[textType];
+            string textToShow = notificationTextDict[textType];
+
+            if(parameters != null)
+            {
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    int replaceIndex = textToShow.IndexOf("*");
+
+                    textToShow = textToShow.Remove(replaceIndex, 1);
+                    textToShow = textToShow.Insert(replaceIndex, parameters[i]);
+                }
+            }
+
+            notification.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = textToShow;
         }
         else
         {

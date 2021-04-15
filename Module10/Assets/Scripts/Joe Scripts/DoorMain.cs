@@ -2,20 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorMain : MonoBehaviour
+public class DoorMain : MonoBehaviour, IPersistentObject
 {
-    [Header("Door Main")]
+    [Header("Door")]
 
-    [SerializeField] private Animator   animator;
+    [SerializeField] private string     id;
+    [SerializeField] private Item       unlockItem;
     [SerializeField] private float      closeAfterTime = 5.0f;
+    [SerializeField] private Animator   animator;
 
     private bool openIn;
     private bool openOut;
+    private bool unlocked;
 
     private bool inInsideTrigger;
     private bool inOutsideTrigger;
 
     private float doorOpenTimer;
+
+    private InventoryPanel  playerInventory;
+    private HotbarPanel     playerHotbar;
+
+    private void Start()
+    {
+        playerInventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
+        playerHotbar    = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
+
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("IMPORTANT: Door exists without id. All doors require a *unique* id for saving/loading data.");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+    }
 
     private void Update()
     {
@@ -30,6 +54,48 @@ public class DoorMain : MonoBehaviour
                 SetAsClosed();
             }
         }
+    }
+
+    public void OnSave(SaveData saveData)
+    {
+        Debug.Log("Saving data for door: " + id);
+
+        saveData.AddData("unlocked_" + id, unlocked);
+
+        byte openStateToSave = 0;
+
+        if (openIn)
+        {
+            openStateToSave = 1;
+        }
+        else if (openOut)
+        {
+            openStateToSave = 2;
+        }
+
+        saveData.AddData("openState_" + id, openStateToSave);
+    }
+
+    public void OnLoadSetup(SaveData saveData)
+    {
+        Debug.Log("Loading data for door: " + id);
+
+        unlocked = saveData.GetData<bool>("unlocked_" + id);
+
+        byte openState = saveData.GetData<byte>("openState_" + id);
+
+        if(openState == 1)
+        {
+            SetAsOpen(true);
+        }
+        else if(openState == 2)
+        {
+            SetAsOpen(false);
+        }
+    }
+
+    public void OnLoadConfigure(SaveData saveData)
+    {
     }
 
     public void Interact()
@@ -71,19 +137,56 @@ public class DoorMain : MonoBehaviour
 
     private void SetAsOpen(bool inwards)
     {
-        doorOpenTimer = 0.0f;
-
-        openIn  = inwards;
-        openOut = !inwards;
-
-        if (inwards)
+        if(CanOpenDoor())
         {
-            animator.SetBool("OpenIn", true);
+            doorOpenTimer = 0.0f;
+
+            openIn = inwards;
+            openOut = !inwards;
+
+            if (inwards)
+            {
+                animator.SetBool("OpenIn", true);
+            }
+            else
+            {
+                animator.SetBool("OpenOut", true);
+            }
         }
-        else
+    }
+
+    private bool CanOpenDoor()
+    {
+        if (unlockItem != null && !unlocked)
         {
-            animator.SetBool("OpenOut", true);
+            ItemGroup requiredItemGroup = new ItemGroup(unlockItem, 1);
+
+            bool itemInInventory = playerInventory.ContainsQuantityOfItem(requiredItemGroup);
+            bool itemInHotbar    = playerHotbar.ContainsQuantityOfItem(requiredItemGroup);
+
+            if (itemInInventory || itemInHotbar)
+            {
+                unlocked = true;
+
+                NotificationManager.Instance.ShowNotification(NotificationTextType.DoorUnlocked, new string[] { unlockItem.UIName });
+
+                if (itemInInventory)
+                {
+                    playerInventory.RemoveItemFromInventory(unlockItem);
+                }
+                else
+                {
+                    playerHotbar.RemoveItemFromHotbar(unlockItem);
+                }
+            }
+            else
+            {
+                NotificationManager.Instance.ShowNotification(NotificationTextType.ItemRequiredForDoor, new string[] { unlockItem.UIName });
+                return false;
+            }
         }
+
+        return true;
     }
 
     private void SetAsClosed()
