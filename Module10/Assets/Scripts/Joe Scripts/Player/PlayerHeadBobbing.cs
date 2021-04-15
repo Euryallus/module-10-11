@@ -41,22 +41,39 @@ public class PlayerHeadBobbing : MonoBehaviour
                 bobSpeed *= 0.5f;
             }
 
-            //Increment the timer used for sin calculation
-            time += (Time.deltaTime * bobSpeed);
-
-            //Set the target y position using a sin function based on the bob intensity to give a smooth up/down movement over time
-            targetYPos = (Mathf.Sin(time) * bobBaseIntensity) + bobBaseIntensity;
-
+            targetYPos = GetTargetYBobbingPos(bobSpeed, bobBaseIntensity);
         }
         else
         {
-            //The player is stood still
-            //Smoothly lerp the target y position back to 0
+            bool diving = (playerMovementScript.currentMovementState == PlayerMovement.MovementStates.dive);
 
-            targetYPos = Mathf.Lerp(cameraParentTransform.localPosition.y, 0.0f, Time.deltaTime * bobBaseSpeed);
+            if (diving)
+            {
+                //The player is idle in water, slowly bob them up/down
+                targetYPos = GetTargetYBobbingPos(bobBaseSpeed * 0.3f, bobBaseIntensity * 0.5f);
+            }
+            else
+            {
+                //The player is standing still
+                //Return the target y position back to 0 (default)
+
+                //OLD: targetYPos = Mathf.Lerp(cameraParentTransform.localPosition.y, 0.0f, Time.deltaTime * bobBaseSpeed);
+                targetYPos = 0.0f;
+            }
         }
 
-        //Set the camera parent transform's position based on the calculated y value
-        cameraParentTransform.localPosition = new Vector3(0.0f, targetYPos, 0.0f);
+        //Lerp the camera parent transform's position towards the calculated y value
+
+        //OLD: cameraParentTransform.localPosition = new Vector3(0.0f, targetYPos, 0.0f);
+        cameraParentTransform.localPosition = Vector3.Lerp(cameraParentTransform.localPosition, new Vector3(0.0f, targetYPos, 0.0f), Time.deltaTime * 20.0f);
+    }
+
+    private float GetTargetYBobbingPos(float bobSpeed, float intensity)
+    {
+        //Increment the timer used for sin calculation
+        time += (Time.deltaTime * bobSpeed);
+
+        //Set the target y position using a sin function based on the bob intensity to give a smooth up/down movement over time
+        return (Mathf.Sin(time) * intensity) + intensity;
     }
 }
