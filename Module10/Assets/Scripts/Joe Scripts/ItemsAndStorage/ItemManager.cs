@@ -64,11 +64,11 @@ public class ItemManager : MonoBehaviour, IPersistentObject
                 UIName = itemToSave.UIName,
             };
 
-            itemData.CustomFloatProperties = new CustomItemProperty<float>[itemToSave.CustomFloatProperties.Length];
+            itemData.CustomFloatProperties = new CustomFloatProperty[itemToSave.CustomFloatProperties.Length];
 
             for (int j = 0; j < itemToSave.CustomFloatProperties.Length; j++)
             {
-                itemData.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                itemData.CustomFloatProperties[j] = new CustomFloatProperty()
                 {
                     Name            = itemToSave.CustomFloatProperties[j].Name,
                     UIName          = itemToSave.CustomFloatProperties[j].UIName,
@@ -119,7 +119,7 @@ public class ItemManager : MonoBehaviour, IPersistentObject
                 //  then setup the property data from the loaded values
                 if(propertyData != null && propertyData.Name == baseItemFloatProperties[j].Name)
                 {
-                    loadedItem.CustomFloatProperties[j] = new CustomItemProperty<float>()
+                    loadedItem.CustomFloatProperties[j] = new CustomFloatProperty()
                     {
                         Name            = propertyData.Name,
                         UIName          = propertyData.UIName,
@@ -246,6 +246,18 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         }
     }
 
+    public void SetCustomStringItemData(string id, string customPropertyName, string value)
+    {
+        if (customItemsDict.ContainsKey(id))
+        {
+            customItemsDict[id].SetCustomStringProperty(customPropertyName, value);
+        }
+        else
+        {
+            Debug.LogError("Trying to set data on custom item with invalid id: " + id);
+        }
+    }
+
     public void SetCustomGenericItemData(string id, string customUIName)
     {
         if (customItemsDict.ContainsKey(id))
@@ -301,5 +313,5 @@ public struct CustomItemSaveData
     public string   UIName;
     public int      UpgradeLevel;
 
-    public CustomItemProperty<float>[] CustomFloatProperties;
+    public CustomFloatProperty[] CustomFloatProperties;
 }

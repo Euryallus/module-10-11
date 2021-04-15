@@ -9,6 +9,8 @@ public enum NotificationTextType
     ItemRequiredForDoor,
     DoorUnlocked,
 
+    ItemCannotBePlaced,
+
     SaveSuccess,
     SaveError
 }
@@ -26,6 +28,8 @@ public class NotificationManager : MonoBehaviour
 
         { NotificationTextType.ItemRequiredForDoor, "* is required to unlock this door." },
         { NotificationTextType.DoorUnlocked,        "The door was unlocked with *" },
+
+        { NotificationTextType.ItemCannotBePlaced,  "The held item cannot be placed there." },
 
         { NotificationTextType.SaveSuccess,         "Progress saved successfully!" },
         { NotificationTextType.SaveError,           "Error: Progress could not be saved." }

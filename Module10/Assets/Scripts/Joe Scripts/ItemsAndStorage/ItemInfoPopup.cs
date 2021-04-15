@@ -66,11 +66,11 @@ public class ItemInfoPopup : MonoBehaviour
         {
             if (item != null)
             {
-                UpdatePopupInfo(item.UIName, item.UIDescription, item.CustomItem, item.BaseItemId, item.CustomFloatProperties); //for id: item.Id
+                UpdatePopupInfo(item.UIName, item.UIDescription, item.CustomItem, item.BaseItemId, item.CustomFloatProperties, item.CustomStringProperties);
             }
             else
             {
-                UpdatePopupInfo("Error: Unknown Item", "", false, "", new CustomItemProperty<float>[] { }); //for id: "unknown"
+                UpdatePopupInfo("Error: Unknown Item", "", false, "", new CustomFloatProperty[] { }, new CustomStringProperty[] { });
             }
         }
 
@@ -84,7 +84,8 @@ public class ItemInfoPopup : MonoBehaviour
         canvasGroup.alpha = 0.0f;
     }
 
-    private void UpdatePopupInfo(string itemName, string itemDescription, bool customItem, string baseItemId, CustomItemProperty<float>[] customFloatProperties)
+    private void UpdatePopupInfo(string itemName, string itemDescription, bool customItem, string baseItemId,
+                                    CustomFloatProperty[] customFloatProperties, CustomStringProperty[] customStringProperties)
     {
         itemNameText.text = itemName;
 
@@ -108,29 +109,43 @@ public class ItemInfoPopup : MonoBehaviour
             itemDescriptionText.gameObject.SetActive(false);
         }
 
-        if (customFloatProperties.Length > 0)
+        if (customFloatProperties.Length > 0 || customStringProperties.Length > 0)
         {
             customPropertiesText.text = "";
+
+            int shownPropertyCount = customFloatProperties.Length;
 
             for (int i = 0; i < customFloatProperties.Length; i++)
             {
                 customPropertiesText.text += (customFloatProperties[i].UIName + ": " + customFloatProperties[i].Value);
+                customPropertiesText.text += "\n";
+            }
 
-                if(i < customFloatProperties.Length - 1)
+            for (int i = 0; i < customStringProperties.Length; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(customStringProperties[i].Value))
                 {
+                    shownPropertyCount++;
+
+                    string value = customStringProperties[i].Value;
+                    if (value.Length > 10)
+                    {
+                        value = value.Remove(10);
+                        value += "...";
+                    }
+
+                    customPropertiesText.text += (customStringProperties[i].UIName + ": " + value);
                     customPropertiesText.text += "\n";
                 }
             }
 
-            customPropertiesText.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150.0f, 16.0f * customFloatProperties.Length);
+            customPropertiesText.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150.0f, 16.0f * shownPropertyCount);
+
             customPropertiesText.gameObject.SetActive(true);
         }
         else
         {
             customPropertiesText.gameObject.SetActive(false);
         }
-
-        //string baseIdText = customItem ? (": " + baseItemId) : "";
-        //itemIdText.text = "id: " + itemId + " " + baseIdText;
     }
 }

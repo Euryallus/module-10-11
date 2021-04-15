@@ -15,7 +15,8 @@ public class Item : ScriptableObject
     public int                          CurrencyItemQuantity { get { return m_currencyItemQuantity; } }
     public bool                         CustomItem { get { return m_customItem; } set { m_customItem = value; } }
     public string                       BaseItemId { get { return m_baseItemId; } set { m_baseItemId = value; } }
-    public CustomItemProperty<float>[]  CustomFloatProperties { get { return m_customFloatProperties; } set { m_customFloatProperties = value; } }
+    public CustomFloatProperty[]        CustomFloatProperties { get { return m_customFloatProperties; } set { m_customFloatProperties = value; } }
+    public CustomStringProperty[]       CustomStringProperties { get { return m_customStringProperties; } set { m_customStringProperties = value; } }
 
     [Space]
     [Header("Info")]
@@ -57,13 +58,16 @@ public class Item : ScriptableObject
 
     [Space]
     [SerializeField] [Tooltip("Properties with float values that can be upgraded/customised by the player.")]
-    private CustomItemProperty<float>[] m_customFloatProperties;
+    private CustomFloatProperty[] m_customFloatProperties;
+
+    [SerializeField] [Tooltip("Properties with string values that can be customised by the player.")]
+    private CustomStringProperty[] m_customStringProperties;
 
     //Non-editable fields
     private bool    m_customItem;
     private string  m_baseItemId;
 
-    public CustomItemProperty<float> GetCustomFloatPropertyWithName(string propertyName)
+    public CustomFloatProperty GetCustomFloatPropertyWithName(string propertyName)
     {
         for (int i = 0; i < m_customFloatProperties.Length; i++)
         {
@@ -91,10 +95,37 @@ public class Item : ScriptableObject
         Debug.LogError("Trying to set invalid custom float property: " + propertyName);
     }
 
+    public CustomStringProperty GetCustomStringPropertyWithName(string propertyName)
+    {
+        for (int i = 0; i < m_customStringProperties.Length; i++)
+        {
+            if (m_customStringProperties[i].Name == propertyName)
+            {
+                return m_customStringProperties[i];
+            }
+        }
+
+        Debug.LogError("Trying to get invalid custom string property: " + propertyName);
+        return default;
+    }
+
+    public void SetCustomStringProperty(string propertyName, string value)
+    {
+        for (int i = 0; i < m_customStringProperties.Length; i++)
+        {
+            if (m_customStringProperties[i].Name == propertyName)
+            {
+                m_customStringProperties[i].Value = value;
+                return;
+            }
+        }
+
+        Debug.LogError("Trying to set invalid custom string property: " + propertyName);
+    }
 }
 
 [System.Serializable]
-public class CustomItemProperty<T>
+public class CustomFloatProperty
 {
     [Tooltip("The name used to get/set this property in code")]
     public string   Name;
@@ -103,14 +134,27 @@ public class CustomItemProperty<T>
     public string   UIName;
 
     [Tooltip("The default value of this property")]
-    public T        Value;
+    public float    Value;
 
     [Tooltip("How much the value changed by each time the +/- button is pressed when customising")]
-    public T        UpgradeIncrease;
+    public float    UpgradeIncrease;
 
     [Tooltip("The Value cannot go below this no matter how many times the item is customised")]
-    public T        MinValue;
+    public float    MinValue;
 
     [Tooltip("The Value cannot surpass this no matter how many times the item is customised")]
-    public T        MaxValue;
+    public float    MaxValue;
+}
+
+[System.Serializable]
+public class CustomStringProperty
+{
+    [Tooltip("The name used to get/set this property in code")]
+    public string Name;
+
+    [Tooltip("The name that will be displayed for this property in the user interface")]
+    public string UIName;
+
+    [Tooltip("The default value of this property")]
+    public string Value;
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class InventoryCustomisation : MonoBehaviour, IPersistentObject
 {
@@ -9,6 +10,7 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
     [SerializeField] private ContainerSlotUI    resultSlotUI;                //Slot for the resulting customised item
 
     [SerializeField] private GameObject         customFloatPropertyPrefab;
+    [SerializeField] private GameObject         customStringPropertyPrefab;
     [SerializeField] private GameObject         propertyTextPrefab;
     [SerializeField] private GameObject         customisationOptionsPanel;
     [SerializeField] private TMP_InputField     customNameInput;
@@ -20,6 +22,8 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
     private ContainerSlot   customiseSlot;
     private ContainerSlot   currencySlot;
     private ContainerSlot   resultSlot;
+
+    private List<TMP_InputField> customInputFields;
 
     private void Awake()
     {
@@ -188,32 +192,63 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
         for (int i = 0; i < baseItem.CustomFloatProperties.Length; i++)
         {
             //Get the property of the base item at the current index
-            CustomItemProperty<float> baseFloatProperty = baseItem.CustomFloatProperties[i];
+            CustomFloatProperty baseProperty = baseItem.CustomFloatProperties[i];
 
             //Add some text and set it to display the property name
             GameObject propertyText = Instantiate(propertyTextPrefab, customisationOptionsPanel.transform);
-            propertyText.GetComponent<TextMeshProUGUI>().text = baseFloatProperty.UIName;
+            propertyText.GetComponent<TextMeshProUGUI>().text = baseProperty.UIName;
 
             //Add a panel containing the property value and buttons to increase/decrease that value
             CustomFloatPropertyPanel propertyPanel = Instantiate(customFloatPropertyPrefab, customisationOptionsPanel.transform)
                                                         .GetComponent<CustomFloatPropertyPanel>();
 
             //By default, the value of the current property to be displayed is the same as the base item's value
-            SetupPropertyValueText(propertyPanel.ValueText, baseFloatProperty.Value, baseFloatProperty.Value);
+            SetupPropertyValueText(propertyPanel.ValueText, baseProperty.Value, baseProperty.Value);
 
             //Set the PropertyAddButton and PropertySubtractButton functions to be called when the corresponding buttons are clicked
-            propertyPanel.AddButton     .onClick.AddListener(delegate { PropertyAddButton       (baseFloatProperty.Name, propertyPanel.ValueText); });
-            propertyPanel.SubtractButton.onClick.AddListener(delegate { PropertySubtractButton  (baseFloatProperty.Name, propertyPanel.ValueText); });
+            propertyPanel.AddButton     .onClick.AddListener(delegate { PropertyAddButton       (baseProperty.Name, propertyPanel.ValueText); });
+            propertyPanel.SubtractButton.onClick.AddListener(delegate { PropertySubtractButton  (baseProperty.Name, propertyPanel.ValueText); });
+        }
+
+        customInputFields = new List<TMP_InputField>();
+
+        for (int i = 0; i < baseItem.CustomStringProperties.Length; i++)
+        {
+            CustomStringProperty baseProperty = baseItem.CustomStringProperties[i];
+
+            //Add some text and set it to display the property name
+            GameObject propertyText = Instantiate(propertyTextPrefab, customisationOptionsPanel.transform);
+            propertyText.GetComponent<TextMeshProUGUI>().text = baseProperty.UIName;
+
+            GameObject propertyPanel = Instantiate(customStringPropertyPrefab, customisationOptionsPanel.transform);
+
+            TMP_InputField field = propertyPanel.GetComponent<TMP_InputField>();
+
+            customInputFields.Add(field);
+
+            int index = i;
+
+            field.onEndEdit.AddListener(delegate { StringPropertyValueChanged(baseProperty.Name, index); });
         }
 
         //Show the customisation panel so the player can start making changes
         customisationOptionsPanel.SetActive(true);
     }
 
+    private void StringPropertyValueChanged(string propertyName, int customFieldIndex)
+    {
+        string newText = customInputFields[customFieldIndex].text;
+
+        if (!string.IsNullOrWhiteSpace(newText))
+        {
+            itemManager.SetCustomStringItemData(itemManager.GetUniqueCustomItemId(), propertyName, newText);
+        }
+    }
+
     private void PropertyAddButton(string propertyName, TextMeshProUGUI valueText)
     {
         Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
-        CustomItemProperty<float> property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
+        CustomFloatProperty property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
 
         float addedValue = property.Value + property.UpgradeIncrease;
 
@@ -228,7 +263,7 @@ public class InventoryCustomisation : MonoBehaviour, IPersistentObject
     private void PropertySubtractButton(string propertyName, TextMeshProUGUI valueText)
     {
         Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
-        CustomItemProperty<float> property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
+        CustomFloatProperty property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
 
         float subtractedValue = property.Value - property.UpgradeIncrease;
 

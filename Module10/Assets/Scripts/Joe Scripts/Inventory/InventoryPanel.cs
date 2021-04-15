@@ -95,6 +95,11 @@ public class InventoryPanel : UIPanel
         itemContainer.TryAddItemToContainer(item);
     }
 
+    public void AddItemToInventory(string itemId)
+    {
+        ItemContainer.TryAddItemToContainer(ItemManager.Instance.GetItemWithID(itemId));
+    }
+
     public bool RemoveItemFromInventory(Item item)
     {
         return RemoveItemFromInventory(item.Id);
