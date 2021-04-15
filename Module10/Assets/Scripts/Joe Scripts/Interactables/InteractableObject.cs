@@ -46,6 +46,7 @@ public abstract class InteractableObject : MonoBehaviour
                 if (hoveringInRange)
                 {
                     //Player is no longer in range, end hovering
+                    hoveringInRange = false;
                     EndHover();
                 }
             }
