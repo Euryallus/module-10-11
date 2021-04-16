@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class SaveData
 {
-    public Dictionary<string, object> saveDataEntries = new Dictionary<string, object>();
+    private Dictionary<string, object> saveDataEntries = new Dictionary<string, object>();
 
     public void AddData<T>(string id, T data)
     {
@@ -38,5 +38,10 @@ public class SaveData
     public T GetData<T>(string id)
     {
         return GetData<T>(id, out _);
+    }
+
+    public Dictionary<string, object> GetSaveDataEntries()
+    {
+        return saveDataEntries;
     }
 }

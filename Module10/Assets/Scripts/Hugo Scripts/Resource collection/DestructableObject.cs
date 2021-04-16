@@ -16,7 +16,7 @@ public class DestructableObject : MonoBehaviour
     [SerializeField]
     protected int health;
 
-    private void Start()
+    protected virtual void Start()
     {
         // sets health to default
         health = hitsToBreak;

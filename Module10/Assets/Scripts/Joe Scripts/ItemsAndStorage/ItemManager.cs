@@ -79,6 +79,18 @@ public class ItemManager : MonoBehaviour, IPersistentObject
                 };
             }
 
+            itemData.CustomStringProperties = new CustomStringProperty[itemToSave.CustomStringProperties.Length];
+
+            for (int j = 0; j < itemToSave.CustomStringProperties.Length; j++)
+            {
+                itemData.CustomStringProperties[j] = new CustomStringProperty()
+                {
+                    Name = itemToSave.CustomStringProperties[j].Name,
+                    UIName = itemToSave.CustomStringProperties[j].UIName,
+                    Value = itemToSave.CustomStringProperties[j].Value
+                };
+            }
+
             saveData.AddData("customItem" + i, itemData );
         }
     }
@@ -105,31 +117,48 @@ public class ItemManager : MonoBehaviour, IPersistentObject
             //Set the UI name of the custom item from the loaded value
             SetCustomGenericItemData(itemData.Id, itemData.UIName);
 
-            //Get all of the default custom float properties from the base item
-            var baseItemFloatProperties = GetItemWithID(itemData.BaseItemId).CustomFloatProperties;
+            Item baseItem = GetItemWithID(itemData.BaseItemId);
 
             //Setup all custom float properties on the new item
-            for (int j = 0; j < baseItemFloatProperties.Length; j++)
+            for (int j = 0; j < baseItem.CustomFloatProperties.Length; j++)
             {
                 //Get the loaded data for the current custom float property
-                var propertyData = itemData.CustomFloatProperties[j];
+                var floatPropertyData = itemData.CustomFloatProperties[j];
 
                 //If the loaded data is not null (may occur if the item was created before the custom property was added to the game)
                 //  and its property name matches that of the base item (again, old items may have unused properties which should be skipped),
                 //  then setup the property data from the loaded values
-                if(propertyData != null && propertyData.Name == baseItemFloatProperties[j].Name)
+                if(floatPropertyData != null && floatPropertyData.Name == baseItem.CustomFloatProperties[j].Name)
                 {
                     loadedItem.CustomFloatProperties[j] = new CustomFloatProperty()
                     {
-                        Name            = propertyData.Name,
-                        UIName          = propertyData.UIName,
-                        Value           = propertyData.Value,
-                        UpgradeIncrease = propertyData.UpgradeIncrease,
-                        MinValue        = propertyData.MinValue,
-                        MaxValue        = propertyData.MaxValue
+                        Name            = floatPropertyData.Name,
+                        UIName          = floatPropertyData.UIName,
+                        Value           = floatPropertyData.Value,
+                        UpgradeIncrease = floatPropertyData.UpgradeIncrease,
+                        MinValue        = floatPropertyData.MinValue,
+                        MaxValue        = floatPropertyData.MaxValue
                     };
                 }
                 //If the above condition fails, the item will retain the default property values of its base item
+            }
+
+            //Setup all custom string properties on the new item
+            for (int j = 0; j < baseItem.CustomStringProperties.Length; j++)
+            {
+                //Get the loaded data for the current custom string property
+                var stringPropertyData = itemData.CustomStringProperties[j];
+
+                //Same process as above, but for string properties
+                if (stringPropertyData != null && stringPropertyData.Name == baseItem.CustomStringProperties[j].Name)
+                {
+                    loadedItem.CustomStringProperties[j] = new CustomStringProperty()
+                    {
+                        Name = stringPropertyData.Name,
+                        UIName = stringPropertyData.UIName,
+                        Value = stringPropertyData.Value
+                    };
+                }
             }
         }
     }
@@ -314,4 +343,6 @@ public struct CustomItemSaveData
     public int      UpgradeLevel;
 
     public CustomFloatProperty[] CustomFloatProperties;
+
+    public CustomStringProperty[] CustomStringProperties;
 }

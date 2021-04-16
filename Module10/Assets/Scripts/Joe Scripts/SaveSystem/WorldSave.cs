@@ -1,12 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorldSave : MonoBehaviour, IPersistentObject
 {
     public string UsedSavePointId { get { return usedSavePointId; } set { usedSavePointId = value; } }
 
+    [SerializeField] private GameObject signpostPrefab;
+
     public static WorldSave Instance;
 
     private string usedSavePointId;
+
+    private List<IPersistentPlacedObject> placedObjectsToSave = new List<IPersistentPlacedObject>();
 
     private void Awake()
     {
@@ -47,6 +54,13 @@ public class WorldSave : MonoBehaviour, IPersistentObject
         {
             Debug.LogWarning("Trying to save without setting a UsedSavePointId!");
         }
+
+        //int uniquePlacedObjectId = 0;
+
+        for (int i = 0; i < placedObjectsToSave.Count; i++)
+        {
+            placedObjectsToSave[i].AddDataToWorldSave(saveData);//, ref uniquePlacedObjectId);
+        }
     }
 
     public void OnLoadSetup(SaveData saveData)
@@ -58,6 +72,27 @@ public class WorldSave : MonoBehaviour, IPersistentObject
 
     public void OnLoadConfigure(SaveData saveData)
     {
+        var saveDataEntries = saveData.GetSaveDataEntries();
+
+        for (int i = 0; i < saveDataEntries.Count; i++)
+        {
+            var currentElement = saveDataEntries.ElementAt(i);
+
+            switch (currentElement.Key)
+            {
+                case "sign":
+                {
+                    SignpostSaveData data = (SignpostSaveData)currentElement.Value;
+
+                    GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+
+                    signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
+                }
+                break;
+            }
+        }
+
         if (!string.IsNullOrEmpty(usedSavePointId))
         {
             GameObject[] savePoints = GameObject.FindGameObjectsWithTag("SavePoint");
@@ -75,5 +110,15 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                 }
             }
         }
+    }
+
+    public void AddPlacedObjectToSave(IPersistentPlacedObject objToSave)
+    {
+        placedObjectsToSave.Add(objToSave);
+    }
+
+    public void RemovePlacedObjectFromSaveList(IPersistentPlacedObject objToRemove)
+    {
+        placedObjectsToSave.Remove(objToRemove);
     }
 }

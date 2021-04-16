@@ -46,11 +46,11 @@ public class HeldPlaceableItem : HeldItem
             UpdatePlacementState(colliding, false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             rotation -= 30.0f;
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             rotation += 30.0f;
         }
@@ -102,17 +102,20 @@ public class HeldPlaceableItem : HeldItem
     {
         base.PerformMainAbility();
 
-        if(!colliding && inRange)
+        if(Cursor.lockState == CursorLockMode.Locked)
         {
-            PlaceItemPrefab();
-        }
-        else
-        {
-            NotificationManager.Instance.ShowNotification(NotificationTextType.ItemCannotBePlaced);
+            if (!colliding && inRange)
+            {
+                PlaceItem();
+            }
+            else
+            {
+                NotificationManager.Instance.ShowNotification(NotificationTextType.ItemCannotBePlaced);
+            }
         }
     }
 
-    protected virtual GameObject PlaceItemPrefab()
+    protected virtual GameObject PlaceItem()
     {
         return Instantiate(itemPrefab, placePos, Quaternion.Euler(0.0f, visualRotation, 0.0f));
     }

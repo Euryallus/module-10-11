@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1789b43553d16e445bb1dae33ab67e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  signpostPrefab: {fileID: 8160902168982676039, guid: 5fe65904ca2980b45b22de170775b1f4, type: 3}
