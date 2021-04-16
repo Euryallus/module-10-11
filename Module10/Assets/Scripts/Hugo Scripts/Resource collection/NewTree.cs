@@ -7,6 +7,9 @@ public class NewTree : DestructableObject
     public Rigidbody topSection;
 
     public GameObject stump;
+    public Transform leavesPos;
+
+    private GameObject newStump;
 
     private void Start()
     {
@@ -26,7 +29,7 @@ public class NewTree : DestructableObject
 
         StartCoroutine(nameof(DestroyTopSection));
 
-        GameObject newStump = Instantiate(stump);
+        newStump = Instantiate(stump);
         newStump.transform.position = transform.position;
 
         base.Destroyed();
@@ -34,10 +37,16 @@ public class NewTree : DestructableObject
 
     private IEnumerator DestroyTopSection()
     {
-        Debug.Log("WEE");
         yield return new WaitForSeconds(3);
 
+        newStump.GetComponent<MeshCollider>().enabled = true;
+
         Destroy(topSection.gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        ParticleManager.Instance.SpawnParticle(leavesPos.position, "Trees");
     }
 
 
