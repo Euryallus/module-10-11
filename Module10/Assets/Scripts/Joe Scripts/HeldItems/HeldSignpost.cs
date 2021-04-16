@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class HeldSignpost : HeldPlaceableItem
 {
-    protected override GameObject PlaceItemPrefab()
+    protected override GameObject PlaceItem()
     {
-        GameObject signGameObj = base.PlaceItemPrefab();
+        GameObject signGameObj = base.PlaceItem();
 
         Signpost signpostScript = signGameObj.GetComponent<Signpost>();
 
-        signpostScript.RelatedItemId = item.Id;
+        signpostScript.SetRelatedItem(item.Id);
 
-        signpostScript.SetSignText( item.GetCustomStringPropertyWithName("line1").Value,
-                                    item.GetCustomStringPropertyWithName("line2").Value,
-                                    item.GetCustomStringPropertyWithName("line3").Value,
-                                    item.GetCustomStringPropertyWithName("line4").Value);
+        HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
+
+        hotbar.RemoveItemFromHotbar(item);
 
         return signGameObj;
     }
