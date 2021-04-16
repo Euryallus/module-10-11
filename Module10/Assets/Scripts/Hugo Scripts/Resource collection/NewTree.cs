@@ -11,9 +11,19 @@ public class NewTree : DestructableObject
 
     private GameObject newStump;
 
+    bool canDestroy = false;
+
     private void Start()
     {
         health = hitsToBreak;
+    }
+
+    private void Update()
+    {
+        if(topSection.velocity.magnitude < 0.1f && canDestroy)
+        {
+            Destroy(topSection.gameObject);
+        }
     }
 
     public override void Destroyed()
@@ -40,8 +50,8 @@ public class NewTree : DestructableObject
         yield return new WaitForSeconds(3);
 
         newStump.GetComponent<MeshCollider>().enabled = true;
-
-        Destroy(topSection.gameObject);
+        canDestroy = true;
+       
     }
 
     private void OnCollisionEnter(Collision collision)
