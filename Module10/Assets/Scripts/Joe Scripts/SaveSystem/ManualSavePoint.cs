@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SavePoint : InteractableWithOutline
+public class ManualSavePoint : InteractableWithOutline, ISavePoint
 {
     [Header("Save Point Properties")]
 
@@ -29,5 +29,15 @@ public class SavePoint : InteractableWithOutline
         {
             NotificationManager.Instance.ShowNotification(NotificationTextType.SaveError);
         }
+    }
+
+    public string GetSavePointId()
+    {
+        return id;
+    }
+
+    public Vector3 GetRespawnPosition()
+    {
+        return SpawnPlatformTransform.position;
     }
 }

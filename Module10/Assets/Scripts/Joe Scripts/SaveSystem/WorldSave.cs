@@ -99,14 +99,16 @@ public class WorldSave : MonoBehaviour, IPersistentObject
 
             for (int i = 0; i < savePoints.Length; i++)
             {
-                SavePoint currentSavePoint = savePoints[i].GetComponent<SavePoint>();
+                ISavePoint currentSavePoint = savePoints[i].GetComponent<ISavePoint>();
 
-                if (currentSavePoint.Id == usedSavePointId)
+                string savePointId = currentSavePoint.GetSavePointId();
+
+                if (savePointId == usedSavePointId)
                 {
-                    Debug.Log("Moving player to save point: " + currentSavePoint.Id);
+                    Debug.Log("Moving player to save point: " + savePointId);
 
                     //Move player to the position of the spawn transform at the point they last saved
-                    GameObject.FindGameObjectWithTag("Player").transform.position = currentSavePoint.SpawnPlatformTransform.position + new Vector3(0.0f, 3.0f, 0.0f);
+                    GameObject.FindGameObjectWithTag("Player").transform.position = currentSavePoint.GetRespawnPosition() + new Vector3(0.0f, 3.0f, 0.0f);
                 }
             }
         }
