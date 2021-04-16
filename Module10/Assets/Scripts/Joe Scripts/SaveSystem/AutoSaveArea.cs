@@ -31,6 +31,11 @@ public class AutoSaveArea : MonoBehaviour, ISavePoint, IPersistentObject
     private void Start()
     {
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("IMPORTANT: AutoSaveArea exists without id. All save points require a *unique* id for saving/loading data.");
+        }
     }
 
     private void OnDestroy()

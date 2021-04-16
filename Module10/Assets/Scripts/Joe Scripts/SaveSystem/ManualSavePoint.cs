@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ManualSavePoint : InteractableWithOutline, ISavePoint
 {
+    [Header("Important: Set unique id")]
     [Header("Save Point Properties")]
 
     [SerializeField] [Tooltip("Unique id for this save point. Important: all save points should use a different id.")]
@@ -12,6 +13,16 @@ public class ManualSavePoint : InteractableWithOutline, ISavePoint
     public Transform SpawnPlatformTransform;
 
     public string Id { get { return id; } }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning("IMPORTANT: ManualSavePoint exists without id. All save points require a *unique* id for saving/loading data.");
+        }
+    }
 
     public override void Interact()
     {
