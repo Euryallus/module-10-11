@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Hammer : HeldItem
 {
     [SerializeField] private GameObject prefabLaunchIndicator;
@@ -8,6 +9,7 @@ public class Hammer : HeldItem
     private GameObject      launchIndicator;
     private float           launchTimer;
     private bool            launched;
+    private Animator        animator;
 
     private const float launchDelay = 0.5f;
     private const float indicatorShrinkSpeed = 1.8f;
@@ -16,7 +18,16 @@ public class Hammer : HeldItem
     {
         base.Awake();
 
+        animator = GetComponent<Animator>();
+
         playerMovementScript = playerTransform.GetComponent<PlayerMovement>();
+    }
+
+    public override void PerformMainAbility()
+    {
+        base.PerformMainAbility();
+
+        animator.SetTrigger("Swing");
     }
 
     public override void StartSecondardAbility()
