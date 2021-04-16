@@ -12,6 +12,7 @@ public enum NotificationTextType
     ItemCannotBePlaced,
 
     SaveSuccess,
+    AutoSaveSuccess,
     SaveError
 }
 
@@ -31,7 +32,8 @@ public class NotificationManager : MonoBehaviour
 
         { NotificationTextType.ItemCannotBePlaced,  "The held item cannot be placed there." },
 
-        { NotificationTextType.SaveSuccess,         "Progress saved successfully!" },
+        { NotificationTextType.SaveSuccess,         "Progress saved successfully.\nSpawn point set." },
+        { NotificationTextType.AutoSaveSuccess,     "Your progress has been auto-saved.\nSpawn point set." },
         { NotificationTextType.SaveError,           "Error: Progress could not be saved." }
     };
 
