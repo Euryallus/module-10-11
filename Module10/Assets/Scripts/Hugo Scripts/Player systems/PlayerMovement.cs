@@ -80,13 +80,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private bool inWater = false;
     GameObject waterPlane = null;
-
     RaycastHit waterRay;
-
     private bool canMove = true;
-
     private bool canGlide = false;
-
     private Vector2 glideVelocity;
 
     public enum MovementStates
@@ -96,7 +92,8 @@ public class PlayerMovement : MonoBehaviour
         crouch,
         glide,
         dive,
-        swim
+        swim,
+        ladder
     }
 
     private enum CrouchState
@@ -128,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         speedMap[MovementStates.glide] = defaultGlideSpeed;
         speedMap[MovementStates.dive] = swimSpeed;
         speedMap[MovementStates.swim] = swimSpeed;
+        speedMap[MovementStates.ladder] = walkSpeed;
 
         glideVelocity = new Vector2(0, 0);
 
@@ -274,6 +272,14 @@ public class PlayerMovement : MonoBehaviour
                     {
                         velocityY = jumpVelocity;
                     }
+
+                    break;
+
+                case MovementStates.ladder:
+
+                    moveTo = new Vector3(0, 0, 0);
+
+                    velocityY = inputY * 2f;
 
                     break;
 
@@ -468,5 +474,19 @@ public class PlayerMovement : MonoBehaviour
     {
         return currentMovementState;
     }
+
+    public void InteractWithLadder()
+    {
+        currentMovementState = currentMovementState == MovementStates.ladder ? MovementStates.walk : MovementStates.ladder;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(currentMovementState == MovementStates.ladder)
+        {
+            currentMovementState = MovementStates.walk;
+        }
+    }
+
 
 }

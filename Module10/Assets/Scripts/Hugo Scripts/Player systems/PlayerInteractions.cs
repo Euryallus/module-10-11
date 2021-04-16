@@ -37,6 +37,11 @@ public class PlayerInteractions : MonoBehaviour
                 //    // if player tries to interact with destructable object, check if object is hit
                 //    raycastHit.transform.gameObject.GetComponent<DestructableObject>().TakeHit();
                 //}
+
+                if(raycastHit.transform.gameObject.CompareTag("Ladder"))
+                {
+                    gameObject.GetComponent<PlayerMovement>().InteractWithLadder();
+                }
             }
         }
         
