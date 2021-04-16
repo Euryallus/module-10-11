@@ -7,6 +7,12 @@ public class Axe : HeldItem
 
     Freezable frozenObject = null;
 
+    public override void PerformMainAbility()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Chop", true);
+        base.PerformMainAbility();
+    }
+
     public override void StartSecondardAbility()
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
@@ -39,5 +45,10 @@ public class Axe : HeldItem
         }
 
         base.EndSecondaryAbility();
+    }
+
+    public void StopChop()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Chop", false);
     }
 }

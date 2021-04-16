@@ -169,18 +169,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465955}
   controller: {fileID: 3399754590433321698}
+  velocityY: 0
+  pp: {fileID: 0}
   walkSpeed: 5
   runSpeed: 8
   crouchSpeed: 3
   defaultGlideSpeed: 5
+  swimSpeed: 5
+  jumpVelocity: 10
   gliderFallRate: 2
   gravity: 6.5
-  mouseSensitivity: 400
+  mouseSensitivity: 4
   gliderSensitivity: 4
-  jumpVelocity: 10
   gliderTiltAmount: 0.2
-  glideVelocity: {x: 0, y: 0}
   gliderOpenDistanceFromGround: 5
+  inWater: 0
+  currentCrouchState: 0
   currentMovementState: 0
 --- !u!143 &3399754590433321698
 CharacterController:
@@ -245,10 +249,16 @@ MonoBehaviour:
   fullThreshold: 0.9
   starveDamage: 0.05
   starveDamageInterval: 2
+  drownDamageInterval: 2
+  drownDamage: 0.1
+  baseTimeToDrown: 60
   healthSlider: {fileID: 0}
   healthSliderFill: {fileID: 0}
   foodLevelSlider: {fileID: 0}
   foodSliderFill: {fileID: 0}
+  breathLevelSlider: {fileID: 0}
+  breathSliderFill: {fileID: 0}
+  breathCanvasGroup: {fileID: 0}
 --- !u!114 &8688783702949859633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1752477050095221596}
+  - component: {fileID: 43847277}
   m_Layer: 0
   m_Name: HandPosition
   m_TagString: PlayerHand
@@ -539,3 +550,22 @@ Transform:
   m_Father: {fileID: 3399754590781465958}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &43847277
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5099798313219635211}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 22eddb6b29a9a3e429f11b587727eca2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

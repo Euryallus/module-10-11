@@ -33,13 +33,21 @@ public class ParticleManager : MonoBehaviour
     void Update()
     {
         //checks if any active effects have ended - if so, remove from list and delete
-        foreach(GameObject obj in initialisedEffects)
+        for (int i = 0; i < initialisedEffects.Count; i++)
         {
+            GameObject obj = initialisedEffects[i];
             if(obj.GetComponent<ParticleGroup>().HasStopped())
             {
                 initialisedEffects.Remove(obj);
                 Destroy(obj);
+
+                i--;
             }
+        }
+
+        foreach(GameObject obj in initialisedEffects)
+        {
+            
         }
     }
 

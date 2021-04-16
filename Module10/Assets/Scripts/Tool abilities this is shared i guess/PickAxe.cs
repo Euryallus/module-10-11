@@ -6,6 +6,12 @@ public class PickAxe : HeldItem
 {
     MovableObject heldObj = null;
 
+    public override void PerformMainAbility()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Swing", true);
+        base.PerformMainAbility();
+    }
+
     public override void StartSecondardAbility()
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
@@ -38,5 +44,10 @@ public class PickAxe : HeldItem
         }
 
         base.EndSecondaryAbility();
+    }
+
+    public void StopSwing()
+    {
+        gameObject.GetComponent<Animator>().SetBool("Swing", false);
     }
 }
