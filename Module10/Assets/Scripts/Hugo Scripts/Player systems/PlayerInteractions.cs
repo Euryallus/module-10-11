@@ -38,10 +38,10 @@ public class PlayerInteractions : MonoBehaviour
                 //    raycastHit.transform.gameObject.GetComponent<DestructableObject>().TakeHit();
                 //}
 
-                if(raycastHit.transform.gameObject.CompareTag("Ladder"))
-                {
-                    gameObject.GetComponent<PlayerMovement>().InteractWithLadder();
-                }
+                //if(raycastHit.transform.gameObject.CompareTag("Ladder"))
+                //{
+                //    gameObject.GetComponent<PlayerMovement>().InteractWithLadder();
+                //}
             }
         }
         

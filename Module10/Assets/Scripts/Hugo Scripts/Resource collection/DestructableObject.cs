@@ -16,6 +16,8 @@ public class DestructableObject : MonoBehaviour
     [SerializeField]
     protected int health;
 
+    bool destroyed = false;
+
     protected virtual void Start()
     {
         // sets health to default
@@ -24,7 +26,7 @@ public class DestructableObject : MonoBehaviour
 
     public virtual void TakeHit() 
     {
-        //if(GameObject.FindGameObjectWithTag())
+        //reduces "health" of resource object
 
         --health;
 
@@ -36,12 +38,15 @@ public class DestructableObject : MonoBehaviour
 
     public virtual void Destroyed()
     {
+        //adds item dropped to inventory
         InventoryPanel inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
         foreach(ItemGroup stack in itemDroppedOnDestroy)
         {
             for (int i = 0; i < stack.Quantity; i++)
             {
                 inventory.AddItemToInventory(stack.Item);
+                //flagged destroyed as true
+                destroyed = true;
             }
         }
     }

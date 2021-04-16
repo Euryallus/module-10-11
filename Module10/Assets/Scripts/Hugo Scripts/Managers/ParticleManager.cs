@@ -29,9 +29,10 @@ public class ParticleManager : MonoBehaviour
     }
 
 
-    // Update is called once per frame
+    
     void Update()
     {
+        //checks if any active effects have ended - if so, remove from list and delete
         foreach(GameObject obj in initialisedEffects)
         {
             if(obj.GetComponent<ParticleGroup>().HasStopped())
@@ -44,10 +45,12 @@ public class ParticleManager : MonoBehaviour
 
     public void SpawnParticle(Vector3 position, string name)
     {
+        //checks if name is present in list of effects
         foreach(ParticleIndex sys in particleObjects)
         {
             if(sys.sysName == name)
             {
+                //if effect is present, create new instance of it at position given
                 initialisedEffects.Add(Instantiate(sys.effect));
                 initialisedEffects[initialisedEffects.Count - 1].transform.position = position;
             }
