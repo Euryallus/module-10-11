@@ -15,6 +15,7 @@ TagManager:
   - JoeCanvas
   - SavePoint
   - Ladder
+  - ShopTalkUI
   layers:
   - Default
   - TransparentFX

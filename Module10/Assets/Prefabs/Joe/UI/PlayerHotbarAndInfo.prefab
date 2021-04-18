@@ -736,6 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6371067345204950207}
   - component: {fileID: 7005111223493855238}
+  - component: {fileID: 4454102840216796256}
   m_Layer: 5
   m_Name: PlayerHotbarAndInfo
   m_TagString: Untagged
@@ -774,6 +775,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146076480648976802}
   m_CullTransparentMesh: 1
+--- !u!225 &4454102840216796256
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146076480648976802}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3124497567198157180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +1904,10 @@ PrefabInstance:
       propertyPath: itemEatPanel
       value: 
       objectReference: {fileID: 3124497567198157180}
+    - target: {fileID: 6810096471039563640, guid: a09018e827196de4980c15e6fce876df, type: 3}
+      propertyPath: parentCanvasGroup
+      value: 
+      objectReference: {fileID: 4454102840216796256}
     - target: {fileID: 6810096471039563646, guid: a09018e827196de4980c15e6fce876df, type: 3}
       propertyPath: ItemInfoPopup
       value: 

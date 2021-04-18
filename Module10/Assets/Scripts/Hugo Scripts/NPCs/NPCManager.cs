@@ -151,7 +151,7 @@ public class NPCManager : MonoBehaviour
         StopFocusCamera();
     }
 
-    private void StartFocusCameraMove(Transform target)
+    public void StartFocusCameraMove(Transform target)
     {
         // de-activates player camera
         playerCamera.SetActive(false);
@@ -167,6 +167,9 @@ public class NPCManager : MonoBehaviour
         targetCameraTransform = target;
         //sets movement state to "moving"
         focusCameraCurrentState = focusCameraState.moving;
+
+        //Added by Joe - Hide hotbar/player stats UI
+        GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>().HideHotbarAndStatPanels();
     }
     public void StopFocusCamera()
     {
@@ -177,6 +180,9 @@ public class NPCManager : MonoBehaviour
         // sets target transform to null, sets camera mode to normal
         targetCameraTransform = null;
         focusCameraCurrentState = focusCameraState.normal;
+
+        //Added by Joe - Re-show hotbar/player stats UI
+        GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>().ShowHotbarAndStatPanels();
     }
 
     

@@ -8,6 +8,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
     [SerializeField] private List<ContainerSlotUI>  slotsUI;
     [SerializeField] private ItemContainer          itemContainer;
     [SerializeField] private GameObject             itemEatPanel;
+    [SerializeField] private CanvasGroup            parentCanvasGroup;
 
     public event Action<Item, ContainerSlotUI> HeldItemChangedEvent;
 
@@ -78,6 +79,18 @@ public class HotbarPanel : UIPanel, IPersistentObject
 
     public void OnLoadConfigure(SaveData saveData)
     {
+    }
+
+    public void ShowHotbarAndStatPanels()
+    {
+        parentCanvasGroup.alpha = 1.0f;
+        parentCanvasGroup.blocksRaycasts = true;
+    }
+
+    public void HideHotbarAndStatPanels()
+    {
+        parentCanvasGroup.alpha = 0.0f;
+        parentCanvasGroup.blocksRaycasts = false;
     }
 
     public bool ContainsQuantityOfItem(ItemGroup items)
