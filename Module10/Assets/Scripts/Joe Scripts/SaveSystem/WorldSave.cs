@@ -74,22 +74,27 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     {
         var saveDataEntries = saveData.GetSaveDataEntries();
 
-        for (int i = 0; i < saveDataEntries.Count; i++)
+        bool    loadingSigns = true;
+        string  idToLoad = "sign";
+
+        while (loadingSigns)
         {
-            var currentElement = saveDataEntries.ElementAt(i);
+            idToLoad += "*";
 
-            switch (currentElement.Key)
+            if (saveDataEntries.ContainsKey(idToLoad))
             {
-                case "sign":
-                {
-                    SignpostSaveData data = (SignpostSaveData)currentElement.Value;
+                var currentElement = saveDataEntries[idToLoad];
 
-                    GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
-                                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+                SignpostSaveData data = (SignpostSaveData)currentElement;
 
-                    signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
-                }
-                break;
+                GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+
+                signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
+            }
+            else
+            {
+                loadingSigns = false;
             }
         }
 
