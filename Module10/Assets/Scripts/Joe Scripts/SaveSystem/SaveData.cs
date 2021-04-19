@@ -10,19 +10,6 @@ public class SaveData
 
     public void AddData<T>(string id, T data)
     {
-        //When multiple items of the same type (and hence same id, for example player-placed items) are saved, the * symbol can be used at the end of the id
-        //  to show that duplication is intended and not an error (e.g. saving over the same inventory slot multiple times would be unintended behaviour)
-
-        //Since a unique id is needed for the dictionary entry, an extra '*' is appended to the end of each id to differentiate between them
-
-        if (id[id.Length - 1] == '*')
-        {
-            while(saveDataEntries.ContainsKey(id))
-            {
-                id += "*";
-            }
-        }
-
         if (!saveDataEntries.ContainsKey(id))
         {
             saveDataEntries.Add(id, data);

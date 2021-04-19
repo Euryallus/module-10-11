@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         currentCrouchState = CrouchState.standing;
         currentMovementState = MovementStates.walk;
 
-        
+        //maps speed float to movement enum
         speedMap[MovementStates.walk] = walkSpeed;
         speedMap[MovementStates.run] = runSpeed;
         speedMap[MovementStates.crouch] = crouchSpeed;
@@ -129,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
 
         glideVelocity = new Vector2(0, 0);
 
+        //gets post processing effects (water effect)
         pp.profile.TryGet<Vignette>(out v);
         pp.profile.TryGet<DepthOfField>(out dof);
     }
@@ -136,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //raw input from mouse / keyboard (X & Y)
         moveTo = new Vector3(0, 0, 0);
 
         mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;// * Time.deltaTime;
@@ -148,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
 
+        //checks if player is [x] m above ground or not
         if (Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround))
         {
             canGlide = false;
@@ -157,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
             canGlide = true;
         }
 
+        //switches state to "run"
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             if(currentMovementState == MovementStates.walk && controller.isGrounded)
@@ -165,6 +168,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+
+        //disables "run"
         if(Input.GetKeyUp(KeyCode.LeftShift))
         {
             if(currentMovementState == MovementStates.run)
@@ -173,13 +178,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //toggles crouch
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
                 currentMovementState = (currentMovementState == MovementStates.crouch ? MovementStates.walk : MovementStates.crouch);
         }
 
+        //crouch grow / shrink movement
         switch (currentCrouchState)
         {
+            //kick starts crouch (movement state is crouch but crouch state is "standing"
             case CrouchState.standing:
                 if(currentMovementState == MovementStates.crouch)
                 {
@@ -187,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
 
+                //decreases y scale each update
             case CrouchState.gettingDown:
                 gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, new Vector3(1, 0.6f, 1), 3 * Time.deltaTime);
 
@@ -203,6 +212,7 @@ public class PlayerMovement : MonoBehaviour
 
                 break;
 
+                //checks when player gets back up
             case CrouchState.crouched:
                 if(currentMovementState == MovementStates.walk)
                 {
@@ -210,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 break;
 
+                //increases scale on Y each update
             case CrouchState.gettingUp:
 
                 gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, Vector3.one, 3 * Time.deltaTime);
@@ -224,50 +235,65 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
+        //water collision layer
         int mask = 1 << 4;
 
         if (Physics.Raycast(transform.position - new Vector3(0,0.5f,0), transform.up, out waterRay, 100f, mask ))
         {
+            //if hits water layer above & mode isnt swimming, enable post processing effects
             if(currentMovementState != MovementStates.dive)
             {
                 dof.active = true;
                 v.active = true;
             }
 
+            //flags water bool
             inWater = true;
+            //sets current movement mode to diving
             currentMovementState = MovementStates.dive;
 
+            //saves ref. to water plane
             waterPlane = waterRay.collider.gameObject;
         }
         else 
         {
+            //if doesnt hit but currently in water
             if (inWater == true)
             {
+                //disable post processing effects
                 dof.active = false;
                 v.active = false;
                 //inWater = false;
+
+                //change state to "swim" on top of water
                 currentMovementState = MovementStates.swim;
             }
         }
 
         if(canMove)
         {
+            //camera & capsule rotation
             transform.Rotate(Vector3.up * mouseX);
             playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);
+
+            //pos. to move to (by default it's current pos + raw input)
             moveTo = transform.right * inputX + transform.forward * inputY;
 
+            //switch according to movement state
             switch(currentMovementState)
             {
                 case MovementStates.swim:
-
+                    //if case = swimming but player is grounded, player is now walking
                     if(controller.isGrounded)
                     {
                         currentMovementState = MovementStates.walk;
                         inWater = false;
                     }
 
+                    //adds gravity 
                     velocityY -= gravity * gravity * Time.deltaTime;
                     
+                    //if space is pressed use that as upward velocity rather than cam. forward Y component
                     if(Input.GetKeyDown(KeyCode.Space))
                     {
                         velocityY = jumpVelocity;
