@@ -6,10 +6,10 @@ public class DoorMain : MonoBehaviour, IPersistentObject
 {
     [Header("Door")]
 
-    [SerializeField] private string     id;
-    [SerializeField] private Item       unlockItem;
-    [SerializeField] private float      closeAfterTime = 5.0f;
-    [SerializeField] private Animator   animator;
+    [SerializeField] private string     id;                         //Unique id for the door
+    [SerializeField] private Item       unlockItem;                 //Item required to unlock the door (none if null)
+    [SerializeField] private float      closeAfterTime = 5.0f;      //Amount of time before the door closes automatiaclly (seconds)
+    [SerializeField] private Animator   animator;                   //Animator used for door open/close animations
 
     private bool openIn;
     private bool openOut;
