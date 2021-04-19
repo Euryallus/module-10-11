@@ -51,7 +51,7 @@ public class Signpost : DestructableObject, IPersistentPlacedObject
 
     public void AddDataToWorldSave(SaveData saveData)//, ref int uniqueId)
     {
-        saveData.AddData("sign*",   new SignpostSaveData()
+        saveData.AddData("sign",    new SignpostSaveData()
                                     {
                                         Position = new float[3] { transform.position.x, transform.position.y, transform.position.z },
                                         Rotation = new float[3] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z },
