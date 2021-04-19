@@ -6,9 +6,9 @@ public abstract class InteractableObject : MonoBehaviour
 {
     [Header("Interactable Properties")]
     [Tooltip("How close the player needs to be to this object to interact with it")]
-    [SerializeField] private float  interactionRange        = 5.0f;
-    [SerializeField] private bool   pressEToInteract        = true;
-    [SerializeField] private bool   rightClickToInteract    = true;
+    [SerializeField] private float      interactionRange        = 5.0f;
+    [SerializeField] private bool       pressEToInteract        = true;
+    [SerializeField] private bool       rightClickToInteract    = true;
 
     private bool        mouseOver;
     private bool        hoveringInRange;

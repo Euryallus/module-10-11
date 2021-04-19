@@ -9,6 +9,8 @@ public class CustomiseBox : InteractableWithOutline
 
     public override void Interact()
     {
+        base.Interact();
+
         if (!inventoryPanel.Showing)
         {
             inventoryPanel.Show(InventoryShowMode.Customise);

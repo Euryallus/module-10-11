@@ -124,10 +124,12 @@ public class InventoryPanel : UIPanel
             {
                 //Show the inventory if p the player presses I when it's not already showing and they can move (i.e. not in another menu)
                 Show(InventoryShowMode.InventoryOnly);
+                AudioManager.Instance.PlaySoundEffect2D("buttonClickMain1");
             }
             else if (showing && (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Escape)))
             {
                 Hide();
+                AudioManager.Instance.PlaySoundEffect2D("buttonClickMain2");
             }
         }
     }

@@ -46,15 +46,19 @@ public class ShopTalkPanel : UIPanel
         ShopBuyPanel panelScript = buyPanel.GetComponent<ShopBuyPanel>();
 
         panelScript.Setup(currentNPC);
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickMain1");
     }
 
     public void ButtonSell()
     {
-        
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickMain1");
     }
 
     public void ButtonLeave()
     {
         currentNPC.StopInteracting();
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickMain2");
     }
 }

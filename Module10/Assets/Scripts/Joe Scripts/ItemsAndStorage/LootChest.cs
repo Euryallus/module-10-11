@@ -23,6 +23,8 @@ public class LootChest : Chest, IPersistentObject
 
     public override void Interact()
     {
+        base.Interact();
+
         itemContainer.LinkSlotsToUI(chestPanel.slotsUI);
 
         if (!lootGenerated)

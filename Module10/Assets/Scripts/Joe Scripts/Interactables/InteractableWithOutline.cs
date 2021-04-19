@@ -5,6 +5,8 @@ public class InteractableWithOutline : InteractableObject
 {
     private Outline outline;
 
+    [SerializeField] protected string interactionSound = "buttonClickMain1";
+
     protected override void Start()
     {
         base.Start();
@@ -16,6 +18,7 @@ public class InteractableWithOutline : InteractableObject
 
     public override void Interact()
     {
+        AudioManager.Instance.PlaySoundEffect2D(interactionSound);
     }
 
     public override void StartHover()

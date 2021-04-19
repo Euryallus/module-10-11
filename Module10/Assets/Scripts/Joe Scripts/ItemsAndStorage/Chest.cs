@@ -9,6 +9,8 @@ public class Chest : InteractableWithOutline
 
     public override void Interact()
     {
+        base.Interact();
+
         //Setup the chest panel so its slot ui elements are linked to the itemcontainer slots for this speficic chest
         itemContainer.LinkSlotsToUI(chestPanel.slotsUI);
 

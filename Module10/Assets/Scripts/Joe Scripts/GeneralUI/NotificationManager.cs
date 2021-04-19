@@ -57,7 +57,7 @@ public class NotificationManager : MonoBehaviour
         }
     }
 
-    public void ShowNotification(NotificationTextType textType, string[] parameters = null)
+    public void ShowNotification(NotificationTextType textType, string[] parameters = null, string soundName = "notification1")
     {
         GameObject notification = Instantiate(prefabNotificationPanel, notificationParentTransform);
 
@@ -77,6 +77,11 @@ public class NotificationManager : MonoBehaviour
             }
 
             notification.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = textToShow;
+
+            if (!string.IsNullOrEmpty(soundName))
+            {
+                AudioManager.Instance.PlaySoundEffect2D(soundName);
+            }
         }
         else
         {

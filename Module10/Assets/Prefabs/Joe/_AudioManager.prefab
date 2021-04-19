@@ -48,6 +48,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d42a377e82303b94b87353dbf69cf4da, type: 2}
   - {fileID: 11400000, guid: 79a7449e680af56449be165c877c0161, type: 2}
   - {fileID: 11400000, guid: 13d1a629e2e42324383bd7710e4c4046, type: 2}
+  - {fileID: 11400000, guid: d34102e478cb4f14187638c01360c98c, type: 2}
+  - {fileID: 11400000, guid: 3383aec0903a1da45a548ad2c552e46d, type: 2}
+  - {fileID: 11400000, guid: 67734ae166af00045bb58e7399923d21, type: 2}
+  - {fileID: 11400000, guid: 57c142cae654ca74c8b8050ed7217166, type: 2}
+  - {fileID: 11400000, guid: 9677c20deb8c01a4e94d613f7661584a, type: 2}
   music:
   - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
   musicSource: {fileID: 5208045952954675613}

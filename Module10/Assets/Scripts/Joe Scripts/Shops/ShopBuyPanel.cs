@@ -72,10 +72,17 @@ public class ShopBuyPanel : MonoBehaviour
 
             int categoryIndex = i;
 
-            categoryButton.GetComponent<Button>().onClick.AddListener(delegate { SelectCategory(categoryIndex); });
+            categoryButton.GetComponent<Button>().onClick.AddListener(delegate { ButtonSelectCategory(categoryIndex); });
         }
 
         SelectCategory(0);
+    }
+
+    private void ButtonSelectCategory(int categoryIndex)
+    {
+        SelectCategory(categoryIndex);
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickMain1");
     }
 
     private void SelectCategory(int categoryIndex)
@@ -152,6 +159,8 @@ public class ShopBuyPanel : MonoBehaviour
         selectedItemButton.color = selectedButtonColour;
 
         SelectItem(shopItem);
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickSmall");
     }
 
     private void SelectItem(ShopItem shopItem)
@@ -227,6 +236,8 @@ public class ShopBuyPanel : MonoBehaviour
             inventoryPanel.AddItemToInventory(selectedItem.Item);
 
             SelectItem(selectedItem);
+
+            AudioManager.Instance.PlaySoundEffect2D("coins");
         }
         else
         {
@@ -238,6 +249,8 @@ public class ShopBuyPanel : MonoBehaviour
     public void ButtonLeave()
     {
         shopNPC.StopInteracting();
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickMain2");
 
         Destroy(gameObject);
     }
