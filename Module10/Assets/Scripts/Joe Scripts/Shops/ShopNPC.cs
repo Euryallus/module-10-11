@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ShopNPC : InteractableWithOutline
 {
-    [Header("Shop")]
+    [Header("Shop NPC")]
 
-    [SerializeField] private string shopUIName;
+    [SerializeField] private ShopType shopType;
+
+    public ShopType ShopType { get { return shopType; } }
 
     private NPCManager      npcManager;
     private PlayerMovement  playerMovement;
@@ -33,7 +35,7 @@ public class ShopNPC : InteractableWithOutline
 
             Cursor.lockState = CursorLockMode.None;
 
-            talkUI.Show(this, shopUIName);
+            talkUI.Show(this);
 
             focusing = true;
         }

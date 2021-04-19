@@ -6,7 +6,8 @@ using TMPro;
 [RequireComponent(typeof(CanvasGroup))]
 public class ShopTalkPanel : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI shopNameText;
+    [SerializeField] private TextMeshProUGUI    shopNameText;
+    [SerializeField] private GameObject         buyUIPrefab;
 
     private CanvasGroup canvasGroup;
     private ShopNPC     currentNPC;
@@ -26,9 +27,9 @@ public class ShopTalkPanel : MonoBehaviour
         
     }
 
-    public void Show(ShopNPC npc, string shopName)
+    public void Show(ShopNPC npc)
     {
-        shopNameText.text = shopName;
+        shopNameText.text = npc.ShopType.UIName;
 
         currentNPC = npc;
 
@@ -44,7 +45,13 @@ public class ShopTalkPanel : MonoBehaviour
 
     public void ButtonBuy()
     {
+        Hide();
 
+        GameObject buyPanel = Instantiate(buyUIPrefab, GameObject.FindGameObjectWithTag("JoeCanvas").transform);
+
+        ShopBuyPanel panelScript = buyPanel.GetComponent<ShopBuyPanel>();
+
+        panelScript.Setup(currentNPC);
     }
 
     public void ButtonSell()

@@ -898,3 +898,4 @@ MonoBehaviour:
   interactionRange: 5
   pressEToInteract: 1
   rightClickToInteract: 1
+  shopType: {fileID: 11400000, guid: ce971d8f72718f3488abf06c4a0419fc, type: 2}

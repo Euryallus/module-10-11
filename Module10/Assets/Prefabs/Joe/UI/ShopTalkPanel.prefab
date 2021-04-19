@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopNameText: {fileID: 2153666665746479755}
+  buyUIPrefab: {fileID: 3790193822055982660, guid: 7e65b7ca4a41ebb47ae266fcf440927d, type: 3}
 --- !u!1 &8833713369089781295
 GameObject:
   m_ObjectHideFlags: 0
