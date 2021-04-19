@@ -131,7 +131,7 @@ public class HeldItemManager : MonoBehaviour
         {
             DestroyHeldGameObject();
 
-            Debug.Log("Player is holding nothing");
+            //Debug.Log("Player is holding nothing");
         }
     }
 
