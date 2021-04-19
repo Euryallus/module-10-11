@@ -3,44 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class ShopTalkPanel : MonoBehaviour
+public class ShopTalkPanel : UIPanel
 {
     [SerializeField] private TextMeshProUGUI    shopNameText;
     [SerializeField] private GameObject         buyUIPrefab;
 
-    private CanvasGroup canvasGroup;
     private ShopNPC     currentNPC;
 
-    private void Awake()
+    protected override void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-    }
+        base.Start();
 
-    void Start()
-    {
         Hide();
     }
 
     void Update()
     {
-        
+        if (showing)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ButtonLeave();
+            }
+        }
     }
 
-    public void Show(ShopNPC npc)
+    public void ShowAndSetup(ShopNPC npc)
     {
+        Show();
+
         shopNameText.text = npc.ShopType.UIName;
 
         currentNPC = npc;
-
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.blocksRaycasts = true;
-    }
-
-    public void Hide()
-    {
-        canvasGroup.alpha = 0.0f;
-        canvasGroup.blocksRaycasts = false;
     }
 
     public void ButtonBuy()

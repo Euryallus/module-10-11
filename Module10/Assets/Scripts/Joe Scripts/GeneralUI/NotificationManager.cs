@@ -11,6 +11,8 @@ public enum NotificationTextType
 
     ItemCannotBePlaced,
 
+    CantAffordItem,
+
     SaveSuccess,
     AutoSaveSuccess,
     SaveError
@@ -31,6 +33,8 @@ public class NotificationManager : MonoBehaviour
         { NotificationTextType.DoorUnlocked,        "The door was unlocked with *" },
 
         { NotificationTextType.ItemCannotBePlaced,  "The held item cannot be placed there." },
+
+        { NotificationTextType.CantAffordItem,      "You cannot purchase this item - * * required." },
 
         { NotificationTextType.SaveSuccess,         "Progress saved successfully.\nSpawn point set." },
         { NotificationTextType.AutoSaveSuccess,     "Your progress has been auto-saved.\nSpawn point set." },

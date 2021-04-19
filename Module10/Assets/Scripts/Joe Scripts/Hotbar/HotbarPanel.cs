@@ -35,6 +35,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
 
         SelectSlot(0);
 
+        Show();
         ShowHotbarAndStatPanels();
     }
 

@@ -35,7 +35,7 @@ public class ShopNPC : InteractableWithOutline
 
             Cursor.lockState = CursorLockMode.None;
 
-            talkUI.Show(this);
+            talkUI.ShowAndSetup(this);
 
             focusing = true;
         }

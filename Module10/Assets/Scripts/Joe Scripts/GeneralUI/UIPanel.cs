@@ -18,12 +18,14 @@ public class UIPanel : MonoBehaviour
     public virtual void Show()
     {
         canvasGroup.alpha = 1.0f;
+        canvasGroup.blocksRaycasts = true;
         showing = true;
     }
 
     public virtual void Hide()
     {
         canvasGroup.alpha = 0.0f;
+        canvasGroup.blocksRaycasts = false;
         showing = false;
     }
 }

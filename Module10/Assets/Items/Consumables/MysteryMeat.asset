@@ -9,18 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30db721631325bd4aab1c03410f7bc54, type: 3}
-  m_Name: Gold
+  m_Script: {fileID: 11500000, guid: dda6879d75d983e45af171e37df7120f, type: 3}
+  m_Name: MysteryMeat
   m_EditorClassIdentifier: 
-  m_id: gold
-  m_uiName: Gold
-  m_uiDescription: 
-  m_stackSize: 64
-  m_weight: 0.7
-  m_sprite: {fileID: 21300000, guid: 65d0d54180cd4b84bb61d14848d2e6ab, type: 3}
+  m_id: mysteryMeat
+  m_uiName: Mystery Meat
+  m_uiDescription: smells funny
+  m_stackSize: 4
+  m_weight: 0.1
+  m_sprite: {fileID: 21300000, guid: 2529d4a770b967a4fb8b0be0d6bd2b0d, type: 3}
   m_heldItemGameObject: {fileID: 0}
   m_customisable: 0
   m_currencyItemId: 
   m_currencyItemQuantity: 0
   m_customFloatProperties: []
   m_customStringProperties: []
+  m_hungerIncrease: 0
