@@ -211,4 +211,19 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 
         return false;
     }
+
+    public int CheckForQuantityOfItem(Item item)
+    {
+        int numberOfItemType = 0;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].ItemStack.StackSize > 0 && slots[i].ItemStack.StackItemsID == item.Id)
+            {
+                numberOfItemType += slots[i].ItemStack.StackSize;
+            }
+        }
+
+        return numberOfItemType;
+    }
 }

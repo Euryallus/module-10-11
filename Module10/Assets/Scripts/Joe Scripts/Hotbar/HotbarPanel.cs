@@ -10,6 +10,8 @@ public class HotbarPanel : UIPanel, IPersistentObject
     [SerializeField] private GameObject             itemEatPanel;
     [SerializeField] private CanvasGroup            parentCanvasGroup;
 
+    public ItemContainer ItemContainer { get { return itemContainer; } }
+
     public event Action<Item, ContainerSlotUI> HeldItemChangedEvent;
 
     private int         selectedSlotIndex;
