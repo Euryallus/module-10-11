@@ -10,14 +10,27 @@ public class EnemyBase : MonoBehaviour
     public float viewAngle = 120f;
     public float stationaryTurnSpeed = 5f;
 
+    public int difficulty = 1;
+
     public float stopDistance = 2f;
 
-    [Header("Debug")]
-    public float dot;
+    private Vector3 playerLastSeen;
+    private int searchPointsVisited = 0;
 
+    public Vector3 centralHubPos;
 
+    [Header("Combat stuff")]
+    public float baseDamage;
+    public float timeBetweenAttacks = 2f;
+    private float attackCooldown;
+    public float attackDistance;
+
+    private float dot;
     private NavMeshAgent agent;
     private GameObject player;
+    private PlayerStats playerStats;
+
+    private float distToPlayer;
 
     public enum EnemyState
     {
@@ -35,10 +48,13 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        //GoToRandom(15f);
+        
 
-        currentState = EnemyState.stationary;
+        currentState = EnemyState.patrol;
         player = GameObject.FindGameObjectWithTag("Player");
+        playerStats = player.GetComponent<PlayerStats>();
+        
+        GoToRandom(15f, centralHubPos);
     }
 
     // Update is called once per frame
@@ -100,11 +116,11 @@ public class EnemyBase : MonoBehaviour
         return false;
     }
 
-    public virtual void GoToRandom(float maxDistanceFromCurrent)
+    public virtual void GoToRandom(float maxDistanceFromCurrent, Vector3 origin)
     {
         Vector3 randomPosition = Random.insideUnitSphere * maxDistanceFromCurrent;
 
-        randomPosition += transform.position;
+        randomPosition += origin;
 
         if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, maxDistanceFromCurrent, 1))
         {
@@ -112,7 +128,7 @@ public class EnemyBase : MonoBehaviour
         }
         else
         {
-            GoToRandom(maxDistanceFromCurrent);
+            GoToRandom(maxDistanceFromCurrent, origin);
         }
     }
 
@@ -126,9 +142,10 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void EngagedUpdate()
     {
+        attackCooldown += Time.deltaTime;
         if(CheckForPlayer())
         {
-            if (Vector3.Distance(transform.position, player.transform.position) > stopDistance)
+            if (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
             {
                 agent.isStopped = false;
                 GoTo(player.transform.position);
@@ -136,26 +153,56 @@ public class EnemyBase : MonoBehaviour
             else
             {
                 agent.isStopped = true;
-
                 TurnTowards(player);
+
+                if(attackCooldown > timeBetweenAttacks)
+                {
+                    attackCooldown = 0f;
+                    Attack();
+                }
             }
         }
         else
         {
-            currentState = EnemyState.stationary;
+            StartSearching(playerLastSeen);
         }
     }
 
     public virtual void SearchUpdate()
     {
+        if (CheckForPlayer())
+        {
+            currentState = EnemyState.engaged;
+            return;
+        }
 
+        if (Vector3.Distance(transform.position, agent.destination) < 2f)
+        {
+            ++searchPointsVisited;
+
+            if(searchPointsVisited < 5)
+            {
+                GoToRandom(20f, playerLastSeen);
+            }
+            else
+            {
+                StartPatrolling();
+            }
+        }
     }
 
     public virtual void PatrolUpdate()
     {
+
+        if(CheckForPlayer())
+        {
+            currentState = EnemyState.engaged;
+            return;
+        }
+
         if (Vector3.Distance(transform.position, agent.destination) <= 1f)
         {
-            GoToRandom(15f);
+            GoToRandom(35f, centralHubPos);
         }
     }
 
@@ -164,9 +211,25 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    public virtual void StartSearching(Vector3 searchPos)
+    {
+        currentState = EnemyState.search;
+        searchPointsVisited = 0;
+
+        playerLastSeen = searchPos;
+
+        GoToRandom(5f, playerLastSeen);
+    }
+
+    public virtual void StartPatrolling()
+    {
+        currentState = EnemyState.patrol;
+        GoToRandom(40f, centralHubPos);
+    }
+
     public virtual bool CheckForPlayer()
     {
-        float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if(distToPlayer <= viewDistance)
         {
@@ -182,6 +245,7 @@ public class EnemyBase : MonoBehaviour
                     if (hit.transform.CompareTag("Player"))
                     {
                         Debug.DrawLine(transform.position, hit.transform.position, Color.red);
+                        playerLastSeen = player.transform.position;
                         return true;
                     }
                 }
@@ -202,5 +266,16 @@ public class EnemyBase : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(lookTarget), stationaryTurnSpeed * Time.deltaTime);
 
         //transform.LookAt(target.transform);
+    }
+
+    public virtual void Attack()
+    {
+        if(Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, attackDistance))
+        {
+            if(hit.transform.CompareTag("Player"))
+            {
+                playerStats.DecreaseHealth(baseDamage);
+            }
+        }
     }
 }

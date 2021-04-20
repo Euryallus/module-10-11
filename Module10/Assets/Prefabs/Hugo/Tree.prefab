@@ -122,6 +122,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2094909363560588924}
     m_Modifications:
+    - target: {fileID: 773937057461342500, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 773937057461342500, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443412306559955982, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443412306559955982, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2259795246380597830, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2259795246380597830, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4813678203532645376, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
       propertyPath: m_Name
       value: AN_Fir_5
@@ -129,6 +153,14 @@ PrefabInstance:
     - target: {fileID: 4813678203532645376, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813678203532645376, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813678203532645376, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8401121003204011539, guid: f00df208b62c11f44a29d76be3c78ac9, type: 3}
       propertyPath: m_RootOrder

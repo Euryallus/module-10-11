@@ -7,13 +7,10 @@ public class NewTree : DestructableObject
 {
     public Rigidbody    topRB; //Rigidbody of top section
 
-
-
     public GameObject   stump;      //stump prefab
     public GameObject   top;
 
     public GameObject staticTree;
-
 
     bool canDestroy = false;
 
@@ -54,7 +51,6 @@ public class NewTree : DestructableObject
         yield return new WaitForSeconds(3);
 
         canDestroy = true;
-       
     }
 
 }
