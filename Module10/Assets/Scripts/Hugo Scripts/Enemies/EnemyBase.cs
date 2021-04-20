@@ -8,6 +8,9 @@ public class EnemyBase : MonoBehaviour
     [Header("Enemy properties")]
     public float viewDistance = 25f;
     public float viewAngle = 120f;
+    public float stationaryTurnSpeed = 5f;
+
+    public float stopDistance = 2f;
 
     [Header("Debug")]
     public float dot;
@@ -113,19 +116,34 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void Approach()
-    {
-
-    }
-
     public virtual void StationaryUpdate()
     {
-        CheckForPlayer();
+        if(CheckForPlayer())
+        {
+            currentState = EnemyState.engaged;
+        }
     }
 
     public virtual void EngagedUpdate()
     {
+        if(CheckForPlayer())
+        {
+            if (Vector3.Distance(transform.position, player.transform.position) > stopDistance)
+            {
+                agent.isStopped = false;
+                GoTo(player.transform.position);
+            }
+            else
+            {
+                agent.isStopped = true;
 
+                TurnTowards(player);
+            }
+        }
+        else
+        {
+            currentState = EnemyState.stationary;
+        }
     }
 
     public virtual void SearchUpdate()
@@ -146,18 +164,43 @@ public class EnemyBase : MonoBehaviour
 
     }
 
-    public virtual void CheckForPlayer()
+    public virtual bool CheckForPlayer()
     {
         float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if(distToPlayer <= viewDistance)
         {
-            dot = Vector3.Dot(transform.transform.forward, player.transform.position -transform.position);
+            dot = Vector3.Dot(transform.transform.forward.normalized, (player.transform.position - transform.position).normalized);
+            dot = Mathf.Acos(dot);
 
-            if (dot >= Mathf.Deg2Rad * viewAngle )
+            if (dot <= Mathf.Deg2Rad * viewAngle / 2 )
             {
-                Debug.DrawLine(transform.position, player.transform.position);
+                int mask = 1 << 6;
+
+                if (Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, viewDistance, ~mask))
+                {
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        Debug.DrawLine(transform.position, hit.transform.position, Color.red);
+                        return true;
+                    }
+                }
             }
         }
+
+        return false;
+    }
+
+    public virtual void TurnTowards(GameObject target)
+    {
+        //https://answers.unity.com/questions/351899/rotation-lerp.html
+
+        Vector3 lookTarget = Quaternion.LookRotation(target.transform.position - transform.position).eulerAngles;
+        lookTarget.x = 0;
+        lookTarget.z = 0;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(lookTarget), stationaryTurnSpeed * Time.deltaTime);
+
+        //transform.LookAt(target.transform);
     }
 }
