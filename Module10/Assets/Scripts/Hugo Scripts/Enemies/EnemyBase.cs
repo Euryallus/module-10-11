@@ -5,7 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [Header("Enemy properties")]
+    public float viewDistance = 25f;
+    public float viewAngle = 120f;
+
+    [Header("Debug")]
+    public float dot;
+
+
     private NavMeshAgent agent;
+    private GameObject player;
 
     public enum EnemyState
     {
@@ -23,15 +32,15 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        GoToRandom(15f);
+        //GoToRandom(15f);
 
-        currentState = EnemyState.patrol;
+        currentState = EnemyState.stationary;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-
         switch (currentState)
         {
             case EnemyState.stationary:
@@ -104,9 +113,14 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void StationaryUpdate()
+    public virtual void Approach()
     {
 
+    }
+
+    public virtual void StationaryUpdate()
+    {
+        CheckForPlayer();
     }
 
     public virtual void EngagedUpdate()
@@ -130,5 +144,20 @@ public class EnemyBase : MonoBehaviour
     public virtual void EvadeUpdate()
     {
 
+    }
+
+    public virtual void CheckForPlayer()
+    {
+        float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if(distToPlayer <= viewDistance)
+        {
+            dot = Vector3.Dot(transform.transform.forward, player.transform.position -transform.position);
+
+            if (dot >= Mathf.Deg2Rad * viewAngle )
+            {
+                Debug.DrawLine(transform.position, player.transform.position);
+            }
+        }
     }
 }
