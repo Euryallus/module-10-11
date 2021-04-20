@@ -220,6 +220,7 @@ MonoBehaviour:
   interactionRange: 5
   pressEToInteract: 1
   rightClickToInteract: 1
+  interactionSound: 
   doorMainScript: {fileID: 934483334191964195}
 --- !u!1 &3433794667551740714
 GameObject:
@@ -346,5 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e861e1d3e9fd6f4192719b6546f56f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1683253233141873476}
+  id: 
+  unlockItem: {fileID: 0}
   closeAfterTime: 5
+  animator: {fileID: 1683253233141873476}

@@ -197,4 +197,14 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         animator.SetBool("OpenIn", false);
         animator.SetBool("OpenOut", false);
     }
+
+    public void PlayOpenSound()
+    {
+        AudioManager.Instance.PlaySoundEffect3D("doorOpen", transform.position);
+    }
+
+    public void PlayCloseSound()
+    {
+        AudioManager.Instance.PlaySoundEffect3D("doorClose", transform.position);
+    }
 }
