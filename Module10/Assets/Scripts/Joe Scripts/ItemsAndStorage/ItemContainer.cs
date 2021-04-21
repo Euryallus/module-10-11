@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemContainer : MonoBehaviour, IPersistentObject
 {
-    public ItemInfoPopup ItemInfoPopup;
+    public ItemInfoPopup ItemInfoPopup { get { return itemInfoPopup; } }
 
     public string                               ContainerId;        //Unique id used when saving/loading the contents of this container
     [SerializeField] private int                numberOfSlots;
@@ -15,6 +15,8 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
     public event Action ContainerStateChangedEvent;     //Event that is invoked when the container state changes (i.e. items are added/removed/moved)
     private bool        containerStateChanged;          //Set to true each time an action occurs that changes the item container's state
 
+    private ItemInfoPopup itemInfoPopup;
+
     private void Awake()
     {
         //Initialise empty container slots
@@ -23,6 +25,8 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
         {
             slots[i] = new ContainerSlot(0, this);
         }
+
+        itemInfoPopup = GameObject.FindGameObjectWithTag("ItemInfoPopup").GetComponent<ItemInfoPopup>();
     }
 
     private void Start()

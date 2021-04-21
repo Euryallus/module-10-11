@@ -18,6 +18,7 @@ TagManager:
   - ShopTalkUI
   - Axe
   - MovableObj
+  - ItemInfoPopup
   layers:
   - Default
   - TransparentFX

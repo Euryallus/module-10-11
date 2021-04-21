@@ -30,9 +30,9 @@ public class LootTable : ScriptableObject
 
         for (int i = 0; i < m_itemPool.Count; i++)
         {
-            for (int j = 0; j < m_itemPool[i].weight; j++)
+            for (int j = 0; j < m_itemPool[i].Weight; j++)
             {
-                weightedItemPool.Add(m_itemPool[i].item);
+                weightedItemPool.Add(m_itemPool[i].Item);
             }
         }
 
@@ -43,6 +43,13 @@ public class LootTable : ScriptableObject
 [System.Serializable]
 public struct WeightedItem
 {
-    public Item     item;
-    public int    weight;
+    [Tooltip("The item that can be added to the loot chest")]
+    public Item Item;
+
+    [Tooltip("The likelihood that this item will be added, e.g. if there are 2 items, one with weight 1, and one with weight 3," +
+                "the first item will have a 1/4 chance of being added each time, and the second will have a 3/4 chance each time")]
+    public int  Weight;
+
+    [Tooltip("At least this many of the item type will be guaranteed to be spawned in the loot chest")]
+    public int  MinimumQuantity;
 }

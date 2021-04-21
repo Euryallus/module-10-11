@@ -43,16 +43,31 @@ public class LootChest : Chest, IPersistentObject
 
     private void GenerateLoot()
     {
-        Debug.Log("Generating loot for chest with container " + itemContainer.ContainerId);
-
         int numItemsToSpawn = Random.Range(lootTable.MinItems, lootTable.MaxItems + 1);
 
+        Debug.Log("Generating " + numItemsToSpawn + " loot items for chest with container " + itemContainer.ContainerId);
+
+        int itemsSpawned = 0;
+
+        //Step 1: Add minimum quantity of each item
+        for (int i = 0; i < lootTable.ItemPool.Count; i++)
+        {
+            WeightedItem weightedItem = lootTable.ItemPool[i];
+            for (int j = 0; j < weightedItem.MinimumQuantity; j++)
+            {
+                itemContainer.TryAddItemToContainer(weightedItem.Item);
+                itemsSpawned++;
+            }
+        }
+
+        //Step 2: Fill remaining spaces with random weighted loot
         List<Item> weightedItemPool = lootTable.GetWeightedItemPool();
 
-        for (int i = 0; i < numItemsToSpawn; i++)
+        while (itemsSpawned < numItemsToSpawn)
         {
             Item itemToAdd = weightedItemPool[Random.Range(0, weightedItemPool.Count)];
             itemContainer.TryAddItemToContainer(itemToAdd);
+            itemsSpawned++;
         }
 
         lootGenerated = true;
