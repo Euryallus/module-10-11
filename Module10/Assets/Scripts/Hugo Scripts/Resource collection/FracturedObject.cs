@@ -5,13 +5,25 @@ using UnityEngine;
 public class FracturedObject : MonoBehaviour
 {
     public List<Rigidbody> bodies;
+    public float force = 20f;
 
     //adds an explosion force on all fractured parts of the object to make it go boom
     public void Explode()
     {
-        for(int i = 0; i < transform.childCount; i++)
+        for(int i = 0; i <bodies.Count; i++)
         {
-            transform.GetChild(i).GetComponent<Rigidbody>().AddExplosionForce(20f, transform.position, 20f);
-        } 
+            bodies[i].AddExplosionForce(20f, transform.position, force);
+        }
+
+        StartCoroutine("Despawn");
     }
+
+    IEnumerator Despawn()
+    {
+        yield return new WaitForSeconds(3);
+
+        Destroy(gameObject);
+    }
+
+
 }
