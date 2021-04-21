@@ -7,6 +7,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
     [Header("Door")]
 
     [SerializeField] private string     id;                         //Unique id for the door
+    [SerializeField] private bool       manualOpen = true;          //Whether the door can be opened manually by a player (rather than an external method such as puzzle button)
     [SerializeField] private Item       unlockItem;                 //Item required to unlock the door (none if null)
     [SerializeField] private float      closeAfterTime = 5.0f;      //Amount of time before the door closes automatiaclly (seconds)
     [SerializeField] private Animator   animator;                   //Animator used for door open/close animations
@@ -48,7 +49,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
             doorOpenTimer += Time.deltaTime;
 
             //Door has been open for a while and the player isn't standing in the way of it closing
-            if(doorOpenTimer >= closeAfterTime &&
+            if((closeAfterTime != 0.0f) && (doorOpenTimer >= closeAfterTime) &&
                 ((openIn && !inInsideTrigger) || (openOut && !inOutsideTrigger)) )
             {
                 SetAsClosed();
@@ -100,20 +101,27 @@ public class DoorMain : MonoBehaviour, IPersistentObject
 
     public void Interact()
     {
-        if (!openIn && !openOut)
+        if(manualOpen)
         {
-            if (inInsideTrigger)
+            if (!openIn && !openOut)
             {
-                SetAsOpen(false);
+                if (inInsideTrigger)
+                {
+                    SetAsOpen(false);
+                }
+                else if (inOutsideTrigger)
+                {
+                    SetAsOpen(true);
+                }
             }
-            else if(inOutsideTrigger)
+            else
             {
-                SetAsOpen(true);
+                SetAsClosed();
             }
         }
         else
         {
-            SetAsClosed();
+            NotificationManager.Instance.ShowNotification(NotificationTextType.CantOpenDoorManually);
         }
     }
 
@@ -135,7 +143,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         }
     }
 
-    private void SetAsOpen(bool inwards)
+    public void SetAsOpen(bool inwards)
     {
         if(CanOpenDoor())
         {
@@ -189,7 +197,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         return true;
     }
 
-    private void SetAsClosed()
+    public void SetAsClosed()
     {
         openIn = false;
         openOut = false;

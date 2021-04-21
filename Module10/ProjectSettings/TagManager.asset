@@ -17,6 +17,7 @@ TagManager:
   - Ladder
   - ShopTalkUI
   - Axe
+  - MovableObj
   layers:
   - Default
   - TransparentFX
