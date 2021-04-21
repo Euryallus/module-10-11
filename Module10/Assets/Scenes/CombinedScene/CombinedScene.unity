@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 1
-  m_FogColor: {r: 0.74509805, g: 0.57041883, b: 0.34901962, a: 0}
+  m_FogColor: {r: 0.43965825, g: 0.81087714, b: 0.9811321, a: 0}
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 40
@@ -14536,7 +14536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb494e7a616f7742954e28f21b37abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemInfoPopup: {fileID: 905291989}
   ContainerId: linkedChest
   numberOfSlots: 24
 --- !u!4 &1352753248
