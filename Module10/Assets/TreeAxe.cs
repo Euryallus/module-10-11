@@ -8,7 +8,7 @@ public class TreeAxe : MonoBehaviour
     public void StopSwinging()
     {
         gameObject.GetComponent<Animator>().SetBool("Swing", false);
-
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StartMoving();
         tree.CanBeHit = true;
     }
 

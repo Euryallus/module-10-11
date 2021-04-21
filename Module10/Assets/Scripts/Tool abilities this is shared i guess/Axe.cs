@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Axe : HeldItem
 {
-
     Freezable frozenObject = null;
 
     public override void PerformMainAbility()

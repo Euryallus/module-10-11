@@ -38,7 +38,7 @@ public class NewTree : DestructableObject
             axeContainer.transform.forward = GameObject.FindGameObjectWithTag("Player").transform.forward;
 
             base.TakeHit();
-
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StopMoving();
             CanBeHit = false;
             axe.SetBool("Swing", true);
         }
@@ -67,7 +67,7 @@ public class NewTree : DestructableObject
     private IEnumerator DestroyTopSection()
     {
         yield return new WaitForSeconds(6);
-
+        
         canDestroy = true;
     }
 
