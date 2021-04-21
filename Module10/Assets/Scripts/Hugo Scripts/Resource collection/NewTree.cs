@@ -41,6 +41,8 @@ public class NewTree : DestructableObject
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StopMoving();
             CanBeHit = false;
             axe.SetBool("Swing", true);
+
+            GameObject.FindGameObjectWithTag("Axe").GetComponent<MeshRenderer>().enabled = false;
         }
 
     }

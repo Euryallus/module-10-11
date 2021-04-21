@@ -9,6 +9,7 @@ public class TreeAxe : MonoBehaviour
     {
         gameObject.GetComponent<Animator>().SetBool("Swing", false);
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StartMoving();
+        GameObject.FindGameObjectWithTag("Axe").GetComponent<MeshRenderer>().enabled = true;
         tree.CanBeHit = true;
     }
 

@@ -16,6 +16,7 @@ TagManager:
   - SavePoint
   - Ladder
   - ShopTalkUI
+  - Axe
   layers:
   - Default
   - TransparentFX
