@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainAbilityHunger: 0.01
   secondaryAbilityHunger: 0.1
-  primaryAbilitySound: {fileID: 11400000, guid: d42a377e82303b94b87353dbf69cf4da, type: 2}
+  primaryAbilitySound: {fileID: 0}
   secondaryAbilitySound: {fileID: 11400000, guid: 79a7449e680af56449be165c877c0161, type: 2}
 --- !u!95 &2151265461221296981
 Animator:

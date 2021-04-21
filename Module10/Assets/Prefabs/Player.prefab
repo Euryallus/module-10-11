@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 868819069326215492}
   - component: {fileID: 2207638255584391532}
   - component: {fileID: 8688783702949859633}
+  - component: {fileID: 4740927130316203150}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -275,6 +276,22 @@ MonoBehaviour:
   bobBaseIntensity: 0.05
   cameraParentTransform: {fileID: 3785119239588701016}
   playerMovementScript: {fileID: 3399754590433321693}
+--- !u!114 &4740927130316203150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399754590433321695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49376e9ae8b64e4db12aaa9cb60cc0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCameraTransform: {fileID: 3399754590781465958}
+  shakeIntensity: 0.05
+  shakeFrequency: 0.03
+  shakeSpeed: 0.3
 --- !u!1 &3399754590781465955
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +577,7 @@ Animator:
   m_GameObject: {fileID: 5099798313219635211}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 22eddb6b29a9a3e429f11b587727eca2, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

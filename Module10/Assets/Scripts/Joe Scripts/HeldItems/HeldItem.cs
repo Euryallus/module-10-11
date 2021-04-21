@@ -56,7 +56,10 @@ public class HeldItem : MonoBehaviour
 
                         destructable.TakeHit();
 
-                        AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
+                        if(primaryAbilitySound != null)
+                        {
+                            AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
+                        }
 
                         break;
                     }
