@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ccollect10wood
   m_EditorClassIdentifier: 
   taskName: Collect 10 wood
-  taskComplete: 0
+  taskComplete: 1
   objectiveType: 1
   toCollect:
     Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
