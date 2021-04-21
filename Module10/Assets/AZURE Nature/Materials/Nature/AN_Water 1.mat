@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AN_Water
+  m_Name: AN_Water 1
   m_Shader: {fileID: 4800000, guid: faaeb4a0622f3594095e9e1327bca9e2, type: 3}
   m_ShaderKeywords: _WAVESNORMALINTENSITY_ON
   m_LightmapFlags: 4
@@ -52,7 +52,7 @@ Material:
     - _2: 0.7
     - _AlphaCutoff: 0.5
     - _ChromaticAberration: 0
-    - _CoastOpacity: 0.348
+    - _CoastOpacity: 0.143
     - _CoastalWavesDensity: 0.5
     - _DepthDistance: 1.5
     - _DepthFade: 1
@@ -67,12 +67,12 @@ Material:
     - _FoamDistance: 0.35
     - _FoamOpacity: 1
     - _Normal: 0.15
-    - _Opacity: 0.887
+    - _Opacity: 0.96
     - _Power: 0.2
     - _RefractionIntensity: 0.15
-    - _RefractionScale: 0.2
+    - _RefractionScale: 0.272
     - _Scale: 50
-    - _Smoothness: 0.88
+    - _Smoothness: 0.37
     - _TessEdgeLength: 16
     - _TessMax: 25
     - _TessMaxDisp: 25
@@ -96,8 +96,8 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color0: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 0}
-    - _Color1: {r: 0.049276415, g: 0.319, b: 0.30343902, a: 0}
-    - _Color2: {r: 0.09011214, g: 0.6285934, b: 0.7075472, a: 0}
+    - _Color1: {r: 0.07609471, g: 0.26159158, b: 0.3584906, a: 0}
+    - _Color2: {r: 0.16820934, g: 0.5514781, b: 0.7924528, a: 0}
     - _DepthColor: {r: 0, g: 1, b: 0.9725489, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _NormalScale: {r: 2, g: 2, b: 0, a: 0}
