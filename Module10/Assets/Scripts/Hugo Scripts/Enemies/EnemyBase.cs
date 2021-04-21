@@ -223,8 +223,9 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void StartPatrolling()
     {
-        currentState = EnemyState.patrol;
+        
         GoToRandom(40f, centralHubPos);
+        currentState = EnemyState.patrol;
     }
 
     public virtual bool CheckForPlayer()

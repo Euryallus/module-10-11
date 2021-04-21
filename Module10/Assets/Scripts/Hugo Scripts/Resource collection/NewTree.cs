@@ -12,6 +12,10 @@ public class NewTree : DestructableObject
 
     public GameObject staticTree;
 
+    public GameObject axeContainer;
+    public Animator axe;
+    public bool CanBeHit = true;
+
     bool canDestroy = false;
 
     private void Update()
@@ -25,6 +29,20 @@ public class NewTree : DestructableObject
             }
             
         }
+    }
+
+    public override void TakeHit()
+    {
+        if(CanBeHit)
+        {
+            axeContainer.transform.forward = GameObject.FindGameObjectWithTag("Player").transform.forward;
+
+            base.TakeHit();
+
+            CanBeHit = false;
+            axe.SetBool("Swing", true);
+        }
+
     }
 
     public override void Destroyed()
@@ -48,9 +66,11 @@ public class NewTree : DestructableObject
 
     private IEnumerator DestroyTopSection()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
 
         canDestroy = true;
     }
+
+
 
 }

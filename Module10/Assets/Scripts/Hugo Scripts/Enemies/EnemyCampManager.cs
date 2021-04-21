@@ -70,10 +70,19 @@ public class EnemyCampManager : MonoBehaviour
 
     private void RandomStartPoint()
     {
+
         Vector3 randomPosition = Random.insideUnitSphere * spawnDistanceMax;
 
         randomPosition += transform.position;
-        randomPosition.y = transform.position.y;
+
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, spawnDistanceMax, 1))
+        {
+            spawnPoint = hit.position;
+        }
+        else
+        {
+            RandomStartPoint();
+        }
 
         spawnPoint = randomPosition;
 

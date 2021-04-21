@@ -9,7 +9,7 @@ public class Axe : HeldItem
 
     public override void PerformMainAbility()
     {
-        gameObject.GetComponent<Animator>().SetBool("Chop", true);
+        //gameObject.GetComponent<Animator>().SetBool("Chop", true);
         base.PerformMainAbility();
     }
 
