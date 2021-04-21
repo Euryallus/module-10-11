@@ -57,6 +57,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e092e489efbdbcc41aed0bf6912cdefe, type: 2}
   - {fileID: 11400000, guid: e06d1a4661877b945a83cc108d0db445, type: 2}
   - {fileID: 11400000, guid: 8fb9993ecbeb7094eadc99ec284e57df, type: 2}
+  - {fileID: 11400000, guid: 730e3146775cc694886e2723d6125dbb, type: 2}
+  - {fileID: 11400000, guid: bbfbeacaf87ad5841b35b52db0a1f373, type: 2}
   music:
   - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
   musicSource: {fileID: 5208045952954675613}
