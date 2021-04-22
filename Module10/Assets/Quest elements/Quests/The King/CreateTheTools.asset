@@ -15,7 +15,8 @@ MonoBehaviour:
   questName: Create the three tools
   questDescription: ' If you create them, I''ll give you the key to leave this area'
   questCompleteDialogue: You've proven yourself. Take this key, you can clearly be
-    trusted to explore the Caph plains
+    trusted to explore the Caph plains. You see that mountain up there? An old friend
+    of mine lives there, talk to him, and he'll give you something special.
   nextQuests: []
   handInNPCName: The King
   handOutNPCName: The King
