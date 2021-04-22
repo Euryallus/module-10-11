@@ -93,7 +93,7 @@ public class EnemyCampManager : MonoBehaviour
     {
         foreach (EnemyBase enemy in spawnedEnemies)
         {
-            enemy.playerLastSeen = position;
+            enemy.AlertOfPosition(position);
         }
     }
 

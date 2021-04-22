@@ -655,12 +655,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7848758697074569136, guid: 50f3c03dbfedb5143b333d7f836ea75d, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7848758697074569136, guid: 50f3c03dbfedb5143b333d7f836ea75d, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722786493879057618, guid: 50f3c03dbfedb5143b333d7f836ea75d, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8722786493879057618, guid: 50f3c03dbfedb5143b333d7f836ea75d, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50f3c03dbfedb5143b333d7f836ea75d, type: 3}

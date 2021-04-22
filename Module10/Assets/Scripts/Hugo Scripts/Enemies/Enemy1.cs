@@ -40,6 +40,7 @@ public class Enemy1 : EnemyBase
 
                     children[children.Count - 1].transform.position = pos;
                     children[children.Count - 1].GetComponent<EnemyBase>().manager = manager;
+                    children[children.Count - 1].GetComponent<EnemyBase>().centralHubPos = centralHubPos;
                     HasSplit = true;
                 }
             }

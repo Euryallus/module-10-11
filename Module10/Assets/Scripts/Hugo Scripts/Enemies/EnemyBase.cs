@@ -34,6 +34,8 @@ public class EnemyBase : MonoBehaviour
 
     public EnemyCampManager manager;
 
+    public Vector3 enemyDestination;
+
     public enum EnemyState
     {
         stationary,
@@ -108,6 +110,7 @@ public class EnemyBase : MonoBehaviour
 
         if (path.status != NavMeshPathStatus.PathPartial)
         {
+            enemyDestination = targetPosition;
             agent.SetDestination(targetPosition);
             return true;
         }
@@ -116,20 +119,23 @@ public class EnemyBase : MonoBehaviour
         return false;
     }
 
-    public virtual void GoToRandom(float maxDistanceFromCurrent, Vector3 origin)
+    public virtual bool GoToRandom(float maxDistanceFromCurrent, Vector3 origin)
     {
         Vector3 randomPosition = Random.insideUnitSphere * maxDistanceFromCurrent;
 
         randomPosition += origin;
 
-        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, maxDistanceFromCurrent, 1))
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, 1f, NavMesh.AllAreas))
         {
-            GoTo(hit.position);
+            return GoTo(hit.position);
         }
         else
         {
-            GoToRandom(maxDistanceFromCurrent, origin);
+            GoTo(centralHubPos);
         }
+
+        return false;
+
     }
 
     public virtual void StationaryUpdate()
@@ -172,6 +178,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (CheckForPlayer())
         {
+            manager.AlertUnits(playerLastSeen);
             currentState = EnemyState.engaged;
             return;
         }
@@ -182,7 +189,11 @@ public class EnemyBase : MonoBehaviour
 
             if(searchPointsVisited < 5)
             {
-                GoToRandom(20f, playerLastSeen);
+                if (!GoToRandom(20f, playerLastSeen))
+                {
+                    GoToRandom(20f, playerLastSeen);
+                }
+
             }
             else
             {
@@ -196,6 +207,9 @@ public class EnemyBase : MonoBehaviour
 
         if(CheckForPlayer())
         {
+
+            manager.AlertUnits(playerLastSeen);
+            
             currentState = EnemyState.engaged;
             return;
         }
@@ -213,17 +227,16 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void StartSearching(Vector3 searchPos)
     {
-        currentState = EnemyState.search;
-        searchPointsVisited = 0;
-
         playerLastSeen = searchPos;
-
         GoToRandom(5f, playerLastSeen);
+        searchPointsVisited = 0;
+        currentState = EnemyState.search;
+
     }
 
     public virtual void StartPatrolling()
     {
-        
+        searchPointsVisited = 0;
         GoToRandom(40f, centralHubPos);
         currentState = EnemyState.patrol;
     }
@@ -247,12 +260,7 @@ public class EnemyBase : MonoBehaviour
                     {
                         Debug.DrawLine(transform.position, hit.transform.position, Color.red);
                         playerLastSeen = player.transform.position;
-
-                        if(manager != null)
-                        {
-                            manager.AlertUnits(playerLastSeen);
-                        }
-
+                        searchPointsVisited = 0;
                         return true;
                     }
                 }
@@ -283,7 +291,7 @@ public class EnemyBase : MonoBehaviour
             {
                 if(playerStats!= null)
                 {
-                    playerStats.DecreaseHealth(baseDamage);
+                    //playerStats.DecreaseHealth(baseDamage);
                 }
 
             }
@@ -310,5 +318,12 @@ public class EnemyBase : MonoBehaviour
         {
             return new Vector3(0, -300, 0);
         }
+    }
+
+    public void AlertOfPosition(Vector3 position)
+    {
+        playerLastSeen = position;
+
+        StartSearching(position);
     }
 }
