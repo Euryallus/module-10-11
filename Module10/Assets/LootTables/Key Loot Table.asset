@@ -17,4 +17,4 @@ MonoBehaviour:
   m_itemPool:
   - Item: {fileID: 11400000, guid: 8f11e3b0e8d57bd47912975b1f31ccf3, type: 2}
     Weight: 1
-    MinimumQuantity: 0
+    MinimumQuantity: 1
