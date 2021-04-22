@@ -19,6 +19,9 @@ TagManager:
   - Axe
   - MovableObj
   - ItemInfoPopup
+  - Pickaxe
+  - Hammer
+  - DynamicAudioArea
   layers:
   - Default
   - TransparentFX

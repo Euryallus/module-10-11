@@ -20,6 +20,14 @@ public class PuzzleButtonSequence : MonoBehaviour, IPersistentObject
 
     private bool sequenceCompleted;
 
+    private void Awake()
+    {
+        for (int i = 0; i < buttonsInSequence.Count; i++)
+        {
+            buttonsInSequence[i].RegisterWithSequence(this);
+        }
+    }
+
     void Start()
     {
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
@@ -27,11 +35,6 @@ public class PuzzleButtonSequence : MonoBehaviour, IPersistentObject
         if (string.IsNullOrEmpty(id))
         {
             Debug.LogWarning("IMPORTANT: PuzzleButtonSequence exists without id. All sequences require a *unique* id for saving/loading data.");
-        }
-
-        for (int i = 0; i < buttonsInSequence.Count; i++)
-        {
-            buttonsInSequence[i].RegisterWithSequence(this);
         }
 
         SequenceFailedEvents();
