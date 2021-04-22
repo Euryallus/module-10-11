@@ -1,18 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum MusicPlayMode
+{
+    OrderedPlaylist,
+    RandomPlaylist,
+    LoopSingleTrack,
+    Dynamic
+}
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
     [SerializeField] private SoundClass[]   sounds;
-    [SerializeField] private MusicClass[]   music;
+    [SerializeField] private SceneMusic[]   sceneMusicSetup;
 
     [SerializeField] private AudioSource    musicSource;
     [SerializeField] private GameObject     soundSourcePrefab;
+    [SerializeField] private GameObject     dynamicMusicSourcePrefab;
+
+    public SceneMusic CurrentSceneMusic { get { return currentSceneMusic; } }
+    public DynamicAudioArea CurrentDynamicAudioArea { get { return currentDynamicAudioArea; } set { currentDynamicAudioArea = value; } }
 
     private Dictionary<string, SoundClass> soundsDict;
-    private Dictionary<string, MusicClass> musicDict;
+
+    private SceneMusic currentSceneMusic;
+
+    private int currentPlaylistIndex;
+
+    private DynamicAudioArea[]  dynamicAudioAreas;
+    private DynamicAudioArea    currentDynamicAudioArea;
 
     private void Awake()
     {
@@ -32,45 +51,135 @@ public class AudioManager : MonoBehaviour
 
         SetupDictionaries();
 
-        //SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void Start()
+    private void Update()
     {
-        PlayMusic("calm", true);
+        if(!musicSource.isPlaying)
+        {
+            if (currentSceneMusic.PlayMode == MusicPlayMode.OrderedPlaylist || currentSceneMusic.PlayMode == MusicPlayMode.RandomPlaylist)
+            {
+                PlayNextMusicFromPlaylist();
+            }
+        }
+    }
+
+    public void PlayAllDynamicSources()
+    {
+        for (int i = 0; i < dynamicAudioAreas.Length; i++)
+        {
+            dynamicAudioAreas[i].MusicSource.Play();
+        }
+    }
+
+    private void PlayNextMusicFromPlaylist()
+    {
+        switch (currentSceneMusic.PlayMode)
+        {
+            case MusicPlayMode.OrderedPlaylist:
+            {
+                if (currentPlaylistIndex < (currentSceneMusic.Playlist.Length - 1))
+                {
+                    currentPlaylistIndex++;
+                }
+                else
+                {
+                    currentPlaylistIndex = 0;
+                }
+
+                PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
+            }
+            break;
+
+            case MusicPlayMode.RandomPlaylist:
+            {
+                int previousIndex = currentPlaylistIndex;
+
+                if (currentSceneMusic.Playlist.Length > 1)
+                {
+                    while (currentPlaylistIndex == previousIndex)
+                    {
+                        currentPlaylistIndex = Random.Range(0, currentSceneMusic.Playlist.Length);
+                    }
+                }
+                else
+                {
+                    currentPlaylistIndex = 0;
+                }
+
+                PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
+            }
+            break;
+        }
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
+    {
+        for (int i = 0; i < sceneMusicSetup.Length; i++)
+        {
+            if(sceneMusicSetup[i].SceneName == scene.name)
+            {
+                SceneMusic sceneMusic = sceneMusicSetup[i];
+
+                currentSceneMusic = sceneMusic;
+
+                if(sceneMusic.PlayMode == MusicPlayMode.OrderedPlaylist || sceneMusic.PlayMode == MusicPlayMode.RandomPlaylist)
+                {
+                    currentPlaylistIndex = -1;
+                    PlayNextMusicFromPlaylist();
+                }
+                else if(sceneMusic.PlayMode == MusicPlayMode.LoopSingleTrack)
+                {
+                    currentPlaylistIndex = 0;
+                    PlayMusic(sceneMusic.Playlist[0], true);
+                }
+                else if(sceneMusic.PlayMode == MusicPlayMode.Dynamic)
+                {
+                    GameObject[] dynamicAudioGameObjs = GameObject.FindGameObjectsWithTag("DynamicAudioArea");
+
+                    dynamicAudioAreas = new DynamicAudioArea[dynamicAudioGameObjs.Length];
+
+                    for (int j = 0; j < dynamicAudioGameObjs.Length; j++)
+                    {
+                        dynamicAudioAreas[j] = dynamicAudioGameObjs[j].GetComponent<DynamicAudioArea>();
+                        dynamicAudioAreas[j].MusicSource.Play();
+                    }
+                }
+            }
+        }
     }
 
     private void SetupDictionaries()
     {
         soundsDict  = new Dictionary<string, SoundClass>();
-        musicDict   = new Dictionary<string, MusicClass>();
 
         for (int i = 0; i < sounds.Length; i++)
         {
             soundsDict.Add(sounds[i].Id, sounds[i]);
         }
-
-        for (int i = 0; i < music.Length; i++)
-        {
-            musicDict.Add(music[i].Id, music[i]);
-        }
     }
 
-    public void PlayMusic(string id, bool loop)
+    public void PlayMusic(MusicClass music, bool loop)
     {
-        if (musicDict.ContainsKey(id))
-        {
-            musicSource.clip    = musicDict[id].AudioClip;
-            musicSource.volume  = musicDict[id].Volume;
-            musicSource.loop    = loop;
+        musicSource.clip    = music.AudioClip;
+        musicSource.volume  = music.Volume;
+        musicSource.loop    = loop;
 
-            musicSource.Play();
-        }
-        else
-        {
-            Debug.LogError("Trying to play music with invalid id: " + id);
-        }
+        musicSource.Play();
     }
+
+    //public void PlayMusic(string id, bool loop)
+    //{
+    //    if (musicDict.ContainsKey(id))
+    //    {
+    //        PlayMusic(musicDict[id], loop);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Trying to play music with invalid id: " + id);
+    //    }
+    //}
 
     private void PlaySoundEffect(SoundClass sound, bool use3DSpace, Vector3 sourcePosition = default)
     {
@@ -138,4 +247,12 @@ public class AudioManager : MonoBehaviour
     {
         PlaySoundEffect(sound, true, sourcePosition);
     }
+}
+
+[System.Serializable]
+public struct SceneMusic
+{
+    public string           SceneName;
+    public MusicPlayMode    PlayMode;
+    public MusicClass[]     Playlist;
 }
