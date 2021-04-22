@@ -32,6 +32,7 @@ public class Rock : DestructableObject
             }
 
         }
+        base.Destroyed();
     }
 
     public override void TakeHit()

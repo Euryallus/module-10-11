@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: Player data
   m_EditorClassIdentifier: 
   questBacklog: []
-  completedQuests:
-  - {fileID: 11400000, guid: a9df044064bc52c45a7ca9f51ab658f4, type: 2}
-  - {fileID: 11400000, guid: a9df044064bc52c45a7ca9f51ab658f4, type: 2}
-  - {fileID: 11400000, guid: a9df044064bc52c45a7ca9f51ab658f4, type: 2}
+  completedQuests: []
   pendingQuest: {fileID: 0}
   offer: {fileID: 0}
   questGivers:
   - {fileID: 11400000, guid: 52aa68ba7f2b98b4c950b08211cc6d0e, type: 2}
   - {fileID: 11400000, guid: 6bc44ab67ee823f4589badfb89fcd3b8, type: 2}
   - {fileID: 11400000, guid: 023229f1c6f98214595d46f9cfd41ff8, type: 2}
+  - {fileID: 11400000, guid: 015b36db3624fec488a8e1687d4325b7, type: 2}

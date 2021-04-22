@@ -30,8 +30,9 @@ public class Crystal : DestructableObject
             {
                 gameObject.GetComponent<BoxCollider>().enabled = false;
             }
-
         }
+
+        base.Destroyed();
     }
 
     public override void TakeHit()

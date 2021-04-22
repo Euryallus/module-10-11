@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour
 
     public float stopDistance = 2f;
 
-    private Vector3 playerLastSeen;
+    public Vector3 playerLastSeen;
     private int searchPointsVisited = 0;
 
     public Vector3 centralHubPos;
@@ -32,6 +32,8 @@ public class EnemyBase : MonoBehaviour
 
     private float distToPlayer;
 
+    public EnemyCampManager manager;
+
     public enum EnemyState
     {
         stationary,
@@ -47,8 +49,6 @@ public class EnemyBase : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
-        
 
         currentState = EnemyState.patrol;
         player = GameObject.FindGameObjectWithTag("Player");
@@ -247,6 +247,12 @@ public class EnemyBase : MonoBehaviour
                     {
                         Debug.DrawLine(transform.position, hit.transform.position, Color.red);
                         playerLastSeen = player.transform.position;
+
+                        if(manager != null)
+                        {
+                            manager.AlertUnits(playerLastSeen);
+                        }
+
                         return true;
                     }
                 }
@@ -275,8 +281,34 @@ public class EnemyBase : MonoBehaviour
         {
             if(hit.transform.CompareTag("Player"))
             {
-                playerStats.DecreaseHealth(baseDamage);
+                if(playerStats!= null)
+                {
+                    playerStats.DecreaseHealth(baseDamage);
+                }
+
             }
+        }
+    }
+
+    public bool IsPointOnNavMesh(Vector3 pos, float maxDist)
+    {
+        return NavMesh.SamplePosition(pos, out NavMeshHit hit, maxDist, 1);
+
+    }
+
+    public Vector3 GetRandomPos(float maxDistanceFromCurrent, Vector3 origin)
+    {
+        Vector3 randomPosition = Random.insideUnitSphere * maxDistanceFromCurrent;
+
+        randomPosition += origin;
+
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, maxDistanceFromCurrent, 1))
+        {
+            return randomPosition;
+        }
+        else
+        {
+            return new Vector3(0, -300, 0);
         }
     }
 }

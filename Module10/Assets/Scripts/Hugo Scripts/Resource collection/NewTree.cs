@@ -23,10 +23,10 @@ public class NewTree : DestructableObject
         //checks if top can be deleted (is stationary and has been cut down)
         if(top.activeSelf)
         {
-            if(topRB.velocity.magnitude < 0.1f && canDestroy)
-            {
-                top.SetActive(false);
-            }
+            //if(topRB.velocity.magnitude < 0.1f && canDestroy)
+            //{
+            //    top.SetActive(false);
+            //}
             
         }
     }

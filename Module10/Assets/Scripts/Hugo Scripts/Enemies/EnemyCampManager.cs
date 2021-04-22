@@ -32,12 +32,13 @@ public class EnemyCampManager : MonoBehaviour
         unitsDifficulty.Add(possibleUnits[i]);
         RemainingUnits(startPlace);
 
-        foreach(EnemyBase prefab in unitsDifficulty)
+        foreach (EnemyBase prefab in unitsDifficulty)
         {
             spawnedEnemies.Add(Instantiate(prefab));
             EnemyBase created = spawnedEnemies[spawnedEnemies.Count - 1];
             created.centralHubPos = transform.position;
 
+            created.manager = gameObject.GetComponent<EnemyCampManager>();
 
             Vector3 randomPosition = Random.insideUnitSphere * spawnDistanceMax;
 
@@ -50,7 +51,7 @@ public class EnemyCampManager : MonoBehaviour
 
     private void RemainingUnits(int total)
     {
-        if(total >= difficultyLevel)
+        if (total >= difficultyLevel)
         {
             return;
         }
@@ -58,10 +59,10 @@ public class EnemyCampManager : MonoBehaviour
         int n = 1;
         int i = 0;
 
-        if(difficultyLevel - total > 1)
+        if (difficultyLevel - total > 1)
         {
             i = Random.Range(0, possibleUnits.Count);
-            n = possibleUnits[ i ].difficulty;
+            n = possibleUnits[i].difficulty;
         }
 
         unitsDifficulty.Add(possibleUnits[i]);
@@ -88,5 +89,14 @@ public class EnemyCampManager : MonoBehaviour
 
     }
 
-    
+    public void AlertUnits(Vector3 position)
+    {
+        foreach (EnemyBase enemy in spawnedEnemies)
+        {
+            enemy.playerLastSeen = position;
+        }
+    }
+
+
+
 }
