@@ -189,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720913174982910412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.25, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 1720913176062034155}
@@ -369,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720913175752533575}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 1.34, z: 4.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1720913174982910413}
@@ -385,17 +385,17 @@ NavMeshAgent:
   m_GameObject: {fileID: 1720913175752533575}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.5
-  m_BaseOffset: 0.75
+  m_Height: 2
+  m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &2148908963303940027
@@ -411,14 +411,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewDistance: 25
-  viewAngle: 120
+  viewAngle: 200
   stationaryTurnSpeed: 4
   difficulty: 1
   stopDistance: 2
+  playerLastSeen: {x: 0, y: 0, z: 0}
   centralHubPos: {x: 6, y: 1.34, z: 4.5}
   baseDamage: 0.2
   timeBetweenAttacks: 2
   attackDistance: 2
+  canReach: 1
+  manager: {fileID: 0}
+  enemyDestination: {x: 0, y: 0, z: 0}
   currentState: 0
   duplicatePrefab: {fileID: 137528860155671651, guid: 9ab1c08ec132a154793d7473f91eb2cb, type: 3}
   children: []
