@@ -18,6 +18,7 @@ public class PuzzleButton : MonoBehaviour
 
     private bool lastFramePressed;      //Whether the button was pressed on the previous frame
     private bool pressed;               //Whether the button is currently pressed
+    private PuzzleButtonSequence sequence;
 
     void Start()
     {
@@ -47,6 +48,11 @@ public class PuzzleButton : MonoBehaviour
         lastFramePressed = pressed;
     }
 
+    public void RegisterWithSequence(PuzzleButtonSequence sequence)
+    {
+        this.sequence = sequence;
+    }
+
     private void ButtonPressedEvents()
     {
         for (int i = 0; i < connectedDoors.Length; i++)
@@ -61,6 +67,11 @@ public class PuzzleButton : MonoBehaviour
             {
                 doorData.Door.SetAsOpen(doorData.OpenInwards);
             }
+        }
+
+        if(sequence != null)
+        {
+            sequence.ButtonInSequencePressed(this);
         }
     }
 
