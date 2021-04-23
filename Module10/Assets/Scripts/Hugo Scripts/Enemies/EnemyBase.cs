@@ -26,8 +26,8 @@ public class EnemyBase : MonoBehaviour
     public float attackDistance;
 
     private float dot;
-    private NavMeshAgent agent;
-    private GameObject player;
+    protected NavMeshAgent agent;
+    protected GameObject player;
     private PlayerStats playerStats;
 
     private float distToPlayer;
@@ -54,7 +54,7 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        currentState = EnemyState.patrol;
+        currentState = EnemyState.search;
         player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerStats>();
         
@@ -226,7 +226,7 @@ public class EnemyBase : MonoBehaviour
 
         if(CheckForPlayer())
         {
-            manager.AlertUnits(playerLastSeen);
+            //manager.AlertUnits(playerLastSeen);
             
             currentState = EnemyState.engaged;
             return;
