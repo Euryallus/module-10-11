@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 231932873081306926}
   - component: {fileID: 231932873081306920}
   - component: {fileID: 231932873081306921}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 231932873321469037}
   - component: {fileID: 231932873321469036}
   - component: {fileID: 231932873321469039}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyBasic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,10 +153,14 @@ MonoBehaviour:
   stationaryTurnSpeed: 5
   difficulty: 1
   stopDistance: 2
+  playerLastSeen: {x: 0, y: 0, z: 0}
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 2
   timeBetweenAttacks: 2
   attackDistance: 3
+  canReach: 1
+  manager: {fileID: 0}
+  enemyDestination: {x: 0, y: 0, z: 0}
   currentState: 0
 --- !u!1 &231932873496376031
 GameObject:
@@ -169,7 +173,7 @@ GameObject:
   - component: {fileID: 231932873496376030}
   - component: {fileID: 231932873496376024}
   - component: {fileID: 231932873496376025}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +254,7 @@ GameObject:
   - component: {fileID: 231932873958329824}
   - component: {fileID: 231932873958329826}
   - component: {fileID: 231932873958329827}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +335,7 @@ GameObject:
   - component: {fileID: 231932874188277565}
   - component: {fileID: 231932874188277567}
   - component: {fileID: 231932874188277564}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +417,7 @@ GameObject:
   - component: {fileID: 231932874564981749}
   - component: {fileID: 231932874564981754}
   - component: {fileID: 231932874564981755}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BodyModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 137528860155671676}
   - component: {fileID: 137528860155671677}
   - component: {fileID: 6185944759816881309}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy1Minion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,8 +46,8 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_AngularSpeed: 500
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -71,12 +71,12 @@ MonoBehaviour:
   viewAngle: 200
   stationaryTurnSpeed: 5
   difficulty: 1
-  stopDistance: 1
+  stopDistance: 2
   playerLastSeen: {x: 0, y: 0, z: 0}
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 0.1
   timeBetweenAttacks: 2
-  attackDistance: 1
+  attackDistance: 2.1
   canReach: 1
   manager: {fileID: 0}
   enemyDestination: {x: 0, y: 0, z: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 137528860316144335}
   - component: {fileID: 137528860316144329}
   - component: {fileID: 137528860316144328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 137528860932677439}
   - component: {fileID: 137528860932677433}
   - component: {fileID: 137528860932677432}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 137528861234882348}
   - component: {fileID: 137528861234882350}
   - component: {fileID: 137528861234882349}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 137528861395055588}
   - component: {fileID: 137528861395055595}
   - component: {fileID: 137528861395055594}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BodyModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 137528862136020465}
   - component: {fileID: 137528862136020467}
   - component: {fileID: 137528862136020466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

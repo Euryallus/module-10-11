@@ -106,30 +106,30 @@ public class EnemyBase : MonoBehaviour
     }
 
     public virtual bool GoTo(Vector3 targetPosition)
-    {
-        NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 5f, 1);
-        if (hit.position.x != Mathf.Infinity)
-        {
-            NavMeshPath path = new NavMeshPath();
-            agent.CalculatePath(targetPosition, path);
-
-            if (path.status != NavMeshPathStatus.PathPartial)
-            {
-                enemyDestination = targetPosition;
-                agent.SetDestination(targetPosition);
-                return true;
-            }
-        }
-        
-        Debug.LogWarning("No path found for " + name);
-        return false;
+    {   //
+        //NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 5f, 1);
+        //if (hit.position.x != Mathf.Infinity)
+        //{
+        //    NavMeshPath path = new NavMeshPath();
+        //    agent.CalculatePath(targetPosition, path);
+        //
+        //    if (path.status != NavMeshPathStatus.PathPartial)
+        //    {
+        //        enemyDestination = targetPosition;
+        //        
+        //        return true;
+        //    }
+        //}
+        agent.SetDestination(targetPosition);
+        //Debug.LogWarning("No path found for " + name);
+        return true;
     }
 
     public virtual void GoToRandom(float maxDistanceFromCurrent, Vector3 origin)
     {
         Vector3 randomPosition = Random.insideUnitSphere * maxDistanceFromCurrent;
 
-        randomPosition.y = transform.position.y;
+        //randomPosition.y = transform.position.y;
 
         randomPosition += origin;
 
@@ -166,7 +166,7 @@ public class EnemyBase : MonoBehaviour
                     }
                     else
                     {
-                        if(Vector3.Distance(transform.position, agent.destination) < 2f)
+                        if(agent.isStopped)
                         {
                             GoToRandom(15f, playerLastSeen);
                         }
@@ -205,7 +205,7 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) < 3f)
+        if (Vector3.Distance(transform.position, agent.destination) < 2.5f)
         {
             ++searchPointsVisited;
 
@@ -226,14 +226,13 @@ public class EnemyBase : MonoBehaviour
 
         if(CheckForPlayer())
         {
-
             manager.AlertUnits(playerLastSeen);
             
             currentState = EnemyState.engaged;
             return;
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) <= 1f)
+        if (Vector3.Distance(transform.position, agent.destination) <= 3f)
         {
             GoToRandom(35f, centralHubPos);
         }
@@ -320,7 +319,6 @@ public class EnemyBase : MonoBehaviour
     public bool IsPointOnNavMesh(Vector3 pos, float maxDist)
     {
         return NavMesh.SamplePosition(pos, out NavMeshHit hit, maxDist, 1);
-
     }
 
     public Vector3 GetRandomPos(float maxDistanceFromCurrent, Vector3 origin)
@@ -336,8 +334,12 @@ public class EnemyBase : MonoBehaviour
 
     public void AlertOfPosition(Vector3 position)
     {
-        playerLastSeen = position;
+        if(currentState != EnemyState.engaged)
+        {
+            playerLastSeen = position;
 
-        StartSearching(position);
+            StartSearching(position);
+        }
+
     }
 }

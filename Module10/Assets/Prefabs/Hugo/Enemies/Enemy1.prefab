@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1720913174511665109}
   - component: {fileID: 1720913174511665111}
   - component: {fileID: 1720913174511665110}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 1720913174874649864}
   - component: {fileID: 1720913174874649866}
   - component: {fileID: 1720913174874649865}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 1720913174982910400}
   - component: {fileID: 1720913174982910415}
   - component: {fileID: 1720913174982910414}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BodyModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 1720913175512354075}
   - component: {fileID: 1720913175512354077}
   - component: {fileID: 1720913175512354076}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 1720913175752533592}
   - component: {fileID: 1720913175752533593}
   - component: {fileID: 2148908963303940027}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,8 +389,8 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 360
-  m_StoppingDistance: 0
+  m_AngularSpeed: 500
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 1720913176062034155}
   - component: {fileID: 1720913176062034157}
   - component: {fileID: 1720913176062034156}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
