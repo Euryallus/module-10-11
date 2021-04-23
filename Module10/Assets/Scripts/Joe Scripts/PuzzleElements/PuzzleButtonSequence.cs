@@ -1,12 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-//public enum ButtonSequenceType
-//{
-//    PressAllButtons,    //All buttons must be pressed down at the same time
-//    PressInOrder        //Buttons must all be pressed once in a certain order
-//}
 
 public class PuzzleButtonSequence : MonoBehaviour, IPersistentObject
 {

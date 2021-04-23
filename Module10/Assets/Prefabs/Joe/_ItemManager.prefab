@@ -56,6 +56,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e0b3e605f2655547be5d174fd332d3c, type: 2}
   - {fileID: 11400000, guid: 8f11e3b0e8d57bd47912975b1f31ccf3, type: 2}
   - {fileID: 11400000, guid: fdbddb5abb8574845b13811304314e46, type: 2}
+  - {fileID: 11400000, guid: c7dae1dd7371c93449338dff02b87fde, type: 2}
+  - {fileID: 11400000, guid: 2829b9b1a2b1f6d40bd443783c7594d2, type: 2}
+  - {fileID: 11400000, guid: 68d718783dbc5e943b26bf1ca270ce6f, type: 2}
   CraftingRecipes:
   - {fileID: 11400000, guid: 257d2e1fd5a6e4c40a52582e9903e316, type: 2}
   - {fileID: 11400000, guid: d0b78d587d1adda49aeb8123b9f25ea3, type: 2}
@@ -63,3 +66,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e28954cfe9788b74a9923c356217dd2f, type: 2}
   - {fileID: 11400000, guid: 017289430bec13747af801dcc4c8e7dd, type: 2}
   - {fileID: 11400000, guid: 77686ede684011e4e8633d63698f31e3, type: 2}
+  - {fileID: 11400000, guid: bfb86cd9caa3a3c429916ebf3afb97a0, type: 2}
+  - {fileID: 11400000, guid: 8ba207adac6e5fd4aa3bd4d35decc023, type: 2}
+  - {fileID: 11400000, guid: 9e510d7ae605f664fa3ea527b46df39e, type: 2}

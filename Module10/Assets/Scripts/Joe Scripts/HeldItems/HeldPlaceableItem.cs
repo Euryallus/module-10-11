@@ -10,16 +10,19 @@ public class HeldPlaceableItem : HeldItem
     private GameObject itemPrefab;
 
     [SerializeField]
-    private Color standardColour;
+    private Color standardColour = new Color(0.0f, 0.6705883f, 0.6705883f);
 
     [SerializeField] [ColorUsage(false, true)]
-    private Color standardEmissive;
+    private Color standardEmissive = new Color(0.0f, 0.1254902f, 0.1254902f);
 
     [SerializeField]
-    private Color warningColour;
+    private Color warningColour = new Color(0.7075472f, 0.0f, 0.0f);
 
     [SerializeField] [ColorUsage(false, true)]
-    private Color warningEmissive;
+    private Color warningEmissive = new Color(0.1254902f, 0.0f, 0.0f);
+
+    [SerializeField]
+    private float maxPlaceDistance = 8.0f;
 
     private bool colliding = false;
     private bool inRange = false;
@@ -33,7 +36,7 @@ public class HeldPlaceableItem : HeldItem
     {
         gameObject.transform.rotation = Quaternion.Euler(0.0f, visualRotation, 0.0f);
 
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, 5.0f))
+        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance))
         {
             UpdatePlacementState(colliding, true);
 
@@ -67,6 +70,7 @@ public class HeldPlaceableItem : HeldItem
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         UpdatePlacementState(true, inRange);
     }
 

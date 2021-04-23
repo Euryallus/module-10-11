@@ -4,34 +4,44 @@ using UnityEngine.SceneManagement;
 
 public enum MusicPlayMode
 {
-    OrderedPlaylist,
-    RandomPlaylist,
-    LoopSingleTrack,
-    Dynamic
+    OrderedPlaylist,    //A playlist where songs are played in the listed order
+
+    RandomPlaylist,     //A playlist where songs are played in a random order
+                        //  (if there are multiple songs in the playlist, each song never being played more than once in a row)
+
+    LoopSingleTrack,    //One track is looped for the duration of the scene
+
+    Dynamic             //The music played in the scene is determined by the placement of DynamicAudioAreas
 }
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [SerializeField] private SoundClass[]   sounds;
-    [SerializeField] private SceneMusic[]   sceneMusicSetup;
+    #region InspectorVariables
+    //Variables in this region are set in the inspector
 
-    [SerializeField] private AudioSource    musicSource;
-    [SerializeField] private GameObject     soundSourcePrefab;
-    [SerializeField] private GameObject     dynamicMusicSourcePrefab;
+    [SerializeField] private SoundClass[]   sounds;             //All sound effects that can be played
+    [SerializeField] private SceneMusic[]   sceneMusicSetup;    //Array of data defining how music should be handled in each game scene
 
-    public SceneMusic CurrentSceneMusic { get { return currentSceneMusic; } }
-    public DynamicAudioArea CurrentDynamicAudioArea { get { return currentDynamicAudioArea; } set { currentDynamicAudioArea = value; } }
+    [SerializeField] private AudioSource    musicSource;        //The audio source used to play non-dynamic music
+    [SerializeField] private GameObject     soundSourcePrefab;  //The prefab instantiated when a sound is played
 
-    private Dictionary<string, SoundClass> soundsDict;
+    #endregion
 
-    private SceneMusic currentSceneMusic;
+    #region Properties
 
-    private int currentPlaylistIndex;
+    public SceneMusic       CurrentSceneMusic       { get { return currentSceneMusic; } }       
+    public DynamicAudioArea CurrentDynamicAudioArea { get { return currentDynamicAudioArea; }
+                                                      set { currentDynamicAudioArea = value; } }
 
-    private DynamicAudioArea[]  dynamicAudioAreas;
-    private DynamicAudioArea    currentDynamicAudioArea;
+    #endregion
+
+    private Dictionary<string, SoundClass>  soundsDict;                 //Dictionary containing sound effects indexed by their string id's
+    private SceneMusic                      currentSceneMusic;          //Defines how music is handled in the loaded scene
+    private int                             currentPlaylistIndex;       //If using a playlist, the index of the song that is currently playing in it
+    private DynamicAudioArea[]              dynamicAudioAreas;          //All (if any) dynamic audio areas in the loaded scene
+    private DynamicAudioArea                currentDynamicAudioArea;    //The dynamic audio area that the player most recently entered
 
     private void Awake()
     {
@@ -49,9 +59,23 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        SetupDictionaries();
+        //Add all sounds to the sound dictionary
+        SetupSoundDictionary();
 
+        //Subscribe to scene loaded event
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void SetupSoundDictionary()
+    {
+        //Add all sounds to the dictionary, indexed by their id's
+        //  so they can easily be returned when needed
+        soundsDict = new Dictionary<string, SoundClass>();
+
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            soundsDict.Add(sounds[i].Id, sounds[i]);
+        }
     }
 
     private void Update()
@@ -60,35 +84,90 @@ public class AudioManager : MonoBehaviour
         {
             if (currentSceneMusic.PlayMode == MusicPlayMode.OrderedPlaylist || currentSceneMusic.PlayMode == MusicPlayMode.RandomPlaylist)
             {
+                //If the current music track has finished playing and a playlist is being used, move to the next song (either sequentially or randomly)
                 PlayNextMusicFromPlaylist();
             }
         }
     }
 
-    public void PlayAllDynamicSources()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
     {
-        for (int i = 0; i < dynamicAudioAreas.Length; i++)
+        //Ensure the current dynamic audio area is null by default, in case one was set in a previous scene
+        currentDynamicAudioArea = null;
+
+        for (int i = 0; i < sceneMusicSetup.Length; i++)
         {
-            dynamicAudioAreas[i].MusicSource.Play();
+            //Find the scene music setup for the loaded scene
+            if(sceneMusicSetup[i].SceneName == scene.name)
+            {
+                SceneMusic sceneMusic = sceneMusicSetup[i];
+                currentSceneMusic = sceneMusic;
+
+                if(sceneMusic.PlayMode == MusicPlayMode.OrderedPlaylist || sceneMusic.PlayMode == MusicPlayMode.RandomPlaylist)
+                {
+                    //Play a track from the playlist, random or otherwise
+                    currentPlaylistIndex = -1;  //Starts at -1 since PlayNextMusicFromPlaylist will begin by incrementing the index to 0
+                    PlayNextMusicFromPlaylist();
+                }
+                else if(sceneMusic.PlayMode == MusicPlayMode.LoopSingleTrack)
+                {
+                    //Loop the first (and ideally only) track in the playlist for the duration of the scene
+                    currentPlaylistIndex = 0;
+                    PlayMusic(sceneMusic.Playlist[0], true);
+                }
+                else if(sceneMusic.PlayMode == MusicPlayMode.Dynamic)
+                {
+                    //Find all dynamic audio areas in the scene
+                    GameObject[] dynamicAudioGameObjs = GameObject.FindGameObjectsWithTag("DynamicAudioArea");
+
+                    //Setup the dynamic audio areas array based on the number of areas in the scene
+                    dynamicAudioAreas = new DynamicAudioArea[dynamicAudioGameObjs.Length];
+
+                    for (int j = 0; j < dynamicAudioGameObjs.Length; j++)
+                    {
+                        //Add all dynamic audio areas to the array
+                        dynamicAudioAreas[j] = dynamicAudioGameObjs[j].GetComponent<DynamicAudioArea>();
+                    }
+
+                    //Play all dynamic audio sources so they are in sync
+                    PlayAllDynamicSources();
+                }
+
+                break;
+            }
         }
+    }
+
+    public void PlayMusic(MusicClass music, bool loop)
+    {
+        //Play the given music track, adjusting volume/loop to match parameters
+
+        musicSource.clip    = music.AudioClip;
+        musicSource.volume  = music.Volume;
+        musicSource.loop    = loop;
+
+        musicSource.Play();
     }
 
     private void PlayNextMusicFromPlaylist()
     {
+        //Set the currentPlaylistIndex so that the next song in the playlist is played,
+        //  either sequentially for an OrderedPlaylist or randomly for a RandomPlaylist
+
         switch (currentSceneMusic.PlayMode)
         {
             case MusicPlayMode.OrderedPlaylist:
             {
                 if (currentPlaylistIndex < (currentSceneMusic.Playlist.Length - 1))
                 {
+                    //Go to the next track in the playlist
                     currentPlaylistIndex++;
                 }
                 else
                 {
+                    //Final track was played, go back to the first track
                     currentPlaylistIndex = 0;
                 }
-
-                PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
             }
             break;
 
@@ -98,6 +177,7 @@ public class AudioManager : MonoBehaviour
 
                 if (currentSceneMusic.Playlist.Length > 1)
                 {
+                    //Pick a random index that is different to the last one so a new track is played
                     while (currentPlaylistIndex == previousIndex)
                     {
                         currentPlaylistIndex = Random.Range(0, currentSceneMusic.Playlist.Length);
@@ -105,99 +185,35 @@ public class AudioManager : MonoBehaviour
                 }
                 else
                 {
+                    //There is only one track to play, no randomisation needed
                     currentPlaylistIndex = 0;
                 }
-
-                PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
             }
             break;
         }
+
+        //Play a track from the playlist based on the index set above
+        PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
     }
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode loadMode)
-    {
-        for (int i = 0; i < sceneMusicSetup.Length; i++)
-        {
-            if(sceneMusicSetup[i].SceneName == scene.name)
-            {
-                SceneMusic sceneMusic = sceneMusicSetup[i];
-
-                currentSceneMusic = sceneMusic;
-
-                if(sceneMusic.PlayMode == MusicPlayMode.OrderedPlaylist || sceneMusic.PlayMode == MusicPlayMode.RandomPlaylist)
-                {
-                    currentPlaylistIndex = -1;
-                    PlayNextMusicFromPlaylist();
-                }
-                else if(sceneMusic.PlayMode == MusicPlayMode.LoopSingleTrack)
-                {
-                    currentPlaylistIndex = 0;
-                    PlayMusic(sceneMusic.Playlist[0], true);
-                }
-                else if(sceneMusic.PlayMode == MusicPlayMode.Dynamic)
-                {
-                    GameObject[] dynamicAudioGameObjs = GameObject.FindGameObjectsWithTag("DynamicAudioArea");
-
-                    dynamicAudioAreas = new DynamicAudioArea[dynamicAudioGameObjs.Length];
-
-                    for (int j = 0; j < dynamicAudioGameObjs.Length; j++)
-                    {
-                        dynamicAudioAreas[j] = dynamicAudioGameObjs[j].GetComponent<DynamicAudioArea>();
-                        dynamicAudioAreas[j].MusicSource.Play();
-                    }
-                }
-            }
-        }
-    }
-
-    private void SetupDictionaries()
-    {
-        soundsDict  = new Dictionary<string, SoundClass>();
-
-        for (int i = 0; i < sounds.Length; i++)
-        {
-            soundsDict.Add(sounds[i].Id, sounds[i]);
-        }
-    }
-
-    public void PlayMusic(MusicClass music, bool loop)
-    {
-        musicSource.clip    = music.AudioClip;
-        musicSource.volume  = music.Volume;
-        musicSource.loop    = loop;
-
-        musicSource.Play();
-    }
-
-    //public void PlayMusic(string id, bool loop)
-    //{
-    //    if (musicDict.ContainsKey(id))
-    //    {
-    //        PlayMusic(musicDict[id], loop);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Trying to play music with invalid id: " + id);
-    //    }
-    //}
 
     private void PlaySoundEffect(SoundClass sound, bool use3DSpace, Vector3 sourcePosition = default)
     {
-        float volume = Random.Range(sound.VolumeRange.Min, sound.VolumeRange.Max);
-        float pitch = Random.Range(sound.PitchRange.Min, sound.PitchRange.Max);
+        //Pick a random volume/sound within the set ranges
+        float volume    = Random.Range(sound.VolumeRange.Min, sound.VolumeRange.Max);
+        float pitch     = Random.Range(sound.PitchRange.Min, sound.PitchRange.Max);
 
         //Create the sound source GameObject
         GameObject goSource = Instantiate(soundSourcePrefab, sourcePosition, Quaternion.identity, transform);
         goSource.name = "Sound_" + sound.Id;
 
-        //Set audioSource values based on given parameters
+        //Set AudioSource values based on given parameters
         AudioSource audioSource = goSource.GetComponent<AudioSource>();
 
-        audioSource.clip = sound.AudioClips[Random.Range(0, sound.AudioClips.Length)];
+        audioSource.clip        = sound.AudioClips[Random.Range(0, sound.AudioClips.Length)];
 
-        audioSource.volume = volume; // * saved sound value
+        audioSource.volume      = volume; // * saved sound value
 
-        audioSource.pitch = pitch;
+        audioSource.pitch       = pitch;
 
         if (use3DSpace)
         {
@@ -220,6 +236,7 @@ public class AudioManager : MonoBehaviour
     {
         if (soundsDict.ContainsKey(id))
         {
+            //Play a sound with the given parameters
             PlaySoundEffect(soundsDict[id], use3DSpace, sourcePosition);
         }
         else
@@ -230,29 +247,43 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffect2D(string id)
     {
+        //Plays a sound with the given id that is not positioned in 3D space
         PlaySoundEffect(id, false);
     }
 
     public void PlaySoundEffect2D(SoundClass sound)
     {
+        //Plays the given sound, not positioned in 3D space
         PlaySoundEffect(sound, false);
     }
 
     public void PlaySoundEffect3D(string id, Vector3 sourcePosition)
     {
+        //Plays a sound with the given id positioned in 3D space at sourcePosition
         PlaySoundEffect(id, true, sourcePosition);
     }
 
     public void PlaySoundEffect3D(SoundClass sound, Vector3 sourcePosition)
     {
+        //Plays the given sound, positioned in 3D space at sourcePosition
         PlaySoundEffect(sound, true, sourcePosition);
+    }
+
+    public void PlayAllDynamicSources()
+    {
+        //Plays all dynamic sources at the same time. Dynamic sources should
+        //  always be played at the same time so they remain synchronised
+        for (int i = 0; i < dynamicAudioAreas.Length; i++)
+        {
+            dynamicAudioAreas[i].MusicSource.Play();
+        }
     }
 }
 
 [System.Serializable]
 public struct SceneMusic
 {
-    public string           SceneName;
-    public MusicPlayMode    PlayMode;
-    public MusicClass[]     Playlist;
+    public string           SceneName;  //Name of the scene to use these settings for
+    public MusicPlayMode    PlayMode;   //The play mode to use in the scene
+    public MusicClass[]     Playlist;   //The playlist used if the chosen PlayMode is OrderedPlaylist or RandomPlaylist
 }
