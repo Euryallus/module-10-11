@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7921678733598986372}
   - component: {fileID: 4378885145291510070}
   - component: {fileID: 2565619307091502109}
-  - component: {fileID: 2555172081367514255}
+  - component: {fileID: 1780275338175092234}
   m_Layer: 8
   m_Name: BuildPreview_WoodFloor
   m_TagString: Untagged
@@ -63,7 +63,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.99, y: 0.19, z: 3.99}
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &2555172081367514255
+--- !u!114 &1780275338175092234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7396217335270296126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d193fd4d6c8efce47a769aa063977906, type: 3}
+  m_Script: {fileID: 11500000, guid: bbd11195e230e3e44a99444b3cc93e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainAbilityHunger: 0
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 4099748333566011010}
   m_Layer: 8
   m_Name: Mesh
-  m_TagString: Untagged
+  m_TagString: BuildPreviewMaterial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

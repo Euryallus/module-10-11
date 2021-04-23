@@ -22,20 +22,19 @@ public class HeldPlaceableItem : HeldItem
     private Color warningEmissive = new Color(0.1254902f, 0.0f, 0.0f);
 
     [SerializeField]
-    private float maxPlaceDistance = 10.0f;
+    protected float maxPlaceDistance = 10.0f;
 
     [SerializeField]
     private string placementSound;
 
-    private bool colliding = false;
-    private bool inRange = false;
+    protected bool colliding = false;
+    protected bool inRange = false;
 
-    private float rotation;
-    private float visualRotation;
-    private Vector3 placePos;
+    protected float rotation;
+    protected float visualRotation;
+    protected Vector3 placePos;
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         gameObject.transform.rotation = Quaternion.Euler(0.0f, visualRotation, 0.0f);
 
@@ -43,8 +42,6 @@ public class HeldPlaceableItem : HeldItem
 
         if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
         {
-            Debug.Log(hitInfo.collider.gameObject.name);
-
             UpdatePlacementState(colliding, true);
 
             placePos = hitInfo.point;
@@ -72,7 +69,7 @@ public class HeldPlaceableItem : HeldItem
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Player"))
+        if(!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
             UpdatePlacementState(true, inRange);
         }
@@ -80,7 +77,7 @@ public class HeldPlaceableItem : HeldItem
 
     private void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
             UpdatePlacementState(true, inRange);
         }
@@ -88,13 +85,13 @@ public class HeldPlaceableItem : HeldItem
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player"))
+        if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
             UpdatePlacementState(false, inRange);
         }
     }
 
-    private void UpdatePlacementState(bool colliding, bool inRange)
+    protected void UpdatePlacementState(bool colliding, bool inRange)
     {
         this.colliding  = colliding;
         this.inRange    = inRange;
@@ -103,16 +100,22 @@ public class HeldPlaceableItem : HeldItem
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_BaseColor", standardColour);
-                transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_EmissionColor", standardEmissive);
+                if(transform.GetChild(i).CompareTag("BuildPreviewMaterial"))
+                {
+                    transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_BaseColor", standardColour);
+                    transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_EmissionColor", standardEmissive);
+                }
             }
         }
         else
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_BaseColor", warningColour);
-                transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_EmissionColor", warningEmissive);
+                if (transform.GetChild(i).CompareTag("BuildPreviewMaterial"))
+                {
+                    transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_BaseColor", warningColour);
+                    transform.GetChild(i).GetComponent<MeshRenderer>().materials[0].SetColor("_EmissionColor", warningEmissive);
+                }
             }
         }
     }
@@ -141,6 +144,6 @@ public class HeldPlaceableItem : HeldItem
             AudioManager.Instance.PlaySoundEffect3D(placementSound, transform.position);
         }
 
-        return Instantiate(itemPrefab, placePos, Quaternion.Euler(0.0f, visualRotation, 0.0f));
+        return Instantiate(itemPrefab, placePos, Quaternion.Euler(0.0f, rotation, 0.0f));
     }
 }

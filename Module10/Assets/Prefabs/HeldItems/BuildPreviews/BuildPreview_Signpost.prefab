@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1069309982669669616}
   m_Layer: 8
   m_Name: Post
-  m_TagString: Untagged
+  m_TagString: BuildPreviewMaterial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1069309982715703402}
   m_Layer: 8
   m_Name: Sign
-  m_TagString: Untagged
+  m_TagString: BuildPreviewMaterial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

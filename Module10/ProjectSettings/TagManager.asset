@@ -22,6 +22,8 @@ TagManager:
   - Pickaxe
   - Hammer
   - DynamicAudioArea
+  - BuildPreviewMaterial
+  - BuildPoint
   layers:
   - Default
   - TransparentFX
