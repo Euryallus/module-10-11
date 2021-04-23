@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3103707223762381190}
   - component: {fileID: 3468437755601362430}
   - component: {fileID: 3977046539478186188}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: DynamicAudioArea
   m_TagString: DynamicAudioArea
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}

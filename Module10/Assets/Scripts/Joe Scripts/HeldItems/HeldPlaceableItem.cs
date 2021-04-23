@@ -22,7 +22,10 @@ public class HeldPlaceableItem : HeldItem
     private Color warningEmissive = new Color(0.1254902f, 0.0f, 0.0f);
 
     [SerializeField]
-    private float maxPlaceDistance = 8.0f;
+    private float maxPlaceDistance = 10.0f;
+
+    [SerializeField]
+    private string placementSound;
 
     private bool colliding = false;
     private bool inRange = false;
@@ -36,8 +39,12 @@ public class HeldPlaceableItem : HeldItem
     {
         gameObject.transform.rotation = Quaternion.Euler(0.0f, visualRotation, 0.0f);
 
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance))
+        LayerMask layerMask = ~(LayerMask.GetMask("BuildPreview") | LayerMask.GetMask("Ignore Raycast"));
+
+        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
         {
+            Debug.Log(hitInfo.collider.gameObject.name);
+
             UpdatePlacementState(colliding, true);
 
             placePos = hitInfo.point;
@@ -65,18 +72,26 @@ public class HeldPlaceableItem : HeldItem
 
     private void OnTriggerEnter(Collider other)
     {
-        UpdatePlacementState(true, inRange);
+        if(!other.CompareTag("Player"))
+        {
+            UpdatePlacementState(true, inRange);
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.gameObject.name);
-        UpdatePlacementState(true, inRange);
+        if (!other.CompareTag("Player"))
+        {
+            UpdatePlacementState(true, inRange);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        UpdatePlacementState(false, inRange);
+        if (!other.CompareTag("Player"))
+        {
+            UpdatePlacementState(false, inRange);
+        }
     }
 
     private void UpdatePlacementState(bool colliding, bool inRange)
@@ -121,6 +136,11 @@ public class HeldPlaceableItem : HeldItem
 
     protected virtual GameObject PlaceItem()
     {
+        if(!string.IsNullOrEmpty(placementSound))
+        {
+            AudioManager.Instance.PlaySoundEffect3D(placementSound, transform.position);
+        }
+
         return Instantiate(itemPrefab, placePos, Quaternion.Euler(0.0f, visualRotation, 0.0f));
     }
 }
