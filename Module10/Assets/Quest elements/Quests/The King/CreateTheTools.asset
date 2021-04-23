@@ -25,7 +25,7 @@ MonoBehaviour:
   handInToGiver: 1
   questLineName: Create the Sacred Tools
   rewards:
-  - Item: {fileID: 11400000, guid: 8f11e3b0e8d57bd47912975b1f31ccf3, type: 2}
+  - Item: {fileID: 11400000, guid: 369c5d600a62bf24c9af356ba5484f09, type: 2}
     Quantity: 1
   - Item: {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
     Quantity: 1

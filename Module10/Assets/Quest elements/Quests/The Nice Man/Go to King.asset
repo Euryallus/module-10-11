@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Go to the King
   questDescription: Go on! Go talk to the King!
-  questCompleteDialogue: 
+  questCompleteDialogue: 'Woah! Are those the sacred tools? Well you don''t need
+    me to tell you how important those are, you''re allowed to leave the village,
+    aren''t you? '
   nextQuests: []
   handInNPCName: The Nice Man
   handOutNPCName: The Nice Man
   questCompleted: 0
   questHandedIn: 0
-  handInToGiver: 0
+  handInToGiver: 1
   questLineName: 
   rewards: []
   objectives:
