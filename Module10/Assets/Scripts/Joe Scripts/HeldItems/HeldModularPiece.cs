@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HeldModularPiece : HeldPlaceableItem
 {
+    [Header("Modular Piece")]
+    [SerializeField] private BuildPointType[] snapToPointTypes;
+
     protected override void Update()
     {
         //base.Update();
@@ -14,23 +18,26 @@ public class HeldModularPiece : HeldPlaceableItem
 
         if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
         {
-            if (hitInfo.collider.CompareTag("BuildPoint"))
+            if (hitInfo.collider.CompareTag("BuildPoint") &&
+                snapToPointTypes.Contains(hitInfo.collider.gameObject.GetComponent<BuildPoint>().BuildPointType))
             {
                 placePos = hitInfo.collider.transform.position;
                 rotation = hitInfo.collider.transform.rotation.eulerAngles.y;
+
+                UpdatePlacementState(colliding, true, true);
             }
             else
             {
                 placePos = hitInfo.point;
-            }
 
-            UpdatePlacementState(colliding, true);
+                UpdatePlacementState(colliding, true, false);
+            }
 
             gameObject.transform.position = placePos;
         }
         else
         {
-            UpdatePlacementState(colliding, false);
+            UpdatePlacementState(colliding, false, false);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))

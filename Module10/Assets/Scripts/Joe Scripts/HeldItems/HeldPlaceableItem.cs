@@ -27,8 +27,9 @@ public class HeldPlaceableItem : HeldItem
     [SerializeField]
     private string placementSound;
 
-    protected bool colliding = false;
-    protected bool inRange = false;
+    protected bool colliding;
+    protected bool inRange;
+    protected bool snapping;
 
     protected float rotation;
     protected float visualRotation;
@@ -42,7 +43,7 @@ public class HeldPlaceableItem : HeldItem
 
         if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
         {
-            UpdatePlacementState(colliding, true);
+            UpdatePlacementState(colliding, true, snapping);
 
             placePos = hitInfo.point;
 
@@ -50,7 +51,7 @@ public class HeldPlaceableItem : HeldItem
         }
         else
         {
-            UpdatePlacementState(colliding, false);
+            UpdatePlacementState(colliding, false, snapping);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -71,7 +72,10 @@ public class HeldPlaceableItem : HeldItem
     {
         if(!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
-            UpdatePlacementState(true, inRange);
+            if(!(snapping && other.CompareTag("ModularPiece")))
+            {
+                UpdatePlacementState(true, inRange, snapping);
+            }
         }
     }
 
@@ -79,7 +83,10 @@ public class HeldPlaceableItem : HeldItem
     {
         if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
-            UpdatePlacementState(true, inRange);
+            if (!(snapping && other.CompareTag("ModularPiece")))
+            {
+                UpdatePlacementState(true, inRange, snapping);
+            }
         }
     }
 
@@ -87,14 +94,15 @@ public class HeldPlaceableItem : HeldItem
     {
         if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
         {
-            UpdatePlacementState(false, inRange);
+            UpdatePlacementState(false, inRange, snapping);
         }
     }
 
-    protected void UpdatePlacementState(bool colliding, bool inRange)
+    protected void UpdatePlacementState(bool colliding, bool inRange, bool snapping)
     {
         this.colliding  = colliding;
         this.inRange    = inRange;
+        this.snapping   = snapping;
 
         if(!colliding && inRange)
         {
@@ -144,6 +152,9 @@ public class HeldPlaceableItem : HeldItem
             AudioManager.Instance.PlaySoundEffect3D(placementSound, transform.position);
         }
 
-        return Instantiate(itemPrefab, placePos, Quaternion.Euler(0.0f, rotation, 0.0f));
+        float randomOffset = Random.Range(0.0f, 0.001f);
+        Vector3 offsetPlacePos = new Vector3(placePos.x + randomOffset, placePos.y + randomOffset, placePos.z + randomOffset);
+
+        return Instantiate(itemPrefab, offsetPlacePos, Quaternion.Euler(0.0f, rotation, 0.0f));
     }
 }

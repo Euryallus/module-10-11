@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7179422866739973964}
   - component: {fileID: 3304650687989299727}
+  - component: {fileID: 2439662027517734469}
   m_Layer: 0
   m_Name: BuildPoint
   m_TagString: BuildPoint
@@ -44,3 +45,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2439662027517734469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4645988029263069572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3610de33a60a64ebf77f222babd123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildPointType: 0
