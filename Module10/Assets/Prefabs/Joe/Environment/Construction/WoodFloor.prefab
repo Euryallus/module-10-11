@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4869286817755589927}
   - component: {fileID: 7239494370511067629}
   - component: {fileID: 1409672192783249492}
+  - component: {fileID: 5399702106336355223}
   m_Layer: 0
   m_Name: WoodFloor
   m_TagString: ModularPiece
@@ -103,6 +104,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 0.19999999, z: 4}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &5399702106336355223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9184851429556172856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1f51638516d5449b99901ccbd35063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDroppedOnDestroy:
+  - Item: {fileID: 11400000, guid: c7dae1dd7371c93449338dff02b87fde, type: 2}
+    Quantity: 1
+  toolToBreak:
+  - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
+  health: 1
 --- !u!1001 &445154592718964199
 PrefabInstance:
   m_ObjectHideFlags: 0

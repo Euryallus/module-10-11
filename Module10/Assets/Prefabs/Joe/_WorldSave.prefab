@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signpostPrefab: {fileID: 8160902168982676039, guid: 5fe65904ca2980b45b22de170775b1f4, type: 3}
+  modularWoodFloorPrefab: {fileID: 9184851429556172856, guid: 82f5a4f40de7adc4ea72cae59dde06f9, type: 3}
+  modularWoodWallPrefab: {fileID: 3162213432213696295, guid: 3272d30add35cf145b6042384bcfb6d6, type: 3}

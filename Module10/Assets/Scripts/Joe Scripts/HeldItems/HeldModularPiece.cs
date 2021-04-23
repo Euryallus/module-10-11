@@ -51,4 +51,13 @@ public class HeldModularPiece : HeldPlaceableItem
 
         visualRotation = Mathf.Lerp(visualRotation, rotation, Time.deltaTime * 40.0f);
     }
+
+    protected override GameObject PlaceItem()
+    {
+        HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
+
+        hotbar.RemoveItemFromHotbar(item);
+
+        return base.PlaceItem();
+    }
 }

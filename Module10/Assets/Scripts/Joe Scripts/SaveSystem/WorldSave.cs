@@ -8,6 +8,8 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     public string UsedSavePointId { get { return usedSavePointId; } set { usedSavePointId = value; } }
 
     [SerializeField] private GameObject signpostPrefab;
+    [SerializeField] private GameObject modularWoodFloorPrefab;
+    [SerializeField] private GameObject modularWoodWallPrefab;
 
     public static WorldSave Instance;
 
@@ -74,22 +76,65 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     {
         var saveDataEntries = saveData.GetSaveDataEntries();
 
-        for (int i = 0; i < saveDataEntries.Count; i++)
+        bool loadingObjects = true;
+        string idToLoad = "sign";
+
+        //LOAD SIGNS
+        //==========
+        while (loadingObjects)
         {
-            var currentElement = saveDataEntries.ElementAt(i);
+            idToLoad += "*";
 
-            switch (currentElement.Key)
+            if (saveDataEntries.ContainsKey(idToLoad))
             {
-                case "sign":
+                var currentElement = saveDataEntries[idToLoad];
+
+                SignpostSaveData data = (SignpostSaveData)currentElement;
+
+                GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+
+                signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
+            }
+            else
+            {
+                loadingObjects = false;
+            }
+        }
+
+        //LOAD MODULAR PIECES
+        //===================
+
+        loadingObjects = true;
+        idToLoad = "modularPiece";
+
+        while(loadingObjects)
+        {
+            idToLoad += "*";
+
+            if (saveDataEntries.ContainsKey(idToLoad))
+            {
+                var currentElement = saveDataEntries[idToLoad];
+
+                ModularPieceSaveData data = (ModularPieceSaveData)currentElement;
+
+                GameObject prefabToSpawn = null;
+
+                switch (data.PieceType)
                 {
-                    SignpostSaveData data = (SignpostSaveData)currentElement.Value;
+                    case ModularPieceType.WoodFloor:
+                        prefabToSpawn = modularWoodFloorPrefab; break;
 
-                    GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
-                                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
-
-                    signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
+                    case ModularPieceType.WoodWall:
+                        prefabToSpawn = modularWoodWallPrefab; break;
                 }
-                break;
+
+                Instantiate(prefabToSpawn, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+            }
+            else
+            {
+                loadingObjects = false;
             }
         }
 

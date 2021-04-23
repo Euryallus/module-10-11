@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1659149186851912248}
   - component: {fileID: 3522531983420772082}
   - component: {fileID: 5117633479477602123}
+  - component: {fileID: 3766949197365571985}
   m_Layer: 0
   m_Name: WoodWall
   m_TagString: ModularPiece
@@ -98,6 +99,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 4, z: 0.2}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &3766949197365571985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162213432213696295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1f51638516d5449b99901ccbd35063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDroppedOnDestroy:
+  - Item: {fileID: 11400000, guid: 2829b9b1a2b1f6d40bd443783c7594d2, type: 2}
+    Quantity: 1
+  toolToBreak:
+  - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
+  health: 1
+  pieceType: 1
 --- !u!1001 &2339362245141806443
 PrefabInstance:
   m_ObjectHideFlags: 0
