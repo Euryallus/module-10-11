@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1597703736795741543}
   - component: {fileID: 5118260806273531093}
   - component: {fileID: 6366316264494434814}
+  - component: {fileID: 828671656444994527}
   - component: {fileID: 7167361433736952809}
   m_Layer: 8
   m_Name: BuildPreview_WoodWall
@@ -131,7 +132,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!65 &6366316264494434814
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -144,6 +145,19 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.99, y: 3.99, z: 0.19}
+  m_Center: {x: 0, y: 2, z: 0}
+--- !u!65 &828671656444994527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118943323807180765}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.59, y: 3.59, z: 0.19}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &7167361433736952809
 MonoBehaviour:
@@ -168,6 +182,8 @@ MonoBehaviour:
   warningEmissive: {r: 0.1254902, g: 0, b: 0, a: 1}
   maxPlaceDistance: 10
   placementSound: treeChop
+  mainCollider: {fileID: 6366316264494434814}
+  snapCollider: {fileID: 828671656444994527}
   snapToPointTypes: 01000000
 --- !u!1 &3999146097485898471
 GameObject:

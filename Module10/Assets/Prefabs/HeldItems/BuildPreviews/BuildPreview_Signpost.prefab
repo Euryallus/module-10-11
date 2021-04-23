@@ -250,6 +250,8 @@ MonoBehaviour:
   warningEmissive: {r: 0.1254902, g: 0, b: 0, a: 0}
   maxPlaceDistance: 6
   placementSound: 
+  mainCollider: {fileID: 5106555032353489147}
+  snapCollider: {fileID: 5106555032353489147}
 --- !u!1 &6860940507317650991
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,48 +8,52 @@ public class HeldModularPiece : HeldPlaceableItem
     [Header("Modular Piece")]
     [SerializeField] private BuildPointType[] snapToPointTypes;
 
-    protected override void Update()
+    public override void Setup(Item item, ContainerSlotUI containerSlot)
     {
-        //base.Update();
+        base.Setup(item, containerSlot);
 
-        gameObject.transform.rotation = Quaternion.Euler(0.0f, visualRotation, 0.0f);
+        GameObject[] buildPoints = GameObject.FindGameObjectsWithTag("BuildPoint");
 
-        LayerMask layerMask = ~(LayerMask.GetMask("BuildPreview") | LayerMask.GetMask("Ignore Raycast"));
-
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
+        for (int i = 0; i < buildPoints.Length; i++)
         {
-            if (hitInfo.collider.CompareTag("BuildPoint") &&
-                snapToPointTypes.Contains(hitInfo.collider.gameObject.GetComponent<BuildPoint>().BuildPointType))
+            if(snapToPointTypes.Contains(buildPoints[i].GetComponent<BuildPoint>().BuildPointType))
             {
-                placePos = hitInfo.collider.transform.position;
-                rotation = hitInfo.collider.transform.rotation.eulerAngles.y;
-
-                UpdatePlacementState(colliding, true, true);
+                buildPoints[i].GetComponent<SphereCollider>().enabled = true;
             }
             else
             {
-                placePos = hitInfo.point;
-
-                UpdatePlacementState(colliding, true, false);
+                buildPoints[i].GetComponent<SphereCollider>().enabled = false;
             }
+        }
+    }
 
-            gameObject.transform.position = placePos;
+    protected override void CameraRaycastHit(RaycastHit hitInfo)
+    {
+        if (hitInfo.collider.CompareTag("BuildPoint") &&
+            snapToPointTypes.Contains(hitInfo.collider.gameObject.GetComponent<BuildPoint>().BuildPointType))
+        {
+            placePos = hitInfo.collider.transform.position;
+            rotation = hitInfo.collider.transform.rotation.eulerAngles.y;
+
+            SetInRange(true);
+            SetSnapping(true);
         }
         else
         {
-            UpdatePlacementState(colliding, false, false);
+            placePos = hitInfo.point;
+
+            SetInRange(true);
+            SetSnapping(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            rotation -= 30.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            rotation += 30.0f;
-        }
+        gameObject.transform.position = placePos;
+    }
 
-        visualRotation = Mathf.Lerp(visualRotation, rotation, Time.deltaTime * 40.0f);
+    protected override void CameraRaycastNoHit()
+    {
+        base.CameraRaycastNoHit();
+
+        SetSnapping(false);
     }
 
     protected override GameObject PlaceItem()

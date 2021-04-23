@@ -3,7 +3,8 @@ using UnityEngine;
 public enum BuildPointType
 {
     Floor,
-    Wall
+    Wall,
+    Stairs,
 }
 
 public class BuildPoint : MonoBehaviour

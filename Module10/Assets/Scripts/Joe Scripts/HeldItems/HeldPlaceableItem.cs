@@ -21,11 +21,12 @@ public class HeldPlaceableItem : HeldItem
     [SerializeField] [ColorUsage(false, true)]
     private Color warningEmissive = new Color(0.1254902f, 0.0f, 0.0f);
 
-    [SerializeField]
-    protected float maxPlaceDistance = 10.0f;
+    [SerializeField] protected float maxPlaceDistance = 10.0f;
 
-    [SerializeField]
-    private string placementSound;
+    [SerializeField] private string placementSound;
+
+    [SerializeField] private Collider mainCollider;
+    [SerializeField] private Collider snapCollider;
 
     protected bool colliding;
     protected bool inRange;
@@ -35,6 +36,12 @@ public class HeldPlaceableItem : HeldItem
     protected float visualRotation;
     protected Vector3 placePos;
 
+    private void Start()
+    {
+        mainCollider.enabled = true;
+        snapCollider.enabled = false;
+    }
+
     protected virtual void Update()
     {
         gameObject.transform.rotation = Quaternion.Euler(0.0f, visualRotation, 0.0f);
@@ -43,15 +50,11 @@ public class HeldPlaceableItem : HeldItem
 
         if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit hitInfo, maxPlaceDistance, layerMask))
         {
-            UpdatePlacementState(colliding, true, snapping);
-
-            placePos = hitInfo.point;
-
-            gameObject.transform.position = placePos;
+            CameraRaycastHit(hitInfo);
         }
         else
         {
-            UpdatePlacementState(colliding, false, snapping);
+            CameraRaycastNoHit();
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -63,48 +66,70 @@ public class HeldPlaceableItem : HeldItem
             rotation += 30.0f;
         }
 
-        //roundedRotation = ((int)(rotation / 15.0f) * 15.0f);
-
         visualRotation = Mathf.Lerp(visualRotation, rotation, Time.deltaTime * 40.0f);
+    }
+
+    protected virtual void CameraRaycastHit(RaycastHit hitInfo)
+    {
+        SetInRange(true);
+
+        placePos = hitInfo.point;
+
+        gameObject.transform.position = placePos;
+    }
+
+    protected virtual void CameraRaycastNoHit()
+    {
+        SetInRange(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
-        {
-            if(!(snapping && other.CompareTag("ModularPiece")))
-            {
-                UpdatePlacementState(true, inRange, snapping);
-            }
-        }
+        SetColliding(true);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
-        {
-            if (!(snapping && other.CompareTag("ModularPiece")))
-            {
-                UpdatePlacementState(true, inRange, snapping);
-            }
-        }
+        SetColliding(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player") && !other.CompareTag("BuildPoint"))
+        SetColliding(false);
+    }
+
+    protected void SetColliding(bool colliding)
+    {
+        this.colliding = colliding;
+
+        UpdatePlacementState();
+    }
+
+    protected void SetInRange(bool inRange)
+    {
+        this.inRange = inRange;
+
+        UpdatePlacementState();
+    }
+
+    protected void SetSnapping(bool snapping)
+    {
+        if((this.snapping && !snapping) || (!this.snapping && snapping))
         {
-            UpdatePlacementState(false, inRange, snapping);
+            this.snapping = snapping;
+
+            mainCollider.enabled = !snapping;
+            snapCollider.enabled = snapping;
+
+            colliding = false;
+
+            UpdatePlacementState();
         }
     }
 
-    protected void UpdatePlacementState(bool colliding, bool inRange, bool snapping)
+    protected void UpdatePlacementState()
     {
-        this.colliding  = colliding;
-        this.inRange    = inRange;
-        this.snapping   = snapping;
-
-        if(!colliding && inRange)
+        if (!colliding && inRange)
         {
             for (int i = 0; i < transform.childCount; i++)
             {

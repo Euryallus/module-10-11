@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7179422866739973964}
   - component: {fileID: 3304650687989299727}
   - component: {fileID: 2439662027517734469}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BuildPoint
   m_TagString: BuildPoint
   m_Icon: {fileID: 0}

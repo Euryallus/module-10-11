@@ -24,7 +24,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
         {
             //Set this class as the instance and ensure that it stays when changing scenes
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         //If there is an existing instance that is not this, destroy the GameObject this script is connected to
         else if (Instance != this)
@@ -129,8 +129,15 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                         prefabToSpawn = modularWoodWallPrefab; break;
                 }
 
-                Instantiate(prefabToSpawn, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
-                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+                if(prefabToSpawn != null)
+                {
+                    Instantiate(prefabToSpawn, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                    Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+                }
+                else
+                {
+                    Debug.LogWarning("Trying to load modular piece with unknown prefab: " + data.PieceType);
+                }
             }
             else
             {

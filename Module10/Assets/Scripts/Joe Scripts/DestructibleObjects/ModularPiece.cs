@@ -4,7 +4,9 @@ using UnityEngine;
 public enum ModularPieceType
 {
     WoodFloor,
-    WoodWall
+    WoodWall,
+    WoodRoof,
+    WoodStairs
 }
 
 public class ModularPiece : DestructableObject, IPersistentPlacedObject

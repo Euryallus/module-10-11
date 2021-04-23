@@ -25,7 +25,7 @@ public class HeldItem : MonoBehaviour
     protected   ContainerSlotUI containerSlot;
     protected   PlayerStats     playerStatsScript;
 
-    public void Setup(Item item, ContainerSlotUI containerSlot)
+    public virtual void Setup(Item item, ContainerSlotUI containerSlot)
     {
         this.item           = item;
         this.containerSlot  = containerSlot;
