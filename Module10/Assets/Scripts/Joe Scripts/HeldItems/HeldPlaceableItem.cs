@@ -152,6 +152,7 @@ public class HeldPlaceableItem : HeldItem
             AudioManager.Instance.PlaySoundEffect3D(placementSound, transform.position);
         }
 
+        //Tiny offset to help prevent z-fighting
         float randomOffset = Random.Range(0.0f, 0.001f);
         Vector3 offsetPlacePos = new Vector3(placePos.x + randomOffset, placePos.y + randomOffset, placePos.z + randomOffset);
 

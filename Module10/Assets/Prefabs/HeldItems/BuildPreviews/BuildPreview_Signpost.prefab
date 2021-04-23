@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 5134841176425224353}
   - component: {fileID: 4310466504516420897}
   m_Layer: 8
-  m_Name: Quad
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
