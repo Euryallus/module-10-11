@@ -7,6 +7,8 @@ public class ItemManager : MonoBehaviour, IPersistentObject
 {
     public static ItemManager Instance;
 
+    [Space] [Header("Item Manager | Please open the prefab to make changes")]
+
     [SerializeField] private Item[]             items;
     public CraftingRecipe[]                     CraftingRecipes;
 

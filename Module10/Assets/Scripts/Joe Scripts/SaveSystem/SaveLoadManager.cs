@@ -60,7 +60,9 @@ public class SaveLoadManager : MonoBehaviour
         //Call the OnSave function on all persistent objects - they will each add some data to the SavaData object
         SaveObjectsEvent?.Invoke(dataToSave);
 
-        string saveDataPath = saveDirectory + "/" + SaveDataFileName;
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        string saveDataPath = saveDirectory + "/" + sceneName + "_" + SaveDataFileName;
 
         //Try to create the save directory folder
         if (!Directory.Exists(saveDirectory))
@@ -105,7 +107,9 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log("Attempting to load game");
 
-        string loadDataPath = saveDirectory + "/" + SaveDataFileName;
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        string loadDataPath = saveDirectory + "/" + sceneName + "_" + SaveDataFileName;
 
         if (File.Exists(loadDataPath))
         {
@@ -151,7 +155,7 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("File does not exist: " + saveDirectory);
+            Debug.LogWarning("File does not exist: " + loadDataPath);
         }
     }
 
@@ -159,7 +163,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log("Scene loaded: " + scene.name);
 
-        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene")
+        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene" || scene.name == "DemoScene")
         {
             StartCoroutine(LoadSceneCoroutine());
         }

@@ -22,9 +22,10 @@ public enum NotificationTextType
 public class NotificationManager : MonoBehaviour
 {
     [SerializeField] private GameObject prefabNotificationPanel;
-    [SerializeField] private Transform  notificationParentTransform;
 
     public static NotificationManager Instance;
+
+    private Transform notificationParentTransform;
 
     private readonly Dictionary<NotificationTextType, string> notificationTextDict = new Dictionary<NotificationTextType, string>()
     {
@@ -57,6 +58,11 @@ public class NotificationManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+    }
+
+    private void Start()
+    {
+        notificationParentTransform = GameObject.FindGameObjectWithTag("JoeCanvas").transform.Find("NotificationsParent");
     }
 
     public void ShowNotification(NotificationTextType textType, string[] parameters = null, string soundName = "notification1")
