@@ -16,7 +16,7 @@ MonoBehaviour:
   m_uiName: Glider Piece
   m_uiDescription: A piece needed to fix up that glider
   m_stackSize: 1
-  m_weight: 0
+  m_weight: 1
   m_sprite: {fileID: 21300000, guid: 2dfe566b12faa344aa536a7781506dd7, type: 3}
   m_heldItemGameObject: {fileID: 0}
   m_customisable: 0
