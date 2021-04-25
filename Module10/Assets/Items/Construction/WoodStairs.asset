@@ -17,7 +17,7 @@ MonoBehaviour:
   m_uiDescription: 
   m_stackSize: 64
   m_weight: 0.6
-  m_sprite: {fileID: 21300000, guid: 2dfe566b12faa344aa536a7781506dd7, type: 3}
+  m_sprite: {fileID: 21300000, guid: 05b16158e14a1cd41ab34ecf945dbf35, type: 3}
   m_heldItemGameObject: {fileID: 205397827353672976, guid: d54e0a6679346d34faa69bc6fd80e576, type: 3}
   m_customisable: 0
   m_currencyItemId: 
