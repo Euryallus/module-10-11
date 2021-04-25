@@ -15,5 +15,5 @@ MonoBehaviour:
   taskName: Find the leader of the small village
   taskComplete: 0
   objectiveType: 0
-  positionToGoTo: {x: 1083, y: 43, z: 775}
+  positionToGoTo: {x: 1066.092, y: 43.73104, z: 774.9951}
   distanceFlagged: 5

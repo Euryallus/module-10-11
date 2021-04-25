@@ -17,8 +17,7 @@ MonoBehaviour:
   questCompleteDialogue: 'You''ve proven yourself. Take this key, you can clearly
     be trusted to explore the Caph plains. I got something else to ask you, if you
     wouldn''t mind... '
-  nextQuests:
-  - {fileID: 0}
+  nextQuests: []
   handInNPCName: The King
   handOutNPCName: The King
   questCompleted: 0
@@ -34,6 +33,8 @@ MonoBehaviour:
     Quantity: 1
   - Item: {fileID: 11400000, guid: 5a86715d1aa7a024d914679571e7564b, type: 2}
     Quantity: 1
+  - Item: {fileID: 11400000, guid: 0d09b3c55fa7c90419d812ff7d752e3d, type: 2}
+    Quantity: 10
   objectives:
   - {fileID: 11400000, guid: 816d7aa2ed75f2c4bbe64a5a9bc631b2, type: 2}
   - {fileID: 11400000, guid: 271e61fb6b6f7484ca493ce057b90315, type: 2}

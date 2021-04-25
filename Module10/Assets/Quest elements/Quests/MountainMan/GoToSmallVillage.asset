@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: GoToSmallVillage
   m_EditorClassIdentifier: 
   questName: Find the leader of the small village
-  questDescription: You see that small village really far away? I've got a friend
-    down there who I'd like you to meet, he's the leader of that village. You won't
-    miss him, he's quite blue. A while ago he said he needed some help with something,
-    I'd like you to go down there if possible.
+  questDescription: 'You see that small village really far away? I''ve got a friend
+    down there who I''d like you to meet, he''s the leader of that village. You won''t
+    miss him, he''s quite blue. A while ago he said he needed some help with something,
+    I''d like you to go down there if possible.
+
+    He normally sits in a locked
+    house by himself, you''re going to need a key to get in, take my spare.'
   questCompleteDialogue: 
   nextQuests: []
   handInNPCName: MountainMan
