@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2246740e49653c448acfd3bff328a85, type: 3}
   m_Name: DEMO Chest 1 LootTable
   m_EditorClassIdentifier: 
-  m_minItems: 2
-  m_maxItems: 2
+  m_minItems: 3
+  m_maxItems: 8
   m_itemPool:
   - Item: {fileID: 11400000, guid: fa47ba5214aa1e34fab5746060e118c5, type: 2}
     Weight: 1
-    MinimumQuantity: 10
+    MinimumQuantity: 3
   - Item: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
     Weight: 1
-    MinimumQuantity: 10
-  - Item: {fileID: 11400000, guid: 5a86715d1aa7a024d914679571e7564b, type: 2}
+    MinimumQuantity: 2
+  - Item: {fileID: 11400000, guid: 0d09b3c55fa7c90419d812ff7d752e3d, type: 2}
+    Weight: 1
+    MinimumQuantity: 2
+  - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
     Weight: 1
     MinimumQuantity: 1
-  - Item: {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
+  - Item: {fileID: 11400000, guid: fdbddb5abb8574845b13811304314e46, type: 2}
     Weight: 1
-    MinimumQuantity: 1
-  - Item: {fileID: 11400000, guid: f9b8adbe7bc1087428585c5e61dea451, type: 2}
-    Weight: 1
-    MinimumQuantity: 1
+    MinimumQuantity: 2
