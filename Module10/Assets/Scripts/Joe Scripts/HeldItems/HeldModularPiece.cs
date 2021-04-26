@@ -33,7 +33,11 @@ public class HeldModularPiece : HeldPlaceableItem
             snapToPointTypes.Contains(hitInfo.collider.gameObject.GetComponent<BuildPoint>().BuildPointType))
         {
             placePos = hitInfo.collider.transform.position;
-            rotation = hitInfo.collider.transform.rotation.eulerAngles.y;
+
+            if(!snapping)
+            {
+                rotation = hitInfo.collider.transform.rotation.eulerAngles.y;
+            }
 
             SetInRange(true);
             SetSnapping(true);

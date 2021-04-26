@@ -10,6 +10,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     [SerializeField] private GameObject signpostPrefab;
     [SerializeField] private GameObject modularWoodFloorPrefab;
     [SerializeField] private GameObject modularWoodWallPrefab;
+    [SerializeField] private GameObject modularWoodRoofPrefab;
     [SerializeField] private GameObject modularWoodStairsPrefab;
 
     public static WorldSave Instance;
@@ -128,6 +129,9 @@ public class WorldSave : MonoBehaviour, IPersistentObject
 
                     case ModularPieceType.WoodWall:
                         prefabToSpawn = modularWoodWallPrefab; break;
+
+                    case ModularPieceType.WoodRoof:
+                        prefabToSpawn = modularWoodRoofPrefab; break;
 
                     case ModularPieceType.WoodStairs:
                         prefabToSpawn = modularWoodStairsPrefab; break;

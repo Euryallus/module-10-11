@@ -5,6 +5,7 @@ public enum BuildPointType
     Floor,
     Wall,
     Stairs,
+    RoofSide
 }
 
 public class BuildPoint : MonoBehaviour

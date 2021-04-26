@@ -35,6 +35,10 @@ public class HeldPlaceableItem : HeldItem
     protected float rotation;
     protected float visualRotation;
     protected Vector3 placePos;
+    private float angleInterval = DefaultAngleInterval;
+
+    const float DefaultAngleInterval    = 30.0f;
+    const float SnapAngleInterval       = 90.0f;
 
     private void Start()
     {
@@ -59,11 +63,11 @@ public class HeldPlaceableItem : HeldItem
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            rotation -= 30.0f;
+            rotation -= angleInterval;
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            rotation += 30.0f;
+            rotation += angleInterval;
         }
 
         visualRotation = Mathf.Lerp(visualRotation, rotation, Time.deltaTime * 40.0f);
@@ -116,6 +120,8 @@ public class HeldPlaceableItem : HeldItem
     {
         if((this.snapping && !snapping) || (!this.snapping && snapping))
         {
+            angleInterval = snapping ? SnapAngleInterval : DefaultAngleInterval;
+
             this.snapping = snapping;
 
             mainCollider.enabled = !snapping;
