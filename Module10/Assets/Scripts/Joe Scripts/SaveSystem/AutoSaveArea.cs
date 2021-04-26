@@ -34,7 +34,7 @@ public class AutoSaveArea : MonoBehaviour, ISavePoint, IPersistentObject
 
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("IMPORTANT: AutoSaveArea exists without id. All save points require a *unique* id for saving/loading data.");
+            Debug.LogWarning("IMPORTANT: AutoSaveArea exists without id. All save points require a *unique* id for saving/loading data. Click this message to view the problematic GameObject.", gameObject);
         }
     }
 

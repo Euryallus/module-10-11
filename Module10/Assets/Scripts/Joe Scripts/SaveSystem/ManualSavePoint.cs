@@ -20,7 +20,7 @@ public class ManualSavePoint : InteractableWithOutline, ISavePoint
 
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("IMPORTANT: ManualSavePoint exists without id. All save points require a *unique* id for saving/loading data.");
+            Debug.LogWarning("IMPORTANT: ManualSavePoint exists without id. All save points require a *unique* id for saving/loading data. Click this message to view the problematic GameObject.", gameObject);
         }
     }
 

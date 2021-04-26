@@ -6,6 +6,8 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 {
     public ItemInfoPopup ItemInfoPopup { get { return itemInfoPopup; } }
 
+    [Header("Important: Set unique id")]
+    [Header("Item Container")]
     public string                               ContainerId;        //Unique id used when saving/loading the contents of this container
     [SerializeField] private int                numberOfSlots;
     [SerializeField] private ContainerSlot[]    slots;              //Main inventory grid

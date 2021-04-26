@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoorMain : MonoBehaviour, IPersistentObject
 {
+    [Header("Important: Set unique id")]
     [Header("Door")]
 
     [SerializeField] private string     id;                         //Unique id for the door
@@ -33,7 +34,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
 
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("IMPORTANT: Door exists without id. All doors require a *unique* id for saving/loading data.");
+            Debug.LogWarning("IMPORTANT: Door exists without id. All doors require a *unique* id for saving/loading data. Click this message to view the problematic GameObject.", gameObject);
         }
     }
 

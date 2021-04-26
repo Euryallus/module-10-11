@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PuzzleButtonSequence : MonoBehaviour, IPersistentObject
 {
+    [Header("Important: Set unique id")]
     [Header("Puzzle Button Sequence")]
 
     [SerializeField] private string                 id;
@@ -25,9 +26,11 @@ public class PuzzleButtonSequence : MonoBehaviour, IPersistentObject
     {
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
 
+
+
         if (string.IsNullOrEmpty(id))
         {
-            Debug.LogWarning("IMPORTANT: PuzzleButtonSequence exists without id. All sequences require a *unique* id for saving/loading data.");
+            Debug.LogWarning("IMPORTANT: PuzzleButtonSequence exists without id. All sequences require a *unique* id for saving/loading data. Click this message to view the problematic GameObject.", gameObject);
         }
 
         SequenceFailedEvents();
