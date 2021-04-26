@@ -8,6 +8,16 @@ public class Enemy2 : EnemyBase
 
     private GameObject lastProjectile;
 
+    public Transform projSpawnPoint;
+
+    public float spawnToLaunchTime = 1.5f;
+
+    public override void Start()
+    {
+        base.Start();
+
+        timeBetweenAttacks += spawnToLaunchTime;
+    }
 
     public override void EngagedUpdate()
     {
@@ -21,14 +31,24 @@ public class Enemy2 : EnemyBase
 
     public override void Attack()
     {
-        Vector3 dir = player.transform.position - transform.position;
-
         lastProjectile = Instantiate(projectilePrefab);
 
-        lastProjectile.transform.position = transform.position + transform.forward ;
+        lastProjectile.transform.position = projSpawnPoint.position ;
 
+        lastProjectile.transform.parent = gameObject.transform;
 
-        lastProjectile.GetComponent<Enemy2Projectile>().Launch(dir, player.transform);
+        //lastProjectile.GetComponent<Enemy2Projectile>().Launch(dir, player.transform);
         //base.Attack();
+
+        StartCoroutine("Fire");
+    }
+
+    private IEnumerator Fire()
+    {
+        Vector3 dir = player.transform.position - projSpawnPoint.position;
+        yield return new WaitForSeconds(spawnToLaunchTime);
+
+        lastProjectile.transform.parent = null;
+        lastProjectile.GetComponent<Enemy2Projectile>().Launch(dir, player.transform);
     }
 }

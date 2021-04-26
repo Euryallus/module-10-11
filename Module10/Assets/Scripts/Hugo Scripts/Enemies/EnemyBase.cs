@@ -50,7 +50,7 @@ public class EnemyBase : MonoBehaviour
     public EnemyState currentState;
 
 
-    void Start()
+    public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
 
