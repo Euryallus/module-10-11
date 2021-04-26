@@ -10,7 +10,11 @@ public class MovableObject : MonoBehaviour
     public bool isHeld;
 
     //saves "hand" position of player
+    [SerializeField]
     private Transform target;
+
+    [SerializeField]
+    private Vector3 targetPos;
 
     //stores ref. to Rigidbody component
     [SerializeField]
@@ -28,13 +32,16 @@ public class MovableObject : MonoBehaviour
         //if the player is currently holding the object, move towards the players hand position
         if (isHeld)
         {
-            transform.position = Vector3.Lerp(transform.position, target.position, 15 * Time.deltaTime);
+            targetPos = target.position;
+            transform.position = Vector3.Lerp(transform.position, target.position, 5 * Time.deltaTime);
         }
     }
 
     //sets target position to players hand, turns off grav & sets _isHeld to true
     public void PickUp(Transform hand)
     {
+        rb.velocity = Vector3.zero;
+
         target = hand;
         rb.useGravity = false;
         isHeld = true;
@@ -54,5 +61,4 @@ public class MovableObject : MonoBehaviour
         rb.useGravity = true;
         rb.AddForce(direction.normalized * 600);
     }
-
 }

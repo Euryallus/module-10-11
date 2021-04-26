@@ -355,6 +355,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 18.3
       objectReference: {fileID: 0}
+    - target: {fileID: 6202400697622085366, guid: a62552e7592e08b4e953f410ae86a1ca, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6202400697622085367, guid: a62552e7592e08b4e953f410ae86a1ca, type: 3}
       propertyPath: m_Name
       value: PP_Hammer_Used_02_Iron

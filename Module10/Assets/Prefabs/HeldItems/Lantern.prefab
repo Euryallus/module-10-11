@@ -75,7 +75,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 0.4359089, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0009999871, y: 0.04490894, z: -0.008999944}
+  m_ConnectedAnchor: {x: 0.0009999871, y: 0.04490895, z: -0.008999944}
   m_UseSpring: 0
   m_Spring:
     spring: 0
@@ -437,6 +437,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7413659883413353598, guid: 9380f34c10f5fe34e863c769353585c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413659883413514333, guid: 9380f34c10f5fe34e863c769353585c0, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7413659883413514334, guid: 9380f34c10f5fe34e863c769353585c0, type: 3}

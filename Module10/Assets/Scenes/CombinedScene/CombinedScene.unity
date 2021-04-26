@@ -916,6 +916,18 @@ PrefabInstance:
       propertyPath: npcManager
       value: 
       objectReference: {fileID: 474361422}
+    - target: {fileID: 1752477050095221596, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.248
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752477050095221596, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.074
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752477050095221596, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.881
+      objectReference: {fileID: 0}
     - target: {fileID: 2207638255584391532, guid: 9b4d28f1c48d0c94b81a5cfa13c4248d, type: 3}
       propertyPath: healthSlider
       value: 
@@ -4032,7 +4044,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8756120112950730256, guid: ab89d40243135b64aba53aef582430a9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab89d40243135b64aba53aef582430a9, type: 3}
