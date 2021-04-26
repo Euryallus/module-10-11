@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47b63cd15c48c3e41909ab791916da71, type: 3}
   m_Name: Player data
   m_EditorClassIdentifier: 
-  questBacklog: []
-  completedQuests: []
+  questBacklog:
+  - {fileID: 11400000, guid: e494a4fa86161414080c55f999b6c105, type: 2}
+  completedQuests:
+  - {fileID: 11400000, guid: 9c2362113b55bb841a804e93892376b4, type: 2}
   pendingQuest: {fileID: 0}
   offer: {fileID: 0}
   questGivers:
@@ -29,3 +31,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8cba4fb6628740a4d9575e237226147d, type: 2}
   - {fileID: 11400000, guid: f06bb9deb1186ff4db9c4769f7a5b72b, type: 2}
   - {fileID: 11400000, guid: ab34540a7ff6e624cb8aea210def43b0, type: 2}
+  - {fileID: 11400000, guid: 88d92d21a96d30f46b7e858fbbf3ccad, type: 2}
+  - {fileID: 11400000, guid: df01235c2b0fbdd4f9a8d8380dbd7b07, type: 2}
