@@ -31,6 +31,11 @@ public class ItemContainer : MonoBehaviour, IPersistentObject
 
     private void Start()
     {
+        if (string.IsNullOrEmpty(ContainerId))
+        {
+            Debug.LogWarning("IMPORTANT: ItemContainer exists without id. All item containers require a *unique* id for saving/loading data. Click this message to view the problematic GameObject.", gameObject);
+        }
+
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
