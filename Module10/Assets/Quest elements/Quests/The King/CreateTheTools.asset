@@ -18,7 +18,7 @@ MonoBehaviour:
     be trusted to explore the Caph plains. I got something else to ask you, if you
     wouldn''t mind... '
   nextQuests:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b2cb650d35243724d9ef42b157817df8, type: 2}
   handInNPCName: The King
   handOutNPCName: The King
   questCompleted: 0
