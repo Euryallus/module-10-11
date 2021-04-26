@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy2 : EnemyBase
+public class Enemy3 : EnemyBase
 {
     public GameObject projectilePrefab;
 
@@ -23,17 +23,14 @@ public class Enemy2 : EnemyBase
     {
         base.EngagedUpdate();
 
-        if(agent.destination == agent.transform.position)
-        {
-            TurnTowards(player);
-        }
+        
+        TurnTowards(player);
+        
     }
 
     public override void Attack()
     {
-        lastProjectile = Instantiate(projectilePrefab);
-
-        lastProjectile.transform.position = projSpawnPoint.position ;
+        lastProjectile = Instantiate(projectilePrefab, projSpawnPoint.position, Quaternion.identity);
 
         lastProjectile.transform.parent = gameObject.transform;
 
@@ -49,16 +46,6 @@ public class Enemy2 : EnemyBase
         yield return new WaitForSeconds(spawnToLaunchTime);
 
         lastProjectile.transform.parent = null;
-
-        if(CheckForPlayer())
-        {
-            lastProjectile.GetComponent<Enemy2Projectile>().Launch(dir, player.transform);
-        }
-        else
-        {
-            Destroy(lastProjectile);
-            //lastProjectile = null;
-        }
-
+        lastProjectile.GetComponent<Enemy3Projectile>().Launch(dir, player.transform);
     }
 }

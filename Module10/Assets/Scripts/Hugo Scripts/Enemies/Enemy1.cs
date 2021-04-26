@@ -18,14 +18,17 @@ public class Enemy1 : EnemyBase
             for (int i = 0; i < numberOfDuplicates; i++)
             { 
 
-                Vector3 pos = GetRandomPos(6f, transform.position);
+                Vector3 pos = Random.insideUnitSphere * duplicateSpawnDistance; //GetRandomPos(6f, transform.position);
+                pos += transform.position;
 
-                    children.Add(Instantiate(duplicatePrefab));
+                pos.y = transform.position.y;
 
-                    children[children.Count - 1].transform.position = pos;
-                    children[children.Count - 1].GetComponent<EnemyBase>().manager = manager;
-                    children[children.Count - 1].GetComponent<EnemyBase>().centralHubPos = centralHubPos;
-                    HasSplit = true;
+                children.Add(Instantiate(duplicatePrefab, pos, Quaternion.identity));
+
+                    
+                children[children.Count - 1].GetComponent<EnemyBase>().manager = manager;
+                children[children.Count - 1].GetComponent<EnemyBase>().centralHubPos = centralHubPos;
+                HasSplit = true;
                 
             }
         }

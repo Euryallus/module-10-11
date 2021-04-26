@@ -34,18 +34,17 @@ public class EnemyCampManager : MonoBehaviour
 
         foreach (EnemyBase prefab in unitsDifficulty)
         {
-            spawnedEnemies.Add(Instantiate(prefab));
-            EnemyBase created = spawnedEnemies[spawnedEnemies.Count - 1];
-            created.centralHubPos = transform.position;
-
-            created.manager = gameObject.GetComponent<EnemyCampManager>();
-
             Vector3 randomPosition = Random.insideUnitSphere * spawnDistanceMax;
 
             randomPosition += transform.position;
             randomPosition.y = transform.position.y;
 
-            created.transform.position = randomPosition;
+
+            spawnedEnemies.Add(Instantiate(prefab, randomPosition, Quaternion.identity));
+            EnemyBase created = spawnedEnemies[spawnedEnemies.Count - 1];
+            created.centralHubPos = transform.position;
+
+            created.manager = gameObject.GetComponent<EnemyCampManager>();
         }
     }
 

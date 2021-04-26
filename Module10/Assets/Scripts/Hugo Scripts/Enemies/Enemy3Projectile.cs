@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy2Projectile : MonoBehaviour
+public class Enemy3Projectile : MonoBehaviour
 {
     public Rigidbody rb;
     public float launchVelocity;
 
-    public float explosionRadius = 5;
-    public float explosionDamage = 0.2f;
 
     private void Start()
     {
@@ -23,7 +21,7 @@ public class Enemy2Projectile : MonoBehaviour
         //https://forum.unity.com/threads/find-the-angle-to-hit-target-at-x-y-z.33659/
 
         transform.LookAt(target.transform.position);
-        Debug.DrawLine(transform.position, transform.position + (transform.forward * 3), Color.green,3f);
+        Debug.DrawLine(transform.position, transform.position + (transform.forward * 3), Color.green, 3f);
 
 
         Vector3 targetVect = transform.InverseTransformDirection(direction);
@@ -48,37 +46,20 @@ public class Enemy2Projectile : MonoBehaviour
         transform.Rotate(new Vector3(-theta * Mathf.Rad2Deg, 0, 0));
 
         rb.velocity = launchVelocity * transform.forward;
-
-       
     }
 
     public void Die()
     {
-        ParticleManager.Instance.SpawnParticle(transform.position, "Explosion");
-        Explode();
         Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         int mask = 1 << 6;
-        if (collision.transform.gameObject.layer != mask )
+        if (collision.transform.gameObject.layer != mask)
         {
             Die();
         }
     }
 
-    private void Explode()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
-
-        foreach(Collider hit in hitColliders)
-        {
-            if(hit.gameObject.CompareTag("Player"))
-            {
-                hit.gameObject.GetComponent<PlayerStats>().DecreaseHealth(explosionDamage);
-                return;
-            }
-        }
-    }
 }

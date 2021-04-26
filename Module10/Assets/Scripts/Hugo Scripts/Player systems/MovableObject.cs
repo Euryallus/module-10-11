@@ -33,7 +33,7 @@ public class MovableObject : MonoBehaviour
         if (isHeld)
         {
             targetPos = target.position;
-            transform.position = Vector3.Lerp(transform.position, target.position, 5 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, target.position, 10 * Time.deltaTime);
         }
     }
 

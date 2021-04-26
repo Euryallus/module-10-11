@@ -41,8 +41,8 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137528860155671651}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_AgentTypeID: -902729914
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -51,8 +51,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
+  m_Height: 1
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &6185944759816881309
@@ -71,8 +71,10 @@ MonoBehaviour:
   viewAngle: 200
   stationaryTurnSpeed: 5
   difficulty: 1
-  stopDistance: 2
+  stopDistance: 1
   playerLastSeen: {x: 0, y: 0, z: 0}
+  patrolWanderDistance: 15
+  searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 0.1
   timeBetweenAttacks: 2
@@ -351,7 +353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137528861395055592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_Children:
   - {fileID: 137528860316144335}
