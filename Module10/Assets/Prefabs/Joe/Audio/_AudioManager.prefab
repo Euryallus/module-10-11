@@ -61,6 +61,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8fb9993ecbeb7094eadc99ec284e57df, type: 2}
   - {fileID: 11400000, guid: 730e3146775cc694886e2723d6125dbb, type: 2}
   - {fileID: 11400000, guid: bbfbeacaf87ad5841b35b52db0a1f373, type: 2}
+  - {fileID: 11400000, guid: 6f2b3d6abe9086d4f83611adcccdbac7, type: 2}
   sceneMusicSetup:
   - SceneName: JoeTestScene
     PlayMode: 3
@@ -70,7 +71,6 @@ MonoBehaviour:
     Playlist: []
   musicSource: {fileID: 5208045952954675613}
   soundSourcePrefab: {fileID: 2437050244927043529, guid: 32a93990d3f29424cbbd72cf9da5e053, type: 3}
-  dynamicMusicSourcePrefab: {fileID: 0}
 --- !u!82 &5208045952954675613
 AudioSource:
   m_ObjectHideFlags: 0
