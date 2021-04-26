@@ -10,10 +10,13 @@ public class Enemy2Projectile : MonoBehaviour
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public void Launch(Vector3 direction, Transform target)
     {
+        rb.constraints = RigidbodyConstraints.None;
         //https://forum.unity.com/threads/find-the-angle-to-hit-target-at-x-y-z.33659/
 
         transform.LookAt(target.transform.position);
@@ -42,5 +45,23 @@ public class Enemy2Projectile : MonoBehaviour
         transform.Rotate(new Vector3(-theta * Mathf.Rad2Deg, 0, 0));
 
         rb.velocity = launchVelocity * transform.forward;
+
+       
+    }
+
+    public void Die()
+    {
+        ParticleManager.Instance.SpawnParticle(transform.position, "Explosion");
+
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        int mask = 1 << 6;
+        if (collision.transform.gameObject.layer != mask )
+        {
+            Die();
+        }
     }
 }
