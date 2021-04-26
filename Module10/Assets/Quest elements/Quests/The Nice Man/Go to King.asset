@@ -20,8 +20,8 @@ MonoBehaviour:
   nextQuests: []
   handInNPCName: The Nice Man
   handOutNPCName: The Nice Man
-  questCompleted: 1
-  questHandedIn: 1
+  questCompleted: 0
+  questHandedIn: 0
   handInToGiver: 1
   questLineName: 
   rewards: []
