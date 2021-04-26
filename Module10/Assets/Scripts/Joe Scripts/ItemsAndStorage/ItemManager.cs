@@ -25,7 +25,7 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         {
             //Set this class as the instance and ensure that it stays when changing scenes
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         //If there is an existing instance that is not this, destroy the GameObject this script is connected to
         else if (Instance != this)
