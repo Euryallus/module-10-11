@@ -5,8 +5,9 @@ public enum ModularPieceType
 {
     WoodFloor,
     WoodWall,
-    WoodRoof,
-    WoodStairs
+    WoodRoofSide,
+    WoodStairs,
+    WoodHalfWall
 }
 
 public class ModularPiece : DestructableObject, IPersistentPlacedObject

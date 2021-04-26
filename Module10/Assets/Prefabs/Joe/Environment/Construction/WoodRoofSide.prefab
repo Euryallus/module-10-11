@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDroppedOnDestroy:
-  - Item: {fileID: 11400000, guid: c7dae1dd7371c93449338dff02b87fde, type: 2}
+  - Item: {fileID: 11400000, guid: 68d718783dbc5e943b26bf1ca270ce6f, type: 2}
     Quantity: 1
   toolToBreak:
   - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
