@@ -106,6 +106,8 @@ GameObject:
   - component: {fileID: 2291829882524797312}
   - component: {fileID: 7597882784080311199}
   - component: {fileID: 7507750580172435408}
+  - component: {fileID: -3575882583199144125}
+  - component: {fileID: -5926244523749408485}
   m_Layer: 0
   m_Name: Enemy2Proj
   m_TagString: Untagged
@@ -158,3 +160,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 7597882784080311199}
   launchVelocity: 15
+--- !u!114 &-3575882583199144125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263906348936956817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea18d9375b40584ab3c4c2acec05473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachedRB: {fileID: 7597882784080311199}
+  originalRBConstraints: 0
+--- !u!114 &-5926244523749408485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263906348936956817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a24fa3f3dfaf64fa92caecb211635c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHeld: 0
+  rb: {fileID: 7597882784080311199}
