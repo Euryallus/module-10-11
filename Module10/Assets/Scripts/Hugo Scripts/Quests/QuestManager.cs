@@ -49,14 +49,20 @@ public class QuestManager : MonoBehaviour
     public void AcceptQuest()
     {
         playerMove.StartMoving();
-        playerQuestData.questBacklog.Add(playerQuestData.pendingQuest);
+
+        if(playerQuestData.pendingQuest != null)
+        {
+            playerQuestData.questBacklog.Add(playerQuestData.pendingQuest);
+            
+            playerQuestData.offer.questsToGive.RemoveAt(0);
+
+            UI.AddHUDQuestName(playerQuestData.pendingQuest.questName);
+
+            playerQuestData.offer = null;
+            playerQuestData.pendingQuest = null;
+        }
+
         UI.HideQuestAccept();
-        playerQuestData.offer.questsToGive.RemoveAt(0);
-
-        UI.AddHUDQuestName(playerQuestData.pendingQuest.questName);
-
-        playerQuestData.offer = null;
-        playerQuestData.pendingQuest = null;
 
         npcManager.StopFocusCamera();
     }
