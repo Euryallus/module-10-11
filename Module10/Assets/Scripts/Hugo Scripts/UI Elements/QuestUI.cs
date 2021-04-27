@@ -63,6 +63,7 @@ public class QuestUI : MonoBehaviour
 
         questAcceptCanvasGroup.alpha = 1;
         questAcceptCanvasGroup.blocksRaycasts = true;
+        questAcceptCanvasGroup.interactable = true;
     }
 
     public void HideQuestAccept()
@@ -70,6 +71,7 @@ public class QuestUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         questAcceptCanvasGroup.alpha = 0;
         questAcceptCanvasGroup.blocksRaycasts = false;
+        questAcceptCanvasGroup.interactable = false;
     }
 
     public void DisplayQuestComplete(QuestData quest)
@@ -85,6 +87,7 @@ public class QuestUI : MonoBehaviour
 
         questCompleteCanvasGroup.alpha = 1;
         questCompleteCanvasGroup.blocksRaycasts = true;
+        questCompleteCanvasGroup.interactable = true;
     }
 
     public void HideQuestComplete()
@@ -92,6 +95,7 @@ public class QuestUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         questCompleteCanvasGroup.alpha = 0;
         questCompleteCanvasGroup.blocksRaycasts = false;
+        questCompleteCanvasGroup.interactable = false;
     }
 
     public void AddHUDQuestName(string name)
