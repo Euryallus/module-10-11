@@ -14,15 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Create the three tools
   questDescription: ' If you create them, I''ll give you the key to leave this area'
-  questCompleteDialogue: 'You''ve proven yourself. Take this key, you can clearly
-    be trusted to explore the Caph plains. I got something else to ask you, if you
-    wouldn''t mind... '
-  nextQuests:
-  - {fileID: 11400000, guid: b2cb650d35243724d9ef42b157817df8, type: 2}
+  questCompleteDialogue: You've proven yourself. Take this key, you can clearly be
+    trusted to explore the Caph plains. Listen, a friend of mine lives on that mountain's
+    peak. I'd like you to go and talk to him
+  nextQuests: []
   handInNPCName: The King
   handOutNPCName: The King
-  questCompleted: 0
-  questHandedIn: 0
+  questCompleted: 1
+  questHandedIn: 1
   handInToGiver: 1
   questLineName: Create the Sacred Tools
   rewards:
