@@ -85,6 +85,9 @@ public class PlayerMovement : MonoBehaviour
     private bool canGlide = false;
     private Vector2 glideVelocity;
 
+    private InventoryPanel inventory;
+    public Item glider;
+
     public enum MovementStates
     {
         walk,
@@ -113,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
         Cursor.lockState = CursorLockMode.Locked;
 
         currentCrouchState = CrouchState.standing;
@@ -137,6 +141,16 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //check if player can glide yet (has obtained glider)
+
+        if(!canGlide)
+        {
+            if (inventory.ContainsQuantityOfItem(new ItemGroup(glider, 1)))
+            {
+                canGlide = true;
+            }
+        }
+
         //raw input from mouse / keyboard (X & Y)
         moveTo = new Vector3(0, 0, 0);
 
@@ -441,10 +455,11 @@ public class PlayerMovement : MonoBehaviour
 
                     velocityY = 0.1f;
                 }
-                else
+                else if(currentMovementState == MovementStates.glide)
                 {
                     currentMovementState = MovementStates.walk;
                 }
+                
             }
 
             if (moveTo.magnitude > 1)

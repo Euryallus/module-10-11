@@ -95,7 +95,4 @@ public class EnemyCampManager : MonoBehaviour
             enemy.AlertOfPosition(position);
         }
     }
-
-
-
 }

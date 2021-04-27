@@ -57,7 +57,7 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        //currentState = EnemyState.search;
+        currentState = EnemyState.patrol;
         player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerStats>();
         
