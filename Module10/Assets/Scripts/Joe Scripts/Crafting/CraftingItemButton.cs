@@ -63,6 +63,8 @@ public class CraftingItemButton : MonoBehaviour, IPointerEnterHandler, IPointerE
             //The recipe is already selected, deselect it (so nothing is selected)
             parentPanel.SelectRecipe(null, null);
         }
+
+        AudioManager.Instance.PlaySoundEffect2D("buttonClickSmall");
     }
 
     public void Select()
