@@ -155,6 +155,8 @@ public class CraftingPanel : UIPanel
     {
         if(selectedRecipe != null)
         {
+            AudioManager.Instance.PlaySoundEffect2D("buttonClickMain2");
+
             //Craft the selected item when the craft button is clicked
             CraftSelectedResultItem();
         }

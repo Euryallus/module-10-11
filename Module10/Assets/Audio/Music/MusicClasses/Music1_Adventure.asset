@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_audioClip: {fileID: 8300000, guid: 294c6fb58c6f58a48882369980e1ff9b, type: 3}
   m_id: music1Adventure
-  m_volume: 1
+  m_volume: 0.8
