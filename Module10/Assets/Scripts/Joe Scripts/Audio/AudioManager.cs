@@ -11,7 +11,9 @@ public enum MusicPlayMode
 
     LoopSingleTrack,    //One track is looped for the duration of the scene
 
-    Dynamic             //The music played in the scene is determined by the placement of DynamicAudioAreas
+    Dynamic,            //The music played in the scene is determined by the placement of DynamicAudioAreas
+
+    None
 }
 
 public class AudioManager : MonoBehaviour
@@ -94,6 +96,9 @@ public class AudioManager : MonoBehaviour
     {
         //Ensure the current dynamic audio area is null by default, in case one was set in a previous scene
         currentDynamicAudioArea = null;
+
+        //Set playmode to none by default in case none was set in the inspector
+        currentSceneMusic = new SceneMusic(scene.name, MusicPlayMode.None, null);
 
         for (int i = 0; i < sceneMusicSetup.Length; i++)
         {
@@ -283,6 +288,13 @@ public class AudioManager : MonoBehaviour
 [System.Serializable]
 public struct SceneMusic
 {
+    public SceneMusic(string sceneName, MusicPlayMode playMode, MusicClass[] playlist)
+    {
+        SceneName = sceneName;
+        PlayMode  = playMode;
+        Playlist  = playlist;
+    }
+
     public string           SceneName;  //Name of the scene to use these settings for
     public MusicPlayMode    PlayMode;   //The play mode to use in the scene
     public MusicClass[]     Playlist;   //The playlist used if the chosen PlayMode is OrderedPlaylist or RandomPlaylist

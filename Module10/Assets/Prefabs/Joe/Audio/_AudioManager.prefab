@@ -69,6 +69,10 @@ MonoBehaviour:
   - SceneName: DemoScene
     PlayMode: 3
     Playlist: []
+  - SceneName: CombinedScene
+    PlayMode: 2
+    Playlist:
+    - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
   musicSource: {fileID: 5208045952954675613}
   soundSourcePrefab: {fileID: 2437050244927043529, guid: 32a93990d3f29424cbbd72cf9da5e053, type: 3}
 --- !u!82 &5208045952954675613
