@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Pick up the broken glider
   questDescription: Please go and bring the broken glider to me.
-  questCompleteDialogue: Take this glider piece. Combine it in a crafting box and
-    you'll be able to make a glider. Equip it and you'll be able to fly off of this
-    mountain. Enjoy! I got one more thing I could use your help with though...
-  nextQuests:
-  - {fileID: 11400000, guid: 9f8fc51f76f7b9f44851116b9f424d92, type: 2}
+  questCompleteDialogue: Take this glider piece.Go to a Crafting box and you'll be
+    able to make a glider. Equip it and you'll be able to fly off of this mountain.
+    That small village over there, a good friend of mine lives there, I'd like it
+    if you could go and talk to him! He lives in a locked house, so you'll need a
+    key to open it, take my spare.
+  nextQuests: []
   handInNPCName: MountainMan
   handOutNPCName: MountainMan
   questCompleted: 0
