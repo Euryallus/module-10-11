@@ -17,7 +17,7 @@ public class DialogueUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         cg.alpha = 1;
         cg.blocksRaycasts = true;
-
+        cg.interactable = true;
         dialogueText.text = dialogue;
     }
 
@@ -27,6 +27,7 @@ public class DialogueUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         cg.alpha = 0;
         cg.blocksRaycasts = false;
+        cg.interactable = false;
 
         dialogueText.text = "";
     }
