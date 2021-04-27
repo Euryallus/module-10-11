@@ -143,13 +143,6 @@ public class PlayerMovement : MonoBehaviour
     {
         //check if player can glide yet (has obtained glider)
 
-        if(!canGlide)
-        {
-            if (inventory.ContainsQuantityOfItem(new ItemGroup(glider, 1)))
-            {
-                canGlide = true;
-            }
-        }
 
         //raw input from mouse / keyboard (X & Y)
         moveTo = new Vector3(0, 0, 0);

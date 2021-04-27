@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CreateLantern
   m_EditorClassIdentifier: 
   taskName: Create the Lantern!
-  taskComplete: 1
+  taskComplete: 0
   objectiveType: 1
   toCollect:
     Item: {fileID: 11400000, guid: 4fac35ef5ec53a0428ddcec516a37518, type: 2}

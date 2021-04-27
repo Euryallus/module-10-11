@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GatherRocks
   m_EditorClassIdentifier: 
   taskName: Gather 10 Rocks
-  taskComplete: 1
+  taskComplete: 0
   objectiveType: 1
   toCollect:
     Item: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}

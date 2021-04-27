@@ -130,14 +130,18 @@ public class QuestManager : MonoBehaviour
             }
         }
 
-        foreach (ItemGroup stack in quest.rewards)
+        if(quest.rewards.Count != 0)
         {
-            for (int i = 0; i < stack.Quantity; i++)
+            foreach (ItemGroup stack in quest.rewards)
             {
-                inventory.AddItemToInventory(stack.Item);
-            }
+                for (int i = 0; i < stack.Quantity; i++)
+                {
+                    inventory.AddItemToInventory(stack.Item);
+                }
             
+            }
         }
+
     }
 
     public bool InteractWith(string questGiverName)
