@@ -13,7 +13,7 @@ public enum MusicPlayMode
 
     Dynamic,            //The music played in the scene is determined by the placement of DynamicAudioAreas
 
-    None
+    None                //No music will be played in the scene
 }
 
 public class AudioManager : MonoBehaviour

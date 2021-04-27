@@ -3,9 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Music Class", menuName = "Audio/Music Class")]
 public class MusicClass : ScriptableObject
 {
+    #region Properties
+    //See tooltips below for info
+
     public AudioClip    AudioClip { get { return m_audioClip; } }
-    public string       Id { get { return m_id; } }
+    public string       Id { get { return m_id; } }              
     public float        Volume { get { return m_volume; } }
+
+    #endregion
 
 
     [SerializeField]

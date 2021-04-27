@@ -25,6 +25,7 @@ public class CraftingPanel : UIPanel
     #endregion
 
     #region Properties
+
     public CraftingRecipe   SelectedRecipe  { get { return selectedRecipe; } }
 
     #endregion

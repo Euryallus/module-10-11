@@ -3,11 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Sound Class", menuName = "Audio/Sound Class")]
 public class SoundClass : ScriptableObject
 {
+    #region Properties
+    //See tooltips below for info
+
     public AudioClip[]          AudioClips  { get { return m_audioClips; } }
     public string               Id          { get { return m_id; } }
     public ValueRange<float>    VolumeRange { get { return m_volumeRange; } }
     public ValueRange<float>    PitchRange  { get { return m_pitchRange; } }
 
+    #endregion
 
     [SerializeField] [Tooltip("All possible audio clips that will randomly be chosen from when this sound effect is played")]
     private AudioClip[]         m_audioClips;
