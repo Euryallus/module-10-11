@@ -40,28 +40,32 @@ public class HeldItem : MonoBehaviour
 
     public virtual void PerformMainAbility()
     {
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out raycastHit, 4.0f))
+        //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
+        if(playerCameraTransform != null)
         {
-            DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
-
-            if (destructable != null)
+            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out raycastHit, 4.0f))
             {
-                foreach (Item tool in destructable.toolToBreak)
+                DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
+
+                if (destructable != null)
                 {
-                    string compareId = item.CustomItem ? item.BaseItemId : item.Id;
-
-                    if (tool.Id == compareId)
+                    foreach (Item tool in destructable.toolToBreak)
                     {
-                        playerStatsScript.DecreaseFoodLevel(mainAbilityHunger);
+                        string compareId = item.CustomItem ? item.BaseItemId : item.Id;
 
-                        destructable.TakeHit();
+                        if (tool.Id == compareId)
+                        {
+                            playerStatsScript.DecreaseFoodLevel(mainAbilityHunger);
 
-                        //if(primaryAbilitySound != null)
-                        //{
-                        //    AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
-                        //}
+                            destructable.TakeHit();
 
-                        break;
+                            //if(primaryAbilitySound != null)
+                            //{
+                            //    AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
+                            //}
+
+                            break;
+                        }
                     }
                 }
             }

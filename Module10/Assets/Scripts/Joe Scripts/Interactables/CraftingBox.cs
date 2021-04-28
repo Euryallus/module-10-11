@@ -1,11 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CraftingBox : InteractableWithOutline
 {
-    [Header("Crafting Box Properties")]
-    public InventoryPanel inventoryPanel;
+    private InventoryPanel inventoryPanel;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        inventoryPanel = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
+    }
 
     public override void Interact()
     {

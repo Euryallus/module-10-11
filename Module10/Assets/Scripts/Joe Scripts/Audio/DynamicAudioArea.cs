@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DynamicAudioArea : MonoBehaviour
+public class DynamicAudioArea : MonoBehaviour, IPersistentObject
 {
 
     #region InspectorVariables
@@ -17,9 +17,10 @@ public class DynamicAudioArea : MonoBehaviour
 
     #endregion
 
-    private float baseVolume;   //Volume of the music before fading is applied
-    private bool fadingIn;      //Whether the audio source should be fading in
-    private bool fadingOut;     //Whether the audio source should be fading out
+    private float   baseVolume;     //Volume of the music before fading is applied
+    private bool    fadingIn;       //Whether the audio source should be fading in
+    private bool    fadingOut;      //Whether the audio source should be fading out
+    private bool    active;
 
     private void Awake()
     {
@@ -29,6 +30,45 @@ public class DynamicAudioArea : MonoBehaviour
 
         //Mute the source by default until the player enters it
         musicSource.volume  = 0.0f;
+    }
+
+    private void Start()
+    {
+        SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+    }
+
+    private void OnDestroy()
+    {
+        SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+    }
+
+    public void OnSave(SaveData saveData)
+    {
+        string locationId = GetLocationId();
+
+        Debug.Log("Saving data for DynamicAudioArea with location id: " + locationId);
+
+        saveData.AddData("audioAreaActive_" + locationId, active);
+    }
+
+    public void OnLoadSetup(SaveData saveData)
+    {
+        bool loadedActive = saveData.GetData<bool>("audioAreaActive_" + GetLocationId());
+
+        if(loadedActive)
+        {
+            ActivateAudioArea();
+        }
+    }
+
+    public void OnLoadConfigure(SaveData saveData)
+    {
+
+    }
+
+    private string GetLocationId()
+    {
+        return (int)transform.position.x + "_" + (int)transform.position.y + "_" + (int)transform.position.z;
     }
 
     private void Update()
@@ -68,46 +108,60 @@ public class DynamicAudioArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        AudioManager audioManager = AudioManager.Instance;
-
         if(other.gameObject.CompareTag("Player"))
         {
-            //Player has entered the audio area trigger
+            ActivateAudioArea();
+        }
+    }
 
-            if (audioManager.CurrentSceneMusic.PlayMode == MusicPlayMode.Dynamic)
+    public void ActivateAudioArea()
+    {
+        AudioManager audioManager = AudioManager.Instance;
+
+        //Player has entered the audio area trigger
+
+        if (audioManager.CurrentSceneMusic.PlayMode == MusicPlayMode.Dynamic)
+        {
+            //The loaded scene is using dynamic audio
+
+            if (musicToTrigger != null)
             {
-                //The loaded scene is using dynamic audio
-
-                if (musicToTrigger != null)
+                if (audioManager.CurrentDynamicAudioArea != null)
                 {
-                    if(audioManager.CurrentDynamicAudioArea != null)
-                    {
-                        //If the player previously entered another area, fade its music out for a cross-fade effect
-                        audioManager.CurrentDynamicAudioArea.FadeOut();
-                    }
-
-                    //This is now the current/most recent dynamic audio area
-                    audioManager.CurrentDynamicAudioArea = this;
-
-                    //Fade music for this are in
-                    FadeIn();
+                    //If the player previously entered another area, fade its music out for a cross-fade effect
+                    audioManager.CurrentDynamicAudioArea.DeactivateAudioArea();
                 }
-                else
-                {
-                    Debug.LogError("Entering DynamicAudioError with no music set!");
-                }
+
+                //This is now the current/most recent dynamic audio area
+                audioManager.CurrentDynamicAudioArea = this;
+
+                //Fade music for this are in
+                FadeIn();
+
+                active = true;
+            }
+            else
+            {
+                Debug.LogError("Entering DynamicAudioError with no music set!");
             }
         }
     }
 
-    public void FadeIn()
+    public void DeactivateAudioArea()
+    {
+        FadeOut();
+
+        active = false;
+    }
+
+    private void FadeIn()
     {
         //Start fading in, set fading out to false in case the source is in the process of fading out
         fadingOut = false;
         fadingIn = true;
     }
 
-    public void FadeOut()
+    private void FadeOut()
     {
         //Start fading out, set fading in to false in case the source is in the process of fading in
         fadingOut = true;

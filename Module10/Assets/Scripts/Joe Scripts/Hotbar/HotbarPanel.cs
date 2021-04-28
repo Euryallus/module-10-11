@@ -158,13 +158,19 @@ public class HotbarPanel : UIPanel, IPersistentObject
 
     private void SelectSlot(int slotIndex)
     {
-        slotsUI[selectedSlotIndex].SetSelected(false);
+        GameObject mainCameraGameObj = GameObject.FindGameObjectWithTag("MainCamera");
 
-        selectedSlotIndex = slotIndex;
+        //Only allow slot selection if the main camera isn't null, i.e. player is not talking to an npc/using an alternate camera
+        if (mainCameraGameObj != null)
+        {
+            slotsUI[selectedSlotIndex].SetSelected(false);
 
-        slotsUI[selectedSlotIndex].SetSelected(true);
+            selectedSlotIndex = slotIndex;
 
-        HeldItemChangedEvent?.Invoke(GetSelectedItem(), slotsUI[selectedSlotIndex]);
+            slotsUI[selectedSlotIndex].SetSelected(true);
+
+            HeldItemChangedEvent?.Invoke(GetSelectedItem(), slotsUI[selectedSlotIndex]);
+        }
     }
 
     public Item GetSelectedItem()

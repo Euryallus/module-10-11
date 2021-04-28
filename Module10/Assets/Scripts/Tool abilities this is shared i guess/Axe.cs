@@ -16,19 +16,23 @@ public class Axe : HeldItem
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
+        //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
+        if (playerCam != null)
         {
-            Freezable freeze = raycastHit.transform.gameObject.GetComponent<Freezable>();
-
-            if(freeze != null)
+            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
             {
-                playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+                Freezable freeze = raycastHit.transform.gameObject.GetComponent<Freezable>();
 
-                frozenObject = freeze;
+                if (freeze != null)
+                {
+                    playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
 
-                frozenObject.Freeze();
+                    frozenObject = freeze;
 
-                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                    frozenObject.Freeze();
+
+                    AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                }
             }
         }
 

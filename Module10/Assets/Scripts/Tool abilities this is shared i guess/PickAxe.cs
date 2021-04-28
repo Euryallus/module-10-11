@@ -16,19 +16,23 @@ public class PickAxe : HeldItem
     {
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
+        //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
+        if(playerCam != null)
         {
-            MovableObject moveObj = raycastHit.transform.gameObject.GetComponent<MovableObject>();
-
-            if(moveObj != null && !moveObj.isHeld && heldObj == null)
+            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
             {
-                playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+                MovableObject moveObj = raycastHit.transform.gameObject.GetComponent<MovableObject>();
 
-                moveObj.PickUp(GameObject.FindGameObjectWithTag("PlayerHand").transform);
+                if (moveObj != null && !moveObj.isHeld && heldObj == null)
+                {
+                    playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
 
-                heldObj = moveObj;
+                    moveObj.PickUp(GameObject.FindGameObjectWithTag("PlayerHand").transform);
 
-                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                    heldObj = moveObj;
+
+                    AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                }
             }
         }
 

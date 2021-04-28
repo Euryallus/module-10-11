@@ -10,6 +10,8 @@ public class SaveLoadManager : MonoBehaviour
 {
     public static SaveLoadManager Instance;
 
+    [SerializeField] private GameObject loadingPanelPrefab;
+
     public event Action<SaveData>   SaveObjectsEvent;
     public event Action<SaveData>   LoadObjectsSetupEvent;
     public event Action<SaveData>   LoadObjectsConfigureEvent;
@@ -105,7 +107,19 @@ public class SaveLoadManager : MonoBehaviour
 
     public void LoadGame()
     {
+        StartCoroutine(LoadGameCoroutine());
+    }
+
+    private IEnumerator LoadGameCoroutine()
+    {
         Debug.Log("Attempting to load game");
+
+        Transform canvasTransform = GameObject.FindGameObjectWithTag("JoeCanvas").transform;
+
+        LoadingPanel        loadingPanel        = Instantiate(loadingPanelPrefab, canvasTransform).GetComponent<LoadingPanel>();
+        CharacterController playerCharControl   = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
+
+        playerCharControl.enabled = false;
 
         string sceneName = SceneManager.GetActiveScene().name;
 
@@ -122,7 +136,7 @@ public class SaveLoadManager : MonoBehaviour
             catch
             {
                 Debug.LogError("Could not open file when loading: " + loadDataPath);
-                return;
+                yield break;
             }
 
             BinaryFormatter bf = new BinaryFormatter();
@@ -138,16 +152,21 @@ public class SaveLoadManager : MonoBehaviour
             {
                 file.Close();
                 Debug.LogError("Could not deserialize save data from " + loadDataPath);
-                return;
+                yield break;
             }
+
+            yield return null;
+            yield return null;
 
             //Setup then configure all persistent objects with the loaded data
 
             Debug.Log("Load Stage 1: Setup");
-            LoadObjectsSetupEvent?      .Invoke(loadedData);
+            LoadObjectsSetupEvent?.Invoke(loadedData);
+
+            yield return null;
 
             Debug.Log("Load Stage 2: Configure");
-            LoadObjectsConfigureEvent?  .Invoke(loadedData);
+            LoadObjectsConfigureEvent?.Invoke(loadedData);
 
             //Loading is done
 
@@ -157,6 +176,10 @@ public class SaveLoadManager : MonoBehaviour
         {
             Debug.LogWarning("File does not exist: " + loadDataPath);
         }
+
+        loadingPanel.LoadDone();
+
+        playerCharControl.enabled = true;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -165,15 +188,7 @@ public class SaveLoadManager : MonoBehaviour
 
         if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene" || scene.name == "DemoScene")
         {
-            StartCoroutine(LoadSceneCoroutine());
+            LoadGame();
         }
-    }
-
-    private IEnumerator LoadSceneCoroutine()
-    {
-        yield return null;
-        yield return null;
-
-        LoadGame();
     }
 }

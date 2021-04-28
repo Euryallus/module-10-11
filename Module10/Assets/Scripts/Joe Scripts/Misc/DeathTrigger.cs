@@ -8,8 +8,6 @@ public class DeathTrigger : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("===== PLAYER DEATH: RELOADING SCENE =====");
-
             Transform canvasTransform = GameObject.FindGameObjectWithTag("JoeCanvas").transform;
 
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().StopMoving();
