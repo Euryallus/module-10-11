@@ -25,13 +25,13 @@ public class EnemyBase : MonoBehaviour
     [Header("Combat stuff")]
     public float baseDamage;
     public float timeBetweenAttacks = 2f;
-    private float attackCooldown;
+    protected float attackCooldown;
     public float attackDistance;
 
     private float dot;
     protected NavMeshAgent agent;
     protected GameObject player;
-    private PlayerStats playerStats;
+    protected PlayerStats playerStats;
 
     private float distToPlayer;
 
@@ -65,7 +65,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         switch (currentState)
         {
@@ -158,13 +158,13 @@ public class EnemyBase : MonoBehaviour
             if (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
             {
                 agent.SetDestination(transform.position);
-
+            
                 if(!GoTo(player.transform.position))
                 {
                     if(canReach == true)
                     {
                         canReach = false;
-
+            
                         GoToRandom(15f, playerLastSeen);
                     }
                     else
@@ -174,7 +174,7 @@ public class EnemyBase : MonoBehaviour
                             GoToRandom(15f, playerLastSeen);
                         }
                     }
-
+            
                 }
                 else
                 {
@@ -185,7 +185,7 @@ public class EnemyBase : MonoBehaviour
             {
                 agent.SetDestination(transform.position);
                 TurnTowards(player);
-
+            
                 if(attackCooldown > timeBetweenAttacks)
                 {
                     attackCooldown = 0f;
@@ -208,7 +208,10 @@ public class EnemyBase : MonoBehaviour
             {
                 manager.AlertUnits(playerLastSeen);
             }
-            currentState = EnemyState.engaged;
+
+            Engage();
+
+            //currentState = EnemyState.engaged;
             return;
         }
 
@@ -234,8 +237,10 @@ public class EnemyBase : MonoBehaviour
         if(CheckForPlayer())
         {
             //manager.AlertUnits(playerLastSeen);
-            
-            currentState = EnemyState.engaged;
+
+            Engage();
+
+            //currentState = EnemyState.engaged;
             return;
         }
 
@@ -313,11 +318,14 @@ public class EnemyBase : MonoBehaviour
     {
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, attackDistance))
         {
+
+            Debug.LogWarning("Hit " + hit.transform.name);
+
             if(hit.transform.CompareTag("Player"))
             {
                 if(playerStats!= null)
                 {
-                    //playerStats.DecreaseHealth(baseDamage);
+                    playerStats.DecreaseHealth(baseDamage);
                 }
 
             }
@@ -349,5 +357,10 @@ public class EnemyBase : MonoBehaviour
             StartSearching(position);
         }
 
+    }
+
+    public virtual void Engage()
+    {
+        currentState = EnemyState.engaged;
     }
 }

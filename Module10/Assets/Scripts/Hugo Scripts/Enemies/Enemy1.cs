@@ -7,12 +7,13 @@ public class Enemy1 : EnemyBase
     public GameObject duplicatePrefab;
     public List<GameObject> children;
 
-    private bool HasSplit = false;
+    protected  bool HasSplit = false;
     public int numberOfDuplicates;
     public float duplicateSpawnDistance;
 
     public override void Attack()
     {
+
         if(!HasSplit)
         {
             for (int i = 0; i < numberOfDuplicates; i++)
