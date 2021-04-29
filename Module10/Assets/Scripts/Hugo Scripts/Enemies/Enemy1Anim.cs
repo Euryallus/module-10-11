@@ -70,20 +70,23 @@ public class Enemy1Anim : Enemy1
 
    public override void Attack()
    {
-       base.Attack();
-
-       if (HasSplit)
+       if(!HasSplit)
        {
-            if(Random.Range(0, 2) == 0)
-            {
-                anim.SetTrigger("Stab Attack");
-            }
-            else
-            {
-                anim.SetTrigger("Smash Attack");
-            }
-           
+           anim.SetTrigger("Cast Spell");
        }
+       else
+       {
+           if(Random.Range(0, 2) == 0)
+           {
+               anim.SetTrigger("Stab Attack");
+           }
+           else
+           {
+               anim.SetTrigger("Smash Attack");
+           }
+       }
+
+       base.Attack();
  
    }
 }

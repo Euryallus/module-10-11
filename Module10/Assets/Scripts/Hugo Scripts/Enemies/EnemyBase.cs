@@ -7,12 +7,13 @@ public class EnemyBase : MonoBehaviour
 {
     [Header("Enemy properties")]
     public float viewDistance = 25f;
+
+
+    [Range(1.0f, 360f)]
     public float viewAngle = 120f;
     public float stationaryTurnSpeed = 5f;
 
     public int difficulty = 1;
-
-    public float stopDistance = 2f;
 
     public Vector3 playerLastSeen;
     private int searchPointsVisited = 0;
@@ -22,7 +23,7 @@ public class EnemyBase : MonoBehaviour
     public Vector3 centralHubPos;
 
 
-    [Header("Combat stuff")]
+    [Header("Combat stuff (Ensure attack distance is > stopping distance!!)")]
     public float baseDamage;
     public float timeBetweenAttacks = 2f;
     protected float attackCooldown;
@@ -34,12 +35,14 @@ public class EnemyBase : MonoBehaviour
     protected PlayerStats playerStats;
 
     private float distToPlayer;
-
-    public bool canReach = true;
-
     public EnemyCampManager manager;
 
-    public Vector3 enemyDestination;
+    [Header("Behaviours")]
+    [Range(0f, 10f)]
+    public float maxAtEachPatrolPoint;
+    private bool findingNewPos = false;
+    public float patrolSpeed;
+    private float defaultSpeed;
 
     public enum EnemyState
     {
@@ -60,7 +63,9 @@ public class EnemyBase : MonoBehaviour
         currentState = EnemyState.patrol;
         player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerStats>();
-        
+
+        defaultSpeed = agent.speed;
+
         GoToRandom(patrolWanderDistance, centralHubPos);
     }
 
@@ -153,50 +158,30 @@ public class EnemyBase : MonoBehaviour
     public virtual void EngagedUpdate()
     {
         attackCooldown += Time.deltaTime;
-        if(CheckForPlayer())
+
+        if (CheckForPlayer())
         {
-            if (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
+            if (Vector3.Distance(transform.position, player.transform.position) < attackDistance)
             {
                 agent.SetDestination(transform.position);
-            
-                if(!GoTo(player.transform.position))
+                TurnTowards(player);
+
+                if (attackCooldown > timeBetweenAttacks)
                 {
-                    if(canReach == true)
-                    {
-                        canReach = false;
-            
-                        GoToRandom(15f, playerLastSeen);
-                    }
-                    else
-                    {
-                        if(agent.destination !=  transform.position )
-                        {
-                            GoToRandom(15f, playerLastSeen);
-                        }
-                    }
-            
-                }
-                else
-                {
-                    canReach = true;
+
+                    Attack();
+                    attackCooldown = 0f;
+                    return;
                 }
             }
             else
             {
-                agent.SetDestination(transform.position);
-                TurnTowards(player);
-            
-                if(attackCooldown > timeBetweenAttacks)
-                {
-                    attackCooldown = 0f;
-                    Attack();
-                }
+                GoTo(playerLastSeen);
             }
         }
         else
         {
-            currentState = EnemyState.search;
-            //StartSearching(playerLastSeen);
+            StartSearching(playerLastSeen);
         }
     }
 
@@ -221,7 +206,13 @@ public class EnemyBase : MonoBehaviour
 
             if(searchPointsVisited < 5)
             {
-                GoToRandom(searchDiameter, playerLastSeen);
+                if(!findingNewPos)
+                {
+                    StartCoroutine(WaitAndMove(searchDiameter, playerLastSeen, 0.5f));
+                    findingNewPos = true;
+                }
+                
+                //GoToRandom(searchDiameter, playerLastSeen);
 
             }
             else
@@ -244,9 +235,11 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f)
+        if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f && !findingNewPos)
         {
-            GoToRandom(patrolWanderDistance, centralHubPos);
+            StartCoroutine(WaitAndMove(patrolWanderDistance, centralHubPos, maxAtEachPatrolPoint));
+            findingNewPos = true;
+            //GoToRandom(patrolWanderDistance, centralHubPos);
         }
     }
 
@@ -268,7 +261,11 @@ public class EnemyBase : MonoBehaviour
     public virtual void StartPatrolling()
     {
         searchPointsVisited = 0;
-        GoToRandom(40f, centralHubPos);
+
+        StopCoroutine("WaitAndMove");
+
+        WaitAndMove(patrolWanderDistance, centralHubPos, 1.0f);
+        //GoToRandom(40f, centralHubPos);
         currentState = EnemyState.patrol;
     }
 
@@ -318,7 +315,6 @@ public class EnemyBase : MonoBehaviour
     {
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, attackDistance))
         {
-
             Debug.LogWarning("Hit " + hit.transform.name);
 
             if(hit.transform.CompareTag("Player"))
@@ -361,6 +357,15 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void Engage()
     {
+        StopCoroutine("WaitAndMove");
         currentState = EnemyState.engaged;
+    }
+
+    protected IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
+    {
+        yield return new WaitForSeconds(Random.Range(0f, maxWaitTime));
+
+        findingNewPos = false;
+        GoToRandom(maxDistance, newPointOrigin);
     }
 }

@@ -71,7 +71,6 @@ MonoBehaviour:
   viewAngle: 200
   stationaryTurnSpeed: 5
   difficulty: 1
-  stopDistance: 3
   playerLastSeen: {x: 0, y: 0, z: 0}
   patrolWanderDistance: 15
   searchDiameter: 10
@@ -79,9 +78,8 @@ MonoBehaviour:
   baseDamage: 0.1
   timeBetweenAttacks: 2
   attackDistance: 3
-  canReach: 1
   manager: {fileID: 0}
-  enemyDestination: {x: 0, y: 0, z: 0}
+  maxAtEachPatrolPoint: 1
   currentState: 0
   anim: {fileID: 5931105488403266674}
 --- !u!1001 &5989255439873933582

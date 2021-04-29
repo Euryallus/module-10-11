@@ -71,7 +71,6 @@ MonoBehaviour:
   viewAngle: 150
   stationaryTurnSpeed: 5
   difficulty: 1
-  stopDistance: 3.5
   playerLastSeen: {x: 0, y: 0, z: 0}
   patrolWanderDistance: 15
   searchDiameter: 10
@@ -79,9 +78,8 @@ MonoBehaviour:
   baseDamage: 0.2
   timeBetweenAttacks: 2
   attackDistance: 4
-  canReach: 1
   manager: {fileID: 0}
-  enemyDestination: {x: 0, y: 0, z: 0}
+  maxAtEachPatrolPoint: 3
   currentState: 0
   duplicatePrefab: {fileID: 137528860155671651, guid: d2b80339575d40e44ad910e41f83d04a, type: 3}
   children: []
