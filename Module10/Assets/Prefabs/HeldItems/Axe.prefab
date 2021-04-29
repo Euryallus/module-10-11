@@ -47,8 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainAbilityHunger: 0.01
   secondaryAbilityHunger: 0.1
+  useToolSound: {fileID: 11400000, guid: 8fb9993ecbeb7094eadc99ec284e57df, type: 2}
   freezeAbilitySound: {fileID: 11400000, guid: d42a377e82303b94b87353dbf69cf4da, type: 2}
-  objectHitSound: {fileID: 11400000, guid: e06d1a4661877b945a83cc108d0db445, type: 2}
 --- !u!95 &2151265461221296981
 Animator:
   serializedVersion: 3

@@ -13,6 +13,8 @@ public class HeldTool : HeldItem
     [Tooltip("How much the player's food level decreases when the item's secondary ability is used")]
     protected float secondaryAbilityHunger;
 
+    [SerializeField] protected SoundClass useToolSound;
+
     protected PlayerStats   playerStatsScript;
     protected RaycastHit    toolRaycastHit;
     protected CameraShake   playerCameraShake;

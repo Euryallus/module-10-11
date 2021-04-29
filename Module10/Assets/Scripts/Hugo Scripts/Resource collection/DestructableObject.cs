@@ -13,8 +13,12 @@ public class DestructableObject : MonoBehaviour
     [Header("Object health")] [SerializeField]
     protected int hitsToBreak = 3;
 
+    [Header("Particles")]
     [SerializeField] private GameObject destroyParticlesPrefab; //Prefab containing particles to be spawned when the piece is hit
     [SerializeField] private Transform destroyParticlesTransform;
+
+    [Header("Hit Sound")]
+    [SerializeField] private SoundClass hitSound; //Sound played when the object is hit
 
     protected int health;
 
@@ -31,6 +35,11 @@ public class DestructableObject : MonoBehaviour
         //reduces "health" of resource object
 
         --health;
+
+        if(hitSound != null)
+        {
+            AudioManager.Instance.PlaySoundEffect3D(hitSound, transform.position);
+        }
 
         if(health <= 0)
         {

@@ -128,6 +128,7 @@ MonoBehaviour:
   hitsToBreak: 1
   destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
   destroyParticlesTransform: {fileID: 8375838901970887298}
+  hitSound: {fileID: 11400000, guid: e0ae3f7e2ca8ae644823c543cecab919, type: 2}
   pieceType: 0
 --- !u!1001 &445154592718964199
 PrefabInstance:

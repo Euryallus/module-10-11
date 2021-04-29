@@ -119,6 +119,7 @@ MonoBehaviour:
   hitsToBreak: 1
   destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
   destroyParticlesTransform: {fileID: 121804924632927164}
+  hitSound: {fileID: 11400000, guid: e0ae3f7e2ca8ae644823c543cecab919, type: 2}
   pieceType: 1
 --- !u!65 &5117633479477602123
 BoxCollider:

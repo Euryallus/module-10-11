@@ -6,7 +6,6 @@ public class Axe : HeldTool
 {
     [Header("Axe")]
     [SerializeField] private SoundClass freezeAbilitySound;
-    [SerializeField] private SoundClass objectHitSound;
 
     Freezable frozenObject = null;
 
@@ -20,9 +19,9 @@ public class Axe : HeldTool
             gameObject.GetComponent<Animator>().SetTrigger("Chop");
             playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
 
-            if (objectHitSound != null)
+            if (useToolSound != null)
             {
-                AudioManager.Instance.PlaySoundEffect3D(objectHitSound, raycastHit.point);
+                AudioManager.Instance.PlaySoundEffect3D(useToolSound, raycastHit.point);
             }
         }
     }
