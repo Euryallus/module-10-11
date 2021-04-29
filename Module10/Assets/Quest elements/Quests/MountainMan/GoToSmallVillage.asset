@@ -20,7 +20,7 @@ MonoBehaviour:
 
     He normally sits in a locked
     house by himself, you''re going to need a key to get in, take my spare.'
-  questCompleteDialogue: 
+  questCompleteDialogue: Wow, you did it! Thank you
   nextQuests: []
   handInNPCName: MountainMan
   handOutNPCName: MountainMan
