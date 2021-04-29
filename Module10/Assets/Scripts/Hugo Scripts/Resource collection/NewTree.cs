@@ -57,7 +57,7 @@ public class NewTree : DestructableObject
         top.SetActive(true);
 
         //applies force to tree in direction opposite to direction hit from
-        Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position).normalized * 100;
+        Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position) * 300;
 
         topRB.AddForce(forceDir);
 

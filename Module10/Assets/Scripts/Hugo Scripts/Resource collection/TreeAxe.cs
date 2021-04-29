@@ -5,6 +5,8 @@ using UnityEngine;
 public class TreeAxe : MonoBehaviour
 {
     public NewTree tree;
+
+    public ParticleGroup particle;
     public void StopSwinging()
     {
         gameObject.GetComponent<Animator>().SetBool("Swing", false);
@@ -25,5 +27,7 @@ public class TreeAxe : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>().ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
 
         AudioManager.Instance.PlaySoundEffect3D("treeChop", transform.position);
+
+        particle.PlayEffect();
     }
 }

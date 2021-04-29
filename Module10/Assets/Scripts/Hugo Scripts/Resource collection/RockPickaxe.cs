@@ -24,7 +24,7 @@ public class RockPickaxe : MonoBehaviour
     //Added by Joe - shakes the player camera and plays a sound when the pickaxe hits the rock, called by an animation event
     public void ChopEvents()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>().ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>().ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.05f);
 
         AudioManager.Instance.PlaySoundEffect3D("stoneHit", transform.position);
 
