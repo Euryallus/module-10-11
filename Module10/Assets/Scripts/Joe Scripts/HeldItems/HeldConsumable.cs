@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class HeldConsumable : HeldItem
 {
+    [Header("Consumable")]
+    [SerializeField] private SoundClass eatSound;
+
     public override void StartSecondardAbility()
     {
         base.StartSecondardAbility();
@@ -22,7 +25,10 @@ public class HeldConsumable : HeldItem
                 //Update the slot UI to show that an item was removed
                 containerSlot.UpdateUI();
 
-                AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                if(eatSound != null)
+                {
+                    AudioManager.Instance.PlaySoundEffect2D(eatSound);
+                }
             }
             else
             {

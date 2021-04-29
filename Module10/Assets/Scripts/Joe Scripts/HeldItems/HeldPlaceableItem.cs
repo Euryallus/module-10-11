@@ -40,6 +40,15 @@ public class HeldPlaceableItem : HeldItem
     const float DefaultAngleInterval    = 30.0f;
     const float SnapAngleInterval       = 90.0f;
 
+    protected CameraShake playerCameraShake;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        playerCameraShake = playerTransform.GetComponent<CameraShake>();
+    }
+
     private void Start()
     {
         mainCollider.enabled = true;
@@ -186,6 +195,9 @@ public class HeldPlaceableItem : HeldItem
         //Tiny offset to help prevent z-fighting
         float randomOffset = Random.Range(0.0f, 0.001f);
         Vector3 offsetPlacePos = new Vector3(placePos.x + randomOffset, placePos.y + randomOffset, placePos.z + randomOffset);
+
+        //Shake the player camera slightly
+        playerCameraShake.ShakeCameraForTime(0.2f, CameraShakeType.ReduceOverTime, 0.02f);
 
         return Instantiate(itemPrefab, offsetPlacePos, Quaternion.Euler(0.0f, rotation, 0.0f));
     }

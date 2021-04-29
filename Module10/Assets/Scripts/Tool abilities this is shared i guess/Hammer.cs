@@ -1,8 +1,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class Hammer : HeldItem
+public class Hammer : HeldTool
 {
+    [Header("Hammer")]
+    [SerializeField] private SoundClass launchSound;
     [SerializeField] private GameObject prefabLaunchIndicator;
 
     private PlayerMovement  playerMovementScript;
@@ -23,9 +25,9 @@ public class Hammer : HeldItem
         playerMovementScript = playerTransform.GetComponent<PlayerMovement>();
     }
 
-    public override void PerformMainAbility()
+    protected override void HitDestructibleObject(DestructableObject destructible, RaycastHit raycastHit)
     {
-        base.PerformMainAbility();
+        base.HitDestructibleObject(destructible, raycastHit);
 
         animator.SetTrigger("Swing");
     }
@@ -87,6 +89,9 @@ public class Hammer : HeldItem
 
         launched = true;
 
-        AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+        if(launchSound != null)
+        {
+            AudioManager.Instance.PlaySoundEffect2D(launchSound);
+        }
     }
 }

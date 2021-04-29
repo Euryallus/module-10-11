@@ -239,17 +239,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1cd7ca876b31d46ae9bcc66a008f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainAbilityHunger: 0
-  secondaryAbilityHunger: 0
-  primaryAbilitySound: {fileID: 0}
-  secondaryAbilitySound: {fileID: 0}
   itemPrefab: {fileID: 8160902168982676039, guid: 5fe65904ca2980b45b22de170775b1f4, type: 3}
   standardColour: {r: 0, g: 0.67058825, b: 0.67058825, a: 1}
   standardEmissive: {r: 0, g: 0.1254902, b: 0.1254902, a: 0}
   warningColour: {r: 0.7075472, g: 0, b: 0, a: 1}
   warningEmissive: {r: 0.1254902, g: 0, b: 0, a: 0}
   maxPlaceDistance: 6
-  placementSound: 
+  placementSound: treeChop
   mainCollider: {fileID: 5106555032353489147}
   snapCollider: {fileID: 5106555032353489147}
 --- !u!1 &6860940507317650991

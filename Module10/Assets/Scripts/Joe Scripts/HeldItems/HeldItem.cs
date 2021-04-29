@@ -1,29 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HeldItem : MonoBehaviour
 {
-    [Header("Food level reduction when item is used (for tools):")]
-
-    [SerializeField] [Tooltip("How much the player's food level decreases when the item's main ability is used")]
-    protected float mainAbilityHunger;
-
-    [SerializeField] [Tooltip("How much the player's food level decreases when the item's secondary ability is used")]
-    protected float secondaryAbilityHunger;
-
-    [SerializeField] protected SoundClass primaryAbilitySound;
-    [SerializeField] protected SoundClass secondaryAbilitySound;
-
     public bool PerformingSecondaryAbility { get { return performingSecondaryAbility; } }
 
-    protected   RaycastHit      raycastHit;
-    protected   Transform       playerTransform;
-    protected   Transform       playerCameraTransform;
-    protected   bool            performingSecondaryAbility;
     protected   Item            item;
     protected   ContainerSlotUI containerSlot;
-    protected   PlayerStats     playerStatsScript;
+    protected   bool            performingSecondaryAbility;
+
+    protected   Transform       playerTransform;
+    protected   Transform       playerCameraTransform;
+
+    protected virtual void Awake()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+    }
 
     public virtual void Setup(Item item, ContainerSlotUI containerSlot)
     {
@@ -31,45 +23,9 @@ public class HeldItem : MonoBehaviour
         this.containerSlot  = containerSlot;
     }
 
-    protected virtual void Awake()
-    {
-        playerTransform         = GameObject.FindGameObjectWithTag("Player").transform;
-        playerCameraTransform   = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        playerStatsScript       = playerTransform.GetComponent<PlayerStats>();
-    }
-
     public virtual void PerformMainAbility()
     {
-        //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
-        if(playerCameraTransform != null)
-        {
-            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out raycastHit, 4.0f))
-            {
-                DestructableObject destructable = raycastHit.transform.gameObject.GetComponent<DestructableObject>();
-
-                if (destructable != null)
-                {
-                    foreach (Item tool in destructable.toolToBreak)
-                    {
-                        string compareId = item.CustomItem ? item.BaseItemId : item.Id;
-
-                        if (tool.Id == compareId)
-                        {
-                            playerStatsScript.DecreaseFoodLevel(mainAbilityHunger);
-
-                            destructable.TakeHit();
-
-                            //if(primaryAbilitySound != null)
-                            //{
-                            //    AudioManager.Instance.PlaySoundEffect2D(primaryAbilitySound);
-                            //}
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        //For example, break something
     }
 
     public virtual void StartSecondardAbility()

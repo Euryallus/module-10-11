@@ -44,6 +44,7 @@ Transform:
   - {fileID: 2881692062794014934}
   - {fileID: 9177601987083147743}
   - {fileID: 9090109552961731975}
+  - {fileID: 5755567744885782645}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -113,7 +114,9 @@ MonoBehaviour:
     Quantity: 1
   toolToBreak:
   - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
-  health: 1
+  hitsToBreak: 1
+  destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
+  destroyParticlesTransform: {fileID: 5755567744885782645}
   pieceType: 4
 --- !u!65 &8765642765837806769
 BoxCollider:
@@ -128,6 +131,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 2, z: 0.2}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!1 &2879362839378228653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5755567744885782645}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5755567744885782645
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2879362839378228653}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2164276344789417575}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &186024442381591157
 PrefabInstance:
   m_ObjectHideFlags: 0

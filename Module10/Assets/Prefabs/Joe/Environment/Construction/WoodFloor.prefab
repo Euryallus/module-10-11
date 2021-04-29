@@ -125,7 +125,9 @@ MonoBehaviour:
     Quantity: 1
   toolToBreak:
   - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
-  health: 1
+  hitsToBreak: 1
+  destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
+  destroyParticlesTransform: {fileID: 8375838901970887298}
   pieceType: 0
 --- !u!1001 &445154592718964199
 PrefabInstance:

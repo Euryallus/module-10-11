@@ -19,7 +19,7 @@ public class ModularPiece : DestructableObject, IPersistentPlacedObject
     //Variables in this region are set in the inspector
 
     [Header("Modular Piece")]
-    [SerializeField] private ModularPieceType pieceType;    //The modular piece type this script is attatched to
+    [SerializeField] private ModularPieceType   pieceType;          //The modular piece type this script is attatched to
 
     #endregion
 

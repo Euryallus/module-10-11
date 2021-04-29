@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickAxe : HeldItem
+public class PickAxe : HeldTool
 {
+    [Header("Pickaxe")]
+    [SerializeField] private SoundClass pickUpAbilitySound;
+
     MovableObject heldObj = null;
 
-    public override void PerformMainAbility()
+    protected override void HitDestructibleObject(DestructableObject destructible, RaycastHit raycastHit)
     {
+        base.HitDestructibleObject(destructible, raycastHit);
+
         gameObject.GetComponent<Animator>().SetBool("Swing", true);
-        base.PerformMainAbility();
     }
 
     public override void StartSecondardAbility()
@@ -19,9 +23,9 @@ public class PickAxe : HeldItem
         //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
         if(playerCam != null)
         {
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out raycastHit, 4.0f))
+            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out toolRaycastHit, 4.0f))
             {
-                MovableObject moveObj = raycastHit.transform.gameObject.GetComponent<MovableObject>();
+                MovableObject moveObj = toolRaycastHit.transform.gameObject.GetComponent<MovableObject>();
 
                 if (moveObj != null && !moveObj.isHeld && heldObj == null)
                 {
@@ -31,7 +35,10 @@ public class PickAxe : HeldItem
 
                     heldObj = moveObj;
 
-                    AudioManager.Instance.PlaySoundEffect2D(secondaryAbilitySound);
+                    if(pickUpAbilitySound != null)
+                    {
+                        AudioManager.Instance.PlaySoundEffect2D(pickUpAbilitySound);
+                    }
                 }
             }
         }

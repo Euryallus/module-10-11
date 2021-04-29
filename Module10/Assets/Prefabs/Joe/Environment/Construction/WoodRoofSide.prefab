@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2223359663490352990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 952558343817284733}
+  m_Layer: 0
+  m_Name: ParticleSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &952558343817284733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2223359663490352990}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5722558148426266634}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5722558148426266811
 GameObject:
   m_ObjectHideFlags: 0
@@ -37,6 +67,7 @@ Transform:
   - {fileID: 8705324046256968440}
   - {fileID: 6427907183835294910}
   - {fileID: 933013087580347869}
+  - {fileID: 952558343817284733}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -106,7 +137,9 @@ MonoBehaviour:
     Quantity: 1
   toolToBreak:
   - {fileID: 11400000, guid: 7c386b3b8cdb925468f0e7be7a5e082a, type: 2}
-  health: 1
+  hitsToBreak: 1
+  destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
+  destroyParticlesTransform: {fileID: 952558343817284733}
   pieceType: 2
 --- !u!64 &46530512755804861
 MeshCollider:

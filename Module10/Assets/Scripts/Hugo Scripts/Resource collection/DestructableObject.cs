@@ -10,10 +10,12 @@ public class DestructableObject : MonoBehaviour
     public ItemGroup[] itemDroppedOnDestroy;
     public Item[] toolToBreak;
 
-    [Header("Object health")]
+    [Header("Object health")] [SerializeField]
     protected int hitsToBreak = 3;
 
-    [SerializeField]
+    [SerializeField] private GameObject destroyParticlesPrefab; //Prefab containing particles to be spawned when the piece is hit
+    [SerializeField] private Transform destroyParticlesTransform;
+
     protected int health;
 
     bool destroyed = false;
@@ -30,7 +32,7 @@ public class DestructableObject : MonoBehaviour
 
         --health;
 
-        if(health == 0)
+        if(health <= 0)
         {
             Destroyed();
         }
@@ -48,6 +50,13 @@ public class DestructableObject : MonoBehaviour
                 //flagged destroyed as true
                 destroyed = true;
             }
+        }
+
+        if(destroyParticlesPrefab != null)
+        {
+            ParticleGroup particleGroup = Instantiate(destroyParticlesPrefab, destroyParticlesTransform.position, Quaternion.identity).GetComponent<ParticleGroup>();
+
+            particleGroup.PlayEffect();
         }
     }
 }
