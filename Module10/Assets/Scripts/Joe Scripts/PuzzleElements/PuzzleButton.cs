@@ -6,10 +6,11 @@ public class PuzzleButton : MonoBehaviour
     //Variables in this region are set in the inspector
 
     [Header("Puzzle Button")]
-    [SerializeField] private bool               playerCanActivate     = true;   //Whether the player can stand on the button to press it
-    [SerializeField] private bool               movableObjCanActivate = true;   //Whether movable objects can be placed on the button to press it
-    [SerializeField] private DoorPuzzleData[]   connectedDoors;                 //Doors that will be opened/closed by the button
-    [SerializeField] private Animator           animator;                       //Controls button press/release animations
+    [SerializeField] private bool                   playerCanActivate     = true;   //Whether the player can stand on the button to press it
+    [SerializeField] private bool                   movableObjCanActivate = true;   //Whether movable objects can be placed on the button to press it
+    [SerializeField] private DoorPuzzleData[]       connectedDoors;                 //Doors that will be opened/closed by the button
+    [SerializeField] private PlatformPuzzleData[]   connectedPlatforms;             //Platforms that will be activated/paused by the button
+    [SerializeField] private Animator               animator;                       //Controls button press/release animations
 
     #endregion
 
@@ -19,6 +20,17 @@ public class PuzzleButton : MonoBehaviour
     private bool lastFramePressed;      //Whether the button was pressed on the previous frame
     private bool pressed;               //Whether the button is currently pressed
     private PuzzleButtonSequence sequence;
+
+    private void Awake()
+    {
+        for (int i = 0; i < connectedPlatforms.Length; i++)
+        {
+            if (connectedPlatforms[i].Behaviour == PlatformButtonBehaviour.TriggerOnPress)
+            {
+                connectedPlatforms[i].Platform.TriggeredByButton = true;
+            }
+        }
+    }
 
     void Start()
     {
@@ -69,6 +81,20 @@ public class PuzzleButton : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < connectedPlatforms.Length; i++)
+        {
+            //Either move connected platforms or pause their movement depending on set behaviour type
+            PlatformPuzzleData platformData = connectedPlatforms[i];
+            if(platformData.Behaviour == PlatformButtonBehaviour.TriggerOnPress)
+            {
+                platformData.Platform.StartMovingForwards();
+            }
+            else
+            {
+                platformData.Platform.Paused = true;
+            }
+        }
+
         if(sequence != null)
         {
             sequence.ButtonInSequencePressed(this);
@@ -88,6 +114,20 @@ public class PuzzleButton : MonoBehaviour
             else
             {
                 doorData.Door.SetAsClosed();
+            }
+        }
+
+        for (int i = 0; i < connectedPlatforms.Length; i++)
+        {
+            //Either move connected platforms back to start or pause their movement depending on set behaviour type
+            PlatformPuzzleData platformData = connectedPlatforms[i];
+            if (platformData.Behaviour == PlatformButtonBehaviour.TriggerOnPress)
+            {
+                platformData.Platform.StartMovingBackwards();
+            }
+            else
+            {
+                platformData.Platform.Paused = false;
             }
         }
     }
@@ -129,4 +169,12 @@ public struct DoorPuzzleData
     public DoorMain Door;           //The door to be affected by the puzzle element
     public bool     OpenInwards;    //Whether the door will open inwards or outwards
     public bool     OpenByDefault;  //Whether the door's default state will be open or closed
+}
+
+//DoorPuzzleData defines how button presses will affect a certain moving platform
+[System.Serializable]
+public struct PlatformPuzzleData
+{
+    public MovingPlatform           Platform;   //The door to be affected by the puzzle element
+    public PlatformButtonBehaviour  Behaviour;  //How the platform will respond to the button being pressed/released
 }
