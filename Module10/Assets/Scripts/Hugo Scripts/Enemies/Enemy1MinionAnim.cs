@@ -26,13 +26,13 @@ public class Enemy1MinionAnim : Enemy1Minion
                     return;
                 }
 
-                anim.SetBool("Walk Forward", false);
+                anim.SetBool("Run Forward", false);
             }
             else
             {
 
 
-                anim.SetBool("Walk Forward", true);
+                anim.SetBool("Run Forward", true);
                 GoTo(playerLastSeen);
             }
         }
@@ -43,15 +43,16 @@ public class Enemy1MinionAnim : Enemy1Minion
         }
     }
 
-    public override void StartSearching(Vector3 searchPos)
+    public override void StartPatrolling()
     {
-        base.StartSearching(searchPos);
+        base.StartPatrolling();
         anim.SetBool("Walk Forward", true);
+        anim.SetBool("Run Forward", false);
     }
 
     public override void Engage()
     {
-        anim.SetBool("Walk Forward", true);
+        anim.SetBool("Run Forward", true);
         base.Engage();
     }
 
@@ -67,5 +68,19 @@ public class Enemy1MinionAnim : Enemy1Minion
         {
             anim.SetTrigger("Smash Attack");
         }
+    }
+
+    protected override IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
+    {
+        agent.SetDestination(transform.position);
+
+        anim.SetBool("Walk Forward", false);
+        anim.SetBool("Run Forward", false);
+        yield return new WaitForSeconds(Random.Range(0f, maxWaitTime));
+
+        findingNewPos = false;
+        GoToRandom(maxDistance, newPointOrigin);
+
+        anim.SetBool("Walk Forward", true);
     }
 }

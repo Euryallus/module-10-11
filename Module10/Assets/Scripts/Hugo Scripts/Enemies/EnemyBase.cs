@@ -16,6 +16,7 @@ public class EnemyBase : MonoBehaviour
     public int difficulty = 1;
 
     public Vector3 playerLastSeen;
+    public int noOfSearchPoints = 8;
     private int searchPointsVisited = 0;
 
     public float patrolWanderDistance = 15f;
@@ -40,7 +41,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Behaviours")]
     [Range(0f, 10f)]
     public float maxAtEachPatrolPoint;
-    private bool findingNewPos = false;
+    protected bool findingNewPos = false;
     public float patrolSpeed;
     private float defaultSpeed;
 
@@ -59,14 +60,12 @@ public class EnemyBase : MonoBehaviour
     public virtual void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-
-        currentState = EnemyState.patrol;
         player = GameObject.FindGameObjectWithTag("Player");
         playerStats = player.GetComponent<PlayerStats>();
 
         defaultSpeed = agent.speed;
 
-        GoToRandom(patrolWanderDistance, centralHubPos);
+        StartPatrolling();
     }
 
     // Update is called once per frame
@@ -200,17 +199,16 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f)
+        if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f && !findingNewPos)
         {
             ++searchPointsVisited;
 
-            if(searchPointsVisited < 5)
+            if(searchPointsVisited < noOfSearchPoints)
             {
-                if(!findingNewPos)
-                {
+                
                     StartCoroutine(WaitAndMove(searchDiameter, playerLastSeen, 0.5f));
                     findingNewPos = true;
-                }
+                
                 
                 //GoToRandom(searchDiameter, playerLastSeen);
 
@@ -255,12 +253,16 @@ public class EnemyBase : MonoBehaviour
         searchPointsVisited = 0;
         currentState = EnemyState.search;
 
-        Debug.Log(gameObject.name + " started searching " + searchPos);
+        agent.speed = defaultSpeed;
+
+       Debug.Log(gameObject.name + " started searching " + searchPos);
     }
 
     public virtual void StartPatrolling()
     {
         searchPointsVisited = 0;
+
+        agent.speed = patrolSpeed;
 
         StopCoroutine("WaitAndMove");
 
@@ -357,12 +359,15 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void Engage()
     {
+        agent.speed = defaultSpeed;
         StopCoroutine("WaitAndMove");
         currentState = EnemyState.engaged;
     }
 
-    protected IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
+    protected virtual IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
     {
+        agent.SetDestination(transform.position);
+
         yield return new WaitForSeconds(Random.Range(0f, maxWaitTime));
 
         findingNewPos = false;

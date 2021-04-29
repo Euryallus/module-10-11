@@ -43,7 +43,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -902729914
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 500
@@ -72,6 +72,7 @@ MonoBehaviour:
   stationaryTurnSpeed: 5
   difficulty: 1
   playerLastSeen: {x: 0, y: 0, z: 0}
+  noOfSearchPoints: 8
   patrolWanderDistance: 15
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
@@ -80,6 +81,7 @@ MonoBehaviour:
   attackDistance: 3
   manager: {fileID: 0}
   maxAtEachPatrolPoint: 1
+  patrolSpeed: 1.5
   currentState: 0
   anim: {fileID: 5931105488403266674}
 --- !u!1001 &5989255439873933582

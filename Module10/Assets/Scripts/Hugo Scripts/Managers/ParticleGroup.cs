@@ -20,4 +20,12 @@ public class ParticleGroup: MonoBehaviour
 
         return ended;
     }
+
+    public void PlayEffect()
+    {
+        foreach (ParticleSystem sys in systems)
+        {
+            sys.Play();
+        }
+    }
 }

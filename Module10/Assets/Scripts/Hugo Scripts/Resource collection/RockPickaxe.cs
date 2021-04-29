@@ -5,6 +5,8 @@ using UnityEngine;
 public class RockPickaxe : MonoBehaviour
 {
     public Rock rock;
+
+    public ParticleGroup particle;
     public void StopSwinging()
     {
         gameObject.GetComponent<Animator>().SetBool("Swing", false);
@@ -19,11 +21,13 @@ public class RockPickaxe : MonoBehaviour
         AudioManager.Instance.PlaySoundEffect3D("whoosh", transform.position);
     }
 
-    //Added by Joe - shakes the player camera and plays a sound when the axe hits the tree, called by an animation event
+    //Added by Joe - shakes the player camera and plays a sound when the pickaxe hits the rock, called by an animation event
     public void ChopEvents()
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>().ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
 
         AudioManager.Instance.PlaySoundEffect3D("stoneHit", transform.position);
+
+        particle.PlayEffect();
     }
 }
