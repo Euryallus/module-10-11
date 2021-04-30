@@ -58,3 +58,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildPointType: 0
+  buildPointCollider: {fileID: 3304650687989299727}

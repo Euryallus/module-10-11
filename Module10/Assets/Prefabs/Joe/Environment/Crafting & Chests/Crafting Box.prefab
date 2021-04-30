@@ -113,7 +113,8 @@ MonoBehaviour:
   interactionRange: 5
   pressEToInteract: 1
   rightClickToInteract: 1
-  inventoryPanel: {fileID: 0}
+  interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
+  interactionSound: buttonClickMain1
 --- !u!114 &5581585384562596160
 MonoBehaviour:
   m_ObjectHideFlags: 0

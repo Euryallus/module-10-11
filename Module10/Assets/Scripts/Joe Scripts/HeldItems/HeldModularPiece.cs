@@ -8,23 +8,57 @@ public class HeldModularPiece : HeldPlaceableItem
     [Header("Modular Piece")]
     [SerializeField] private BuildPointType[] snapToPointTypes;
 
+    private Coroutine setupBuildPointsCoroutine;
+
+    private void OnDestroy()
+    {
+        if(setupBuildPointsCoroutine != null)
+        {
+            Debug.Log("Stopping build point coroutine");
+            StopCoroutine(setupBuildPointsCoroutine);
+        }
+    }
+
     public override void Setup(Item item, ContainerSlotUI containerSlot)
     {
         base.Setup(item, containerSlot);
 
-        GameObject[] buildPoints = GameObject.FindGameObjectsWithTag("BuildPoint");
+        setupBuildPointsCoroutine = StartCoroutine(SetupBuildPointsCoroutine());
+    }
 
-        for (int i = 0; i < buildPoints.Length; i++)
+    private IEnumerator SetupBuildPointsCoroutine()
+    {
+        List<BuildPoint> buildPoints = WorldSave.Instance.PlacedBuildPoints;
+
+        Debug.Log("Setting up " + buildPoints.Count + " build points");
+
+        int count = 0;
+        int numEnabled = 0;
+
+        for (int i = 0; i < buildPoints.Count; i++)
         {
-            if(snapToPointTypes.Contains(buildPoints[i].GetComponent<BuildPoint>().BuildPointType))
+            if (snapToPointTypes.Contains(buildPoints[i].BuildPointType))
             {
-                buildPoints[i].GetComponent<SphereCollider>().enabled = true;
+                buildPoints[i].SetColliderEnabled(true);
+
+                numEnabled++;
             }
             else
             {
-                buildPoints[i].GetComponent<SphereCollider>().enabled = false;
+                buildPoints[i].SetColliderEnabled(false);
+            }
+
+            count++;
+
+            if(count % 500 == 0)
+            {
+                yield return null;
             }
         }
+
+        setupBuildPointsCoroutine = null;
+
+        Debug.Log("Build point setup done, " + numEnabled + " were enabled");
     }
 
     protected override void CameraRaycastHit(RaycastHit hitInfo)
