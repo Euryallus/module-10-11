@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public abstract class InteractableObject : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField] private float      interactionRange        = 5.0f;
     [SerializeField] private bool       pressEToInteract        = true;
     [SerializeField] private bool       rightClickToInteract    = true;
+
     [SerializeField] private GameObject interactTooltipPrefab;
     [SerializeField] private Vector3    interactTooltipOffset;
+    [SerializeField] private string     tooltipNameText;
 
     private bool        mouseOver;
     private bool        hoveringInRange;
@@ -73,6 +76,15 @@ public abstract class InteractableObject : MonoBehaviour
             if(hoverTimer >= InteractPopupDelay && interactTooltip == null && interactTooltipPrefab != null)
             {
                 interactTooltip = Instantiate(interactTooltipPrefab, canvasTransform);
+
+                if(!string.IsNullOrEmpty(tooltipNameText))
+                {
+                    interactTooltip.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = tooltipNameText;
+                }
+                else
+                {
+                    interactTooltip.transform.GetChild(0).gameObject.SetActive(false);
+                }
             }
         }
 

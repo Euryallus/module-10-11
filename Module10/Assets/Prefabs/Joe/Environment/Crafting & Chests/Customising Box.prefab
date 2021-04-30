@@ -114,6 +114,8 @@ MonoBehaviour:
   pressEToInteract: 1
   rightClickToInteract: 1
   interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
+  interactTooltipOffset: {x: 0, y: 0, z: 0}
+  tooltipNameText: Customising Table
   interactionSound: buttonClickMain1
   inventoryPanel: {fileID: 0}
 --- !u!114 &3792199794413623874

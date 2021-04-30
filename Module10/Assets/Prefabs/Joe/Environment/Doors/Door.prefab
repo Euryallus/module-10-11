@@ -222,6 +222,7 @@ MonoBehaviour:
   rightClickToInteract: 1
   interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
   interactTooltipOffset: {x: 1.5, y: 2.25, z: 0}
+  tooltipNameText: 
   interactionSound: 
   doorMainScript: {fileID: 934483334191964195}
 --- !u!1 &3433794667551740714
