@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class InteractableObject : MonoBehaviour
 {
@@ -9,14 +10,28 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField] private float      interactionRange        = 5.0f;
     [SerializeField] private bool       pressEToInteract        = true;
     [SerializeField] private bool       rightClickToInteract    = true;
+    [SerializeField] private GameObject interactTooltipPrefab;
+    [SerializeField] private Vector3    interactTooltipOffset;
 
     private bool        mouseOver;
     private bool        hoveringInRange;
     private GameObject  playerGameObject;
+    private Transform   canvasTransform;
+    private GameObject  interactTooltip;
+    private float       hoverTimer;
+    private Vector3     localInteractTooltipOffset;
+    private Camera      mainPlayerCamera;
+
+    private const float InteractPopupDelay = 0.3f;
 
     protected virtual void Start()
     {
-        playerGameObject = GameObject.FindGameObjectWithTag("Player");
+        playerGameObject    = GameObject.FindGameObjectWithTag("Player");
+        canvasTransform     = GameObject.FindGameObjectWithTag("JoeCanvas").transform;
+
+        mainPlayerCamera = Camera.main;
+
+        localInteractTooltipOffset = transform.InverseTransformDirection(interactTooltipOffset);
     }
 
     protected virtual void Update()
@@ -46,17 +61,31 @@ public abstract class InteractableObject : MonoBehaviour
                 if (hoveringInRange)
                 {
                     //Player is no longer in range, end hovering
-                    hoveringInRange = false;
                     EndHover();
                 }
             }
+        }
+
+        if(hoveringInRange)
+        {
+            hoverTimer += Time.unscaledDeltaTime;
+
+            if(hoverTimer >= InteractPopupDelay && interactTooltip == null && interactTooltipPrefab != null)
+            {
+                interactTooltip = Instantiate(interactTooltipPrefab, canvasTransform);
+            }
+        }
+
+        if(interactTooltip != null && mainPlayerCamera != null)
+        {
+            interactTooltip.transform.position = mainPlayerCamera.WorldToScreenPoint(transform.position + localInteractTooltipOffset);
         }
     }
 
     private void OnMouseOver()
     {
         //Right click
-        if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange())
+        if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange() && Cursor.lockState == CursorLockMode.Locked)
         {
             //The player has right clicked on the object while in range, interact with it
             Interact();
@@ -71,22 +100,36 @@ public abstract class InteractableObject : MonoBehaviour
     private void OnMouseExit()
     {
         mouseOver = false;
-        hoveringInRange = false;
         EndHover();
     }
 
     private bool PlayerIsWithinRange()
     {
-        if(Vector3.Distance(playerGameObject.transform.position, transform.position) <= interactionRange)
+        if((Vector3.Distance(playerGameObject.transform.position, transform.position) <= interactionRange) && !EventSystem.current.IsPointerOverGameObject())
         {
             return true;
         }
         return false;
     }
 
-    public abstract void Interact();
+    public virtual void Interact()
+    {
+        EndHover();
+    }
 
-    public abstract void StartHover();
+    public virtual void StartHover()
+    {
+        hoverTimer = 0.0f;
+    }
 
-    public abstract void EndHover();
+    public virtual void EndHover()
+    {
+        hoverTimer = 0.0f;
+        hoveringInRange = false;
+
+        if (interactTooltip != null)
+        {
+            Destroy(interactTooltip);
+        }
+    }
 }

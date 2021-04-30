@@ -18,6 +18,8 @@ public class InteractableWithOutline : InteractableObject
 
     public override void Interact()
     {
+        base.Interact();
+
         if (!string.IsNullOrEmpty(interactionSound))
         {
             AudioManager.Instance.PlaySoundEffect2D(interactionSound);
@@ -26,11 +28,15 @@ public class InteractableWithOutline : InteractableObject
 
     public override void StartHover()
     {
+        base.StartHover();
+
         outline.enabled = true;
     }
 
     public override void EndHover()
     {
+        base.EndHover();
+
         outline.enabled = false;
     }
 }

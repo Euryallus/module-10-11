@@ -26,6 +26,8 @@ public class ManualSavePoint : InteractableWithOutline, ISavePoint
 
     public override void Interact()
     {
+        base.Interact();
+
         Debug.Log("Attempting to save game at point: " + id);
 
         WorldSave.Instance.UsedSavePointId = id;
