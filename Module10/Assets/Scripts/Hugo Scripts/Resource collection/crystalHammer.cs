@@ -5,6 +5,7 @@ using UnityEngine;
 public class crystalHammer : MonoBehaviour
 {
     public Crystal rock;
+    public ParticleGroup particles;
     public void StopSwinging()
     {
         gameObject.GetComponent<Animator>().SetBool("Swing", false);
@@ -25,5 +26,6 @@ public class crystalHammer : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>().ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
 
         AudioManager.Instance.PlaySoundEffect3D("crystalHit", transform.position);
+        particles.PlayEffect();
     }
 }
