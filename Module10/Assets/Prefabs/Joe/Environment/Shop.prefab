@@ -900,5 +900,6 @@ MonoBehaviour:
   rightClickToInteract: 1
   interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
   interactTooltipOffset: {x: 0, y: -0.12, z: 0}
+  tooltipNameText: Shopkeeper
   interactionSound: buttonClickMain1
   shopType: {fileID: 11400000, guid: ce971d8f72718f3488abf06c4a0419fc, type: 2}

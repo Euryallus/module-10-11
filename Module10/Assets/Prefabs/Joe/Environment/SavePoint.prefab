@@ -146,6 +146,8 @@ MonoBehaviour:
   pressEToInteract: 1
   rightClickToInteract: 1
   interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
+  interactTooltipOffset: {x: 0, y: 0, z: 0}
+  tooltipNameText: Save & Set Spawn
   interactionSound: buttonClickMain1
   id: 
   SpawnPlatformTransform: {fileID: 8458070430689589367}
