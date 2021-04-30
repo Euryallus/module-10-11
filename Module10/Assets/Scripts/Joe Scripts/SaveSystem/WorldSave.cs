@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class WorldSave : MonoBehaviour, IPersistentObject
 {
-    public string UsedSavePointId { get { return usedSavePointId; } set { usedSavePointId = value; } }
+    public static WorldSave Instance;
 
     [SerializeField] private GameObject signpostPrefab;
     [SerializeField] private GameObject modularWoodFloorPrefab;
@@ -15,11 +15,18 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     [SerializeField] private GameObject modularWoodRoofPrefab;
     [SerializeField] private GameObject modularWoodStairsPrefab;
 
-    public static WorldSave Instance;
+    #region Properties
+
+    public string           UsedSavePointId     { get { return usedSavePointId; } set { usedSavePointId = value; } }
+    public List<BuildPoint> PlacedBuildPoints   { get { return placedBuildPoints; } }
+
+    #endregion
 
     private string usedSavePointId;
 
     private List<IPersistentPlacedObject> placedObjectsToSave = new List<IPersistentPlacedObject>();
+
+    private List<BuildPoint> placedBuildPoints = new List<BuildPoint>();
 
     private void Awake()
     {
@@ -161,6 +168,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
         MovePlayerToSpawnPoint();
     }
 
+
     private void MovePlayerToSpawnPoint()
     {
         if (!string.IsNullOrEmpty(usedSavePointId))
@@ -194,5 +202,15 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     public void RemovePlacedObjectFromSaveList(IPersistentPlacedObject objToRemove)
     {
         placedObjectsToSave.Remove(objToRemove);
+    }
+
+    public void AddPlacedBuildPoint(BuildPoint point)
+    {
+        placedBuildPoints.Add(point);
+    }
+
+    public void RemovePlacedBuildPoint(BuildPoint point)
+    {
+        placedBuildPoints.Remove(point);
     }
 }
