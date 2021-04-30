@@ -36,11 +36,11 @@ public class ManualSavePoint : InteractableWithOutline, ISavePoint
 
         if (saveSuccess)
         {
-            NotificationManager.Instance.ShowNotification(NotificationTextType.SaveSuccess);
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.SaveSuccess);
         }
         else
         {
-            NotificationManager.Instance.ShowNotification(NotificationTextType.SaveError);
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.SaveError);
         }
     }
 

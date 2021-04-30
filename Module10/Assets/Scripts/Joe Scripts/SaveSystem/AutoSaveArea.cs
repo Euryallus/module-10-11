@@ -85,11 +85,11 @@ public class AutoSaveArea : MonoBehaviour, ISavePoint, IPersistentObject
 
         if (saveSuccess)
         {
-            NotificationManager.Instance.ShowNotification(NotificationTextType.AutoSaveSuccess);
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.AutoSaveSuccess);
         }
         else
         {
-            NotificationManager.Instance.ShowNotification(NotificationTextType.SaveError);
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.SaveError);
         }
     }
 

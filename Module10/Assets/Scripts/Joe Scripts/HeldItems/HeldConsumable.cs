@@ -32,7 +32,7 @@ public class HeldConsumable : HeldItem
             }
             else
             {
-                NotificationManager.Instance.ShowNotification(NotificationTextType.PlayerTooFull);
+                NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.PlayerTooFull);
             }
         }
         else

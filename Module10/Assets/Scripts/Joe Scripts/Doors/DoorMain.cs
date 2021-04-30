@@ -142,7 +142,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         else
         {
             //Notify the player that they can't open the door manually
-            NotificationManager.Instance.ShowNotification(NotificationTextType.CantOpenDoorManually);
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.CantOpenDoorManually);
         }
     }
 
@@ -214,7 +214,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
                 unlocked = true;
 
                 //Notify the player that the door was unlocked
-                NotificationManager.Instance.ShowNotification(NotificationTextType.DoorUnlocked, new string[] { unlockItem.UIName });
+                NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.DoorUnlocked, new string[] { unlockItem.UIName });
 
                 //Remove the item from the inventory or hotbar
                 if (itemInInventory)
@@ -232,7 +232,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
             else
             {
                 //The player does not have the required item so the door cannot be opened. Notify them about which item is needed
-                NotificationManager.Instance.ShowNotification(NotificationTextType.ItemRequiredForDoor, new string[] { unlockItem.UIName });
+                NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.ItemRequiredForDoor, new string[] { unlockItem.UIName });
                 return false;
             }
         }

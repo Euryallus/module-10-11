@@ -296,7 +296,7 @@ public class ShopBuyPanel : MonoBehaviour
         else
         {
             //The item cannot be bought - tell the player
-            NotificationManager.Instance.ShowNotification(NotificationTextType.CantAffordItem,
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.CantAffordItem,
                 new string[] { selectedItem.Price.ToString(), shopType.Categories[selectedCategoryIndex].CurrencyItem.UIName });
         }
     }

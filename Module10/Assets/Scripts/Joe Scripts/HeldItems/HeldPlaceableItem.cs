@@ -180,7 +180,7 @@ public class HeldPlaceableItem : HeldItem
             }
             else
             {
-                NotificationManager.Instance.ShowNotification(NotificationTextType.ItemCannotBePlaced);
+                NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.ItemCannotBePlaced);
             }
         }
     }
