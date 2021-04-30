@@ -215,6 +215,15 @@ public class HeldPlaceableItem : HeldItem
             placeableDestructible.SetupAsPlacedObject();
         }
 
+        RemoveItemFromHotbar();
+
         return placedGameObj;
+    }
+
+    protected virtual void RemoveItemFromHotbar()
+    {
+        HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
+
+        hotbar.RemoveItemFromHotbar(item);
     }
 }

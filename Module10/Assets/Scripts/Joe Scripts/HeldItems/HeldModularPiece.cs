@@ -93,13 +93,4 @@ public class HeldModularPiece : HeldPlaceableItem
 
         SetSnapping(false);
     }
-
-    protected override GameObject PlaceItem()
-    {
-        HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
-
-        hotbar.RemoveItemFromHotbar(item);
-
-        return base.PlaceItem();
-    }
 }

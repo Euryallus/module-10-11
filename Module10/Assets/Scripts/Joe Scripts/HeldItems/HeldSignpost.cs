@@ -12,10 +12,6 @@ public class HeldSignpost : HeldPlaceableItem
 
         signpostScript.SetRelatedItem(item.Id);
 
-        HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
-
-        hotbar.RemoveItemFromHotbar(item);
-
         return signGameObj;
     }
 }
