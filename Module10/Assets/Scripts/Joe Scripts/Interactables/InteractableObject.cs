@@ -10,7 +10,7 @@ public abstract class InteractableObject : MonoBehaviour
     [Tooltip("How close the player needs to be to this object to interact with it")]
     [SerializeField] private float      interactionRange        = 5.0f;
     [SerializeField] private bool       pressEToInteract        = true;
-    [SerializeField] private bool       rightClickToInteract    = true;
+    //[SerializeField] private bool       rightClickToInteract    = true;
 
     [SerializeField] private GameObject interactTooltipPrefab;
     [SerializeField] private Vector3    interactTooltipOffset;
@@ -71,20 +71,13 @@ public abstract class InteractableObject : MonoBehaviour
 
         if(hoveringInRange)
         {
-            hoverTimer += Time.unscaledDeltaTime;
-
             if(hoverTimer >= InteractPopupDelay && interactTooltip == null && interactTooltipPrefab != null)
             {
-                interactTooltip = Instantiate(interactTooltipPrefab, canvasTransform);
-
-                if(!string.IsNullOrEmpty(tooltipNameText))
-                {
-                    interactTooltip.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = tooltipNameText;
-                }
-                else
-                {
-                    interactTooltip.transform.GetChild(0).gameObject.SetActive(false);
-                }
+                ShowInteractTooltip();
+            }
+            else
+            {
+                hoverTimer += Time.unscaledDeltaTime;
             }
         }
 
@@ -94,15 +87,37 @@ public abstract class InteractableObject : MonoBehaviour
         }
     }
 
-    private void OnMouseOver()
+    private void ShowInteractTooltip()
     {
-        //Right click
-        if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange() && Cursor.lockState == CursorLockMode.Locked)
+        interactTooltip = Instantiate(interactTooltipPrefab, canvasTransform);
+
+        if (!string.IsNullOrEmpty(tooltipNameText))
         {
-            //The player has right clicked on the object while in range, interact with it
-            Interact();
+            interactTooltip.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = tooltipNameText;
+        }
+        else
+        {
+            interactTooltip.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
+
+    private void HideInteractTooltip()
+    {
+        if (interactTooltip != null)
+        {
+            Destroy(interactTooltip);
+        }
+    }
+
+    //private void OnMouseOver()
+    //{
+    //    //Right click
+    //    if (rightClickToInteract && Input.GetMouseButtonDown(1) && PlayerIsWithinRange() && Cursor.lockState == CursorLockMode.Locked)
+    //    {
+    //        //The player has right clicked on the object while in range, interact with it
+    //        Interact();
+    //    }
+    //}
 
     private void OnMouseEnter()
     {
@@ -139,9 +154,6 @@ public abstract class InteractableObject : MonoBehaviour
         hoverTimer = 0.0f;
         hoveringInRange = false;
 
-        if (interactTooltip != null)
-        {
-            Destroy(interactTooltip);
-        }
+        HideInteractTooltip();
     }
 }
