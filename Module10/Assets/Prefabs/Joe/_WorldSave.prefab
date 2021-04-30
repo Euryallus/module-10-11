@@ -49,3 +49,4 @@ MonoBehaviour:
   modularWoodHalfWallPrefab: {fileID: 1532030309187740893, guid: a529a8734a555a1429f5f7f3d3a2a828, type: 3}
   modularWoodRoofPrefab: {fileID: 5722558148426266811, guid: bc75ca168185b3145984b14b51cd8a7e, type: 3}
   modularWoodStairsPrefab: {fileID: 24749052556340869, guid: 7aa8e0f63072e2a4cb9010b2f2dab61e, type: 3}
+  craftingTablePrefab: {fileID: 5581585384562596166, guid: 44d735ee1d475cd4dbfbcbc30356c928, type: 3}

@@ -14,6 +14,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     [SerializeField] private GameObject modularWoodHalfWallPrefab;
     [SerializeField] private GameObject modularWoodRoofPrefab;
     [SerializeField] private GameObject modularWoodStairsPrefab;
+    [SerializeField] private GameObject craftingTablePrefab;
 
     #region Properties
 
@@ -88,86 +89,105 @@ public class WorldSave : MonoBehaviour, IPersistentObject
         var saveDataEntries = saveData.GetSaveDataEntries();
 
         bool loadingObjects = true;
-        string idToLoad = "sign";
 
-        //LOAD SIGNS
-        //==========
+        string[] idsToLoad = new string[] { "sign", "modularPiece", "craftingTable" };
+        int idToLoadIndex = 0;
+        string currentIdToLoad = idsToLoad[0];
+
+        //LOAD PLACED OBJECTS
+        //===================
+
         while (loadingObjects)
         {
-            idToLoad += "*";
+            currentIdToLoad += "*";
 
-            if (saveDataEntries.ContainsKey(idToLoad))
+            if (saveDataEntries.ContainsKey(currentIdToLoad))
             {
-                var currentElement = saveDataEntries[idToLoad];
+                var currentElement = saveDataEntries[currentIdToLoad];
 
-                SignpostSaveData data = (SignpostSaveData)currentElement;
+                switch(idsToLoad[idToLoadIndex])
+                {
+                    case "sign":
+                        LoadPlacedSignpost(currentElement as SignpostSaveData);
+                        break;
 
-                GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
-                                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+                    case "modularPiece":
+                        LoadPlacedModularPiece(currentElement as ModularPieceSaveData);
+                        break;
 
-                signGameObj.GetComponent<Signpost>().SetupAsPlacedObject(data.RelatedItemId);
+                    case "craftingTable":
+                        LoadPlacedCraftingTable(currentElement as TransformSaveData);
+                        break;
+                }
             }
             else
             {
-                loadingObjects = false;
-            }
-        }
-
-        //LOAD MODULAR PIECES
-        //===================
-
-        loadingObjects = true;
-        idToLoad = "modularPiece";
-
-        while(loadingObjects)
-        {
-            idToLoad += "*";
-
-            if (saveDataEntries.ContainsKey(idToLoad))
-            {
-                var currentElement = saveDataEntries[idToLoad];
-
-                ModularPieceSaveData data = (ModularPieceSaveData)currentElement;
-
-                GameObject prefabToSpawn = null;
-
-                switch (data.PieceType)
+                if(idToLoadIndex < (idsToLoad.Length - 1))
                 {
-                    case ModularPieceType.WoodFloor:
-                        prefabToSpawn = modularWoodFloorPrefab; break;
-
-                    case ModularPieceType.WoodWall:
-                        prefabToSpawn = modularWoodWallPrefab; break;
-
-                    case ModularPieceType.WoodHalfWall:
-                        prefabToSpawn = modularWoodHalfWallPrefab; break;
-
-                    case ModularPieceType.WoodRoofSide:
-                        prefabToSpawn = modularWoodRoofPrefab; break;
-
-                    case ModularPieceType.WoodStairs:
-                        prefabToSpawn = modularWoodStairsPrefab; break;
-                }
-
-                if(prefabToSpawn != null)
-                {
-                    Instantiate(prefabToSpawn, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
-                                    Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+                    idToLoadIndex++;
+                    currentIdToLoad = idsToLoad[idToLoadIndex];
                 }
                 else
                 {
-                    Debug.LogWarning("Trying to load modular piece with unknown prefab: " + data.PieceType);
+                    loadingObjects = false;
                 }
-            }
-            else
-            {
-                loadingObjects = false;
             }
         }
 
         MovePlayerToSpawnPoint();
     }
 
+    private void LoadPlacedSignpost(SignpostSaveData data)
+    {
+        GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+
+        Signpost signpostScript = signGameObj.GetComponent<Signpost>();
+
+        signpostScript.SetupAsPlacedObject();
+        signpostScript.SetRelatedItem(data.RelatedItemId);
+    }
+
+    private void LoadPlacedModularPiece(ModularPieceSaveData data)
+    {
+        GameObject prefabToSpawn = null;
+
+        switch (data.PieceType)
+        {
+            case ModularPieceType.WoodFloor:
+                prefabToSpawn = modularWoodFloorPrefab; break;
+
+            case ModularPieceType.WoodWall:
+                prefabToSpawn = modularWoodWallPrefab; break;
+
+            case ModularPieceType.WoodHalfWall:
+                prefabToSpawn = modularWoodHalfWallPrefab; break;
+
+            case ModularPieceType.WoodRoofSide:
+                prefabToSpawn = modularWoodRoofPrefab; break;
+
+            case ModularPieceType.WoodStairs:
+                prefabToSpawn = modularWoodStairsPrefab; break;
+        }
+
+        if (prefabToSpawn != null)
+        {
+            Instantiate(prefabToSpawn, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
+        }
+        else
+        {
+            Debug.LogWarning("Trying to load modular piece with unknown prefab: " + data.PieceType);
+        }
+    }
+
+    private void LoadPlacedCraftingTable(TransformSaveData data)
+    {
+        CraftingTable craftingTable = Instantiate(craftingTablePrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                            Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2])).GetComponent<CraftingTable>();
+
+        craftingTable.SetupAsPlacedObject();
+    }
 
     private void MovePlayerToSpawnPoint()
     {
@@ -213,4 +233,11 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     {
         placedBuildPoints.Remove(point);
     }
+}
+
+[Serializable]
+public class TransformSaveData
+{
+    public float[] Position;
+    public float[] Rotation;
 }

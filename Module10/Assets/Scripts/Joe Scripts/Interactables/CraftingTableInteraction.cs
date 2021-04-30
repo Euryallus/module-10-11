@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingBox : InteractableWithOutline
+public class CraftingTableInteraction : InteractableWithOutline
 {
     private InventoryPanel inventoryPanel;
 

@@ -247,7 +247,7 @@ MonoBehaviour:
   maxPlaceDistance: 6
   placementSound: treeChop
   mainCollider: {fileID: 5106555032353489147}
-  snapCollider: {fileID: 5106555032353489147}
+  snapCollider: {fileID: 0}
 --- !u!1 &6860940507317650991
 GameObject:
   m_ObjectHideFlags: 0

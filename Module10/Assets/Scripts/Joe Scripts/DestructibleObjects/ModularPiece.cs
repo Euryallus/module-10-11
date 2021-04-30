@@ -40,12 +40,12 @@ public class ModularPiece : DestructableObject, IPersistentPlacedObject
     public void AddDataToWorldSave(SaveData saveData)
     {
         //Save the position, rotation and type of this modular piece in the world
-        saveData.AddData("modularPiece*", new ModularPieceSaveData()
-        {
-            Position = new float[3] { transform.position.x, transform.position.y, transform.position.z },
-            Rotation = new float[3] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z },
-            PieceType = pieceType
-        });
+        saveData.AddData("modularPiece*",   new ModularPieceSaveData()
+                                            {
+                                                Position = new float[3] { transform.position.x, transform.position.y, transform.position.z },
+                                                Rotation = new float[3] { transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z },
+                                                PieceType = pieceType
+                                            });
     }
 
     public override void Destroyed()
@@ -58,9 +58,7 @@ public class ModularPiece : DestructableObject, IPersistentPlacedObject
 //ModularPieceSaveData contains data used for saving/loading modular pieces
 
 [System.Serializable]
-public class ModularPieceSaveData
+public class ModularPieceSaveData : TransformSaveData
 {
     public ModularPieceType PieceType;
-    public float[]          Position;
-    public float[]          Rotation;
 }

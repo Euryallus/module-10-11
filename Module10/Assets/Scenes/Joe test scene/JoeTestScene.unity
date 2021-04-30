@@ -1443,22 +1443,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1268213148}
     m_Modifications:
-    - target: {fileID: 1897146344499017530, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_Name
-      value: Title
-      objectReference: {fileID: 0}
-    - target: {fileID: 4509825350984289637, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_Name
-      value: SpawnItemPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 4945632056218660167, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_text
-      value: Spawn Item
-      objectReference: {fileID: 0}
-    - target: {fileID: 5327384354247951418, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_Name
-      value: Options
-      objectReference: {fileID: 0}
     - target: {fileID: 6278810826548738504, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1502,46 +1486,6 @@ PrefabInstance:
     - target: {fileID: 7027353170493286105, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7767097938055634493, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 7767097938055634493, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 7767097938055634493, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 7767097938055634493, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4282795590
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_text
-      value: Enter item id...
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.27450982
-      objectReference: {fileID: 0}
-    - target: {fileID: 8322771344284121241, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4282795590
       objectReference: {fileID: 0}
     - target: {fileID: 9034304044804875080, guid: 8aa4201db1d2c7c4ebe82b7766cfe64d, type: 3}
       propertyPath: m_Name
@@ -2575,7 +2519,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh924640
+  m_Name: pb_Mesh1187806
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11093,7 +11037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5581585384562596162, guid: 44d735ee1d475cd4dbfbcbc30356c928, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5581585384562596162, guid: 44d735ee1d475cd4dbfbcbc30356c928, type: 3}
       propertyPath: m_LocalPosition.z

@@ -87,6 +87,11 @@ public abstract class InteractableObject : MonoBehaviour
         }
     }
 
+    protected virtual void OnDestroy()
+    {
+        HideInteractTooltip();
+    }
+
     private void ShowInteractTooltip()
     {
         interactTooltip = Instantiate(interactTooltipPrefab, canvasTransform);

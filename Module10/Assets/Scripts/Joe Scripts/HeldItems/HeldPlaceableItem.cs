@@ -51,8 +51,11 @@ public class HeldPlaceableItem : HeldItem
 
     private void Start()
     {
+        if(snapCollider != null)
+        {
+            snapCollider.enabled = false;
+        }
         mainCollider.enabled = true;
-        snapCollider.enabled = false;
     }
 
     protected virtual void Update()
@@ -134,7 +137,11 @@ public class HeldPlaceableItem : HeldItem
             this.snapping = snapping;
 
             mainCollider.enabled = !snapping;
-            snapCollider.enabled = snapping;
+
+            if(snapCollider != null)
+            {
+                snapCollider.enabled = snapping;
+            }
 
             colliding = false;
 
@@ -199,6 +206,15 @@ public class HeldPlaceableItem : HeldItem
         //Shake the player camera slightly
         playerCameraShake.ShakeCameraForTime(0.2f, CameraShakeType.ReduceOverTime, 0.02f);
 
-        return Instantiate(itemPrefab, offsetPlacePos, Quaternion.Euler(0.0f, rotation, 0.0f));
+        GameObject placedGameObj = Instantiate(itemPrefab, offsetPlacePos, Quaternion.Euler(0.0f, rotation, 0.0f));
+
+        PlaceableDestructible placeableDestructible = placedGameObj.GetComponent<PlaceableDestructible>();
+
+        if(placeableDestructible != null)
+        {
+            placeableDestructible.SetupAsPlacedObject();
+        }
+
+        return placedGameObj;
     }
 }

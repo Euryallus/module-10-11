@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30db721631325bd4aab1c03410f7bc54, type: 3}
-  m_Name: ShinyThing
+  m_Name: CustomisingTable
   m_EditorClassIdentifier: 
-  m_id: shinyThing
-  m_uiName: Shiny Thing
-  m_uiDescription: 'Scientific name: Shinium Thingus'
-  m_stackSize: 16
+  m_id: customisingTable
+  m_uiName: Customising Table
+  m_uiDescription: Used to customise items
+  m_stackSize: 1
   m_weight: 1
-  m_sprite: {fileID: 21300000, guid: bbda451aa112af74e97b14eeeffce8f0, type: 3}
+  m_sprite: {fileID: 21300000, guid: 36a84acf3135fa54ea7c3d2380c3668f, type: 3}
   m_heldItemGameObject: {fileID: 0}
   m_customisable: 0
   m_currencyItemId: 
   m_currencyItemQuantity: 0
   m_customFloatProperties: []
+  m_customStringProperties: []
