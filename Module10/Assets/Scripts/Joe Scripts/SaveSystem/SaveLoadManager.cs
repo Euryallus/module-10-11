@@ -174,7 +174,7 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("File does not exist: " + loadDataPath);
+            Debug.LogWarning("No save file exists at: " + loadDataPath);
         }
 
         loadingPanel.LoadDone();
