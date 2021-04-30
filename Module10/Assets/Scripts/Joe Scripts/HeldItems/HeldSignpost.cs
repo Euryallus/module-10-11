@@ -10,7 +10,7 @@ public class HeldSignpost : HeldPlaceableItem
 
         Signpost signpostScript = signGameObj.GetComponent<Signpost>();
 
-        signpostScript.SetRelatedItem(item.Id);
+        signpostScript.SetupAsPlacedObject(item.Id);
 
         HotbarPanel hotbar = GameObject.FindGameObjectWithTag("Hotbar").GetComponent<HotbarPanel>();
 

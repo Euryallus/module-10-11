@@ -12,6 +12,7 @@ public enum NotificationMessageType
     CantOpenDoorManually,
 
     ItemCannotBePlaced,
+    CantDestroyObject,
 
     CantAffordItem,
 
@@ -41,6 +42,7 @@ public class NotificationManager : MonoBehaviour
         { NotificationMessageType.CantOpenDoorManually,"This door cannot be opened or closed manually." },
 
         { NotificationMessageType.ItemCannotBePlaced,  "The held item cannot be placed there." },
+        { NotificationMessageType.CantDestroyObject,   "This object cannot be destroyed." },
 
         { NotificationMessageType.CantAffordItem,      "You cannot purchase this item - * * required." },
 

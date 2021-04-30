@@ -17,22 +17,33 @@ public class Signpost : DestructableObject, IPersistentPlacedObject
     #endregion
 
     private string relatedItemId = "signpost";  //Id of the item used when placing this sign/to be dropped when destroying it
+    private bool placedByPlayer;
 
     protected override void Start()
     {
         base.Start();
+    }
+
+    private void OnDestroy()
+    {
+        if(placedByPlayer)
+        {
+            //This object no longer exists in the world, remove it from the save list
+            WorldSave.Instance.RemovePlacedObjectFromSaveList(this);
+        }
+    }
+
+    public void SetupAsPlacedObject(string itemId)
+    {
+        SetRelatedItem(itemId);
+
+        placedByPlayer = true;
 
         //Tell the WorldSave that this is a player-placed object that should be saved with the world
         WorldSave.Instance.AddPlacedObjectToSave(this);
     }
 
-    private void OnDestroy()
-    {
-        //This object no longer exists in the world, remove it from the save list
-        WorldSave.Instance.RemovePlacedObjectFromSaveList(this);
-    }
-
-    public void SetRelatedItem(string itemId)
+    private void SetRelatedItem(string itemId)
     {
         relatedItemId = itemId;
 
@@ -53,14 +64,21 @@ public class Signpost : DestructableObject, IPersistentPlacedObject
 
     public override void Destroyed()
     {
-        base.Destroyed();
-        Destroy(gameObject);
+        if(placedByPlayer)
+        {
+            base.Destroyed();
+            Destroy(gameObject);
 
-        //Get the player's inventory panel
-        InventoryPanel inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
+            //Get the player's inventory panel
+            InventoryPanel inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
 
-        //Give the player back the item used to placed the sign, which includes custom text properties
-        inventory.AddItemToInventory(relatedItemId);
+            //Give the player back the item used to placed the sign, which includes custom text properties
+            inventory.AddItemToInventory(relatedItemId);
+        }
+        else
+        {
+            NotificationManager.Instance.AddNotificationToQueue(NotificationMessageType.CantDestroyObject);
+        }
     }
 
     public void AddDataToWorldSave(SaveData saveData)

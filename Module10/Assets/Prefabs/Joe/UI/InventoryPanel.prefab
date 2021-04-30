@@ -2558,7 +2558,7 @@ MonoBehaviour:
   sliderFillImage: {fileID: 1970997109}
   sliderStandardColour: {r: 0, g: 0, b: 0, a: 0.8627451}
   sliderFullColour: {r: 1, g: 0.24705882, b: 0.4627451, a: 1}
-  maxWeight: 30
+  maxWeight: 100
 --- !u!225 &5078108334871479629
 CanvasGroup:
   m_ObjectHideFlags: 0

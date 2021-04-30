@@ -105,7 +105,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                 GameObject signGameObj = Instantiate(signpostPrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
                                             Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2]));
 
-                signGameObj.GetComponent<Signpost>().SetRelatedItem(data.RelatedItemId);
+                signGameObj.GetComponent<Signpost>().SetupAsPlacedObject(data.RelatedItemId);
             }
             else
             {
