@@ -112,6 +112,7 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    //goes to location passed on navmesh
     public virtual bool GoTo(Vector3 targetPosition)
     {   //
         //NavMesh.SamplePosition(targetPosition, out NavMeshHit hit, 5f, 1);
@@ -132,6 +133,7 @@ public class EnemyBase : MonoBehaviour
         return true;
     }
 
+    //goes to random position [x] meters away from the origin
     public virtual void GoToRandom(float maxDistanceFromCurrent, Vector3 origin)
     {
         Vector3 randomPosition = Random.insideUnitSphere * maxDistanceFromCurrent;
@@ -146,6 +148,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    //stationary state update
     public virtual void StationaryUpdate()
     {
         if(CheckForPlayer())
@@ -154,17 +157,23 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    //engaged state update
     public virtual void EngagedUpdate()
     {
+        //increases time since last attack
         attackCooldown += Time.deltaTime;
 
+        //if player is spotted, act accordingly
         if (CheckForPlayer())
         {
+            //check distance between player & enemy
             if (Vector3.Distance(transform.position, player.transform.position) < attackDistance)
             {
+                //if can see & player is within attack distance, stop moving & turn to face player
                 agent.SetDestination(transform.position);
                 TurnTowards(player);
 
+                //once cooldown is over, attack player & reset cooldown
                 if (attackCooldown > timeBetweenAttacks)
                 {
 
@@ -175,17 +184,21 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
+                //if player is visible but not reachable, follow them
                 GoTo(playerLastSeen);
             }
         }
         else
         {
+            //if player has been lost while engaged, switch to searching the area
             StartSearching(playerLastSeen);
         }
     }
 
+    //search state update
     public virtual void SearchUpdate()
     {
+        //if player is seen while searching, try to alert other units
         if (CheckForPlayer())
         {
             if (manager != null)
@@ -193,14 +206,18 @@ public class EnemyBase : MonoBehaviour
                 manager.AlertUnits(playerLastSeen);
             }
 
+            //switch state to "engaged" and start following player
+
             Engage();
 
             //currentState = EnemyState.engaged;
             return;
         }
 
+        //if player hasnt been spotted and player is within ~3m of the destination stored, run "wait and move on" co-routine 
         if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f && !findingNewPos)
         {
+            //search points incrimented (prevents searching forever)
             ++searchPointsVisited;
 
             if(searchPointsVisited < noOfSearchPoints)
@@ -215,79 +232,102 @@ public class EnemyBase : MonoBehaviour
             }
             else
             {
+                //if enemy has visited enough search points, stop searching & start patrolling
                 StartPatrolling();
             }
         }
     }
 
+    //patrol state update
     public virtual void PatrolUpdate()
     {
-
+        //if player is spotted, switch to engaged state & return
         if(CheckForPlayer())
         {
-            //manager.AlertUnits(playerLastSeen);
 
             Engage();
 
-            //currentState = EnemyState.engaged;
             return;
         }
 
+        //if player isn't seen & enemy is within ~ 3m of destination, pick a new point to go to centred on the central hub position
         if (Vector3.Distance(transform.position, agent.destination) <= agent.stoppingDistance * 1.5f && !findingNewPos)
         {
             StartCoroutine(WaitAndMove(patrolWanderDistance, centralHubPos, maxAtEachPatrolPoint));
+            //bool flagged to prevent coroutine being run 4000 times
             findingNewPos = true;
-            //GoToRandom(patrolWanderDistance, centralHubPos);
+            
         }
     }
 
+    //evate state update
     public virtual void EvadeUpdate()
     {
 
     }
 
+    //begins searching behaviour
     public virtual void StartSearching(Vector3 searchPos)
     {
+        //sets player last seen position to pos. passed as parameter
         playerLastSeen = searchPos;
+        //sets first search destination to be that position
         GoTo(playerLastSeen);
+        //resets points count to 0
         searchPointsVisited = 0;
+        //sets state to "search"
         currentState = EnemyState.search;
 
+        //resets agents speed to "max"
         agent.speed = defaultSpeed;
 
-       Debug.Log(gameObject.name + " started searching " + searchPos);
+        //debug help
+        Debug.Log(gameObject.name + " started searching " + searchPos);
     }
 
+    //begins patrol behaviour
     public virtual void StartPatrolling()
     {
-        searchPointsVisited = 0;
-
+        //searchPointsVisited = 0;
+        //sets agent speed to patrol speed (slower than engaged speed"
         agent.speed = patrolSpeed;
 
+        //stops any co-routine left from search func.
         StopCoroutine("WaitAndMove");
 
+        //calls co-routine to move in [x] seconds to random pos. centred around central hub
         WaitAndMove(patrolWanderDistance, centralHubPos, 1.0f);
-        //GoToRandom(40f, centralHubPos);
+        //sets current state to "patrol"
         currentState = EnemyState.patrol;
     }
 
+    //checks if player is visible using view angle specified and view distance
     public virtual bool CheckForPlayer()
     {
+        //stores distance from enemy to player
         distToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
+        //if enemy can "see" player based on distance, continue evaluating
         if(distToPlayer <= viewDistance)
         {
+            //calculates dot product between enemy forward vect. and player position
             dot = Vector3.Dot(transform.transform.forward.normalized, (player.transform.position - transform.position).normalized);
+            //calculates angle from dot product
             dot = Mathf.Acos(dot);
 
+            //if angle calculated is < view angle defined, player is within view cone
             if (dot <= Mathf.Deg2Rad * viewAngle / 2 )
             {
+                //creates raycast mask for excluding colliders on "enemies" layer
                 int mask = 1 << 6;
 
+                //raycasts from enemy towards player - if it hits, nothing's obstructing the view
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, viewDistance, ~mask))
                 {
+                    //if raycast does hit player
                     if (hit.transform.CompareTag("Player"))
                     {
+                        //draw a debug line to show connection, store position player was seen at, and return true
                         Debug.DrawLine(transform.position, hit.transform.position, Color.red);
                         playerLastSeen = player.transform.position;
                         searchPointsVisited = 0;
@@ -297,6 +337,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
 
+        //if player is not visible, return false
         return false;
     }
 
@@ -313,12 +354,16 @@ public class EnemyBase : MonoBehaviour
         //transform.LookAt(target.transform);
     }
 
+    //base attack - when within range, raycasts towards player, & if it hits player loses health (only works for melee)
     public virtual void Attack()
     {
+        //raycasts from enemy to player - if it hits, the player can be hurt
         if(Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, attackDistance))
         {
+            //debug assist
             Debug.LogWarning("Hit " + hit.transform.name);
 
+            //if hit player & the player has health script, do damage
             if(hit.transform.CompareTag("Player"))
             {
                 if(playerStats!= null)
@@ -330,11 +375,13 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    //checks if point passed is on navmesh
     public bool IsPointOnNavMesh(Vector3 pos, float maxDist)
     {
         return NavMesh.SamplePosition(pos, out NavMeshHit hit, maxDist, 1);
     }
 
+    //gets a random position definately on the navmesh centred around origin (not currently used - very costly)
     public Vector3 GetRandomPos(float maxDistanceFromCurrent, Vector3 origin)
     {
         Vector3 randomPosition = Random.insideUnitSphere.normalized * Random.Range(3, maxDistanceFromCurrent);
@@ -346,10 +393,13 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    //used by the enemy camp to signal that the enemy has been spotted
     public void AlertOfPosition(Vector3 position)
     {
+        //checks if player is already engaged with player
         if(currentState != EnemyState.engaged)
         {
+            //if not, update player last seen and start searching the area
             playerLastSeen = position;
 
             StartSearching(position);
@@ -357,6 +407,7 @@ public class EnemyBase : MonoBehaviour
 
     }
 
+    //called when enemy enters engaged state - resets speed, stops any co-routines, and sets state to engaged
     public virtual void Engage()
     {
         agent.speed = defaultSpeed;
@@ -364,13 +415,17 @@ public class EnemyBase : MonoBehaviour
         currentState = EnemyState.engaged;
     }
 
+    //used to wait for random amount of time at a position before moving on, aims to make enemies seem more "natural"
     protected virtual IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
     {
+        //stops agent from moving
         agent.SetDestination(transform.position);
 
+        //waits for x time 
         yield return new WaitForSeconds(Random.Range(0f, maxWaitTime));
-
+        //flags bool as false now waitForSeconds is over
         findingNewPos = false;
+        //tells agent to go to random position around origin 
         GoToRandom(maxDistance, newPointOrigin);
     }
 }
