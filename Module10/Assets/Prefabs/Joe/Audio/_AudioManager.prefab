@@ -62,6 +62,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 730e3146775cc694886e2723d6125dbb, type: 2}
   - {fileID: 11400000, guid: bbfbeacaf87ad5841b35b52db0a1f373, type: 2}
   - {fileID: 11400000, guid: 6f2b3d6abe9086d4f83611adcccdbac7, type: 2}
+  - {fileID: 11400000, guid: b40a799faab57414e8b199dde8481436, type: 2}
+  - {fileID: 11400000, guid: 30abf47adca9a1b45aaea8b1b9eb9a1a, type: 2}
   sceneMusicSetup:
   - SceneName: JoeTestScene
     PlayMode: 2

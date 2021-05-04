@@ -8,16 +8,18 @@ public enum HazardMode
     Continuous
 }
 
-public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
+public class Hazard : MonoBehaviour, IExternalTriggerListener
 {
     [Header("Hazard")]
     [SerializeField] private Animator           animator;
     [SerializeField] private ParticleGroup      impactParticles;
     [SerializeField] private SoundClass         impactSound;
-    [SerializeField] private HazardMode         mode;
+    [SerializeField] private PlayerDeathCause   deathCause              = PlayerDeathCause.Crushed;
+    [SerializeField] private float              cameraShakeMultiplier   = 1.0f;
+    [SerializeField] private HazardMode         mode                    = HazardMode.PlayerTrigger;
 
     [SerializeField] [Range(2.5f, 120.0f)]
-    private float                               continuousFallInverval = 2.5f;
+    private float                               continuousInverval = 2.5f;
 
     [Header("Triggers")]
     [SerializeField] private ExternalTrigger[]  hitTriggers;
@@ -57,7 +59,7 @@ public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
             {
                 PlayerDeath playerDeath = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>();
 
-                playerDeath.KillPlayer(PlayerDeathCause.Crushed);
+                playerDeath.KillPlayer(deathCause);
             }
         }
     }
@@ -72,13 +74,21 @@ public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
         {
             animator.SetTrigger("StartHazard");
 
-            yield return new WaitForSeconds(continuousFallInverval);
+            yield return new WaitForSeconds(continuousInverval);
         }
     }
 
     public void ImpactEvents()
     {
-        impactParticles.PlayEffect();
+        //ImpactEvents is called by an animation event
+
+        //Spawn impact particles if any were set in the inspector
+        if(impactParticles != null)
+        {
+            impactParticles.PlayEffect();
+        }
+
+        //Find the player's camera and shake it
 
         CameraShake playerCameraShake = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>();
 
@@ -86,14 +96,16 @@ public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
         {
             float distanceFromPlayer = Vector3.Distance(transform.position, playerCameraShake.gameObject.transform.position);
 
-            float shakeAmount = 0.3f - (distanceFromPlayer * 0.025f);
+            //The further from the hazard, the less intense screen shake will be
+            float shakeIntensity = (0.3f - (distanceFromPlayer * 0.025f)) * cameraShakeMultiplier;
 
-            if(shakeAmount > 0.0f)
+            if(shakeIntensity > 0.0f)
             {
-                playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, shakeAmount);
+                playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, shakeIntensity);
             }
         }
 
+        //Play an impact sound if one was set in the inspector
         if(impactSound != null)
         {
             AudioManager.Instance.PlaySoundEffect3D(impactSound, transform.position);

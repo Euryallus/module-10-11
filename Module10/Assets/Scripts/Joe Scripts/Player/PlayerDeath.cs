@@ -5,7 +5,8 @@ public enum PlayerDeathCause
 {
     Starved,
     FellOutOfWorld,
-    Crushed
+    Crushed,
+    Skewered
 }
 
 public class PlayerDeath : MonoBehaviour
@@ -16,7 +17,8 @@ public class PlayerDeath : MonoBehaviour
     {
         { PlayerDeathCause.Starved,         "You starved." },
         { PlayerDeathCause.FellOutOfWorld,  "You fell out of the world." },
-        { PlayerDeathCause.Crushed,         "You were crushed." }
+        { PlayerDeathCause.Crushed,         "You were crushed." },
+        { PlayerDeathCause.Skewered,        "You were skewered by spikes." }
     };
 
     public void KillPlayer(PlayerDeathCause causeOfDeath)

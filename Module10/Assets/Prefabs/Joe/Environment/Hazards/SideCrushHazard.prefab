@@ -189,8 +189,9 @@ MonoBehaviour:
   animator: {fileID: 3018647937890461829}
   impactParticles: {fileID: 2671013087650620726}
   impactSound: {fileID: 11400000, guid: b40a799faab57414e8b199dde8481436, type: 2}
+  deathCause: 2
   mode: 0
-  continuousFallInverval: 2.5
+  continuousInverval: 2.5
   hitTriggers:
   - {fileID: 2736633640073419216}
   - {fileID: 5029280431224650082}
@@ -353,7 +354,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6357542694867178623
 Transform:
@@ -405,6 +406,10 @@ PrefabInstance:
     - target: {fileID: 4144466542904299522, guid: 6747d0478f756e64e88f1e2d0a79ac92, type: 3}
       propertyPath: m_Name
       value: StoneImpactParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4144466542904299522, guid: 6747d0478f756e64e88f1e2d0a79ac92, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7083296819608988735, guid: 6747d0478f756e64e88f1e2d0a79ac92, type: 3}
       propertyPath: m_RootOrder
