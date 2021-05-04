@@ -11,7 +11,6 @@ public class DeathPanel : MonoBehaviour
     {
         //Play a sound when the death panel is first shown
         AudioManager.Instance.PlaySoundEffect2D("sealExplosion");
-        AudioManager.Instance.PlaySoundEffect2D("believe");
     }
 
     public void SetDeathCauseText(string cause)
