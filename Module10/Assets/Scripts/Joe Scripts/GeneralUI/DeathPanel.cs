@@ -21,22 +21,12 @@ public class DeathPanel : MonoBehaviour
 
     public void ButtonRespawn()
     {
-        StartCoroutine(RespawnCoroutine());
-    }
-
-    private IEnumerator RespawnCoroutine()
-    {
         Debug.Log("===== PLAYER DEATH: RELOADING SCENE =====");
 
         Cursor.visible = false;
         Time.timeScale = 1.0f;
 
         //Reload the active scene and hence reset progress to where the player last saved
-        AsyncOperation operation = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-
-        while(!operation.isDone)
-        {
-            yield return null;
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 }

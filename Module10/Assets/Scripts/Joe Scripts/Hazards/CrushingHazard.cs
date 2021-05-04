@@ -8,18 +8,28 @@ public enum HazardMode
     Continuous
 }
 
-public class FallingHazard : MonoBehaviour, IExternalTriggerListener
+public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private ParticleGroup hitGroundParticles;
-    [SerializeField] private HazardMode mode;
-    [SerializeField] private ExternalTrigger areaTrigger;
+    [Header("Hazard")]
+    [SerializeField] private Animator           animator;
+    [SerializeField] private ParticleGroup      impactParticles;
+    [SerializeField] private HazardMode         mode;
 
     [SerializeField] [Range(2.5f, 120.0f)]
-    private float continuousFallInverval = 2.5f;
+    private float                               continuousFallInverval = 2.5f;
+
+    [Header("Triggers")]
+    [SerializeField] private ExternalTrigger[]  hitTriggers;
+    [SerializeField] private ExternalTrigger    areaTrigger;
+
 
     private void Awake()
     {
+        for (int i = 0; i < hitTriggers.Length; i++)
+        {
+            hitTriggers[i].AddListener(this);
+        }
+
         areaTrigger.AddListener(this);
     }
 
@@ -33,11 +43,20 @@ public class FallingHazard : MonoBehaviour, IExternalTriggerListener
 
     public void OnExternalTriggerEnter(string triggerId, Collider other)
     {
-        if(mode == HazardMode.PlayerTrigger)
+        if(other.CompareTag("Player"))
         {
-            if (triggerId == "triggerArea" && other.CompareTag("Player"))
+            if (triggerId == "triggerArea")
             {
-                animator.SetTrigger("Fall");
+                if (mode == HazardMode.PlayerTrigger)
+                {
+                    animator.SetTrigger("StartHazard");
+                }
+            }
+            else if (triggerId == "hit")
+            {
+                PlayerDeath playerDeath = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>();
+
+                playerDeath.KillPlayer(PlayerDeathCause.Crushed);
             }
         }
     }
@@ -50,15 +69,15 @@ public class FallingHazard : MonoBehaviour, IExternalTriggerListener
     {
         while(mode == HazardMode.Continuous)
         {
-            animator.SetTrigger("Fall");
+            animator.SetTrigger("StartHazard");
 
             yield return new WaitForSeconds(continuousFallInverval);
         }
     }
 
-    public void HitGroundEvents()
+    public void ImpactEvents()
     {
-        hitGroundParticles.PlayEffect();
+        impactParticles.PlayEffect();
 
         CameraShake playerCameraShake = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraShake>();
 
@@ -72,16 +91,6 @@ public class FallingHazard : MonoBehaviour, IExternalTriggerListener
             {
                 playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, shakeAmount);
             }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-        {
-            PlayerDeath playerDeath = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>();
-
-            playerDeath.KillPlayer(PlayerDeathCause.Crushed);
         }
     }
 }
