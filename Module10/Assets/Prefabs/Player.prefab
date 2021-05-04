@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 2207638255584391532}
   - component: {fileID: 8688783702949859633}
   - component: {fileID: 4740927130316203150}
+  - component: {fileID: 5781619595027664628}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -185,6 +186,7 @@ MonoBehaviour:
   gliderTiltAmount: 0.2
   gliderOpenDistanceFromGround: 5
   inWater: 0
+  glider: {fileID: 0}
   currentCrouchState: 0
   currentMovementState: 0
 --- !u!143 &3399754590433321698
@@ -289,6 +291,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCameraTransform: {fileID: 3399754590781465958}
+--- !u!114 &5781619595027664628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399754590433321695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf5100f74252024991a869cb179ec35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathPanelPrefab: {fileID: 7809706690116714397, guid: 3550c110b4867ff468d9fe35b4575193, type: 3}
 --- !u!1 &3399754590781465955
 GameObject:
   m_ObjectHideFlags: 0
