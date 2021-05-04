@@ -12,7 +12,7 @@ public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] private GameObject deathPanelPrefab;
 
-    private Dictionary<PlayerDeathCause, string> deathCauseTextDict = new Dictionary<PlayerDeathCause, string>()
+    private readonly Dictionary<PlayerDeathCause, string> deathCauseTextDict = new Dictionary<PlayerDeathCause, string>()
     {
         { PlayerDeathCause.Starved,         "You starved." },
         { PlayerDeathCause.FellOutOfWorld,  "You fell out of the world." },

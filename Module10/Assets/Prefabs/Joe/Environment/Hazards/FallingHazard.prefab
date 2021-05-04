@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3819532048040416448}
   impactParticles: {fileID: 4176112455624415603}
+  impactSound: {fileID: 11400000, guid: b40a799faab57414e8b199dde8481436, type: 2}
   mode: 0
   continuousFallInverval: 2.5
   hitTriggers:

@@ -13,6 +13,7 @@ public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
     [Header("Hazard")]
     [SerializeField] private Animator           animator;
     [SerializeField] private ParticleGroup      impactParticles;
+    [SerializeField] private SoundClass         impactSound;
     [SerializeField] private HazardMode         mode;
 
     [SerializeField] [Range(2.5f, 120.0f)]
@@ -91,6 +92,11 @@ public class CrushingHazard : MonoBehaviour, IExternalTriggerListener
             {
                 playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, shakeAmount);
             }
+        }
+
+        if(impactSound != null)
+        {
+            AudioManager.Instance.PlaySoundEffect3D(impactSound, transform.position);
         }
     }
 }

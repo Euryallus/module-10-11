@@ -223,7 +223,7 @@ public class AudioManager : MonoBehaviour
         if (use3DSpace)
         {
             //Enable spatialBlend if playing sound in 3D space, so it will sound like it originates from sourcePosition
-            audioSource.spatialBlend = 1f;
+            audioSource.spatialBlend = 1.0f;
         }
 
         //if (looping)
