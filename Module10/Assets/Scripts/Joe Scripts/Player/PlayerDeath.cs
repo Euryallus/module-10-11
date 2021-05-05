@@ -6,7 +6,8 @@ public enum PlayerDeathCause
     Starved,
     FellOutOfWorld,
     Crushed,
-    Skewered
+    Skewered,
+    SwingHit
 }
 
 public class PlayerDeath : MonoBehaviour
@@ -15,9 +16,15 @@ public class PlayerDeath : MonoBehaviour
 
     private readonly Dictionary<PlayerDeathCause, WeightedString[]> deathCauseTextDict = new Dictionary<PlayerDeathCause, WeightedString[]>()
     {
-        { PlayerDeathCause.Starved,         new WeightedString[]    { new WeightedString("You starved.", 1) } },
+        { PlayerDeathCause.Starved,         new WeightedString[]    {
+                                                                        new WeightedString("You starved.", 100),
+                                                                        new WeightedString("If you had just eaten some nuggets we wouldn't be in this situation.", 1)
+                                                                    } },
 
-        { PlayerDeathCause.FellOutOfWorld,  new WeightedString[]    { new WeightedString("You fell out of the world.", 1) } },
+        { PlayerDeathCause.FellOutOfWorld,  new WeightedString[]    {
+                                                                        new WeightedString("You fell out of the world.", 100),
+                                                                        new WeightedString("You fell into the great void.", 1)
+                                                                    } },
 
         { PlayerDeathCause.Crushed,         new WeightedString[]    {
                                                                         new WeightedString("You were crushed.", 100),
@@ -27,7 +34,15 @@ public class PlayerDeath : MonoBehaviour
                                                                         new WeightedString("LOL SQUASHING DEATH", 1),
                                                                     } },
 
-        { PlayerDeathCause.Skewered,        new WeightedString[]    { new WeightedString("You were skewered by spikes.", 1) } }
+        { PlayerDeathCause.Skewered,        new WeightedString[]    {
+                                                                        new WeightedString("You were skewered by spikes.", 100),
+                                                                        new WeightedString("Protip: Don't stand on sharp pointy objects.", 1)
+                                                                    } },
+
+        { PlayerDeathCause.SwingHit,        new WeightedString[]    {
+                                                                        new WeightedString("You were hit by a swinging object.", 100),
+                                                                        new WeightedString("Swoosh swoosh", 1)
+                                                                    } }
     };
 
     public void KillPlayer(PlayerDeathCause causeOfDeath)
