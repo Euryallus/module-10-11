@@ -2837,7 +2837,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9204811780451076279, guid: ea54910626f3c1d4986058b4acc01ad8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9204811780673027562, guid: ea54910626f3c1d4986058b4acc01ad8, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -9245,7 +9245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5350405503630901526, guid: fb3af8d8fa5e22344bd81cef4cfdd7c7, type: 3}
       propertyPath: movePoints.Array.data[2].z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb3af8d8fa5e22344bd81cef4cfdd7c7, type: 3}
@@ -11073,7 +11073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8338873298839208119, guid: 9dfeab24f9814854fbef20641c4664f7, type: 3}
       propertyPath: continuousInverval
-      value: 4
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8338873298839208119, guid: 9dfeab24f9814854fbef20641c4664f7, type: 3}
       propertyPath: continuousFallInverval
@@ -11311,6 +11311,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4335670535688617597, guid: a19025d2f3f8ba843b4da3cb4001b4a9, type: 3}
+      propertyPath: mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7675149939759930352, guid: a19025d2f3f8ba843b4da3cb4001b4a9, type: 3}
       propertyPath: m_Name
       value: SpikesHazard

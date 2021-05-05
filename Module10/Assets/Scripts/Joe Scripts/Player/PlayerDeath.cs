@@ -13,12 +13,21 @@ public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] private GameObject deathPanelPrefab;
 
-    private readonly Dictionary<PlayerDeathCause, string> deathCauseTextDict = new Dictionary<PlayerDeathCause, string>()
+    private readonly Dictionary<PlayerDeathCause, WeightedString[]> deathCauseTextDict = new Dictionary<PlayerDeathCause, WeightedString[]>()
     {
-        { PlayerDeathCause.Starved,         "You starved." },
-        { PlayerDeathCause.FellOutOfWorld,  "You fell out of the world." },
-        { PlayerDeathCause.Crushed,         "You were crushed." },
-        { PlayerDeathCause.Skewered,        "You were skewered by spikes." }
+        { PlayerDeathCause.Starved,         new WeightedString[]    { new WeightedString("You starved.", 1) } },
+
+        { PlayerDeathCause.FellOutOfWorld,  new WeightedString[]    { new WeightedString("You fell out of the world.", 1) } },
+
+        { PlayerDeathCause.Crushed,         new WeightedString[]    {
+                                                                        new WeightedString("You were crushed.", 100),
+                                                                        new WeightedString("You were flattened.", 20),
+                                                                        new WeightedString("You were squished.", 20),
+                                                                        new WeightedString("You were turned into a pancake.", 5),
+                                                                        new WeightedString("LOL SQUASHING DEATH", 1),
+                                                                    } },
+
+        { PlayerDeathCause.Skewered,        new WeightedString[]    { new WeightedString("You were skewered by spikes.", 1) } }
     };
 
     public void KillPlayer(PlayerDeathCause causeOfDeath)
@@ -38,7 +47,7 @@ public class PlayerDeath : MonoBehaviour
 
         if (deathCauseTextDict.ContainsKey(causeOfDeath))
         {
-            deathCauseText = deathCauseTextDict[causeOfDeath];
+            deathCauseText = PickRandomWeightedString(deathCauseTextDict[causeOfDeath]);
         }
         else
         {
@@ -49,4 +58,31 @@ public class PlayerDeath : MonoBehaviour
 
         deathPanel.SetDeathCauseText(deathCauseText);
     }
+
+    public string PickRandomWeightedString(WeightedString[] weightedStrings)
+    {
+        List<string> stringsPool = new List<string>();
+
+        for (int i = 0; i < weightedStrings.Length; i++)
+        {
+            for (int j = 0; j < weightedStrings[i].Weight; j++)
+            {
+                stringsPool.Add(weightedStrings[i].Text);
+            }
+        }
+
+        return stringsPool[Random.Range(0, stringsPool.Count)];
+    }
+}
+
+public struct WeightedString
+{
+    public WeightedString(string text, int weight)
+    {
+        Text    = text;
+        Weight  = weight;
+    }
+
+    public string   Text;
+    public int      Weight;
 }

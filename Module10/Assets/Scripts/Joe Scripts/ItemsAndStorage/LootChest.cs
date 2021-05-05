@@ -16,7 +16,7 @@ public class LootChest : Chest, IPersistentObject
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
