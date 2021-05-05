@@ -18,7 +18,7 @@ public class Hazard : MonoBehaviour, IExternalTriggerListener
     [SerializeField] private float              cameraShakeMultiplier   = 1.0f;
     [SerializeField] private HazardMode         mode                    = HazardMode.PlayerTrigger;
 
-    [SerializeField] [Range(2.5f, 120.0f)]
+    [SerializeField] [Range(2.0f, 120.0f)]
     private float                               continuousInverval = 2.5f;
 
     [Header("Triggers")]
