@@ -56,7 +56,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -971,7 +971,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 19.016907, y: -18.999939}
+  m_AnchoredPosition: {x: 19.01709, y: -18.999939}
   m_SizeDelta: {x: 145.1382, y: 256.6917}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &9204811780673027560
@@ -1978,6 +1978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerQuestData: {fileID: 11400000, guid: 849c1f5215c88084a9b1b17fbd0a6bf6, type: 2}
+  inventory: {fileID: 0}
 --- !u!114 &9204811781302828328
 MonoBehaviour:
   m_ObjectHideFlags: 0

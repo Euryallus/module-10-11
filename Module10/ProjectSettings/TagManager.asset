@@ -25,6 +25,7 @@ TagManager:
   - BuildPreviewMaterial
   - BuildPoint
   - ModularPiece
+  - DamageDisplay
   layers:
   - Default
   - TransparentFX
