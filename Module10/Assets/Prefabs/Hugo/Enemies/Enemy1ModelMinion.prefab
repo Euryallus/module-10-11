@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 137528860155671676}
   - component: {fileID: 137528860155671677}
   - component: {fileID: 5519911894177581760}
+  - component: {fileID: 7576901424960007549}
   m_Layer: 6
   m_Name: Enemy1ModelMinion
   m_TagString: Untagged
@@ -84,6 +85,19 @@ MonoBehaviour:
   patrolSpeed: 1.5
   currentState: 0
   anim: {fileID: 5931105488403266674}
+--- !u!114 &7576901424960007549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137528860155671651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079f6c5b0cb3c0443b5247364cee6859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
 --- !u!1001 &5989255439873933582
 PrefabInstance:
   m_ObjectHideFlags: 0

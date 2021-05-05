@@ -576,6 +576,8 @@ GameObject:
   - component: {fileID: 6727574715923020227}
   - component: {fileID: 6727574715923020226}
   - component: {fileID: 5228041912843010343}
+  - component: {fileID: -2189631711332000066}
+  - component: {fileID: 67612294354176601}
   m_Layer: 6
   m_Name: Enemy3
   m_TagString: Untagged
@@ -637,21 +639,49 @@ MonoBehaviour:
   viewAngle: 120
   stationaryTurnSpeed: 5
   difficulty: 3
-  stopDistance: 1
   playerLastSeen: {x: 0, y: 0, z: 0}
+  noOfSearchPoints: 8
   patrolWanderDistance: 15
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 0
   timeBetweenAttacks: 3
   attackDistance: 20
-  canReach: 1
   manager: {fileID: 0}
-  enemyDestination: {x: 0, y: 0, z: 0}
+  maxAtEachPatrolPoint: 0
+  patrolSpeed: 0
   currentState: 3
   projectilePrefab: {fileID: 3717113732156638760, guid: 4e96660c0c2a32c4391906192e8b7a18, type: 3}
   projSpawnPoint: {fileID: 1387445870691299923}
   spawnToLaunchTime: 1.5
+--- !u!114 &-2189631711332000066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727574715923020252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &67612294354176601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727574715923020252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079f6c5b0cb3c0443b5247364cee6859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
 --- !u!1 &6727574716213449345
 GameObject:
   m_ObjectHideFlags: 0

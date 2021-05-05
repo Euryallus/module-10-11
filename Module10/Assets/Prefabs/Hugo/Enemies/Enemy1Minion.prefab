@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 137528860155671676}
   - component: {fileID: 137528860155671677}
   - component: {fileID: 6185944759816881309}
+  - component: {fileID: 7911265213235772528}
+  - component: {fileID: 3442305998069477539}
   m_Layer: 6
   m_Name: Enemy1Minion
   m_TagString: Untagged
@@ -71,18 +73,46 @@ MonoBehaviour:
   viewAngle: 200
   stationaryTurnSpeed: 5
   difficulty: 1
-  stopDistance: 1
   playerLastSeen: {x: 0, y: 0, z: 0}
+  noOfSearchPoints: 8
   patrolWanderDistance: 15
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 0.1
   timeBetweenAttacks: 2
   attackDistance: 2.1
-  canReach: 1
   manager: {fileID: 0}
-  enemyDestination: {x: 0, y: 0, z: 0}
+  maxAtEachPatrolPoint: 0
+  patrolSpeed: 0
   currentState: 0
+--- !u!114 &7911265213235772528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137528860155671651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &3442305998069477539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137528860155671651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079f6c5b0cb3c0443b5247364cee6859, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0.75
 --- !u!1 &137528860316144334
 GameObject:
   m_ObjectHideFlags: 0
