@@ -15,6 +15,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
     [SerializeField] private GameObject modularWoodRoofPrefab;
     [SerializeField] private GameObject modularWoodStairsPrefab;
     [SerializeField] private GameObject craftingTablePrefab;
+    [SerializeField] private GameObject customisingTablePrefab;
 
     #region Properties
 
@@ -118,6 +119,10 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                     case "craftingTable":
                         LoadPlacedCraftingTable(currentElement as TransformSaveData);
                         break;
+
+                    case "customisingTable":
+                        LoadPlacedCustomisingTable(currentElement as TransformSaveData);
+                        break;
                 }
             }
             else
@@ -187,6 +192,14 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                                             Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2])).GetComponent<CraftingTable>();
 
         craftingTable.SetupAsPlacedObject();
+    }
+    
+    private void LoadPlacedCustomisingTable(TransformSaveData data)
+    {
+        CustomisingTable customisingTable = Instantiate(customisingTablePrefab, new Vector3(data.Position[0], data.Position[1], data.Position[2]),
+                                                Quaternion.Euler(data.Rotation[0], data.Rotation[1], data.Rotation[2])).GetComponent<CustomisingTable>();
+
+        customisingTable.SetupAsPlacedObject();
     }
 
     private void MovePlayerToSpawnPoint()

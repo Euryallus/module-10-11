@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CraftingTableInteraction : InteractableWithOutline
+public class CustomisingTableInteraction : InteractableWithOutline
 {
     private InventoryPanel inventoryPanel;
 
@@ -17,7 +17,7 @@ public class CraftingTableInteraction : InteractableWithOutline
 
         if (!inventoryPanel.Showing)
         {
-            inventoryPanel.Show(InventoryShowMode.Craft);
+            inventoryPanel.Show(InventoryShowMode.Customise);
         }
     }
 }
