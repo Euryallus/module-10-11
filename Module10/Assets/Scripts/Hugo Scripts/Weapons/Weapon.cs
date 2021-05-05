@@ -14,7 +14,7 @@ public class Weapon : HeldItem
     [Range(0.0f, 1.0f)]
     public float critChance = 0.05f;
 
-    public float reachLength = 5f;
+
 
     public float damageModifier = 1f;
 

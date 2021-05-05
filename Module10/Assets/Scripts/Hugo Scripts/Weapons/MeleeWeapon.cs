@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MeleeWeapon : Weapon
 {
+    public float reachLength = 5f;
     public override void PerformMainAbility()
     {
         if(cooldown >= cooldownTime)
@@ -19,10 +20,11 @@ public class MeleeWeapon : Weapon
                 }
             }
 
-            animator.SetTrigger("Swing");
-            
+            if(animator != null)
+            {
+                animator.SetTrigger("Swing");
+            }
             cooldown = 0f;
-
             base.PerformMainAbility();
         }
         
