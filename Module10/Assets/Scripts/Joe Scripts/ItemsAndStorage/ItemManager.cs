@@ -7,10 +7,11 @@ public class ItemManager : MonoBehaviour, IPersistentObject
 {
     public static ItemManager Instance;
 
-    [Space] [Header("Item Manager | Please open the prefab to make changes")]
-
     [SerializeField] private Item[]             items;
-    public CraftingRecipe[]                     CraftingRecipes;
+    [SerializeField] private CraftingRecipe[]   craftingRecipes;
+
+    public Item[]           Items           { get { return items; } set { items = value; } }
+    public CraftingRecipe[] CraftingRecipes { get { return craftingRecipes; } set { craftingRecipes = value; } }
 
     private Dictionary<string, Item>            itemsDict           = new Dictionary<string, Item>();
     private Dictionary<string, Item>            customItemsDict     = new Dictionary<string, Item>();
@@ -174,13 +175,19 @@ public class ItemManager : MonoBehaviour, IPersistentObject
         //Add all items to a dictionary indexed by their ids
         for (int i = 0; i < items.Length; i++)
         {
-            itemsDict.Add(items[i].Id, items[i]);
+            if(items[i] != null)
+            {
+                itemsDict.Add(items[i].Id, items[i]);
+            }
         }
 
         //Add all crafting recipes to a dictionary indexed by the resulting item ids
-        for (int i = 0; i < CraftingRecipes.Length; i++)
+        for (int i = 0; i < craftingRecipes.Length; i++)
         {
-            craftingRecipesDict.Add(CraftingRecipes[i].ResultItem.Item.Id, CraftingRecipes[i]);
+            if(craftingRecipes[i] != null)
+            {
+                craftingRecipesDict.Add(craftingRecipes[i].ResultItem.Item.Id, craftingRecipes[i]);
+            }
         }
     }
 

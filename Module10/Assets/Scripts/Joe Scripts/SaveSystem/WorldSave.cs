@@ -37,7 +37,6 @@ public class WorldSave : MonoBehaviour, IPersistentObject
         {
             //Set this class as the instance and ensure that it stays when changing scenes
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
         }
         //If there is an existing instance that is not this, destroy the GameObject this script is connected to
         else if (Instance != this)
@@ -70,11 +69,9 @@ public class WorldSave : MonoBehaviour, IPersistentObject
             Debug.LogWarning("Trying to save without setting a UsedSavePointId!");
         }
 
-        //int uniquePlacedObjectId = 0;
-
         for (int i = 0; i < placedObjectsToSave.Count; i++)
         {
-            placedObjectsToSave[i].AddDataToWorldSave(saveData);//, ref uniquePlacedObjectId);
+            placedObjectsToSave[i].AddDataToWorldSave(saveData);
         }
     }
 
@@ -87,16 +84,17 @@ public class WorldSave : MonoBehaviour, IPersistentObject
 
     public void OnLoadConfigure(SaveData saveData)
     {
-        var saveDataEntries = saveData.GetSaveDataEntries();
+        LoadPlayerPlacedObjects(saveData.GetSaveDataEntries());
 
-        bool loadingObjects = true;
+        MovePlayerToSpawnPoint();
+    }
 
-        string[] idsToLoad = new string[] { "sign", "modularPiece", "craftingTable" };
-        int idToLoadIndex = 0;
-        string currentIdToLoad = idsToLoad[0];
-
-        //LOAD PLACED OBJECTS
-        //===================
+    private void LoadPlayerPlacedObjects(Dictionary<string, object> saveDataEntries)
+    {
+        bool        loadingObjects  = true;
+        string[]    idsToLoad       = new string[] { "sign", "modularPiece", "craftingTable" };
+        int         idToLoadIndex   = 0;
+        string      currentIdToLoad = idsToLoad[0];
 
         while (loadingObjects)
         {
@@ -106,7 +104,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
             {
                 var currentElement = saveDataEntries[currentIdToLoad];
 
-                switch(idsToLoad[idToLoadIndex])
+                switch (idsToLoad[idToLoadIndex])
                 {
                     case "sign":
                         LoadPlacedSignpost(currentElement as SignpostSaveData);
@@ -127,7 +125,7 @@ public class WorldSave : MonoBehaviour, IPersistentObject
             }
             else
             {
-                if(idToLoadIndex < (idsToLoad.Length - 1))
+                if (idToLoadIndex < (idsToLoad.Length - 1))
                 {
                     idToLoadIndex++;
                     currentIdToLoad = idsToLoad[idToLoadIndex];
@@ -138,8 +136,6 @@ public class WorldSave : MonoBehaviour, IPersistentObject
                 }
             }
         }
-
-        MovePlayerToSpawnPoint();
     }
 
     private void LoadPlacedSignpost(SignpostSaveData data)
