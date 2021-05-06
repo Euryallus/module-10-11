@@ -1,86 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// Main author:         Hugo Bailey
+// Additional author:   N/A
+// Description:         Adapted version of Enemy1Anim - used to test enemy animations & visuals
+// Development window:  Prototype phase
+// Inherits from:       Enemy1Anim
 
-public class Enemy1MinionAnim : Enemy1Minion
+public class Enemy1MinionAnim : Enemy1Anim
 {
-    public Animator anim;
-
-
-    public override void EngagedUpdate()
+    //Operates the same as Enemy1Anim currently, but since HasSplit is set to true immediately it just melee attacks
+    public override void Start()
     {
-        attackCooldown += Time.deltaTime;
-        if (CheckForPlayer())
-        {
-            if (Vector3.Distance(transform.position, player.transform.position) < attackDistance)
-            {
-                agent.SetDestination(transform.position);
-                TurnTowards(player);
-
-                if (attackCooldown > timeBetweenAttacks)
-                {
-
-
-                    Attack();
-                    attackCooldown = 0f;
-                    return;
-                }
-
-                anim.SetBool("Run Forward", false);
-            }
-            else
-            {
-
-
-                anim.SetBool("Run Forward", true);
-                GoTo(playerLastSeen);
-            }
-        }
-        else
-        {
-            //currentState = EnemyState.search;
-            StartSearching(playerLastSeen);
-        }
-    }
-
-    public override void StartPatrolling()
-    {
-        base.StartPatrolling();
-        anim.SetBool("Walk Forward", true);
-        anim.SetBool("Run Forward", false);
-    }
-
-    public override void Engage()
-    {
-        anim.SetBool("Run Forward", true);
-        base.Engage();
-    }
-
-    public override void Attack()
-    {
-        base.Attack();
-
-        if (Random.Range(0, 2) == 0)
-        {
-            anim.SetTrigger("Stab Attack");
-        }
-        else
-        {
-            anim.SetTrigger("Smash Attack");
-        }
-    }
-
-    protected override IEnumerator WaitAndMove(float maxDistance, Vector3 newPointOrigin, float maxWaitTime)
-    {
-        agent.SetDestination(transform.position);
-
-        anim.SetBool("Walk Forward", false);
-        anim.SetBool("Run Forward", false);
-        yield return new WaitForSeconds(Random.Range(0f, maxWaitTime));
-
-        findingNewPos = false;
-        GoToRandom(maxDistance, newPointOrigin);
-
-        anim.SetBool("Walk Forward", true);
+        HasSplit = true;
+        base.Start();
     }
 }

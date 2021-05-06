@@ -64,23 +64,22 @@ public class DayNightScript : MonoBehaviour
 
         if(timeOfDay > 20.0f)
         {
-            RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, ambientLightNight, Time.deltaTime * (1/ timeProgression));
-            RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, fogDensityNight, Time.deltaTime * (1 / timeProgression));
-            RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, nightFogColour, Time.deltaTime * (1 / timeProgression));
+            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, ambientLightNight, Time.deltaTime * (1/ timeProgression));
+            RenderSettings.fogDensity =         Mathf.Lerp(RenderSettings.fogDensity, fogDensityNight, Time.deltaTime * (1 / timeProgression));
+            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, nightFogColour, Time.deltaTime * (1 / timeProgression));
         }
         if(timeOfDay < 6.0f)
         {
-            RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, 1.0f, Time.deltaTime * (1 / timeProgression));
-            RenderSettings.fogDensity = Mathf.Lerp(RenderSettings.fogDensity, fogDensityDay, Time.deltaTime * (1 / timeProgression));
-
-            RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, dayFogColour, Time.deltaTime * (1 / timeProgression));
+            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, 1.0f, Time.deltaTime * (1 / timeProgression));
+            RenderSettings.fogDensity =         Mathf.Lerp(RenderSettings.fogDensity, fogDensityDay, Time.deltaTime * (1 / timeProgression));
+            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, dayFogColour, Time.deltaTime * (1 / timeProgression));
         }
 
         if(timeOfDay > 6.0f && timeOfDay < 20.0f)
         {
-            RenderSettings.ambientIntensity = 1.0f;
-            RenderSettings.fogDensity = fogDensityDay;
-            RenderSettings.fogColor = dayFogColour;
+            RenderSettings.ambientIntensity =   1.0f;
+            RenderSettings.fogDensity =         fogDensityDay;
+            RenderSettings.fogColor =           dayFogColour;
         }
 
         cloudOffset.y += Time.deltaTime * cloudScrollSpeed;
