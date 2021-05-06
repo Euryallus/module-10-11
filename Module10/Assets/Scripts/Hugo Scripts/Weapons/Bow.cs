@@ -14,6 +14,7 @@ public class Bow : Weapon
     public float arrowReleaseVelocity = 5f;
 
     public GameObject arrowPrefab;
+    public ItemGroup arrowRequired;
 
     public override void StartSecondardAbility()
     {
@@ -47,12 +48,25 @@ public class Bow : Weapon
     public override void EndSecondaryAbility()
     {
         base.EndSecondaryAbility();
+        InventoryPanel inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
 
-        GameObject newArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
-        newArrow.GetComponent<Rigidbody>().velocity = transform.forward * (arrowReleaseVelocity * (heldTime / chargeTime));
 
-        isHeld = false;
-        cooldown = 0f;
+        if (inventory.ContainsQuantityOfItem(arrowRequired))
+        {
+            GameObject newArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+            newArrow.GetComponent<Rigidbody>().velocity = transform.forward * (arrowReleaseVelocity * (heldTime / chargeTime));
+
+            newArrow.transform.forward = transform.forward;
+
+            isHeld = false;
+            cooldown = 0f;
+
+            inventory.RemoveItemFromInventory(arrowRequired.Item);
+        }
+        else
+        {
+            Debug.LogWarning("No arrow in inventory!");
+        }
 
         transform.localScale = new Vector3(transform.localScale.x, 1.75f, transform.localScale.z);
 
