@@ -16,12 +16,19 @@ public class Arrow : MonoBehaviour
     {
         if(!hasHit && !collision.transform.CompareTag("Player"))
         {
-            //gameObject.transform.parent = collision.gameObject.transform;
-            //gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            //
+            if(collision.transform.gameObject.isStatic)
+            {
+                gameObject.transform.parent = collision.gameObject.transform;
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+
             if(collision.gameObject.GetComponent<EnemyHealth>())
             {
+                gameObject.transform.parent = collision.gameObject.transform;
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
                 collision.gameObject.GetComponent<EnemyHealth>().DoDamage(damageDone);
                 Destroy(gameObject);
             }

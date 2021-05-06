@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30db721631325bd4aab1c03410f7bc54, type: 3}
   m_Name: Arrow
   m_EditorClassIdentifier: 
-  m_id: 
-  m_uiName: 
-  m_uiDescription: 
-  m_stackSize: 1
+  m_id: arrow
+  m_uiName: Arrow
+  m_uiDescription: An arrow
+  m_stackSize: 24
   m_weight: 0
-  m_sprite: {fileID: 0}
+  m_sprite: {fileID: 21300000, guid: 2dfe566b12faa344aa536a7781506dd7, type: 3}
   m_heldItemGameObject: {fileID: 0}
   m_customisable: 0
   m_currencyItemId: 

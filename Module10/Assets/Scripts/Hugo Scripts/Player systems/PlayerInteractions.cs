@@ -42,7 +42,15 @@ public class PlayerInteractions : MonoBehaviour
                 //{
                 //    gameObject.GetComponent<PlayerMovement>().InteractWithLadder();
                 //}
+
+                if (raycastHit.transform.gameObject.GetComponent<Collectable>() != null)
+                {
+                    raycastHit.transform.gameObject.GetComponent<Collectable>().PickUp();
+                    Debug.Log("Pickup");
+                }
             }
+
+            Debug.Log("Hit " + raycastHit.transform.name);
         }
         
     }
