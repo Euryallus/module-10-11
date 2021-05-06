@@ -27,149 +27,51 @@ public class ItemManagerEditor : Editor
     private static bool recipesExpanded = true;
     private static bool baseInspectorExpanded;
 
+    private void OnEnable()
+    {
+        SetupGUIStyles();
+    }
+
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUI.BeginChangeCheck();
 
         ItemManager itemManager = (ItemManager)target;
 
+        //Check if the current prefab instance has any modifications from the base prefab
         CheckForPrefabPropertyModifications(itemManager);
 
-        SetupGUIStyles();
+        //Start checking for changes, e.g. adding an item
+        EditorGUI.BeginChangeCheck();
+
+        //SetupGUIStyles();
 
         //ITEM MANAGER HEADER
         //===================
 
+        DrawItemManagerHeader();
+
         EditorGUILayout.Space(15.0f);
-        EditorGUILayout.LabelField("Item Manager", largeLabelStyle);
-        EditorGUILayout.LabelField("Please open the prefab to make changes.", mediumLabelStyle);
 
         //ITEMS HEADER
         //============
-        EditorGUILayout.Space(15.0f);
 
-        GUILayout.BeginHorizontal();
-
-        EditorGUILayout.LabelField("Items", largeLabelStyle, GUILayout.Width(80.0f), GUILayout.Height(22.0f));
-        if (GUILayout.Button(itemsExpanded ? "Hide" : "Show", GUILayout.Width(80.0f), GUILayout.Height(25.0f)))
-        {
-            itemsExpanded = !itemsExpanded;
-        }
-
-        GUILayout.EndHorizontal();
-
-        EditorGUILayout.LabelField(itemArrayMatchesPrefab ? "" : "Warning: The items array for this prefab instance contains changes not applied to the base prefab. Consider reverting changes.", warningLabelStyle);
-
-        EditorGUILayout.Space(itemArrayMatchesPrefab ? 0.0f : 10.0f);
+        DrawItemsHeader();
 
         //ITEMS DISPLAY/SELECTION
         //=======================
 
-        columnCount = 0;
-        Item[] items = itemManager.Items;
-
-        if (itemsExpanded && items != null)
-        {
-            itemScrollPosition = EditorGUILayout.BeginScrollView(itemScrollPosition, GUILayout.ExpandHeight(false));
-            GUILayout.BeginHorizontal();
-
-            for (int i = 0; i < (items.Length + 1); i++)
-            {
-                if (i < items.Length)
-                {
-                    AddItemPreview(itemManager, items, i);
-                }
-                else
-                {
-                    ShowAddItemButton(itemManager);
-                }
-
-                GUILayout.Space(8.0f);
-
-                columnCount++;
-
-                if (columnCount == MaxColumns)
-                {
-                    GUILayout.EndHorizontal();
-                    GUILayout.Space(8.0f);
-                    GUILayout.BeginHorizontal();
-                    columnCount = 0;
-                }
-
-            }
-
-            GUILayout.EndHorizontal();
-            EditorGUILayout.EndScrollView();
-
-            EditorGUILayout.Space(15.0f);
-        }
-        else if(items == null)
-        {
-            ShowAddItemButton(itemManager);
-        }
+        DrawItemsDisplaySection(itemManager);
 
         //RECIPES HEADER
         //============
-        GUILayout.BeginHorizontal();
 
-        EditorGUILayout.LabelField("Recipes", largeLabelStyle, GUILayout.Width(80.0f), GUILayout.Height(22.0f));
-        if (GUILayout.Button(recipesExpanded ? "Hide" : "Show", GUILayout.Width(80.0f), GUILayout.Height(25.0f)))
-        {
-            recipesExpanded = !recipesExpanded;
-        }
-
-        GUILayout.EndHorizontal();
-
-        EditorGUILayout.LabelField(recipeArrayMatchesPrefab ? "" : "Warning: The recipes array for this prefab instance contains changes not applied to the base prefab. Consider reverting changes.", warningLabelStyle);
-
-        EditorGUILayout.Space(recipeArrayMatchesPrefab ? 0.0f : 10.0f);
+        DrawRecipesHeader();
 
         //RECIPES DISPLAY/SELECTION
         //=========================
 
-        columnCount = 0;
-        CraftingRecipe[] recipes = itemManager.CraftingRecipes;
-
-        if (recipesExpanded && recipes != null)
-        {
-            recipeScrollPosition = EditorGUILayout.BeginScrollView(recipeScrollPosition, GUILayout.ExpandHeight(false));
-            GUILayout.BeginHorizontal();
-
-            for (int i = 0; i < (recipes.Length + 1); i++)
-            {
-                if (i < recipes.Length)
-                {
-                    AddRecipePreview(itemManager, recipes, i);
-                }
-                else
-                {
-                    ShowAddRecipeButton(itemManager);
-                }
-
-                GUILayout.Space(8.0f);
-
-                columnCount++;
-
-                if (columnCount == MaxColumns)
-                {
-                    GUILayout.EndHorizontal();
-                    GUILayout.Space(8.0f);
-                    GUILayout.BeginHorizontal();
-                    columnCount = 0;
-                }
-
-            }
-
-            GUILayout.EndHorizontal();
-            EditorGUILayout.EndScrollView();
-
-            EditorGUILayout.Space(15.0f);
-        }
-        else if(recipes == null)
-        {
-            ShowAddRecipeButton(itemManager);
-        }
+        DrawRecipesDisplaySection(itemManager);
 
         //BASE INSPECTOR
         //==============
@@ -179,12 +81,13 @@ public class ItemManagerEditor : Editor
             baseInspectorExpanded = !baseInspectorExpanded;
         }
 
+        //Draw the default editor GUI if the above button was pressed to expand it
         if (baseInspectorExpanded)
         {
-            //Draw the default editor GUI
             base.OnInspectorGUI();
         }
 
+        //Stop checking for changes
         EditorGUI.EndChangeCheck();
 
         if(GUI.changed)
@@ -195,22 +98,6 @@ public class ItemManagerEditor : Editor
         }
 
         serializedObject.ApplyModifiedProperties();
-    }
-
-    private void ShowAddItemButton(ItemManager itemManager)
-    {
-        if (GUILayout.Button("Add", GUILayout.Width(82.0f), GUILayout.Height(72.0f)))
-        {
-            AddItem(itemManager);
-        }
-    }
-
-    private void ShowAddRecipeButton(ItemManager itemManager)
-    {
-        if (GUILayout.Button("Add", GUILayout.Width(82.0f), GUILayout.Height(72.0f)))
-        {
-            AddRecipe(itemManager);
-        }
     }
 
     private void SetupGUIStyles()
@@ -252,7 +139,158 @@ public class ItemManagerEditor : Editor
         warningBoxStyle.normal.background = GetColourTexture(new Color(0.8f, 0.98f, 1.0f, 0.9f));
     }
 
-    private void AddItemPreview(ItemManager itemManager, Item[] items, int index)
+    #region Inspector_GUI_Drawing
+
+    private void DrawItemManagerHeader()
+    {
+        EditorGUILayout.Space(15.0f);
+        EditorGUILayout.LabelField("Item Manager", largeLabelStyle);
+        EditorGUILayout.LabelField("Please open the prefab to make changes.", mediumLabelStyle);
+    }
+
+    private void DrawItemsHeader()
+    {
+        GUILayout.BeginHorizontal();
+
+        EditorGUILayout.LabelField("Items", largeLabelStyle, GUILayout.Width(80.0f), GUILayout.Height(22.0f));
+        if (GUILayout.Button(itemsExpanded ? "Hide" : "Show", GUILayout.Width(80.0f), GUILayout.Height(25.0f)))
+        {
+            itemsExpanded = !itemsExpanded;
+        }
+
+        GUILayout.EndHorizontal();
+
+        EditorGUILayout.LabelField(itemArrayMatchesPrefab ? "" : "Warning: The items array for this prefab instance contains changes not applied to the base prefab. Consider reverting changes.", warningLabelStyle);
+
+        EditorGUILayout.Space(itemArrayMatchesPrefab ? 0.0f : 10.0f);
+    }
+
+    private void DrawRecipesHeader()
+    {
+        GUILayout.BeginHorizontal();
+
+        EditorGUILayout.LabelField("Recipes", largeLabelStyle, GUILayout.Width(80.0f), GUILayout.Height(22.0f));
+        if (GUILayout.Button(recipesExpanded ? "Hide" : "Show", GUILayout.Width(80.0f), GUILayout.Height(25.0f)))
+        {
+            recipesExpanded = !recipesExpanded;
+        }
+
+        GUILayout.EndHorizontal();
+
+        EditorGUILayout.LabelField(recipeArrayMatchesPrefab ? "" : "Warning: The recipes array for this prefab instance contains changes not applied to the base prefab. Consider reverting changes.", warningLabelStyle);
+
+        EditorGUILayout.Space(recipeArrayMatchesPrefab ? 0.0f : 10.0f);
+    }
+
+    private void DrawItemsDisplaySection(ItemManager itemManager)
+    {
+        columnCount = 0;
+        Item[] items = itemManager.Items;
+
+        if (itemsExpanded && items != null)
+        {
+            itemScrollPosition = EditorGUILayout.BeginScrollView(itemScrollPosition, GUILayout.ExpandHeight(false));
+            GUILayout.BeginHorizontal();
+
+            for (int i = 0; i < (items.Length + 1); i++)
+            {
+                if (i < items.Length)
+                {
+                    DrawItemPreview(itemManager, items, i);
+                }
+                else
+                {
+                    DrawAddItemButton(itemManager);
+                }
+
+                GUILayout.Space(8.0f);
+
+                columnCount++;
+
+                if (columnCount == MaxColumns)
+                {
+                    GUILayout.EndHorizontal();
+                    GUILayout.Space(8.0f);
+                    GUILayout.BeginHorizontal();
+                    columnCount = 0;
+                }
+
+            }
+
+            GUILayout.EndHorizontal();
+            EditorGUILayout.EndScrollView();
+
+            EditorGUILayout.Space(15.0f);
+        }
+        else if (items == null)
+        {
+            DrawAddItemButton(itemManager);
+        }
+    }
+
+    private void DrawRecipesDisplaySection(ItemManager itemManager)
+    {
+        columnCount = 0;
+        CraftingRecipe[] recipes = itemManager.CraftingRecipes;
+
+        if (recipesExpanded && recipes != null)
+        {
+            recipeScrollPosition = EditorGUILayout.BeginScrollView(recipeScrollPosition, GUILayout.ExpandHeight(false));
+            GUILayout.BeginHorizontal();
+
+            for (int i = 0; i < (recipes.Length + 1); i++)
+            {
+                if (i < recipes.Length)
+                {
+                    DrawRecipePreview(itemManager, recipes, i);
+                }
+                else
+                {
+                    DrawAddRecipeButton(itemManager);
+                }
+
+                GUILayout.Space(8.0f);
+
+                columnCount++;
+
+                if (columnCount == MaxColumns)
+                {
+                    GUILayout.EndHorizontal();
+                    GUILayout.Space(8.0f);
+                    GUILayout.BeginHorizontal();
+                    columnCount = 0;
+                }
+
+            }
+
+            GUILayout.EndHorizontal();
+            EditorGUILayout.EndScrollView();
+
+            EditorGUILayout.Space(15.0f);
+        }
+        else if (recipes == null)
+        {
+            DrawAddRecipeButton(itemManager);
+        }
+    }
+
+    private void DrawAddItemButton(ItemManager itemManager)
+    {
+        if (GUILayout.Button("Add", GUILayout.Width(82.0f), GUILayout.Height(72.0f)))
+        {
+            AddItem(itemManager);
+        }
+    }
+
+    private void DrawAddRecipeButton(ItemManager itemManager)
+    {
+        if (GUILayout.Button("Add", GUILayout.Width(82.0f), GUILayout.Height(72.0f)))
+        {
+            AddRecipe(itemManager);
+        }
+    }
+
+    private void DrawItemPreview(ItemManager itemManager, Item[] items, int index)
     {
         Item currentItem = items[index];
 
@@ -291,7 +329,7 @@ public class ItemManagerEditor : Editor
         GUILayout.EndVertical();   //End of AREA 3
     }
 
-    private void AddRecipePreview(ItemManager itemManager, CraftingRecipe[] recipes, int index)
+    private void DrawRecipePreview(ItemManager itemManager, CraftingRecipe[] recipes, int index)
     {
         CraftingRecipe currentRecipe = recipes[index];
 
@@ -329,6 +367,8 @@ public class ItemManagerEditor : Editor
         GUILayout.EndHorizontal(); //End of AREA 2
         GUILayout.EndVertical();   //End of AREA 3
     }
+
+    #endregion //End of Inspector GUI Drawing
 
     private void AddItem(ItemManager itemManager)
     {
