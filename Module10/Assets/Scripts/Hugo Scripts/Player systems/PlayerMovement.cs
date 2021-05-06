@@ -4,91 +4,68 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+// Main author:         Hugo Bailey
+// Additional author:   N/A
+// Description:         Handles player movement & movement states 
+// Development window:  Prototype phase
+// Inherits from:       MonoBehaviour
+
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("THIS NEEDS IMPROVING SOME TIME")]
-    [SerializeField]
-    private GameObject playerCamera;
-    [SerializeField]
-    private CharacterController controller;
+    [Header("General refs")]
 
-    private float mouseX;
-    private float mouseY;
-    private float rotateY = 0;
-    private float inputX;
-    private float inputY;
+    [SerializeField]    private GameObject playerCamera;    // Reference to player camera (used for forward vect)
+    [SerializeField]    private Volume postProcessing;      // Post processing volume (used for water post processing)
 
-    [SerializeField]
-    private float velocityY = 0;
+    [Header("Player movement speeds")]
 
-    [SerializeField]
-    private Volume pp;
-    private DepthOfField dof;
-    private Vignette v;
+    [SerializeField]    [Range(1, 10)]    private float walkSpeed           = 5f;   // Default walk speed
+    [SerializeField]    [Range(1, 10)]    private float runSpeed            = 8f;   // Default run speed
+    [SerializeField]    [Range(1, 10)]    private float crouchSpeed         = 3f;   // Default crouch speed
+    [SerializeField]    [Range(1, 20)]    private float defaultGlideSpeed   = 2f;   // Default glide speed
+    [SerializeField]    [Range(1, 10)]    private float swimSpeed           = 5f;   // Default swim speed
+    [SerializeField]    [Range(1, 30)]    private float jumpVelocity        = 3f;   // Default jump velocity
 
-    [Header("Speeds")]
-    [SerializeField]
-    [Range(1, 10)]
-    private float walkSpeed = 5;
-    [SerializeField]
-    [Range(1, 10)]
-    private float runSpeed = 8;
-    [SerializeField]
-    [Range(1, 10)]
-    private float crouchSpeed = 3;
-    [SerializeField]
-    [Range(1, 20)]
-    private float defaultGlideSpeed = 2f;
-    [SerializeField]
-    [Range(1, 10)]
-    private float swimSpeed= 5f;
-    [SerializeField]
-    [Range(1, 30)]
-    private float jumpVelocity = 3f;
+    private Dictionary<MovementStates, float> speedMap = new Dictionary<MovementStates, float> { }; // Dictionary mapping movement states to speeds
 
-    [Header("Gravity")]
-    [SerializeField] 
-    [Tooltip("Rate at which player falls when gliding, default is 9.81 (normal grav.)")]
-    [Range(0.5f, 12)]
-    private float gliderFallRate = 3f;
-    [SerializeField]
-    [Range(0.5f, 20)]
-    private float gravity = 9.81f;
-
-    private Vector3 moveTo;
+    [Header("Gravity (normal & glider)")]
+    [SerializeField]    [Range(0.5f, 20)]    private float gravity         = 9.81f; // Default downward force
 
     [Header("Mouse input")]
-    [SerializeField]
-    [Range(0.5f, 8)]
-    private float mouseSensitivity = 400f;
+    [SerializeField]    [Range(0.5f, 8)]    private float mouseSensitivity = 400f;  // Sensitivity of mouse
 
-    [Header("Glider stuff")]
-    [SerializeField]
-    [Range(0.5f, 4)]
-    private float gliderSensitivity = 2.0f;
+    [Header("Glider elements")]
 
-    [SerializeField]
-    [Range(0.01f, 1)]
-    private float gliderTiltAmount = 0.5f;
-    
-    [SerializeField]
-    [Range(1, 10)]
-    private float gliderOpenDistanceFromGround = 5.0f;
+    [Tooltip("Rate at which player falls when gliding, default is 9.81 (normal grav.)")]
+    [SerializeField]    [Range(0.5f, 12)] private float gliderFallRate                  = 3f;   // Default rate player falls when gliding 
+    [SerializeField]    [Range(0.5f, 4)]  private float gliderSensitivity               = 2.0f; // Turn sensitivity of glideer
+    [SerializeField]    [Range(0.01f, 1)] private float gliderTiltAmount                = 0.5f; // Amount glider tilts when in use (clamps after [x] amount)
+    [SerializeField]    [Range(1, 10)]    private float gliderOpenDistanceFromGround    = 5.0f; // Distance from the ground player must be to open glider
 
-    private bool jumpForceAdded = false;
 
-    [SerializeField]
-    private bool inWater = false;
-    GameObject waterPlane = null;
-    RaycastHit waterRay;
-    private bool canMove = true;
-    private bool canGlide = false;
-    private Vector2 glideVelocity;
+    private float mouseX;           // x component of raw mouse movement
+    private float mouseY;           // y component of raw mouse movement
+    private float rotateY = 0;      // y Rotation of camera (gets clamped to ~85 degrees to avoid total spinning)
+    private float inputX;           // x component of raw keyboard input
+    private float inputY;           // y component of raw keyboard input
+    private float velocityY = 0;    // Downward velocity acting on playerz
 
-    private InventoryPanel inventory;
-    public Item glider;
+    private CharacterController controller; // Ref to player's character controller
 
-    public enum MovementStates
+    private DepthOfField dof;   // Ref. to Depth of Field post processing effect
+    private Vignette v;         // Ref. to  Vignette post processing effect
+
+    private Vector3 moveTo;         // Vector3 position player moves towards (calculated each frame & passed to CharacterController via Move() func)
+    private Vector2 glideVelocity;  // x and z components of glider movement (y comp. is calculated seperately)
+
+    private bool inWater    = false;    // Flags if player is currently underwater
+    private bool canMove    = true;     // Flags if player is able to move (changed to prevent moving during dialogue etc.)
+    private bool canGlide   = false;    // Flags if player is able to glide (if > [gliderOpenDistanceFromGround] meters off ground)
+
+    private InventoryPanel inventory;   // Ref. to player inventory
+    public Item glider;                 // Ref. to glider object
+
+    public enum MovementStates      // Possible states player can be in when moving
     {
         walk,
         run,
@@ -99,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         ladder
     }
 
-    private enum CrouchState
+    private enum CrouchState    // Possible states of "crouching" player can be in
     {
         standing,
         gettingDown,
@@ -107,15 +84,15 @@ public class PlayerMovement : MonoBehaviour
         gettingUp
     }
 
-    [SerializeField]
-    private CrouchState currentCrouchState;
-    public MovementStates currentMovementState;
+    
+    private CrouchState currentCrouchState;         // Saves player's current crouch state
+    private MovementStates currentMovementState;    // Saves player's current movement state
 
-    private Dictionary<MovementStates, float> speedMap = new Dictionary<MovementStates, float> { };
 
 
     void Start()
     {
+        controller = gameObject.GetComponent<CharacterController>();
         inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<InventoryPanel>();
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -134,8 +111,8 @@ public class PlayerMovement : MonoBehaviour
         glideVelocity = new Vector2(0, 0);
 
         //gets post processing effects (water effect)
-        pp.profile.TryGet<Vignette>(out v);
-        pp.profile.TryGet<DepthOfField>(out dof);
+        postProcessing.profile.TryGet<Vignette>(out v);
+        postProcessing.profile.TryGet<DepthOfField>(out dof);
     }
 
     // Update is called once per frame
@@ -151,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;// * Time.deltaTime;
 
         rotateY -= mouseY;
-        rotateY = Mathf.Clamp(rotateY, -75f, 75f);
+        rotateY = Mathf.Clamp(rotateY, -75f, 85f);
 
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
@@ -245,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
         //water collision layer
         int mask = 1 << 4;
 
-        if (Physics.Raycast(transform.position - new Vector3(0,0.5f,0), transform.up, out waterRay, 100f, mask ))
+        if (Physics.Raycast(transform.position - new Vector3(0,0.5f,0), transform.up, 100f, mask ))
         {
             //if hits water layer above & mode isnt swimming, enable post processing effects
             if(currentMovementState != MovementStates.dive)
@@ -258,9 +235,6 @@ public class PlayerMovement : MonoBehaviour
             inWater = true;
             //sets current movement mode to diving
             currentMovementState = MovementStates.dive;
-
-            //saves ref. to water plane
-            waterPlane = waterRay.collider.gameObject;
         }
         else 
         {
@@ -521,6 +495,4 @@ public class PlayerMovement : MonoBehaviour
             currentMovementState = MovementStates.walk;
         }
     }
-
-
 }

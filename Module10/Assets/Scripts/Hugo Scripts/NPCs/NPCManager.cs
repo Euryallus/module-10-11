@@ -2,20 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main author:         Hugo Bailey
+// Additional author:   Joe Allen (see "Added by Joe" comments)
+// Description:         Manages NPC interactions & passes data to QuestManager when NPC is also a quest giver. Communicates with DialogueUI to display dialogue on screen
+// Development window:  Prototype phase
+// Inherits from:       MonoBehaviour
+
 public class NPCManager : MonoBehaviour
-{
-    [SerializeField]
-    [Tooltip("Quest manager ref")]
-    private QuestManager qmanager;
-
-    private DialogueUI UI;
-
-    private NPC interactingWith = null;
-    private PlayerMovement playerMove;
-
-    private focusCameraState focusCameraCurrentState = focusCameraState.normal;
-
-    private Transform targetCameraTransform;
+{ 
     private enum focusCameraState
     { 
         normal,
@@ -23,36 +17,44 @@ public class NPCManager : MonoBehaviour
         focused
     }
 
+
+    [Tooltip("Quest manager ref")]
+    [SerializeField]    private QuestManager qmanager;                                                  // Ref to QuestManager
+                        private DialogueUI UI;                                                          // Ref to DialogueUI needed to dispay dialogue
+                        private NPC interactingWith                         = null;                     // Ref to NPC data currently being used (NPC player is talking to)
+                        private PlayerMovement playerMove;                                              // Ref. to player movement script (allows movement to be disabled when in conversation)
+                        private focusCameraState focusCameraCurrentState    = focusCameraState.normal;  // Current state of the NPC focus camera
+                        private Transform targetCameraTransform;                                        // Target transform for the NPC focus camera
+   
+
     [Header("Camera focus componens")]
-    // allows 2nd camera to focus on NPC
-    [SerializeField]
-    private GameObject playerCamera;
-    [SerializeField]
-    private GameObject focusCamera;
-    //speed camera lerps from current pos to focused pos
-    [SerializeField]
-    private float cameraLerpSpeed;
+    
+    [SerializeField]    private GameObject playerCamera;    // Ref to player default camera
+    [SerializeField]    private GameObject focusCamera;     // Ref to 2nd camera used to focus on NPC
+    [SerializeField]    private float cameraLerpSpeed;      // Speed camera lerps from current pos to focused pos
 
 
     private void Start()
     {
-        UI = gameObject.GetComponent<DialogueUI>();
-        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        // Assigns references to components needed & hides NPC dialogue UI by default
+        UI = gameObject.GetComponent<DialogueUI>();        
         UI.HideDialogue();
+        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 
+        // Deactivates focus camera
         focusCamera.SetActive(false);
     }
 
     private void Update()
     {
-        // checks if camera should be moving
+        // Checks if camera should be moving
         if(focusCameraCurrentState == focusCameraState.moving)
         {
             // LERP from current pos to target pos over [1 / cameraLerpSpeed] seconds
             focusCamera.transform.position = Vector3.Lerp(focusCamera.transform.position, targetCameraTransform.position, cameraLerpSpeed * Time.deltaTime);
             focusCamera.transform.rotation = Quaternion.Lerp(focusCamera.transform.rotation, targetCameraTransform.rotation, cameraLerpSpeed * Time.deltaTime);
 
-            // checks if camera is close enough to target, if so stop moving & snap to target pos
+            // Checks if camera is close enough to target, if so stop moving & snap to target pos
             if(Vector3.Distance( focusCamera.transform.position, targetCameraTransform.position) < 0.01f)
             {
                 focusCamera.transform.position = targetCameraTransform.position;
@@ -60,17 +62,15 @@ public class NPCManager : MonoBehaviour
 
                 focusCameraCurrentState = focusCameraState.focused;
             }
-
         }
     }
 
     public void InteractWithNPC(NPC npc)
     {
         interactingWith = npc;
-
         string dialogueLine = npc.ReturnDialoguePoint();
 
-        // checks if NPC has any dialogue to say - if so, focus on target & show dialogue UI
+        // Checks if NPC has any dialogue to say - if so, focus on target & show dialogue UI
         if(dialogueLine != null)
         {
             StartFocusCameraMove(npc.cameraFocusPoint);
@@ -79,45 +79,41 @@ public class NPCManager : MonoBehaviour
             UI.ShowDialogue(dialogueLine);
         }
         else
-        // checks if NPC has any quests to give instead
+        // Checks if NPC has any quests to give instead
         {
             UI.HideDialogue();
-            
             StartFocusCameraMove(npc.cameraFocusPoint);
 
-            // prevents player from using movement input while talking to someone
+            // Prevents player from using movement input while talking to someone
             playerMove.StopMoving();
 
             if (interactingWith.isQuestGiver)
             {
                 if (qmanager.InteractWith(interactingWith.npcName))
                 {
-                    //if the NPC is a quest giver and has something to say to the player, do that instead of this
+                    // If the NPC is a quest giver and has something to say to the player, do that instead of this
                     return;
                 }
             }
-
-            // if npc has nothing to say at all, end the convo and stop focusing camera
+            // If npc has nothing to say at all, end the convo and stop focusing camera
             EndConversation();
             StopFocusCamera();
-
         }
-
     }
 
     public void ProgressDialogue()
     {
-        // called by "Next" button on dialogue UI
+        // Called by "Next" button on dialogue UI
         string dialogueLine = interactingWith.ReturnDialoguePoint();
 
         if (dialogueLine != null)
         {
-            // if the NPC has something else to say, show it
+            // If the NPC has something else to say, show it
             UI.ShowDialogue(dialogueLine);
         }
         else
         {
-            // if NPC has no dialogue left, check for quests to give / complete
+            // If NPC has no dialogue left, check for quests to give / complete
             UI.HideDialogue();
             interactingWith.ResetDialogue();
 
@@ -125,47 +121,43 @@ public class NPCManager : MonoBehaviour
             {
                 if (qmanager.InteractWith(interactingWith.npcName))
                 {
-                    // if npc has quests to accept / give, do that instead of this
+                    // If npc has quests to accept / give, do that instead of this
                     return;
                 }
             }
 
-            // if nothing left to say, end the convo & defocus camera
+            // If nothing left to say, end the convo & defocus camera
             EndConversation();
             StopFocusCamera();
-            
-            
         }
     }
 
+    // Called when player hits "leave" button on dialogue UI
     public void EndConversation()
     {
-        // called when player hits "leave" button on dialogue UI
-
-        //allows player to move again, hides dialogue UI, resets dialogue and returns cam control to the player
+        // Allows player to move again, hides dialogue UI, resets dialogue and returns cam control to the player
         playerMove.StartMoving();
         UI.HideDialogue();
         
         interactingWith.ResetDialogue();
-
         StopFocusCamera();
     }
 
     public void StartFocusCameraMove(Transform target)
     {
-        // de-activates player camera
+        // De-activates player camera
         playerCamera.SetActive(false);
 
-        // assigns initial position of focus cam to match players current position
+        // Sssigns initial position of focus cam to match players current position
         focusCamera.transform.position = playerCamera.transform.position;
         focusCamera.transform.rotation = playerCamera.transform.rotation;
 
-        // activates focus cam 
+        // Activates focus cam 
         focusCamera.SetActive(true);
 
-        //sets target transform for focus cam
+        // Sets target transform for focus cam
         targetCameraTransform = target;
-        //sets movement state to "moving"
+        // Sets movement state to "moving"
         focusCameraCurrentState = focusCameraState.moving;
 
         //Added by Joe - Hide hotbar/player stats UI
@@ -173,11 +165,11 @@ public class NPCManager : MonoBehaviour
     }
     public void StopFocusCamera()
     {
-        // re-activates player camera & de-activates focus cam
+        // Re-activates player camera & de-activates focus cam
         playerCamera.SetActive(true);
         focusCamera.SetActive(false);
 
-        // sets target transform to null, sets camera mode to normal
+        // Sets target transform to null, sets camera mode to normal
         targetCameraTransform = null;
         focusCameraCurrentState = focusCameraState.normal;
 

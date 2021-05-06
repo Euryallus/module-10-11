@@ -2,24 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//attached to objects that can be picked up & moved (REQUIRES A RIGIDBODY FOR THIS TO WORK)
+// Main author:         Hugo Bailey
+// Additional author:   N/A
+// Description:         Used by the Grab ability (currently tied to the Pickaxe) to pick up & move physics objects around
+// Development window:  Prototype phase
+// Inherits from:       MonoBehaviour
+
+[RequireComponent(typeof(Rigidbody))]
 public class MovableObject : MonoBehaviour
 {
-    //bool value (toggled if player is holding the item)
-    [SerializeField]
-    public bool isHeld;
-
-    //saves "hand" position of player
-    [SerializeField]
-    private Transform target;
-
-    [SerializeField]
-    private Vector3 targetPos;
-
-    //stores ref. to Rigidbody component
-    [SerializeField]
-    private Rigidbody rb;
-
+    [HideInInspector]   public bool isHeld;         // Flags if player is currently holding the object
+    [SerializeField]    private Transform target;   // Ref. to transform of the player's ""hand"" - position the object moves towards
+    [SerializeField]    private Rigidbody rb;       // Ref. to own RigidBody component
 
     void Start()
     {
@@ -29,32 +23,32 @@ public class MovableObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if the player is currently holding the object, move towards the players hand position
+        // If the player is currently holding the object, move towards the players hand position
         if (isHeld)
         {
-            targetPos = target.position;
             transform.position = Vector3.Lerp(transform.position, target.position, 10 * Time.deltaTime);
         }
     }
 
-    //sets target position to players hand, turns off grav & sets _isHeld to true
+    // Sets target position to players hand, turns off grav & sets isHeld to true
     public void PickUp(Transform hand)
     {
+        // ""Resets"" velocity when object is held to avoid issues when moving around
         rb.velocity = Vector3.zero;
-
+        // Sets target to the player's "hand" and disables gravity on the object, flags isHeld
         target = hand;
         rb.useGravity = false;
         isHeld = true;
     }
 
-    //sets item down where it is and re-enables grav.
+    // Sets item down where it is and re-enables grav.
     public void DropObject(Vector3 direction)
     {
         isHeld = false;
         rb.useGravity = true;
     }
 
-    //throws object in the direction the player is facing, re-enables grav etc.
+    // Throws object in the direction the player is facing, re-enables grav etc.
     public void ThrowObject(Vector3 direction)
     {
         isHeld = false;
