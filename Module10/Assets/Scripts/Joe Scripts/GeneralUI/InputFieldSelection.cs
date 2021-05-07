@@ -2,16 +2,16 @@ using UnityEngine;
 using TMPro;
 
 // ||=======================================================================||
-// || CustomInputField: Detects when input fields are selected and sets a   ||
-// ||   public flag that can be checked to prevent other input events being ||
-// ||   triggered while the player is typing.                               ||
+// || InputFieldSelection: Detects when input fields are selected and sets  ||
+// ||   a public flag that can be checked to prevent other input events     ||
+// ||   being triggered while the player is typing.                         ||
 // ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||
 
 [RequireComponent(typeof(TMP_InputField))]
-public class CustomInputField : MonoBehaviour
+public class InputFieldSelection : MonoBehaviour
 {
     public static bool AnyFieldSelected;    // Whether any input field is currently selected/being typed in
                                                

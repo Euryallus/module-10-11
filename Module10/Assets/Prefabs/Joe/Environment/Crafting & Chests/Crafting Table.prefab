@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 5581585384562596165}
   - component: {fileID: 5581585384562596161}
   - component: {fileID: 5581585384562596160}
-  - component: {fileID: 7028229022054234127}
+  - component: {fileID: 6061816061318905216}
   m_Layer: 0
   m_Name: Crafting Table
   m_TagString: Crafting
@@ -390,7 +390,7 @@ MonoBehaviour:
     - {x: 0.57735026, y: 0.57735026, z: -0.57735026}
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: 0.57735026, y: -0.57735026, z: 0.57735026}
---- !u!114 &7028229022054234127
+--- !u!114 &6061816061318905216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,15 +399,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5581585384562596166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7503eaa85cc22e74eb28f1de23a478a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d4fb00d4df75f479439a1e5bf1396b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRange: 5
-  pressEToInteract: 1
   interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
   interactTooltipOffset: {x: 0, y: 0.6, z: 0}
   tooltipNameText: Crafting Table
   interactionSound: buttonClickMain1
+  inventoryShowMode: 2
 --- !u!1 &8897922598060842488
 GameObject:
   m_ObjectHideFlags: 0

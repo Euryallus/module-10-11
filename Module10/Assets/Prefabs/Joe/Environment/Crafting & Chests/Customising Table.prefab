@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3792199794413623877}
   - component: {fileID: 3792199794413623878}
-  - component: {fileID: 3792199794413623875}
   - component: {fileID: 3792199794413623874}
   - component: {fileID: 3270027896379188685}
+  - component: {fileID: 2880093286583007287}
   m_Layer: 0
   m_Name: Customising Table
   m_TagString: Customising
@@ -50,24 +50,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &3792199794413623875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3792199794413623929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d49c7c4a088ab8d48ab0c3fc0fb5ad52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRange: 5
-  pressEToInteract: 1
-  interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
-  interactTooltipOffset: {x: 0, y: 0, z: 0}
-  tooltipNameText: Customising Table
-  interactionSound: buttonClickMain1
 --- !u!114 &3792199794413623874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +115,24 @@ MonoBehaviour:
   destroyParticlesPrefab: {fileID: 7938302578735204356, guid: 9832bafeefee59d43b853ff60fc13f34, type: 3}
   destroyParticlesTransform: {fileID: 7458499324367277278}
   hitSound: {fileID: 11400000, guid: e0ae3f7e2ca8ae644823c543cecab919, type: 2}
+--- !u!114 &2880093286583007287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3792199794413623929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d4fb00d4df75f479439a1e5bf1396b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRange: 5
+  interactTooltipPrefab: {fileID: 7833637479385031685, guid: 00b3961c78315924bb78ec4054eb5813, type: 3}
+  interactTooltipOffset: {x: 0, y: 0.5, z: 0}
+  tooltipNameText: Customising Table
+  interactionSound: buttonClickMain1
+  inventoryShowMode: 1
 --- !u!1 &4071678908793828691
 GameObject:
   m_ObjectHideFlags: 0

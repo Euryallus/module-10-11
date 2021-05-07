@@ -41,7 +41,7 @@ public class MapUI : MonoBehaviour
     private void Update()
     {
         // Checks if player presses M and no other menu is showing
-        if (Input.GetKeyDown(KeyCode.M) && !CustomInputField.AnyFieldSelected)
+        if (Input.GetKeyDown(KeyCode.M) && !InputFieldSelection.AnyFieldSelected)
         {
             // Switches alpha value of canvas group
             cg.alpha = cg.alpha == 0 ? 1 : 0;

@@ -123,22 +123,22 @@ public class HotbarPanel : UIPanel, IPersistentObject
         return itemContainer.ContainsQuantityOfItem(items, out _);
     }
 
-    public bool RemoveItemFromHotbar(Item item)
-    {
-        // Override for the below function, allowing an item to be passed instead of a string id
-        return RemoveItemFromHotbar(item.Id);
-    }
-
     public bool RemoveItemFromHotbar(string itemId)
     {
         // Attempts to remove the item with the given id from the item container
         return itemContainer.TryRemoveItemFromContainer(itemId);
     }
 
+    public bool RemoveItemFromHotbar(Item item)
+    {
+        // Overload for the above function, allowing an item to be passed instead of a string id
+        return RemoveItemFromHotbar(item.Id);
+    }
+
     private void CheckForPlayerInput()
     {
         // Number keys input - only allow input if not typing in an input field
-        if (!CustomInputField.AnyFieldSelected)
+        if (!InputFieldSelection.AnyFieldSelected)
         {
             for (int i = 1; i <= slotsUI.Count; i++)
             {

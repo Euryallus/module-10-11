@@ -1,19 +1,29 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+// ||=======================================================================||
+// || InventoryBin: Used to destroy/discard items that are the player does  ||
+// ||   not need to make space in their inventory                           ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 public class InventoryBin : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField] private ItemContainer itemContainer;
-
     public void OnPointerDown(PointerEventData eventData)
     {
+        // Called when the bin is clicked
+
+        // Get the slot used for holding/moving items
         HandSlotUI handSlotUI = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
 
+        // Get the number of items in the player's hand
         int handStackSize = handSlotUI.Slot.ItemStack.StackSize;
 
-        //If the hand stack contains any items, remove them all when this bin is clicked
         if (handStackSize > 0)
         {
+            //The hand stack contains at least one item, remove all items from it
             for (int i = 0; i < handStackSize; i++)
             {
                 handSlotUI.Slot.ItemStack.TryRemoveItemFromStack();

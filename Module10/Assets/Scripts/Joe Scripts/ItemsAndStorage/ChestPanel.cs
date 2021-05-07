@@ -42,7 +42,7 @@ public class ChestPanel : UIPanel
     private void CheckForShowHideInput()
     {
         //Block keyboard input if an input field is selected
-        if (!CustomInputField.AnyFieldSelected)
+        if (!InputFieldSelection.AnyFieldSelected)
         {
             if (showing && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.I)))
             {
