@@ -1,17 +1,24 @@
 using UnityEngine;
 
+// ||=======================================================================||
+// || MusicClass: Contains data about an AudioClip being used as music;     ||
+// ||   an id to identify it and the base volume to use when playing it.    ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 [CreateAssetMenu(fileName = "Music Class", menuName = "Audio/Music Class")]
 public class MusicClass : ScriptableObject
 {
+    // See tooltips below for info
     #region Properties
-    //See tooltips below for info
 
     public AudioClip    AudioClip { get { return m_audioClip; } }
     public string       Id { get { return m_id; } }              
     public float        Volume { get { return m_volume; } }
 
     #endregion
-
 
     [SerializeField]
     [Tooltip("The audio clip to be played")]

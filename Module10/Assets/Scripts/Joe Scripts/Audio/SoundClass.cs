@@ -1,10 +1,18 @@
 using UnityEngine;
 
+// ||=======================================================================||
+// || SoundClass: Contains a selection of AudioClips to be grouped together ||
+// ||   as a single sound, and defines how to play the sound (volume/pitch) ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 [CreateAssetMenu(fileName = "Sound Class", menuName = "Audio/Sound Class")]
 public class SoundClass : ScriptableObject
 {
+    // See tooltips below for info
     #region Properties
-    //See tooltips below for info
 
     public AudioClip[]          AudioClips  { get { return m_audioClips; } }
     public string               Id          { get { return m_id; } }

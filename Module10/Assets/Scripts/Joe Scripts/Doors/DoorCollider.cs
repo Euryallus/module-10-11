@@ -1,15 +1,21 @@
 using UnityEngine;
 
-//DoorCollider is a script that should be attached to the GameObject containing a collider for opening/closing the door
+// ||=======================================================================||
+// || DoorCollider: Allows the player to open/close a door by interacting   ||
+// ||   with the GameObject/collider this script is attached to.            ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
 
 public class DoorCollider : InteractableWithOutline
 {
+    #region InspectorVariables
+    // Variables in this region are set in the inspector
+
     [Header("Door Collider")]
 
-    #region InspectorVariables
-    //Variables in this region are set in the inspector
-
-    [SerializeField] private DoorMain doorMainScript;   //The main script attached to the door than handles opening/closing events
+    [SerializeField] private DoorMain doorMainScript;   // The main script attached to the door than handles opening/closing events
 
     #endregion
 
@@ -17,7 +23,7 @@ public class DoorCollider : InteractableWithOutline
     {
         base.Interact();
 
-        //Tell the door to open/close/notify the player if they cannot open it
+        // Tell the door to open/close/notify the player if they cannot open it
         doorMainScript.Interact();
     }
 }
