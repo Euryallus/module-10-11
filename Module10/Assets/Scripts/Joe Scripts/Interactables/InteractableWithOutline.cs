@@ -1,8 +1,8 @@
 using UnityEngine;
 
 // ||=======================================================================||
-// || InteractableObject: An InteractableObject that displays an outline    ||
-// ||   while being hovered over.                                           ||
+// || InteractableWithOutline: An InteractableObject that displays an       ||
+// ||   outline while being hovered over.                                   ||
 // ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||

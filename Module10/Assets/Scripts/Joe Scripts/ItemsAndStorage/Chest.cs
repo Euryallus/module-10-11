@@ -1,11 +1,26 @@
 using UnityEngine;
 
+// ||=======================================================================||
+// || Chest: Stores items that the player puts into it and displays them in ||
+// ||   a UI menu similar to the inventory.                                 ||
+// ||=======================================================================||
+// || Used on prefab: Joe/Environment/Crafting & Chests/Chest               ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 public class Chest : InteractableWithOutline
 {
+    #region InspectorVariables
+    //Variables in this region are set in the inspector
+
     [Header("Chest Properties")]
-    [SerializeField] protected  ChestPanel     chestPanel;
-    [SerializeField] protected  ItemContainer  itemContainer;
-    [SerializeField] protected  InventoryPanel playerInventoryPanel;
+    [SerializeField] protected  ChestPanel     chestPanel;           // The UI panel that displays the contents of the chest
+    [SerializeField] protected  ItemContainer  itemContainer;        // The ItemContainer that handles adding/removing/storing items
+    [SerializeField] protected  InventoryPanel playerInventoryPanel; // 
+
+    #endregion
 
     public override void Interact()
     {

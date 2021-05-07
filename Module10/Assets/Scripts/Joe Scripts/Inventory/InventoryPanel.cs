@@ -8,6 +8,8 @@ using TMPro;
 // ||   player's inventory, also displays inventory weight and handles      ||
 // ||   showing/hiding crafting and customisation UI.                       ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Inventory/InventoryPanel                       ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

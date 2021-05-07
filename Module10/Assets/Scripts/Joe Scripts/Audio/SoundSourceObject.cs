@@ -4,6 +4,8 @@ using UnityEngine;
 // || SoundSourceObject: When attached to a prefab that is playing a sound  ||
 // ||   effect, destroys the GameObject once the sound is done              ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Audio/SoundSource                                 ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

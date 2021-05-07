@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 // || HeldItemManager: Handles the creation/deletion of and input events    ||
 // ||   for held items.                                                     ||
 // ||=======================================================================||
+// || Used on prefab: Player                                                ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

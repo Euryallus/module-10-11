@@ -6,6 +6,8 @@ using TMPro;
 // || CraftingPanel: A UI panel that displays crafting recipes and allows   ||
 // ||   the player to craft new items.                                      ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Crafting/CraftingPanel                         ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

@@ -26,6 +26,8 @@ public enum NotificationMessageType
 // || NotificationManager: Queues notifications and displays them with an   ||
 // ||   animated UI popup.                                                  ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/NotificationManager                            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

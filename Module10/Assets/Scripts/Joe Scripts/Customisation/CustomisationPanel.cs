@@ -6,6 +6,8 @@ using System.Collections.Generic;
 // || CustomisationPanel: UI panel with options to apply customisation to   ||
 // ||   items, e.g. change item name                                        ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Customisation/CustomisationPanel               ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

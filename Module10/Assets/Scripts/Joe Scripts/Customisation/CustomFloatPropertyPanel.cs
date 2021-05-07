@@ -6,6 +6,8 @@ using UnityEngine.UI;
 // || CustomFloatPropertyPanel: Panel for displaying customisable float     ||
 // ||   properties when the player is using the customisation table.        ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Customisation/CustomFloatPropertyPanel         ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

@@ -4,6 +4,8 @@ using UnityEngine;
 // || HeldSignpost: A visual indicator for the placement of signposts       ||
 // ||   when the player is holding one as an item.                          ||
 // ||=======================================================================||
+// || Used on prefab: HeldItems/Placeables/BuildPreview_Signpost            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

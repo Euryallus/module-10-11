@@ -6,6 +6,8 @@ using TMPro;
 // || DeathPanel: A panel shown when the player dies, displays a            ||
 // ||   death message.                                                      ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/DeathPanel                                     ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

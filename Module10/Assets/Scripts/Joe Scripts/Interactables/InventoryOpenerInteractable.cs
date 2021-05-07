@@ -4,6 +4,9 @@ using UnityEngine;
 // || InventoryOpenerInteractable: An InteractableWithOutline that opens    ||
 // ||    the player's inventory when interacted with                        ||
 // ||=======================================================================||
+// || Used on prefabs: Joe/Environment/Crafting & Chests/Crafting Table     ||
+// ||                  Joe/Environment/Crafting & Chests/Customising Table  ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

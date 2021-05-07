@@ -12,6 +12,8 @@ public enum ButtonPressInputType
 // || PressEffectButton: A button with a 2.5D effect that visually          ||
 // ||   'presses' down when it is clicked or hovered over.                  ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/PressEffectButton                              ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

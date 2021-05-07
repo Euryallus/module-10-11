@@ -2,6 +2,8 @@
 // || CraftingTable: When attached to a crafting table prefab, allows       ||
 // ||   it to be potentially destroyed by the player and saved/loaded       ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Environment/Crafting & Chests/Crafting Table      ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

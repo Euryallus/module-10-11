@@ -7,6 +7,8 @@ using UnityEngine;
 // || HeldModularPiece: A visual indicator for the placement of modular     ||
 // ||   pieces when the player is holding one as an item.                   ||
 // ||=======================================================================||
+// || Used on all prefabs in: HeldItems/Placeables/ModularPieces            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

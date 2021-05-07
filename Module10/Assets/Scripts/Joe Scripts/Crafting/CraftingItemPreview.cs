@@ -6,6 +6,8 @@ using TMPro;
 // || CraftingItemPreview: Shows a preview of an item that is required for  ||
 // ||   the selected crafting recipe.                                       ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Crafting/RequiredItemPreview                   ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

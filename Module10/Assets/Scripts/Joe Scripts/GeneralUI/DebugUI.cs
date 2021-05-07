@@ -5,6 +5,8 @@ using TMPro;
 // || DebugUI: Contains useful debug options, for now just allows any       ||
 // ||   item to be spawned at any time.                                     ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/DebugUI                                        ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

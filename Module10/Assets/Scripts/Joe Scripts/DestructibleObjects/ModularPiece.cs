@@ -5,6 +5,8 @@ using UnityEngine;
 // ||   the type of the piece and allows it to be destroyed and             ||
 // ||   saved/loaded with the world.                                        ||
 // ||=======================================================================||
+// || Used on all prefabs in: Joe/Environment/Construction/ModularPieces    ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

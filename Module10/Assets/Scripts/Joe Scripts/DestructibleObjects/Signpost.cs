@@ -6,6 +6,8 @@ using TMPro;
 // ||   saved/loaded/destroyed and keeps track of the item that was used    ||
 // ||   to place the sign, including its specific text customisation.       ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Environment/Construction/Signpost                 ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

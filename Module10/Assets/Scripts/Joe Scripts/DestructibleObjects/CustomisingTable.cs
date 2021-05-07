@@ -2,6 +2,8 @@
 // || CustomisingTable: When attached to a customising table prefab, allows ||
 // ||   it to be potentially destroyed by the player and saved/loaded       ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Environment/Crafting & Chests/Customising Table   ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

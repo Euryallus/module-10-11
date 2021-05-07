@@ -4,6 +4,8 @@ using UnityEngine;
 // || DoorMain: Handles how doors are opened/closed and the events that     ||
 // ||   are triggered. Also allows doors to be locked/unlocked.             ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Environment/Doors/Door                            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

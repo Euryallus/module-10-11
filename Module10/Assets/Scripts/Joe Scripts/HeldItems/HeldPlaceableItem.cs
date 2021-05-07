@@ -4,6 +4,9 @@ using UnityEngine;
 // || HeldPlaceableItem: A base class for all held items that act as a      ||
 // ||   visual indicator for an object that can be placed in the world.     ||
 // ||=======================================================================||
+// || Used on prefabs: HeldItems/Placeables/BuildPreview_CraftingTable      ||
+// ||                  HeldItems/Placeables/BuildPreview_CustomisingTable   ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

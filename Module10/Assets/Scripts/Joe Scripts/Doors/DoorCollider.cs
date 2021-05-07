@@ -4,6 +4,8 @@ using UnityEngine;
 // || DoorCollider: Allows the player to open/close a door by interacting   ||
 // ||   with the GameObject/collider this script is attached to.            ||
 // ||=======================================================================||
+// || Used on prefab: Joe/Environment/Doors/Door                            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

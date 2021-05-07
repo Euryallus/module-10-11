@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 // || InventoryBin: Used to destroy/discard items that are the player does  ||
 // ||   not need to make space in their inventory                           ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Inventory/InventoryBinPanel                    ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

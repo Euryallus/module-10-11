@@ -7,6 +7,8 @@ using TMPro;
 // || CraftingItemButton: A button used to select a certain crafting recipe ||
 // ||   within the crafting menu interface.                                 ||
 // ||=======================================================================||
+// || Used on prefab: Joe/UI/Crafting/CraftingItemButton                    ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

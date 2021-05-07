@@ -11,6 +11,8 @@ public enum HazardMode
 // || Hazard: An obstacle with a triggerable animation that can kill        ||
 // ||   the player.                                                         ||
 // ||=======================================================================||
+// || Used on all prefabs in: Joe/Environment/Hazards                       ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||

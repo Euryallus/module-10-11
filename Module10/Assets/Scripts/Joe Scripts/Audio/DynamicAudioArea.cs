@@ -4,6 +4,8 @@ using UnityEngine;
 // || DynamicAudioArea: Triggers a dynamic audio track when the player      ||
 // ||   enters its area if the active scene is using MusicPlayMode.Dynamic  || 
 // ||=======================================================================||
+// || Used on prefab: Joe/Audio/DynamicAudioArea                            ||
+// ||=======================================================================||
 // || Written by Joseph Allen                                               ||
 // || for the prototype phase.                                              ||
 // ||=======================================================================||
