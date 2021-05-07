@@ -1,9 +1,24 @@
 using System.Collections;
 using UnityEngine;
 
+// ||=======================================================================||
+// || DestroyAfterTime: Automatically destroys any GameObject it's          ||
+// ||   attached to after a set delay (more reliable than having to call    ||
+// ||   Destroy(object, time) from another script which can cause issues    ||
+// ||   if that script is destroyed itself before the delay).               ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 public class DestroyAfterTime : MonoBehaviour
 {
-    [SerializeField] private float delay = 1.0f;
+    #region InspectorVariables
+    // Variables in this region are set in the inspector
+
+    [SerializeField] private float delay = 1.0f;    // Seconds before the object is destroyed
+
+    #endregion
 
     void Start()
     {
@@ -13,7 +28,6 @@ public class DestroyAfterTime : MonoBehaviour
     private IEnumerator DestroyAfterDelay()
     {
         yield return new WaitForSeconds(delay);
-
         Destroy(gameObject);
     }
 }

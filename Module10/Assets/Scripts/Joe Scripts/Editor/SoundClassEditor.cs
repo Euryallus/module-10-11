@@ -1,21 +1,30 @@
 using UnityEditor;
 using UnityEngine;
 
+// ||=======================================================================||
+// || SoundClassEditor: Custom editor that adds a 'preview sound' button    ||
+// ||   to the inspector window for sound classes.                          ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 [CustomEditor(typeof(SoundClass))]
 public class SoundClassEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        // Update the object being edited
         serializedObject.Update();
 
         SoundClass soundClass = (SoundClass)target;
 
-        //Draw the default editor GUI first
+        // Draw the default editor GUI first
         base.OnInspectorGUI();
 
         GUILayout.Space(20.0f);
 
-        //Style of preview sound button
+        // Style of preview sound button
         GUIStyle largeButtonStyle = new GUIStyle("largeButton")
         {
             fontSize    = 16,
@@ -27,9 +36,9 @@ public class SoundClassEditor : Editor
         {
             if (soundClass.AudioClips != null && soundClass.AudioClips.Length > 0)
             {
-                //The preview button was pressed and the sound class contains at least 1 audio clip
+                // The preview button was pressed and the sound class contains at least 1 audio clip
 
-                //Choose a random clip
+                // Choose a random clip
                 AudioClip chosenClip = soundClass.AudioClips[Random.Range(0, soundClass.AudioClips.Length)];
 
                 if(chosenClip != null)
@@ -38,21 +47,21 @@ public class SoundClassEditor : Editor
 
                     if(audioManagerGameObj != null)
                     {
-                        //If the clip is not null and an AudioManager can be found in the scene, play the clip using the EditorAudio script
+                        // If the clip is not null and an AudioManager can be found in the scene, play the clip using the EditorAudio script
 
                         audioManagerGameObj.GetComponent<EditorAudio>().PlaySound(chosenClip, soundClass.VolumeRange.Min, soundClass.VolumeRange.Max,
                                                                                         soundClass.PitchRange.Min, soundClass.PitchRange.Max);
                     }
                     else
                     {
-                        //No AudioManager in the scene
+                        // No AudioManager in the scene
                         Debug.LogWarning("Could not preview sound - no AudioManager found in the scene!");
                     }
                 }
             }
         }
 
-        //Apply any properties that have been changed
+        // Apply any properties that have been changed
         EditorUtility.SetDirty(target);
         serializedObject.ApplyModifiedProperties();
     }
