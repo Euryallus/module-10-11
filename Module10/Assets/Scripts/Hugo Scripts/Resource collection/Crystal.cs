@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Main author:         Hugo Bailey
+// Additional author:   N/A
+// Description:         Used to store data about a quest
+// Development window:  Prototype phase
+// Inherits from:       DestructableObject
+
 public class Crystal : DestructableObject
 {
     // test - prefab of "fractured" version of object to crumble when obj. is destroyed
