@@ -525,9 +525,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Flags player as having interacted with a ladder
-    public void InteractWithLadder()
+    public void InteractWithLadder(Vector3 snapPos)
     {
         currentMovementState = currentMovementState == MovementStates.ladder ? MovementStates.walk : MovementStates.ladder;
+
+        if(currentMovementState == MovementStates.ladder)
+        {
+            Debug.Log("Snap");
+            controller.enabled = false;
+            transform.position = new Vector3(snapPos.x, transform.position.y, snapPos.z);
+            controller.enabled = true;
+        }
     }
 
     // Trigger detector used to get on / off ladders

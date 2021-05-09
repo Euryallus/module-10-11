@@ -10,10 +10,12 @@ using UnityEngine;
 
 public class Ladder : InteractableWithOutline
 {
+    [SerializeField]    private Transform snapPoint;
     public override void Interact()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
         // Flags ladder as having been interacted with in PlayerMovement script
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().InteractWithLadder();
+        player.GetComponent<PlayerMovement>().InteractWithLadder(snapPoint.position);
         base.Interact();
     }
 }

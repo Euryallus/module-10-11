@@ -14,17 +14,13 @@ public class MovableObject : MonoBehaviour
     [HideInInspector]   public bool isHeld;         // Flags if player is currently holding the object
     [SerializeField]    private Transform target;   // Ref. to transform of the player's ""hand"" - position the object moves towards
     [SerializeField]    private Rigidbody rb;       // Ref. to own RigidBody component
-    private Rigidbody handTarget;
-    private SpringJoint joint;
 
-    [SerializeField] private float jointSpring = 5f;
-    [SerializeField] private float jointDamper = 10f;
-
-    [SerializeField] private float movementDampen = 0.3f;
-
-    private Vector3 currentVelocity = Vector3.zero;
-
-    private bool isTouchingOther = false;
+    [SerializeField]    private float jointSpring = 5f;                     // Saves default "spring" value for spring joint
+    [SerializeField]    private float jointDamper = 10f;                    // Dampen factor of Spring joing
+    [SerializeField]    private float movementDampen = 0.3f;                // Max. movement speed of object when moving towards hand pos.
+                        private Rigidbody handTarget;                       // Rigidbody of target (attached to player "hand")
+                        private SpringJoint joint;                          // Ref. to own spring joint
+                        private Vector3 currentVelocity = Vector3.zero;     // Current velocity of object (used & altered by Vector3.SmoothDamp)
 
     void Start()
     {
@@ -35,11 +31,15 @@ public class MovableObject : MonoBehaviour
     private void FixedUpdate()
     {
         // If the player is currently holding the object, move towards the players hand position
-        if (isHeld && !isTouchingOther)
+        if (isHeld)
         {
+            // Originally was using Vector3.Lerp but this caused issues with collisions being ignored
+            // Used https://answers.unity.com/questions/510853/how-to-keep-objects-from-passing-through-colliders.html as ref. for fix
+
             transform.position = Vector3.SmoothDamp(transform.position, target.position, ref currentVelocity, movementDampen);
         }
 
+        // If the spring joint has broken, let go of object
         if(!gameObject.GetComponent<SpringJoint>())
         {
             transform.parent = null;
@@ -92,15 +92,5 @@ public class MovableObject : MonoBehaviour
         isHeld = false;
         rb.useGravity = true;
         rb.AddForce(direction.normalized * 600);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        isTouchingOther = true;
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        isTouchingOther = false;
     }
 }
