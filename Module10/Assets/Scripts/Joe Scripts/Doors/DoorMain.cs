@@ -10,7 +10,7 @@ using UnityEngine;
 // || for the prototype phase.                                              ||
 // ||=======================================================================||
 
-public class DoorMain : MonoBehaviour, IPersistentObject
+public class DoorMain : MonoBehaviour, IPersistentObject, IExternalTriggerListener
 {
     #region InspectorVariables
     // Variables in this region are set in the inspector
@@ -23,6 +23,8 @@ public class DoorMain : MonoBehaviour, IPersistentObject
     [SerializeField] private Item       unlockItem;                 // Item required to unlock the door (none if null)
     [SerializeField] private float      closeAfterTime = 5.0f;      // Amount of time before the door closes automatiaclly (seconds)
     [SerializeField] private Animator   animator;                   // Animator used for door open/close animations
+
+    [SerializeField] private ExternalTrigger[] triggers;            // Triggers to detect if the player is on either side of the door
 
     #endregion
 
@@ -48,6 +50,13 @@ public class DoorMain : MonoBehaviour, IPersistentObject
 
         // Subscribe to save/load events so this door's data will be saved when the game is saved
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
+
+        // Add this door as a listener for the external triggers so
+        //   the player can be detected on either side of the door
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            triggers[i].AddListener(this);
+        }
 
         if (string.IsNullOrEmpty(id))
         {
@@ -121,6 +130,38 @@ public class DoorMain : MonoBehaviour, IPersistentObject
 
     public void OnLoadConfigure(SaveData saveData) { }
 
+    public void OnExternalTriggerEnter(string triggerId, Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            if (triggerId == "inside")
+            {
+                TriggerEntered(true);
+            }
+            else if (triggerId == "outside")
+            {
+                TriggerEntered(false);
+            }
+        }
+    }
+
+    public void OnExternalTriggerStay(string triggerId, Collider other) { }
+
+    public void OnExternalTriggerExit(string triggerId, Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (triggerId == "inside")
+            {
+                TriggerExited(true);
+            }
+            else if (triggerId == "outside")
+            {
+                TriggerExited(false);
+            }
+        }
+    }
+
     public void Interact()
     {
         if(manualOpen)
@@ -154,7 +195,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         }
     }
 
-    public void TriggerEntered(bool inside)
+    private void TriggerEntered(bool inside)
     {
         // The player entered a trigger on the inside or outside
         //   of the door, set trigger variables as appropriate
@@ -163,7 +204,7 @@ public class DoorMain : MonoBehaviour, IPersistentObject
         inOutsideTrigger = !inside;
     }
 
-    public void TriggerExited(bool inside)
+    private void TriggerExited(bool inside)
     {
         // Player is exiting a trigger, reset inside/outside
         //   bool depending on which was exited
