@@ -26,6 +26,7 @@ TagManager:
   - BuildPoint
   - ModularPiece
   - DamageDisplay
+  - ChestPanel
   layers:
   - Default
   - TransparentFX

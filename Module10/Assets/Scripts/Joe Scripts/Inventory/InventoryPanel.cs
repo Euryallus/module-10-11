@@ -25,7 +25,7 @@ public enum InventoryShowMode
 public class InventoryPanel : UIPanel
 {
     #region InspectorVariables
-    //Variables in this region are set in the inspector
+    // Variables in this region are set in the inspector
 
     [SerializeField] private List<ContainerSlotUI>  slotsUI;                // All slots that make up the inventory
     [SerializeField] private ItemContainer          itemContainer;          // ItemContainer that handles adding/removing/storing items
@@ -103,7 +103,7 @@ public class InventoryPanel : UIPanel
     public void AddItemToInventory(string itemId)
     {
         // Same as above function, but takes a string id instead of item object
-        itemContainer.TryAddItemToContainer(ItemManager.Instance.GetItemWithID(itemId));
+        itemContainer.TryAddItemToContainer(ItemManager.Instance.GetItemWithId(itemId));
     }
 
     public bool RemoveItemFromInventory(Item item)

@@ -1,24 +1,37 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// ||=======================================================================||
+// || SaveLoadManager: Handles saving/loading all game data.                ||
+// ||=======================================================================||
+// || Used on prefab: Joe/SaveSystem/_SaveLoadManager                       ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 public class SaveLoadManager : MonoBehaviour
 {
-    public static SaveLoadManager Instance;
+    public static SaveLoadManager Instance; // Static instance of the class for simple access
 
-    [SerializeField] private GameObject loadingPanelPrefab;
+    #region InspectorVariables
+    // Variables in this region are set in the inspector
 
-    public event Action<SaveData>   SaveObjectsEvent;
-    public event Action<SaveData>   LoadObjectsSetupEvent;
-    public event Action<SaveData>   LoadObjectsConfigureEvent;
+    [SerializeField] private GameObject loadingPanelPrefab; // UI panel shown when loading the game
 
-    private string saveDirectory;
+    #endregion
 
-    private const string    SaveDataFileName    = "save.dat";
+    public event Action<SaveData>   SaveObjectsEvent;           // Event invoked when objects are saved
+    public event Action<SaveData>   LoadObjectsSetupEvent;      // Event invoked for the first stage of object loading
+    public event Action<SaveData>   LoadObjectsConfigureEvent;  // Event invoked for the second stage of object loading
+
+    private string saveDirectory;                       // Path where save files are stored
+
+    private const string SaveDataFileName = "save.dat"; // File name used for save data files (before scene name is prepended)
 
     private void Awake()
     {
@@ -36,37 +49,44 @@ public class SaveLoadManager : MonoBehaviour
             return;
         }
 
+        // Setup the save directory using persistentDataPath (AppData/LocalLow on Windows)
         saveDirectory = Application.persistentDataPath + "/Saves";
 
+        // Subscribe to the sceneLoaded event so OnSceneLoaded is called each time
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void SubscribeSaveLoadEvents(Action<SaveData> onSave, Action<SaveData> onLoadSetup, Action<SaveData> onLoadConfig)
     {
-        SaveObjectsEvent            += onSave;
-        LoadObjectsSetupEvent       += onLoadSetup;
-        LoadObjectsConfigureEvent   += onLoadConfig;
+        // Subscribes to save/load events to the OnSave/OnLoadSetup/OnLoadCOnfigure functions on
+        //   an object implementing IPerstentObject will be called when the game is saved/loaded
+
+        SaveObjectsEvent          += onSave;
+        LoadObjectsSetupEvent     += onLoadSetup;
+        LoadObjectsConfigureEvent += onLoadConfig;
     }
 
     public void UnsubscribeSaveLoadEvents(Action<SaveData> onSave, Action<SaveData> onLoadSetup, Action<SaveData> onLoadConfig)
     {
-        SaveObjectsEvent            -= onSave;
-        LoadObjectsSetupEvent       -= onLoadSetup;
-        LoadObjectsConfigureEvent   -= onLoadConfig;
+        // Unsubscribes an objects save/load functions from the events
+
+        SaveObjectsEvent          -= onSave;
+        LoadObjectsSetupEvent     -= onLoadSetup;
+        LoadObjectsConfigureEvent -= onLoadConfig;
     }
 
     public bool SaveGame()
     {
         SaveData dataToSave = new SaveData();
 
-        //Call the OnSave function on all persistent objects - they will each add some data to the SavaData object
+        // Call the OnSave function on all persistent objects - they will each add some data to the SavaData object
         SaveObjectsEvent?.Invoke(dataToSave);
 
+        // Create a save data file path based on the name of the scene being saved
         string sceneName = SceneManager.GetActiveScene().name;
-
         string saveDataPath = saveDirectory + "/" + sceneName + "_" + SaveDataFileName;
 
-        //Try to create the save directory folder
+        // Try to create the save directory folder
         if (!Directory.Exists(saveDirectory))
         {
             try
@@ -82,7 +102,7 @@ public class SaveLoadManager : MonoBehaviour
 
         FileStream file;
 
-        //Try to open the save data file, or create one if it doesn't already exist
+        // Try to open the save data file, or create one if it doesn't already exist
         try
         {
             file = File.Open(saveDataPath, FileMode.OpenOrCreate);
@@ -93,11 +113,11 @@ public class SaveLoadManager : MonoBehaviour
             return false;
         }
 
-        //Seralize the save data to the file
+        // Seralize the save data to the file
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, dataToSave);
 
-        //Saving done, close the file
+        // Saving done, close the file
         file.Close();
 
         Debug.Log("Game saved!");
@@ -116,19 +136,25 @@ public class SaveLoadManager : MonoBehaviour
 
         Transform canvasTransform = GameObject.FindGameObjectWithTag("JoeCanvas").transform;
 
+        // Instantiate the loading panel, using the canvas as a parent
         LoadingPanel        loadingPanel        = Instantiate(loadingPanelPrefab, canvasTransform).GetComponent<LoadingPanel>();
-        CharacterController playerCharControl   = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
 
+        // Disable the CharacterController component attached to the player to prevent them moving while the game
+        //   is loading and allow the player to be teleported to the posision of the last used save point
+        CharacterController playerCharControl   = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
         playerCharControl.enabled = false;
 
+        // Get the path of the file to be loaded based on the current scene
         string sceneName = SceneManager.GetActiveScene().name;
-
         string loadDataPath = saveDirectory + "/" + sceneName + "_" + SaveDataFileName;
 
         if (File.Exists(loadDataPath))
         {
+            // Save file exists - open it and load save data
+
             FileStream file;
 
+            // Try to open the file for reading
             try
             {
                 file = File.OpenRead(loadDataPath);
@@ -140,9 +166,9 @@ public class SaveLoadManager : MonoBehaviour
             }
 
             BinaryFormatter bf = new BinaryFormatter();
-
             SaveData loadedData;
 
+            // Try to deserialise the save data from the file
             try
             {
                 loadedData = (SaveData)bf.Deserialize(file);
@@ -155,10 +181,11 @@ public class SaveLoadManager : MonoBehaviour
                 yield break;
             }
 
+            // Wait a couple of frames to ensure objects are set up before calling load functions
             yield return null;
             yield return null;
 
-            //Setup then configure all persistent objects with the loaded data
+            // Setup then configure all persistent objects with the loaded data
 
             Debug.Log("Load Stage 1: Setup");
             LoadObjectsSetupEvent?.Invoke(loadedData);
@@ -168,15 +195,16 @@ public class SaveLoadManager : MonoBehaviour
             Debug.Log("Load Stage 2: Configure");
             LoadObjectsConfigureEvent?.Invoke(loadedData);
 
-            //Loading is done
-
+            // Loading is done
             Debug.Log("Game loaded!");
         }
         else
         {
+            // No save file found
             Debug.LogWarning("No save file exists at: " + loadDataPath);
         }
 
+        // Loading is done, hide the load panel and re-enable player controls
         loadingPanel.LoadDone();
 
         playerCharControl.enabled = true;
@@ -186,6 +214,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         Debug.Log("Scene loaded: " + scene.name);
 
+        // Load the game's save data from a file if the loaded scene has one of the following names:
         if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene" || scene.name == "DemoScene")
         {
             LoadGame();

@@ -1,8 +1,20 @@
 using UnityEngine;
 
+// ||=======================================================================||
+// || Item: Something that can be stored in the player's inventory, hotbar, ||
+// ||   a chest, or any item container. Can attach a HeldItemGameObject     ||
+// ||   to add behaviour when the player is holding the item.               ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
+
 [CreateAssetMenu(fileName = "Item", menuName = "Item/Item")]
 public class Item : ScriptableObject
 {
+    // See tooltips below for comments describing each member variable
+    #region Properties
+
     public string                       Id { get { return m_id; } set { m_id = value; } }
     public string                       UIName { get { return m_uiName; } set { m_uiName = value; } }
     public string                       UIDescription { get { return m_uiDescription; } }
@@ -17,6 +29,11 @@ public class Item : ScriptableObject
     public string                       BaseItemId { get { return m_baseItemId; } set { m_baseItemId = value; } }
     public CustomFloatProperty[]        CustomFloatProperties { get { return m_customFloatProperties; } set { m_customFloatProperties = value; } }
     public CustomStringProperty[]       CustomStringProperties { get { return m_customStringProperties; } set { m_customStringProperties = value; } }
+
+    #endregion
+
+    #region InspectorVariables
+    // Variables in this region are set in the inspector
 
     [Space]
     [Header("Info")]
@@ -57,76 +74,108 @@ public class Item : ScriptableObject
     private int m_currencyItemQuantity;
 
     [Space]
-    [SerializeField] [Tooltip("Properties with float values that can be upgraded/customised by the player.")]
+    [SerializeField] [Tooltip("Properties with float values that can be customised by the player.")]
     private CustomFloatProperty[] m_customFloatProperties;
 
     [SerializeField] [Tooltip("Properties with string values that can be customised by the player.")]
     private CustomStringProperty[] m_customStringProperties;
 
-    //Non-editable fields
-    private bool    m_customItem;
-    private string  m_baseItemId;
+    #endregion
+
+    // Fields that are not editable in the inspector:
+
+    private bool    m_customItem;   // Whether the item is a custom item made by the player
+    private string  m_baseItemId;   // If the item is custom, the id of the original item it is based on
 
     public CustomFloatProperty GetCustomFloatPropertyWithName(string propertyName)
     {
+        // Returns a custom float property with a matching propertyName
+
+        // Loop through all custom float properties
         for (int i = 0; i < m_customFloatProperties.Length; i++)
         {
+            // Find one with a matching name
             if(m_customFloatProperties[i].Name == propertyName)
             {
+                // Return the matching property
                 return m_customFloatProperties[i];
             }
         }
 
+        // No matching properties found
         Debug.LogError("Trying to get invalid custom float property: " + propertyName);
         return default;
     }
 
     public void SetCustomFloatProperty(string propertyName, float value)
     {
+        // Sets the value of a custom float property with a matching propertyName
+
+        // Loop through all custom float properties
         for (int i = 0; i < m_customFloatProperties.Length; i++)
         {
+            // Find one with a matching name
             if (m_customFloatProperties[i].Name == propertyName)
             {
+                // Set its value to the given value
                 m_customFloatProperties[i].Value = value;
                 return;
             }
         }
 
+        // No matching properties found
         Debug.LogError("Trying to set invalid custom float property: " + propertyName);
     }
 
     public CustomStringProperty GetCustomStringPropertyWithName(string propertyName)
     {
+        // Returns a custom string property with a matching propertyName
+
+        // Loop through all custom string properties
         for (int i = 0; i < m_customStringProperties.Length; i++)
         {
+            // Find one with a matching name
             if (m_customStringProperties[i].Name == propertyName)
             {
+                // Return the matching property
                 return m_customStringProperties[i];
             }
         }
 
+        // No matching properties found
         Debug.LogError("Trying to get invalid custom string property: " + propertyName);
         return default;
     }
 
     public void SetCustomStringProperty(string propertyName, string value)
     {
+        // Sets the value of a custom string property with a matching propertyName
+
+        // Loop through all custom string properties
         for (int i = 0; i < m_customStringProperties.Length; i++)
         {
+            // Find one with a matching name
             if (m_customStringProperties[i].Name == propertyName)
             {
+                // Set its value to the given value
                 m_customStringProperties[i].Value = value;
                 return;
             }
         }
 
+        // No matching properties found
         Debug.LogError("Trying to set invalid custom string property: " + propertyName);
     }
 }
 
+// CustomFloatProperty: A property with a float value that can be adjusted by the player in a customisation table
+//===============================================================================================================
+
 [System.Serializable]
 public class CustomFloatProperty
 {
+    // See tooltips for comments
+
     [Tooltip("The name used to get/set this property in code")]
     public string   Name;
 
@@ -146,9 +195,14 @@ public class CustomFloatProperty
     public float    MaxValue;
 }
 
+// CustomStringProperty: A property with a string value that can be adjusted by the player in a customisation table
+//=================================================================================================================
+
 [System.Serializable]
 public class CustomStringProperty
 {
+    // See tooltips for comments
+
     [Tooltip("The name used to get/set this property in code")]
     public string Name;
 

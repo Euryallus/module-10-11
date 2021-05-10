@@ -21,7 +21,7 @@ public class EatItemPanel : MonoBehaviour, IPointerDownHandler
             // The hand slot contains at least one item
 
             // Find the item type in the player's hand
-            Item itemInHand = ItemManager.Instance.GetItemWithID(handSlotUI.Slot.ItemStack.StackItemsID);
+            Item itemInHand = ItemManager.Instance.GetItemWithId(handSlotUI.Slot.ItemStack.StackItemsID);
 
             if(itemInHand is ConsumableItem consumable)
             {

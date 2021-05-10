@@ -24,7 +24,7 @@ public class DebugUI : MonoBehaviour
     public void ButtonSpawnItem()
     {
         // Find an item with the entered id
-        Item itemToSpawn = ItemManager.Instance.GetItemWithID(itemSpawnInputField.text);
+        Item itemToSpawn = ItemManager.Instance.GetItemWithId(itemSpawnInputField.text);
 
         if(itemToSpawn != null)
         {

@@ -1,7 +1,8 @@
 // ||=======================================================================||
-// || ItemGroup: Defines a collection of items of the same type             ||
+// || ItemGroup: Defines a collection of items of the same type.            ||
 // ||=======================================================================||
-// || Written by Joe for Module 10                                          ||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
 // ||=======================================================================||
 
 [System.Serializable]
@@ -14,5 +15,5 @@ public class ItemGroup
     }
 
     public Item Item;
-    public int Quantity;
+    public int  Quantity;
 }

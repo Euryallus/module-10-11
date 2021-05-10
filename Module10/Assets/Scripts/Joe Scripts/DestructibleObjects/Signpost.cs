@@ -33,7 +33,7 @@ public class Signpost : PlaceableDestructible
     {
         relatedItemId = itemId;
 
-        Item item = ItemManager.Instance.GetItemWithID(itemId);
+        Item item = ItemManager.Instance.GetItemWithId(itemId);
 
         // Set sign text based on the related item's player-set properties
         SetSignText(    item.GetCustomStringPropertyWithName("line1").Value,

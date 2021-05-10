@@ -153,8 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb494e7a616f7742954e28f21b37abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemInfoPopup: {fileID: 0}
-  itemContainerId: playerInventory
+  ContainerId: playerInventory
   numberOfSlots: 24
 --- !u!1 &944285479546653647
 GameObject:

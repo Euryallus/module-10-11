@@ -139,7 +139,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
         // Increment the custom item id so the next custom item that is created will have a unique id
         itemManager.IncrementUniqueCustomItemId();
 
-        Item customiseSlotItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+        Item customiseSlotItem = itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID);
 
         // Remove the origina item from the customise slot to prevent item duplication
         customiseSlot.ItemStack.TryRemoveItemFromStack();
@@ -168,7 +168,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
         {
             // The player has put a valid combination of items into the customise/currency slots, the output item should be shown
 
-            Item baseItem = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+            Item baseItem = itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID);
 
             // By default, the new 'result' item will be based on the item in the customise slot. However, if the item in the customise slot is already
             //   a custom item, the resulting item should be based on the original base item (i.e. the non-custom item at the top of the heirarchy)
@@ -182,7 +182,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
             itemManager.AddCustomItem(customItemId, baseItem.Id, originalBaseItemId);
 
             // Set the name of the new custom item to that of its parent item by default
-            SetCustomisedItemName(itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).UIName);
+            SetCustomisedItemName(itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID).UIName);
 
             // Add the new custom item to the result slot
             resultSlot.ItemStack.AddItemToStack(customItemId, false);
@@ -287,7 +287,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
 
     private void FloatPropertyAddButton(string propertyName, TextMeshProUGUI valueText)
     {
-        Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
+        Item itemBeingCustomised = itemManager.GetCustomItemWithId(itemManager.GetUniqueCustomItemId());
 
         // Get the current values for the float property being edited
         CustomFloatProperty property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
@@ -303,13 +303,13 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
             itemManager.SetCustomFloatItemData(itemManager.GetUniqueCustomItemId(), propertyName, addedValue);
 
             // Setup the UI text that shows the value of the property, and changes the text colour depending on if it matches that of the original item being customised
-            SetupFloatPropertyValueText(valueText, addedValue, itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).GetCustomFloatPropertyWithName(propertyName).Value);
+            SetupFloatPropertyValueText(valueText, addedValue, itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID).GetCustomFloatPropertyWithName(propertyName).Value);
         }
     }
 
     private void FloatPropertySubtractButton(string propertyName, TextMeshProUGUI valueText)
     {
-        Item itemBeingCustomised = itemManager.GetCustomItem(itemManager.GetUniqueCustomItemId());
+        Item itemBeingCustomised = itemManager.GetCustomItemWithId(itemManager.GetUniqueCustomItemId());
 
         // Get the current values for the float property being edited
         CustomFloatProperty property = itemBeingCustomised.GetCustomFloatPropertyWithName(propertyName);
@@ -325,7 +325,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
             itemManager.SetCustomFloatItemData(itemManager.GetUniqueCustomItemId(), propertyName, subtractedValue);
 
             // Setup the UI text that shows the value of the property, and changes the text colour depending on if it matches that of the original item being customised
-            SetupFloatPropertyValueText(valueText, subtractedValue, itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).GetCustomFloatPropertyWithName(propertyName).Value);
+            SetupFloatPropertyValueText(valueText, subtractedValue, itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID).GetCustomFloatPropertyWithName(propertyName).Value);
         }
     }
 
@@ -355,7 +355,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
         {
             // The player has put an item in the customise slot
 
-            Item itemToCustomise = itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID);
+            Item itemToCustomise = itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID);
 
             if (itemToCustomise.Customisable)
             {
@@ -369,7 +369,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
                     // The item being customised requires some kind of currency
 
                     // Get the item type of the required currency and set the required quantity of that item
-                    currencyItem = itemManager.GetItemWithID(itemToCustomise.CurrencyItemId);
+                    currencyItem = itemManager.GetItemWithId(itemToCustomise.CurrencyItemId);
 
                     requiredCurrencyQuantity = itemToCustomise.CurrencyItemQuantity;
                 }
@@ -429,7 +429,7 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
         {
             //The entered name is invalid, give the customised item its default UI name
 
-            SetCustomisedItemName(itemManager.GetItemWithID(customiseSlot.ItemStack.StackItemsID).UIName);
+            SetCustomisedItemName(itemManager.GetItemWithId(customiseSlot.ItemStack.StackItemsID).UIName);
         }
     }
 
@@ -439,6 +439,6 @@ public class CustomisationPanel : MonoBehaviour, IPersistentObject
         customNameInput.text = name;
 
         // Set the name of the customised item to the new name
-        itemManager.SetCustomGenericItemData(itemManager.GetUniqueCustomItemId(), name);
+        itemManager.SetCustomItemUIName(itemManager.GetUniqueCustomItemId(), name);
     }
 }

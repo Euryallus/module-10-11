@@ -27,7 +27,10 @@ public class DestroyAfterTime : MonoBehaviour
 
     private IEnumerator DestroyAfterDelay()
     {
+        // Wait for the delay, then destroy the GameObject
+
         yield return new WaitForSeconds(delay);
+
         Destroy(gameObject);
     }
 }

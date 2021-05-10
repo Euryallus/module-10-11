@@ -1,6 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// ||=======================================================================||
+// || IPersistentObject: An interface that gives objects the ability to be  ||
+// ||   saved and loaded with the game. (See SaveSystemExample.cs)          ||
+// ||=======================================================================||
+// || Written by Joseph Allen                                               ||
+// || for the prototype phase.                                              ||
+// ||=======================================================================||
 
 public interface IPersistentObject
 {

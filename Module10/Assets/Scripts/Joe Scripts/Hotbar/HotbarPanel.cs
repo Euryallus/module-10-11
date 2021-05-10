@@ -216,7 +216,7 @@ public class HotbarPanel : UIPanel, IPersistentObject
         if (selectedSlot.ItemStack.StackSize > 0)
         {
             // Selected slot contains an item, return it
-            return ItemManager.Instance.GetItemWithID(selectedSlot.ItemStack.StackItemsID);
+            return ItemManager.Instance.GetItemWithId(selectedSlot.ItemStack.StackItemsID);
         }
         else
         {
