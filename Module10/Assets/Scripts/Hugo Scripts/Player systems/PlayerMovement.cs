@@ -531,7 +531,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(currentMovementState == MovementStates.ladder)
         {
-            Debug.Log("Snap");
+            // If player has just gotten onto ladder, set position to "snap" transform position saved (see Source Engine ladders for inspiration)
             controller.enabled = false;
             transform.position = new Vector3(snapPos.x, transform.position.y, snapPos.z);
             controller.enabled = true;

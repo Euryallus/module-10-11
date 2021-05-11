@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Main author:         Hugo Bailey
 // Additional author:   Base class written by Joe Allen
-// Description:         Manages NPC interactions & passes data to QuestManager when NPC is also a quest giver. Communicates with DialogueUI to display dialogue on screen
+// Description:         Allows player to interact & get on / off ladders
 // Development window:  Prototype phase
 // Inherits from:       InteractableWithOutline
 
