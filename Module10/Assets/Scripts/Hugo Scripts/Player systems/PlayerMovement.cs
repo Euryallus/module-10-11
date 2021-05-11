@@ -454,6 +454,9 @@ public class PlayerMovement : MonoBehaviour
                 if (controller.isGrounded)
                 {
                     velocityY = jumpVelocity;
+
+                    // Play a jump sound
+                    AudioManager.Instance.PlaySoundEffect2D("jump");
                 }
                 // If player is already in the air, isn't already gliding but is far enough off ground to glide, start gliding
                 else if (currentMovementState != MovementStates.glide && canGlide)
@@ -493,6 +496,19 @@ public class PlayerMovement : MonoBehaviour
     public bool PlayerIsGrounded()
     {
         return controller.isGrounded;
+    }
+
+    // Returns velocity of the character controller, or 0,0,0 if it's not enabled
+    public Vector3 GetVelocity()
+    {
+        if(controller.enabled)
+        {
+            return controller.velocity;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     // Changes velocityY to velocity passed as param
