@@ -38,7 +38,7 @@ public class PickAxe : HeldTool
                 if (moveObj != null && !moveObj.isHeld && heldObj == null)
                 {
                     // If player is able to pick up item (isn't hlding anything already), decrease food & "pick up" object
-                    playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+                    playerStats.DecreaseFoodLevel(secondaryAbilityHunger);
 
                     moveObj.PickUp(GameObject.FindGameObjectWithTag("PlayerHand").transform);
                     //Saves held object as object hit by raycast

@@ -374,10 +374,9 @@ public class LoopType
     private static  LoopType m_doNotLoop    = new LoopType();   // Standard object to return for setting up non-looping sounds
 
     // Setup a looping sound type
-    public static LoopType Loop(string loopId)  {   return new LoopType()
-                                                    {
-                                                        m_loopEnabled = true,
-                                                        m_loopId = loopId
-                                                    };
-                                                }
+    public static LoopType Loop(string loopId) { return new LoopType()
+                                               {
+                                                   m_loopEnabled = true,
+                                                   m_loopId = loopId
+                                               };}
 }
