@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Main author:         Hugo Bailey & Joe Allen
@@ -21,10 +19,11 @@ public class Axe : HeldTool
 
         if (!(destructible is Tree))
         {
-            //Play a quick chop animation when hitting a destructible, unless it's a tree because they have a custom axe animation
+            // Play a quick chop animation when hitting a destructible, unless it's a tree because they have a custom axe animation
             gameObject.GetComponent<Animator>().SetTrigger("Chop");
             playerCameraShake.ShakeCameraForTime(0.3f, CameraShakeType.ReduceOverTime, 0.03f);
 
+            // Play the use tool sound if one was set
             if (useToolSound != null)
             {
                 AudioManager.Instance.PlaySoundEffect3D(useToolSound, raycastHit.point);
@@ -38,7 +37,7 @@ public class Axe : HeldTool
         // Finds ref. to player camera
         GameObject playerCam = GameObject.FindGameObjectWithTag("MainCamera");
 
-        //Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
+        // Check that the player cam isn't null, this can occur in certain cases when an alternate camera is being used (e.g. talking to an NPC)
         if (playerCam != null)
         {
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out toolRaycastHit, 4.0f))
@@ -49,7 +48,7 @@ public class Axe : HeldTool
                 if (freeze != null)
                 {
                     // If object can be frozen, decrease food level by amount specified in base HeldTool class
-                    playerStatsScript.DecreaseFoodLevel(secondaryAbilityHunger);
+                    playerStats.DecreaseFoodLevel(secondaryAbilityHunger);
                     frozenObject = freeze;
                     // Call Freeze() func. on object
                     frozenObject.Freeze();

@@ -240,6 +240,13 @@ public class PlayerMovement : MonoBehaviour
                 v.active = true;
             }
 
+            // Added by Joe: plays a sound when the player first enters water and starts looping underwater sound
+            if (!inWater)
+            {
+                AudioManager.Instance.PlaySoundEffect2D("splash");
+                AudioManager.Instance.PlayLoopingSoundEffect("underwaterLoop", "playerInWater");
+            }
+
             // Flags water bool
             inWater = true;
             // Sets current movement mode to diving
@@ -275,6 +282,13 @@ public class PlayerMovement : MonoBehaviour
                     // If case = swimming but player is grounded, player is now walking
                     if(controller.isGrounded)
                     {
+                        // Added by Joe: plays a sound when the player leaves water and stops looping underwater sound
+                        if (inWater)
+                        {
+                            AudioManager.Instance.PlaySoundEffect2D("waterExit");
+                            AudioManager.Instance.StopLoopingSoundEffect("playerInWater");
+                        }
+
                         currentMovementState = MovementStates.walk;
                         inWater = false;
                     }
@@ -440,6 +454,9 @@ public class PlayerMovement : MonoBehaviour
                 if (controller.isGrounded)
                 {
                     velocityY = jumpVelocity;
+
+                    // Play a jump sound
+                    AudioManager.Instance.PlaySoundEffect2D("jump");
                 }
                 // If player is already in the air, isn't already gliding but is far enough off ground to glide, start gliding
                 else if (currentMovementState != MovementStates.glide && canGlide)
@@ -479,6 +496,19 @@ public class PlayerMovement : MonoBehaviour
     public bool PlayerIsGrounded()
     {
         return controller.isGrounded;
+    }
+
+    // Returns velocity of the character controller, or 0,0,0 if it's not enabled
+    public Vector3 GetVelocity()
+    {
+        if(controller.enabled)
+        {
+            return controller.velocity;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 
     // Changes velocityY to velocity passed as param

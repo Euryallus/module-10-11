@@ -54,6 +54,7 @@ public class AudioManager : MonoBehaviour
     private int                             currentPlaylistIndex;       // If using a playlist, the index of the song that is currently playing in it
     private DynamicAudioArea[]              dynamicAudioAreas;          // All (if any) dynamic audio areas in the loaded scene
     private DynamicAudioArea                currentDynamicAudioArea;    // The dynamic audio area that the player most recently entered
+    private List<GameObject>                loopingSoundGameObjs;       // List of GameObjects for all active looping sounds
 
     private void Awake()
     {
@@ -70,6 +71,8 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        loopingSoundGameObjs = new List<GameObject>();
 
         // Add all sounds to the sound dictionary
         SetupSoundDictionary();
@@ -211,18 +214,18 @@ public class AudioManager : MonoBehaviour
         PlayMusic(currentSceneMusic.Playlist[currentPlaylistIndex], false);
     }
 
-    private void PlaySoundEffect(SoundClass sound, bool use3DSpace, Vector3 sourcePosition = default)
+    private void PlaySoundEffect(SoundClass sound, LoopType loopType, bool use3DSpace, Vector3 sourcePosition = default)
     {
         // Pick a random volume/sound within the set ranges
         float volume    = Random.Range(sound.VolumeRange.Min, sound.VolumeRange.Max);
         float pitch     = Random.Range(sound.PitchRange.Min, sound.PitchRange.Max);
 
         // Create the sound source GameObject
-        GameObject goSource = Instantiate(soundSourcePrefab, sourcePosition, Quaternion.identity, transform);
-        goSource.name = "Sound_" + sound.Id;
+        GameObject sourceGameObj = Instantiate(soundSourcePrefab, sourcePosition, Quaternion.identity, transform);
+        sourceGameObj.name = "Sound_" + sound.Id;
 
         // Set AudioSource values based on given parameters
-        AudioSource audioSource = goSource.GetComponent<AudioSource>();
+        AudioSource audioSource = sourceGameObj.GetComponent<AudioSource>();
 
         audioSource.clip        = sound.AudioClips[Random.Range(0, sound.AudioClips.Length)];
 
@@ -236,23 +239,26 @@ public class AudioManager : MonoBehaviour
             audioSource.spatialBlend = 1.0f;
         }
 
-        // if (looping)
-        // {
-        //     // If looping, set the audioSource to loop and give it an identifiable name so it can later be stopped/deleted
-        //     goSource.name = "LoopSound_" + loopId;
-        //     audioSource.loop = true;
-        // }
+        if (loopType.LoopEnabled)
+        {
+            // If looping, set the audioSource to loop and give it an identifiable name so it can later be stopped/deleted
+            sourceGameObj.name = "LoopSound_" + loopType.LoopId;
+            audioSource.loop = true;
+
+            // Add the source GameObject to the list of looping sounds
+            loopingSoundGameObjs.Add(sourceGameObj);
+        }
 
         // Play the sound
         audioSource.Play();
     }
 
-    private void PlaySoundEffect(string id, bool use3DSpace, Vector3 sourcePosition = default)
+    private void PlaySoundEffect(string id, LoopType loopType, bool use3DSpace, Vector3 sourcePosition = default)
     {
         if (soundsDict.ContainsKey(id))
         {
             // Play a sound with the given parameters
-            PlaySoundEffect(soundsDict[id], use3DSpace, sourcePosition);
+            PlaySoundEffect(soundsDict[id], loopType, use3DSpace, sourcePosition);
         }
         else
         {
@@ -260,28 +266,62 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayLoopingSoundEffect(string soundId, string loopId)
+    {
+        // Starts playing a sound with soundId that will loop until StopLoopingSoundEffect is called with the given loopId
+        PlaySoundEffect(soundId, LoopType.Loop(loopId), false);
+    }
+
+    public void PlayLoopingSoundEffect(SoundClass sound, string loopId)
+    {
+        // Starts playing a sound that will loop until StopLoopingSoundEffect is called with the given loopId
+        PlaySoundEffect(sound, LoopType.Loop(loopId), false);
+    }
+
+    public void StopLoopingSoundEffect(string loopId)
+    {
+        // Finds a looping sound with the given loopId and destroys its audio source to stop it
+
+        foreach(GameObject gameObj in loopingSoundGameObjs)
+        {
+            if (gameObj.name == "LoopSound_" + loopId)
+            {
+                // Found a matching loop source
+
+                // Remove it from the array of looping source GameObjects
+                loopingSoundGameObjs.Remove(gameObj);
+
+                // Destroy the source GameObject to stop the sound
+                Destroy(gameObj);
+
+                // Done, no need to continue
+                return;
+            }
+        }
+    }
+
     public void PlaySoundEffect2D(string id)
     {
         // Plays a sound with the given id that is not positioned in 3D space
-        PlaySoundEffect(id, false);
+        PlaySoundEffect(id, LoopType.DoNotLoop, false);
     }
 
     public void PlaySoundEffect2D(SoundClass sound)
     {
         // Plays the given sound, not positioned in 3D space
-        PlaySoundEffect(sound, false);
+        PlaySoundEffect(sound, LoopType.DoNotLoop, false);
     }
 
     public void PlaySoundEffect3D(string id, Vector3 sourcePosition)
     {
         // Plays a sound with the given id positioned in 3D space at sourcePosition
-        PlaySoundEffect(id, true, sourcePosition);
+        PlaySoundEffect(id, LoopType.DoNotLoop, true, sourcePosition);
     }
 
     public void PlaySoundEffect3D(SoundClass sound, Vector3 sourcePosition)
     {
         // Plays the given sound, positioned in 3D space at sourcePosition
-        PlaySoundEffect(sound, true, sourcePosition);
+        PlaySoundEffect(sound, LoopType.DoNotLoop, true, sourcePosition);
     }
 
     public void PlayAllDynamicSources()
@@ -295,17 +335,13 @@ public class AudioManager : MonoBehaviour
     }
 }
 
-// ||=======================================================================||
-// || SceneMusic: Contains data about how/which music will be played for    ||
-// ||   a certain scene.                                                    ||
-// ||=======================================================================||
-// || Written by Joseph Allen                                               ||
-// || for the prototype phase.                                              ||
-// ||=======================================================================||
+// SceneMusic: Contains data about how/which music will be played for a certian scene
+//===================================================================================
 
 [System.Serializable]
 public struct SceneMusic
 {
+    // Constructor
     public SceneMusic(string sceneName, MusicPlayMode playMode, MusicClass[] playlist)
     {
         SceneName = sceneName;
@@ -316,4 +352,31 @@ public struct SceneMusic
     public string           SceneName;  // Name of the scene to use these settings for
     public MusicPlayMode    PlayMode;   // The play mode to use in the scene
     public MusicClass[]     Playlist;   // The playlist used if the chosen PlayMode is OrderedPlaylist or RandomPlaylist
+}
+
+// LoopType: Defines whether a sound will loop, and holds a unique id to use if looping
+//=====================================================================================
+
+public class LoopType
+{
+    #region Properties
+
+    public          bool        LoopEnabled { get { return m_loopEnabled; } }
+    public          string      LoopId      { get { return m_loopId; } }
+    public static   LoopType    DoNotLoop   { get { return m_doNotLoop; } }
+
+    #endregion
+
+    // Member variables
+
+    private         bool     m_loopEnabled  = false;            // Whether the sound should loop
+    private         string   m_loopId       = "";               // Unique id used to find/stop a looping sound at any point after it's started playing
+    private static  LoopType m_doNotLoop    = new LoopType();   // Standard object to return for setting up non-looping sounds
+
+    // Setup a looping sound type
+    public static LoopType Loop(string loopId) { return new LoopType()
+                                               {
+                                                   m_loopEnabled = true,
+                                                   m_loopId = loopId
+                                               };}
 }

@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 8688783702949859633}
   - component: {fileID: 4740927130316203150}
   - component: {fileID: 5781619595027664628}
+  - component: {fileID: 7990771386612133257}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -170,24 +171,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465955}
-  controller: {fileID: 3399754590433321698}
-  velocityY: 0
-  pp: {fileID: 0}
+  postProcessing: {fileID: 0}
   walkSpeed: 5
   runSpeed: 8
   crouchSpeed: 3
   defaultGlideSpeed: 5
   swimSpeed: 5
   jumpVelocity: 10
-  gliderFallRate: 2
+  TerminalVelocity: 100
   gravity: 6.5
   mouseSensitivity: 4
+  gliderFallRate: 2
   gliderSensitivity: 4
   gliderTiltAmount: 0.2
   gliderOpenDistanceFromGround: 5
-  inWater: 0
+  glideVelocity: {x: 0, y: 0}
   glider: {fileID: 0}
-  currentCrouchState: 0
   currentMovementState: 0
 --- !u!143 &3399754590433321698
 CharacterController:
@@ -221,7 +220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 3399754590781465953}
   npcManager: {fileID: 0}
-  mapUI: {fileID: 0}
 --- !u!114 &868819069326215492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +250,8 @@ MonoBehaviour:
   fullThreshold: 0.9
   starveDamage: 0.05
   starveDamageInterval: 2
-  drownDamageInterval: 2
   drownDamage: 0.1
+  drownDamageInterval: 2
   baseTimeToDrown: 60
   healthSlider: {fileID: 0}
   healthSliderFill: {fileID: 0}
@@ -304,6 +302,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathPanelPrefab: {fileID: 7809706690116714397, guid: 3550c110b4867ff468d9fe35b4575193, type: 3}
+--- !u!114 &7990771386612133257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399754590433321695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64345c60cebea044391f84a96ff3eaab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepSpeedMultiplier: 0.4
 --- !u!1 &3399754590781465955
 GameObject:
   m_ObjectHideFlags: 0
