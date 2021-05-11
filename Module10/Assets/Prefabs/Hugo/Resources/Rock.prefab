@@ -19,7 +19,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &9195395961394234651
+--- !u!114 &9088118067760061510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28,10 +28,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 29982312369869235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f8400df27ebf0f4cab9e9a03af8b660, type: 3}
+  m_Script: {fileID: 11500000, guid: 486c541d655f90c4ca4ba889177d3262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rock: {fileID: 4782567156218978697}
+  attachedResource: {fileID: 6709853607039784386}
+  swingSoundName: whoosh
+  hitSoundName: rockImpact
   particle: {fileID: 326551280682526657}
 --- !u!54 &2261476970053677605
 Rigidbody:
@@ -5086,8 +5088,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4135203618149796918}
-  - component: {fileID: 4782567156218978697}
   - component: {fileID: 4214284270245136471}
+  - component: {fileID: 6709853607039784386}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -5112,32 +5114,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4782567156218978697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059624629255999060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bebdbe450cdaa694e89f984f17c2d63f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDroppedOnDestroy:
-  - Item: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
-    Quantity: 3
-  toolToBreak:
-  - {fileID: 11400000, guid: 5a86715d1aa7a024d914679571e7564b, type: 2}
-  hitsToBreak: 3
-  destroyParticlesPrefab: {fileID: 0}
-  destroyParticlesTransform: {fileID: 0}
-  hitSound: {fileID: 0}
-  fracturedVersion: {fileID: 6975148361483520555}
-  wholeVersion: {fileID: 133226541864096764}
-  CanBeHit: 1
-  pickaxeContainer: {fileID: 6151764647970115955}
-  pickaxe: {fileID: 3219830406310881412}
 --- !u!64 &4214284270245136471
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5152,6 +5128,36 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -179393741545503174, guid: 4f9d77f232c7ddf4395f6d992df0cd3a, type: 3}
+--- !u!114 &6709853607039784386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5059624629255999060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 974ee451501ac9a47b96b7a09792c281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemDroppedOnDestroy:
+  - Item: {fileID: 11400000, guid: b005af4b3f26f2f4c8fe8da34669eba5, type: 2}
+    Quantity: 3
+  toolToBreak:
+  - {fileID: 11400000, guid: 5a86715d1aa7a024d914679571e7564b, type: 2}
+  hitsToBreak: 3
+  destroyParticlesPrefab: {fileID: 0}
+  destroyParticlesTransform: {fileID: 0}
+  hitSound: {fileID: 0}
+  enableOnDestruction:
+  - {fileID: 6975148361483520555}
+  disableOnDestruction:
+  - {fileID: 133226541864096764}
+  toolHolder: {fileID: 6151764647970115955}
+  toolAnimator: {fileID: 3219830406310881412}
+  colliderDisableOnDestroy: {fileID: 4214284270245136471}
+  canBeHit: 1
+  toolRenderer: {fileID: 0}
 --- !u!54 &6288563872747255251
 Rigidbody:
   m_ObjectHideFlags: 0

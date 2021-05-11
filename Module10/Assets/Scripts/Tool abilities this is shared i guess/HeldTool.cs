@@ -19,6 +19,8 @@ public class HeldTool : HeldItem
     protected RaycastHit    toolRaycastHit;
     protected CameraShake   playerCameraShake;
 
+    public MeshRenderer toolRenderer;
+
     protected override void Awake()
     {
         base.Awake();

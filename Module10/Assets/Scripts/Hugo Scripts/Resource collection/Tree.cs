@@ -2,28 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tree : DestructableObject
+public class Tree : CollectableResource
 {
-    public Rigidbody topSection;
+    [SerializeField] private Rigidbody treeTop;
 
-
-    private void Start()
+    public override void TryToDestroy()
     {
-        health = hitsToBreak;
-    }
+        base.TryToDestroy();
 
-    public override void Destroyed()
-    {
-        topSection.useGravity = true;
-        topSection.constraints = RigidbodyConstraints.None;
+        if(toBeDestroyed)
+        {
+            treeTop.velocity = Vector3.zero;
+            Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position) * 300;
 
-        //topSection.AddExplosionForce(100f, transform.position, 20f);
-
-        Vector3 forceDir = (transform.position - GameObject.FindGameObjectWithTag("Player").transform.position ).normalized * 100;
-
-        topSection.AddForce(forceDir);
-
-
-        base.Destroyed();
+            treeTop.AddForce(forceDir);
+        }
     }
 }

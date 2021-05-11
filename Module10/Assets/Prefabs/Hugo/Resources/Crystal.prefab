@@ -37,7 +37,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &562023596967739824
+--- !u!114 &3035366512127865443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,11 +46,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3065137336785980463}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e829938e7a6b9c4b940f64809f8e4f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 486c541d655f90c4ca4ba889177d3262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rock: {fileID: 439526720538419409}
-  particles: {fileID: 1388974309517231067}
+  attachedResource: {fileID: 7818025677554782957}
+  swingSoundName: whoosh
+  hitSoundName: crystalHit
+  particle: {fileID: 1388974309517231067}
 --- !u!1 &3659752763974362631
 GameObject:
   m_ObjectHideFlags: 0
@@ -5005,7 +5007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 648868243310616260}
   - component: {fileID: 6850407827601071565}
-  - component: {fileID: 439526720538419409}
+  - component: {fileID: 7818025677554782957}
   m_Layer: 0
   m_Name: Crystal
   m_TagString: Untagged
@@ -5043,7 +5045,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2888191, y: 2.361326, z: 1.2046201}
   m_Center: {x: 0.03080821, y: 0.18300495, z: 0.10231024}
---- !u!114 &439526720538419409
+--- !u!114 &7818025677554782957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5052,23 +5054,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5499524229461681208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 584f78067c0a48f4e864130d76b26708, type: 3}
+  m_Script: {fileID: 11500000, guid: 974ee451501ac9a47b96b7a09792c281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemDroppedOnDestroy:
   - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
-    Quantity: 2
+    Quantity: 1
   toolToBreak:
   - {fileID: 11400000, guid: f9b8adbe7bc1087428585c5e61dea451, type: 2}
   hitsToBreak: 3
   destroyParticlesPrefab: {fileID: 0}
   destroyParticlesTransform: {fileID: 0}
   hitSound: {fileID: 0}
-  fracturedVersion: {fileID: 733960418458367678}
-  wholeVersion: {fileID: 4740689704184850128}
-  CanBeHit: 1
-  hammerContainer: {fileID: 3845924022249794149}
-  hammer: {fileID: 6423150185491288902}
+  enableOnDestruction:
+  - {fileID: 733960418458367678}
+  disableOnDestruction:
+  - {fileID: 4740689704184850128}
+  toolHolder: {fileID: 3845924022249794149}
+  toolAnimator: {fileID: 6423150185491288902}
+  colliderDisableOnDestroy: {fileID: 6850407827601071565}
+  canBeHit: 1
+  toolRenderer: {fileID: 0}
 --- !u!54 &1243023301861318744
 Rigidbody:
   m_ObjectHideFlags: 0

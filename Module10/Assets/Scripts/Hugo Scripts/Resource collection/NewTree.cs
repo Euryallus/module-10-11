@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//new better trees!
+
 public class NewTree : DestructableObject
 {
     public Rigidbody    topRB; //Rigidbody of top section
