@@ -20,12 +20,7 @@ public class ExternalTrigger : MonoBehaviour
 
     #endregion
 
-    private List<IExternalTriggerListener> listeners;   // List of all IExternalTriggerListeners to notify when a something enters/enters/stays in the trigger
-
-    private void Awake()
-    {
-        listeners = new List<IExternalTriggerListener>();
-    }
+    private List<IExternalTriggerListener> listeners = new List<IExternalTriggerListener>(); // List of all IExternalTriggerListeners to notify when a something enters/enters/stays in the trigger
 
     public void AddListener(IExternalTriggerListener listener)
     {
