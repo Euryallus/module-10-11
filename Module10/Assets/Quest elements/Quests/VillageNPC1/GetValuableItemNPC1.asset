@@ -17,13 +17,8 @@ MonoBehaviour:
     ever out in the plains. I'll pay you for your time.
   questCompleteDialogue: I never thought I'd see this again! Thank you so much. Please,
     take some food and money in return
-  nextQuests: []
-  handInNPCName: villageNPC1
-  handOutNPCName: villageNPC1
-  questCompleted: 0
-  questHandedIn: 0
-  handInToGiver: 1
-  questLineName: 
+  nextQuests:
+  - {fileID: 11400000, guid: d142f890a186f09488decf9e7c2ee494, type: 2}
   rewards:
   - Item: {fileID: 11400000, guid: 0d09b3c55fa7c90419d812ff7d752e3d, type: 2}
     Quantity: 3
@@ -31,3 +26,9 @@ MonoBehaviour:
     Quantity: 5
   objectives:
   - {fileID: 11400000, guid: fc5f11081253e814e8fe7a7287994a40, type: 2}
+  handInNPCName: villageNPC1
+  handOutNPCName: villageNPC1
+  questLineName: 
+  questCompleted: 0
+  questHandedIn: 0
+  handInToGiver: 1

@@ -17,14 +17,14 @@ MonoBehaviour:
     for me?
   questCompleteDialogue: 'Wow! Thank you so much! '
   nextQuests: []
-  handInNPCName: Jeff
-  handOutNPCName: Jeff
-  questCompleted: 0
-  questHandedIn: 0
-  handInToGiver: 1
-  questLineName: 
   rewards:
   - Item: {fileID: 11400000, guid: 7295093da02bb684092433d4c5181ac3, type: 2}
     Quantity: 4
   objectives:
   - {fileID: 11400000, guid: 99346821b12184a47a77bc1e5a587517, type: 2}
+  handInNPCName: Jeff
+  handOutNPCName: Jeff
+  questLineName: 
+  questCompleted: 0
+  questHandedIn: 0
+  handInToGiver: 1
