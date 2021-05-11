@@ -240,6 +240,13 @@ public class PlayerMovement : MonoBehaviour
                 v.active = true;
             }
 
+            // Added by Joe: plays a sound when the player first enters water and starts looping underwater sound
+            if (!inWater)
+            {
+                AudioManager.Instance.PlaySoundEffect2D("splash");
+                AudioManager.Instance.PlayLoopingSoundEffect("underwaterLoop", "playerInWater");
+            }
+
             // Flags water bool
             inWater = true;
             // Sets current movement mode to diving
@@ -275,6 +282,13 @@ public class PlayerMovement : MonoBehaviour
                     // If case = swimming but player is grounded, player is now walking
                     if(controller.isGrounded)
                     {
+                        // Added by Joe: plays a sound when the player leaves water and stops looping underwater sound
+                        if (inWater)
+                        {
+                            AudioManager.Instance.PlaySoundEffect2D("waterExit");
+                            AudioManager.Instance.StopLoopingSoundEffect("playerInWater");
+                        }
+
                         currentMovementState = MovementStates.walk;
                         inWater = false;
                     }
