@@ -33,7 +33,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachedResource: {fileID: 6709853607039784386}
   swingSoundName: whoosh
-  hitSoundName: rockImpact
+  hitSoundName: stoneHit
   particle: {fileID: 326551280682526657}
 --- !u!54 &2261476970053677605
 Rigidbody:
@@ -5158,6 +5158,7 @@ MonoBehaviour:
   colliderDisableOnDestroy: {fileID: 4214284270245136471}
   canBeHit: 1
   toolRenderer: {fileID: 0}
+  toBeDestroyed: 0
 --- !u!54 &6288563872747255251
 Rigidbody:
   m_ObjectHideFlags: 0
