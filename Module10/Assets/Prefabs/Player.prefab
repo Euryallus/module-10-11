@@ -272,10 +272,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ed58c3e77fb3f40be281b58a6b4514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bobBaseSpeed: 13
+  bobSpeedMultiplier: 2.5
   bobBaseIntensity: 0.05
+  waterBobSpeed: 3.25
+  waterBobIntensity: 0.025
   cameraParentTransform: {fileID: 3785119239588701016}
-  playerMovementScript: {fileID: 3399754590433321693}
+  playerMovement: {fileID: 3399754590433321693}
 --- !u!114 &4740927130316203150
 MonoBehaviour:
   m_ObjectHideFlags: 0

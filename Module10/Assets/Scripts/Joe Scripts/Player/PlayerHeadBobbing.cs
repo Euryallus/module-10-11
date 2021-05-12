@@ -16,11 +16,13 @@ public class PlayerHeadBobbing : MonoBehaviour
     #region InspectorVariables
     // Variables in this region are set in the inspector
 
-    [SerializeField] private float          bobBaseSpeed     = 13.0f;   // The speed of the bob effect when the player is walking
-    [SerializeField] private float          bobBaseIntensity = 0.05f;   // The intensity (up/down movement amount) of the effect when walking
+    [SerializeField] private float          bobSpeedMultiplier = 2.5f;    // Multiplier used when calculating bob speed, which is based on player movement speed
+    [SerializeField] private float          bobBaseIntensity   = 0.05f;   // The default intensity (up/down movement amount) of the effect
+    [SerializeField] private float          waterBobSpeed      = 3.25f;   // The speed of the bob effect when idle in water
+    [SerializeField] private float          waterBobIntensity  = 0.025f;  // The intensity (up/down movement amount) of the effect when idle in water
                                                                            
-    [SerializeField] private Transform      cameraParentTransform;      // The parent object of the main player camera
-    [SerializeField] private PlayerMovement playerMovementScript;       // The script attached to the player that handles movement
+    [SerializeField] private Transform      cameraParentTransform;        // The parent object of the main player camera
+    [SerializeField] private PlayerMovement playerMovement;               // The script attached to the player that handles movement
 
     #endregion
 
@@ -47,34 +49,21 @@ public class PlayerHeadBobbing : MonoBehaviour
 
     private bool DoBobbingEffect(out float yBobbingPos)
     {
-        // Check if the player is currently running/crouching/diving
-        bool running    = (playerMovementScript.currentMovementState == PlayerMovement.MovementStates.run);
-        bool crouching  = (playerMovementScript.currentMovementState == PlayerMovement.MovementStates.crouch);
-        bool diving     = (playerMovementScript.currentMovementState == PlayerMovement.MovementStates.dive);
+        float playerSpeed = Vector3.Magnitude(playerMovement.GetVelocity());                        //Speed of player movement used to calculate bob effect speed
+        bool diving = (playerMovement.currentMovementState == PlayerMovement.MovementStates.dive);  // Check if the player is diving 
 
-        float bobSpeed      = bobBaseSpeed;     // Use the base bob speed by default
-        float bobIntensity  = bobBaseIntensity; // Use the base bob intensity by default
-        bool doBobbing      = true;             // Whether the bobbing effect should be applied
+        float bobSpeed = playerSpeed * bobSpeedMultiplier; // Multiply player speed by the set multiplier to get bob speed
+        float bobIntensity  = bobBaseIntensity;            // Use the base bob intensity by default
 
-        yBobbingPos = 0.0f; //Default y position for if no effect is applied
+        bool doBobbing      = true;                        // Apply the bobbing effect by default
 
-        if (playerMovementScript.PlayerIsMoving())
+        yBobbingPos = 0.0f; // Default y position for if no effect is applied
+
+        if (playerMovement.PlayerIsMoving())
         {
-            // The player is moving, i.e. not stood still, so a head bobbing effect will be applied
+            // The player is moving, i.e. not stood still, so a head bobbing effect will be applied by default
 
-            if (!diving)
-            {
-                // Player is moving on land, adjust the bobbing speed if the player is running/crouching to make is faster/slower
-                if (running)
-                {
-                    bobSpeed = bobBaseSpeed * 1.5f;
-                }
-                else if (crouching)
-                {
-                    bobSpeed = bobBaseSpeed * 0.5f;
-                }
-            }
-            else
+            if (diving)
             {
                 // Player is diving, disable bobbing
                 doBobbing = false;
@@ -86,9 +75,9 @@ public class PlayerHeadBobbing : MonoBehaviour
 
             if (diving)
             {
-                // Still in water, slowly bob the camera with a lower intensity
-                bobSpeed = bobBaseSpeed * 0.25f;
-                bobIntensity = bobBaseIntensity * 0.5f;
+                // Still in water, slowly bob the camera with a lower speed/intensity
+                bobSpeed     = waterBobSpeed;
+                bobIntensity = waterBobIntensity;
             }
             else
             {
@@ -102,16 +91,23 @@ public class PlayerHeadBobbing : MonoBehaviour
             // Calculate the y position of the camera to apply the bobbing effect (used if doBobbing = true)
             yBobbingPos = GetTargetYBobbingPos(bobSpeed, bobIntensity);
         }
+        else
+        {
+            // Reset the timer ready for the next time the bobbing effect is applied
+            time = 0.0f;
+        }
 
         return doBobbing;
     }
 
     private float GetTargetYBobbingPos(float bobSpeed, float intensity)
     {
+        // Set the target y position using a sin function based on the bob intensity to give a smooth up/down movement over time
+        float yPos = (Mathf.Sin(time) * intensity);
+
         // Increment the timer used for sin calculation
         time += (Time.deltaTime * bobSpeed);
 
-        // Set the target y position using a sin function based on the bob intensity to give a smooth up/down movement over time
-        return (Mathf.Sin(time) * intensity) + intensity;
+        return yPos;
     }
 }
