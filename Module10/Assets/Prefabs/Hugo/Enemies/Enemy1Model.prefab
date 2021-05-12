@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1297b6140deee2b4ab895e5d5f7ef2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewDistance: 25
+  viewDistance: 35
   viewAngle: 150
   stationaryTurnSpeed: 5
   difficulty: 1
@@ -82,9 +82,10 @@ MonoBehaviour:
   timeBetweenAttacks: 2
   attackDistance: 4
   manager: {fileID: 0}
-  maxAtEachPatrolPoint: 3
+  maxAtEachPatrolPoint: 5
   patrolSpeed: 2
   defaultSpeed: 0
+  canSee: 0
   numberOfDuplicates: 3
   duplicatePrefab: {fileID: 137528860155671651, guid: d2b80339575d40e44ad910e41f83d04a, type: 3}
   children: []

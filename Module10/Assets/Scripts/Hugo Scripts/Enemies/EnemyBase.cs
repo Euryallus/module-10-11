@@ -45,7 +45,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]    protected float timeBetweenAttacks      = 2f;   // Time between enemy attack attempts
     [SerializeField]    protected float attackDistance;                 // Distance enemy can attack from
                         protected float attackCooldown;                 // Time since enemy last attacked (internal cooldown)
-    [SerializeField]    protected float dot;                            // Angle between enemy forward vect & player (calculated from dot prod.)
+                        protected float dot;                            // Angle between enemy forward vect & player (calculated from dot prod.)
                         protected NavMeshAgent agent;                   // Ref to enemy AI agent
                         protected GameObject player;                    // Ref to player
                         protected PlayerStats playerStats;              // Ref to player stats
@@ -59,6 +59,8 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]    protected float patrolSpeed;                    // Speed enemy patrols at
     [SerializeField]    protected float defaultSpeed;                   // Speed enemy moves when searching / engaged
                         protected bool findingNewPos = false;           // Flags if enemy is waiting at point before selecting a new one
+
+    public bool canSee = false;
 
 
     public virtual void Start()
@@ -326,11 +328,12 @@ public class EnemyBase : MonoBehaviour
                 // Creates raycast mask for excluding colliders on "enemies" layer
                 int mask = 1 << 6;
 
+
                 // Raycasts from enemy towards player - if it hits, nothing's obstructing the view
                 if (Physics.Raycast(transform.position, player.transform.position - transform.position, out RaycastHit hit, viewDistance, ~mask))
                 {
                     // If raycast does hit player
-                    if (hit.transform.CompareTag("Player"))
+                    if (hit.transform.parent.gameObject.CompareTag("Player"))
                     {
                         // Draw a debug line to show connection, store position player was seen at, and return true
                         Debug.DrawLine(transform.position, hit.transform.position, Color.red);
@@ -341,8 +344,10 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
+        
 
         // If player is not visible, return false
+        
         return false;
     }
 
