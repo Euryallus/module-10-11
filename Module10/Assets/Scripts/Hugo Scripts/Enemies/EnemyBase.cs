@@ -11,7 +11,6 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
-
     public enum EnemyState                                              // Possible states enemy can be in at any given point 
     {
         stationary,                                                     // Stationary: Enemy is not moving
@@ -46,7 +45,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField]    protected float timeBetweenAttacks      = 2f;   // Time between enemy attack attempts
     [SerializeField]    protected float attackDistance;                 // Distance enemy can attack from
                         protected float attackCooldown;                 // Time since enemy last attacked (internal cooldown)
-                        protected float dot;                            // Angle between enemy forward vect & player (calculated from dot prod.)
+    [SerializeField]    protected float dot;                            // Angle between enemy forward vect & player (calculated from dot prod.)
                         protected NavMeshAgent agent;                   // Ref to enemy AI agent
                         protected GameObject player;                    // Ref to player
                         protected PlayerStats playerStats;              // Ref to player stats

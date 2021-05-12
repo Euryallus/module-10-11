@@ -174,7 +174,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 0.13867483, g: 0.461, b: 0.2773496, a: 0}
-    - _Color2: {r: 0.15972951, g: 0.4433962, b: 0.04433963, a: 0}
+    - _Color2: {r: 0.43424535, g: 0.5, b: 0, a: 0}
     - _Color3: {r: 0, g: 0, b: 0, a: 0}
     - _CoverageColor: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

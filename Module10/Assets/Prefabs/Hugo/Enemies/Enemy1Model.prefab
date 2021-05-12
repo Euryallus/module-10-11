@@ -73,9 +73,9 @@ MonoBehaviour:
   viewAngle: 150
   stationaryTurnSpeed: 5
   difficulty: 1
-  playerLastSeen: {x: 0, y: 0, z: 0}
   noOfSearchPoints: 8
-  patrolWanderDistance: 15
+  searchPointsVisited: 0
+  patrolWanderDistance: 30
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
   baseDamage: 0.2
@@ -84,10 +84,10 @@ MonoBehaviour:
   manager: {fileID: 0}
   maxAtEachPatrolPoint: 3
   patrolSpeed: 2
-  currentState: 0
+  defaultSpeed: 0
+  numberOfDuplicates: 3
   duplicatePrefab: {fileID: 137528860155671651, guid: d2b80339575d40e44ad910e41f83d04a, type: 3}
   children: []
-  numberOfDuplicates: 3
   duplicateSpawnDistance: 5
   anim: {fileID: 8454660148386180801}
 --- !u!136 &5815548325743689502
