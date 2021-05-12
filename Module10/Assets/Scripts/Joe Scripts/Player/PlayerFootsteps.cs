@@ -18,8 +18,13 @@ public class PlayerFootsteps : MonoBehaviour
 
     #endregion
 
-    private PlayerMovement  playerMovement; // Reference to the player movement script for getting player velocity
-    private float           stepTimer;      // Keeps track of the amount of time (seconds) since the last step
+    private PlayerMovement  playerMovement;                // Reference to the player movement script for getting player velocity
+    private float           stepTimer;                     // Keeps track of the amount of time (seconds) since the last step
+    private bool            playerIsIdle = true;           // Whether the player is currently idle/not moving on the ground
+    private float           idleTimer = GroundedThreshold; // Keeps track of how long the player has been idle/not moving on the ground (seconds)
+
+    private const float     GroundedThreshold   = 0.1f;    // Amount of seconds to wait for before registering the player as grounded/allowing bobbing to prevent
+                                                           //   rapid changes between being grounded/not grounded from triggering lots of footstep sounds
 
     private void Awake()
     {
@@ -28,9 +33,13 @@ public class PlayerFootsteps : MonoBehaviour
 
     void Update()
     {
-        if(playerMovement.PlayerIsGrounded() && playerMovement.PlayerIsMoving())
+        if(playerMovement.PlayerIsGrounded() && playerMovement.PlayerIsMoving() && idleTimer >= GroundedThreshold)
         {
-            // Player is on the ground and moving
+            // Player is on the ground and moving, they are not idle
+            if (playerIsIdle)
+            {
+                playerIsIdle = false;
+            }
 
             // Get the player's movement speed
             float playerSpeed = Vector3.Magnitude(playerMovement.GetVelocity());
@@ -56,8 +65,16 @@ public class PlayerFootsteps : MonoBehaviour
         }
         else
         {
+            if(!playerIsIdle)
+            {
+                playerIsIdle = true;
+                idleTimer = 0.0f;
+            }
+
             // Player is not moving/not on the ground, reset step timer
             stepTimer = 0.0f;
+
+            idleTimer += Time.deltaTime;
         }
     }
 }
