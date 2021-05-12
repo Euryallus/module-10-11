@@ -27,6 +27,7 @@ public class CollectableResource : DestructableObject
     {
         if(canBeHit)
         {
+            canBeHit = false;
             // Rotates animation to "face" same direction as player (tool anim is visible from any angle)
             toolHolder.transform.forward = GameObject.FindGameObjectWithTag("Player").transform.forward;
             // Re-assigns tool renderer to ensure it can be enabled / disabled
