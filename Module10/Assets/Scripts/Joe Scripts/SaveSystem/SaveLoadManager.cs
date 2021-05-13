@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -31,18 +32,28 @@ public class SaveLoadManager : MonoBehaviour
 
     private string saveDirectory;                       // Path where save files are stored
 
+    private Dictionary<string, int> playerPrefsDefaultIntValues = new Dictionary<string, int>()
+    {
+        { "musicVolume"       , 8 },
+        { "soundEffectsVolume", 8 },
+
+        // Ints being used as bool values (1 = true, 0 = false), since PlayerPrefs doesn't work with bools
+        { "screenShake", 1 },
+        { "viewBobbing", 1 }
+    };
+
     private const string SaveDataFileName = "save.dat"; // File name used for save data files (before scene name is prepended)
 
     private void Awake()
     {
-        //Ensure that an instance of the class does not already exist
+        // Ensure that an instance of the class does not already exist
         if (Instance == null)
         {
-            //Set this class as the instance and ensure that it stays when changing scenes
+            // Set this class as the instance and ensure that it stays when changing scenes
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        //If there is an existing instance that is not this, destroy the GameObject this script is connected to
+        // If there is an existing instance that is not this, destroy the GameObject this script is connected to
         else if (Instance != this)
         {
             Destroy(gameObject);
@@ -215,9 +226,53 @@ public class SaveLoadManager : MonoBehaviour
         Debug.Log("Scene loaded: " + scene.name);
 
         // Load the game's save data from a file if the loaded scene has one of the following names:
-        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene" || scene.name == "DemoScene")
+        if(scene.name == "CombinedScene" || scene.name == "JoeTestScene" || scene.name == "Noah test scene" ||
+            scene.name == "DemoScene" || scene.name == "NoahNewScene" || scene.name == "Mod10SubmissionDemo")
         {
             LoadGame();
+        }
+    }
+
+    // Saving/loading PlayerPrefs
+    //============================
+
+    public void SaveIntToPlayerPrefs(string key, int value)
+    {
+        PlayerPrefs.SetInt(key, value);
+        PlayerPrefs.Save();
+    }
+
+    public int GetIntFromPlayerPrefs(string key)
+    {
+        if(playerPrefsDefaultIntValues.ContainsKey(key))
+        {
+            return PlayerPrefs.GetInt(key, playerPrefsDefaultIntValues[key]);
+        }
+        else
+        {
+            Debug.LogWarning("No default int value set for PlayerPref with key: " + key);
+
+            return PlayerPrefs.GetInt(key);
+        }
+    }
+
+    public void SaveBoolToPlayerPrefs(string key, bool value)
+    {
+        PlayerPrefs.SetInt(key, value == true ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public bool GetBoolFromPlayerPrefs(string key)
+    {
+        if (playerPrefsDefaultIntValues.ContainsKey(key))
+        {
+            return (PlayerPrefs.GetInt(key, playerPrefsDefaultIntValues[key]) == 1 ? true : false);
+        }
+        else
+        {
+            Debug.LogWarning("No default int value set for PlayerPref with key: " + key);
+
+            return (PlayerPrefs.GetInt(key) == 1 ? true : false);
         }
     }
 }
