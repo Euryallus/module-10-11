@@ -123,19 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-        // Raw input from mouse / keyboard (X & Y)
-        moveTo = new Vector3(0, 0, 0);
-
-        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;// * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;// * Time.deltaTime;
-
-        rotateY -= mouseY;
-        rotateY = Mathf.Clamp(rotateY, -75f, 85f);
-
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
-
+       
         // Checks if player is [x] m above ground or not
         if (Physics.Raycast(transform.position, -transform.up, gliderOpenDistanceFromGround))
         {
@@ -268,6 +256,18 @@ public class PlayerMovement : MonoBehaviour
 
         if(canMove)
         {
+            // Raw input from mouse / keyboard (X & Y)
+            moveTo = new Vector3(0, 0, 0);
+
+            mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;// * Time.deltaTime;
+            mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;// * Time.deltaTime;
+
+            rotateY -= mouseY;
+            rotateY = Mathf.Clamp(rotateY, -75f, 85f);
+
+            inputX = Input.GetAxis("Horizontal");
+            inputY = Input.GetAxis("Vertical");
+
             // Camera & capsule rotation
             transform.Rotate(Vector3.up * mouseX);
             playerCamera.transform.localRotation = Quaternion.Euler(rotateY, 0, 0f);

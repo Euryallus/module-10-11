@@ -67,7 +67,7 @@ public class MapUI : MonoBehaviour
             }
         }
 
-        float ratio = 1063f / 500f;
+        float ratio = (1063f / 2f) / 500f;
 
         // Calculates player position & scales (Allows map to span entire world space needed)
         Vector2 playerPos = new Vector2(player.transform.position.x *ratio, player.transform.position.z * -ratio);
