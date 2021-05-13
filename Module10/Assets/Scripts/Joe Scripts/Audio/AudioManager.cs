@@ -113,6 +113,12 @@ public class AudioManager : MonoBehaviour
         // Set playmode to none by default in case none was set in the inspector
         currentSceneMusic = new SceneMusic(scene.name, MusicPlayMode.None, null);
 
+        // Stop the music source if it's playing ready to set up music for the loaded scene
+        if (musicSource.isPlaying)
+        {
+            musicSource.Stop();
+        }
+
         for (int i = 0; i < sceneMusicSetup.Length; i++)
         {
             // Find the scene music setup for the loaded scene

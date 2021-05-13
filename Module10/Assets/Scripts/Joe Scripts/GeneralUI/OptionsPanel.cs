@@ -109,6 +109,11 @@ public class OptionsPanel : MonoBehaviour
             GameSceneMenuUI.Instance.PauseAndShowPauseUI();
             GameSceneMenuUI.Instance.HideOptionsUI();
         }
+        else if(openType == OptionsOpenType.MainMenu)
+        {
+            // Hide this options panel to stop blocking the main menu
+            GameObject.Find("MainMenu").GetComponent<MainMenu>().HideOptionsPanel();
+        }
     }
 
     public void MusicSliderValueChanged(float value)
