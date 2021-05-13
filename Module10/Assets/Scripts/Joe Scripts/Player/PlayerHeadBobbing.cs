@@ -49,6 +49,14 @@ public class PlayerHeadBobbing : MonoBehaviour
 
     private bool DoBobbingEffect(out float yBobbingPos)
     {
+        yBobbingPos = 0.0f; // Default y position for if no effect is applied
+
+        if (SaveLoadManager.Instance.GetBoolFromPlayerPrefs("viewBobbing") == false)
+        {
+            // The player has disabled view bobbing in the options, don't apply any effect
+            return false;
+        }
+
         float playerSpeed = Vector3.Magnitude(playerMovement.GetVelocity());                        //Speed of player movement used to calculate bob effect speed
         bool diving = (playerMovement.currentMovementState == PlayerMovement.MovementStates.dive);  // Check if the player is diving 
 
@@ -57,15 +65,13 @@ public class PlayerHeadBobbing : MonoBehaviour
 
         bool doBobbing      = true;                        // Apply the bobbing effect by default
 
-        yBobbingPos = 0.0f; // Default y position for if no effect is applied
-
         if (playerMovement.PlayerIsMoving())
         {
             // The player is moving, i.e. not stood still, so a head bobbing effect will be applied by default
 
-            if (diving)
+            if (diving || !playerMovement.PlayerIsGrounded())
             {
-                // Player is diving, disable bobbing
+                // Player is diving or not stood on the ground, disable bobbing
                 doBobbing = false;
             }
         }

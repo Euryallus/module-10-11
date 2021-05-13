@@ -71,7 +71,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fe6e0cbd764826b4280ee1d32d271e27, type: 2}
   sceneMusicSetup:
   - SceneName: JoeTestScene
-    PlayMode: 4
+    PlayMode: 3
     Playlist:
     - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
   - SceneName: DemoScene
@@ -79,6 +79,10 @@ MonoBehaviour:
     Playlist: []
   - SceneName: CombinedScene
     PlayMode: 2
+    Playlist:
+    - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
+  - SceneName: Mod10SubmissionDemo
+    PlayMode: 3
     Playlist:
     - {fileID: 11400000, guid: 481bfedf74be6e24c8914f20dd3849bb, type: 2}
   musicSource: {fileID: 5208045952954675613}

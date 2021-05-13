@@ -35,11 +35,13 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
     private void Awake()
     {
         // Set defaults
-        baseVolume          = musicToTrigger.Volume;
-        musicSource.clip    = musicToTrigger.AudioClip;
+        musicSource.clip = musicToTrigger.AudioClip;
 
         // Mute the source by default until the player enters it
-        musicSource.volume  = 0.0f;
+        musicSource.volume = 0.0f;
+
+        // Allow volume to be adjusted while the game is paused
+        musicSource.velocityUpdateMode = AudioVelocityUpdateMode.Dynamic;
     }
 
     private void Start()
@@ -93,7 +95,7 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
         if(fadingIn)
         {
             // Slowly increase the audio source volume each frame to fade music in
-            musicSource.volume += Time.unscaledDeltaTime * 0.5f;
+            musicSource.volume += Time.unscaledDeltaTime * 0.5f * baseVolume;
 
             // Once music is fully faded in, stop fading
             if(musicSource.volume >= baseVolume)
@@ -105,7 +107,7 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
         else if(fadingOut)
         {
             // Slowly decrease the audio source volume each frame to fade music out
-            musicSource.volume -= Time.unscaledDeltaTime * 0.5f;
+            musicSource.volume -= Time.unscaledDeltaTime * 0.5f * baseVolume;
 
             // Once music is fully faded out, stop fading
             if (musicSource.volume <= 0.0f)
@@ -162,6 +164,18 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
         FadeOut();
 
         active = false;
+    }
+
+    public void UpdateSourceVolume(float volume)
+    {
+        Debug.Log("Updating source volume: " + musicToTrigger.name);
+
+        baseVolume = musicToTrigger.Volume * volume;
+
+        if(active)
+        {
+            musicSource.volume = baseVolume;
+        }
     }
 
     private void FadeIn()

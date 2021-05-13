@@ -90,6 +90,12 @@ public class CameraShake : MonoBehaviour
     public void ShakeCameraForTime(float time, CameraShakeType type,
                                     float intensity = DefaultShakeIntensity, float frequency = DefaultShakeFrequency, float speed = DefaultShakeSpeed)
     {
+        if(SaveLoadManager.Instance.GetBoolFromPlayerPrefs("screenShake") == false)
+        {
+            // Screen/camera shake was disabled in the optiops menu, don't apply the effect
+            return;
+        }
+
         // Setup variables
         totalShakeTime      = time;
         shakeIntensity      = intensity;

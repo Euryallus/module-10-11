@@ -54,8 +54,10 @@ public class InventoryPanel : UIPanel
     private float           totalWeight = 0.0f;  // The weight of all items in the inventory combined
     private HandSlotUI      handSlotUI;          // The slot that allows the player to hold/move items
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Subscribe to the ContainerStateChangedEvent event to update inventory weight when an item is added/removed/moved
         itemContainer.ContainerStateChangedEvent += UpdateTotalInventoryWeight;
     }

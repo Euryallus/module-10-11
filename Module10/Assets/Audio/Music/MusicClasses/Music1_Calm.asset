@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_audioClip: {fileID: 8300000, guid: d7a7e9f71f9f8e64999684f4e05af1c5, type: 3}
   m_id: music1Calm
-  m_volume: 0.8
+  m_volume: 1

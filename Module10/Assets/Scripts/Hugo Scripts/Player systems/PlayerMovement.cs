@@ -541,7 +541,7 @@ public class PlayerMovement : MonoBehaviour
     // Checks if player is currently moving
     public bool PlayerIsMoving()
     {
-        if(canMove && (Mathf.Abs(controller.velocity.x) > 0.2f || Mathf.Abs(controller.velocity.z) > 0.2f))
+        if(canMove && (Mathf.Abs(controller.velocity.x) > 1.0f || Mathf.Abs(controller.velocity.z) > 1.0f))
         {
             return true;
         }
