@@ -44,8 +44,13 @@ public class CraftingPanel : UIPanel
     private List<ContainerSlot>[]       slotsContainingRecipeItems; // An array containing lists on inventory slots, the array index corresponds to the index of
                                                                     //   the recipe item that requires items from the slot(s) that are in the list to be crafted
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
+        // Don't allow this panel to block certain UI related input events when being shown, the parent InventoryPanel will handle this
+        isBlockingPanel = false;
+
         InventoryPanel.ItemContainer.ContainerStateChangedEvent += CheckForValidCraftingSetup;
     }
 

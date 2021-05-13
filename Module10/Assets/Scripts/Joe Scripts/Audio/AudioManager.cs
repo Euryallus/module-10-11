@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
     private int                             currentPlaylistIndex;       // If using a playlist, the index of the song that is currently playing in it
     private DynamicAudioArea[]              dynamicAudioAreas;          // All (if any) dynamic audio areas in the loaded scene
     private DynamicAudioArea                currentDynamicAudioArea;    // The dynamic audio area that the player most recently entered
-    private List<GameObject>                loopingSoundGameObjs;       // List of GameObjects for all active looping sounds
+    private List<LoopingSoundSource>        loopingSoundSources;        // List of all active looping sound sources
 
     private void Awake()
     {
@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        loopingSoundGameObjs = new List<GameObject>();
+        loopingSoundSources = new List<LoopingSoundSource>();
 
         // Add all sounds to the sound dictionary
         SetupSoundDictionary();
@@ -154,6 +154,8 @@ public class AudioManager : MonoBehaviour
                 break;
             }
         }
+
+        UpdateAudioSourcesVolume(SaveLoadManager.Instance.GetIntFromPlayerPrefs("musicVolume"));
     }
 
     public void PlayMusic(MusicClass music, bool loop)
@@ -229,7 +231,8 @@ public class AudioManager : MonoBehaviour
 
         audioSource.clip        = sound.AudioClips[Random.Range(0, sound.AudioClips.Length)];
 
-        audioSource.volume      = volume; //  * saved sound value
+        // Multiply the chosen volume value by the saved overall sound effects volume (which is stored as a value from 0 - 20)
+        audioSource.volume      = volume * SaveLoadManager.Instance.GetIntFromPlayerPrefs("soundEffectsVolume") * 0.05f;
 
         audioSource.pitch       = pitch;
 
@@ -246,7 +249,7 @@ public class AudioManager : MonoBehaviour
             audioSource.loop = true;
 
             // Add the source GameObject to the list of looping sounds
-            loopingSoundGameObjs.Add(sourceGameObj);
+            loopingSoundSources.Add(new LoopingSoundSource(audioSource, volume));
         }
 
         // Play the sound
@@ -282,17 +285,17 @@ public class AudioManager : MonoBehaviour
     {
         // Finds a looping sound with the given loopId and destroys its audio source to stop it
 
-        foreach(GameObject gameObj in loopingSoundGameObjs)
+        foreach(LoopingSoundSource loopSource in loopingSoundSources)
         {
-            if (gameObj.name == "LoopSound_" + loopId)
+            if (loopSource.Source.gameObject.name == "LoopSound_" + loopId)
             {
                 // Found a matching loop source
 
                 // Remove it from the array of looping source GameObjects
-                loopingSoundGameObjs.Remove(gameObj);
+                loopingSoundSources.Remove(loopSource);
 
                 // Destroy the source GameObject to stop the sound
-                Destroy(gameObj);
+                Destroy(loopSource.Source.gameObject);
 
                 // Done, no need to continue
                 return;
@@ -332,6 +335,35 @@ public class AudioManager : MonoBehaviour
         {
             dynamicAudioAreas[i].MusicSource.Play();
         }
+    }
+
+    public void UpdateAudioSourcesVolume(int savedMusicVolume)
+    {
+        float volumeVal = savedMusicVolume * 0.05f;
+
+        musicSource.volume = volumeVal;
+
+        if (currentSceneMusic.PlayMode == MusicPlayMode.Dynamic)
+        {
+            for (int i = 0; i < dynamicAudioAreas.Length; i++)
+            {
+                dynamicAudioAreas[i].UpdateSourceVolume(volumeVal);
+            }
+        }
+
+        Debug.Log("Updating music source volume: " + volumeVal);
+    }
+
+    public void UpdateActiveLoopingSoundsVolume(int savedSoundEffectsVolume)
+    {
+        float volumeVal = savedSoundEffectsVolume * 0.05f;
+
+        foreach (LoopingSoundSource loopSource in loopingSoundSources)
+        {
+            loopSource.Source.volume = volumeVal * loopSource.BaseVolume;
+        }
+
+        Debug.Log("Updating looping sounds volume: " + volumeVal);
     }
 }
 
@@ -379,4 +411,16 @@ public class LoopType
                                                    m_loopEnabled = true,
                                                    m_loopId = loopId
                                                };}
+}
+
+public struct LoopingSoundSource
+{
+    public LoopingSoundSource(AudioSource source, float baseVolume)
+    {
+        Source = source;
+        BaseVolume = baseVolume;
+    }
+
+    public AudioSource Source;
+    public float       BaseVolume;
 }

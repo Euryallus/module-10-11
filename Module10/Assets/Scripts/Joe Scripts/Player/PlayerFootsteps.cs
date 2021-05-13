@@ -23,7 +23,7 @@ public class PlayerFootsteps : MonoBehaviour
     private bool            playerIsIdle = true;           // Whether the player is currently idle/not moving on the ground
     private float           idleTimer = GroundedThreshold; // Keeps track of how long the player has been idle/not moving on the ground (seconds)
 
-    private const float     GroundedThreshold   = 0.1f;    // Amount of seconds to wait for before registering the player as grounded/allowing bobbing to prevent
+    private const float     GroundedThreshold   = 0.3f;    // Amount of seconds to wait for before registering the player as grounded/allowing bobbing to prevent
                                                            //   rapid changes between being grounded/not grounded from triggering lots of footstep sounds
 
     private void Awake()
@@ -65,15 +65,16 @@ public class PlayerFootsteps : MonoBehaviour
         }
         else
         {
+            // Player is not moving/not on the ground, set them as idle and reset step timer
             if(!playerIsIdle)
             {
                 playerIsIdle = true;
                 idleTimer = 0.0f;
+
+                stepTimer = 0.0f;
             }
 
-            // Player is not moving/not on the ground, reset step timer
-            stepTimer = 0.0f;
-
+            // Increment the idle timer while not moving/not grounded
             idleTimer += Time.deltaTime;
         }
     }

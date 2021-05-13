@@ -34,8 +34,10 @@ public class HotbarPanel : UIPanel, IPersistentObject
     private int         selectedSlotIndex;      // Index of the selected hotbar slot
     private HandSlotUI  handSlot;               // Player's hand slot for picking up/moving items
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         handSlot = GameObject.FindGameObjectWithTag("HandSlot").GetComponent<HandSlotUI>();
     }
 
@@ -53,6 +55,10 @@ public class HotbarPanel : UIPanel, IPersistentObject
         itemContainer.ContainerStateChangedEvent += UpdateCurrentSlotSelection;
 
         SelectSlot(0);
+
+        // Show the UI panel without adding to the counter that prevents certain player input when
+        //   a UI panel is open, since the hotbar should always show and not block anything
+        isBlockingPanel = false;
 
         Show();
         ShowHotbarAndStatPanels();
