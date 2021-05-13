@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2246740e49653c448acfd3bff328a85, type: 3}
-  m_Name: HugoDemoGliderChest
+  m_Script: {fileID: 11500000, guid: a89370bf0629614478e9fe967124bf9e, type: 3}
+  m_Name: CollectDocuments
   m_EditorClassIdentifier: 
-  m_minItems: 1
-  m_maxItems: 1
-  m_itemPool:
-  - Item: {fileID: 11400000, guid: 1506d2bfa7301b64ab8f38e8fce7b1e4, type: 2}
-    Weight: 1
-    MinimumQuantity: 1
+  objectiveType: 1
+  taskName: Collect documents
+  taskComplete: 0
+  toCollect:
+    Item: {fileID: 11400000, guid: f30e85d72e6ddc441aa5a61a4fa9e5cd, type: 2}
+    Quantity: 1
