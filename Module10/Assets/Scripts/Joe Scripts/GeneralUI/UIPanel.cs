@@ -21,10 +21,11 @@ public class UIPanel : MonoBehaviour
     protected   bool        isBlockingPanel = true;         // Whether this panel blocks certain other UI related input when being shown
     private     CanvasGroup canvasGroup;                    // CanvasGroup attathed to the panel
 
-    private static List<UIPanel> uiPanels = new List<UIPanel>();
+    private static List<UIPanel> uiPanels = new List<UIPanel>();    // List of all created UI panels
 
     protected virtual void Awake()
     {
+        // Add this panel to the list of panels
         uiPanels.Add(this);
     }
 
@@ -35,6 +36,7 @@ public class UIPanel : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Remove this panel to the list of panels if destroyed
         uiPanels.Remove(this);
     }
 
@@ -64,15 +66,21 @@ public class UIPanel : MonoBehaviour
 
     public static bool AnyBlockingPanelShowing()
     {
+        // Returns true if any UIPanels where isBlockingPanel = true are currently being shown
+
+        // Loop through all UIPanels
         for (int i = 0; i < uiPanels.Count; i++)
         {
             if(uiPanels[i].showing && uiPanels[i].isBlockingPanel)
             {
+                // Found a blocking panel that is showing
+
                 Debug.Log("Checking AnyBlockingPanelShowing, " + uiPanels[i].gameObject.name + " is showing");
                 return true;
             }
         }
 
+        // No blocking panels being shown
         return false;
     }
 }

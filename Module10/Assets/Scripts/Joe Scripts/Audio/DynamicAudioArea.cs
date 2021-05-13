@@ -46,40 +46,44 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
 
     private void Start()
     {
+        // Subscribe to save/load events so the active value can be saved/loaded with the game
         SaveLoadManager.Instance.SubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     private void OnDestroy()
     {
+        // Unsubscribe from save/load events if the area GameObject is destroyed to prevent null ref. errors
         SaveLoadManager.Instance.UnsubscribeSaveLoadEvents(OnSave, OnLoadSetup, OnLoadConfigure);
     }
 
     public void OnSave(SaveData saveData)
     {
+        // Get a unique id for this audio area using its location
         string locationId = GetLocationId();
 
         Debug.Log("Saving data for DynamicAudioArea with location id: " + locationId);
 
+        // Save whether the area is active (currently playing music)
         saveData.AddData("audioAreaActive_" + locationId, active);
     }
 
     public void OnLoadSetup(SaveData saveData)
     {
+        // Load whether this audio area was active when the player last saved
         bool loadedActive = saveData.GetData<bool>("audioAreaActive_" + GetLocationId());
 
         if(loadedActive)
         {
+            // The area should be active, activate it
             ActivateAudioArea();
         }
     }
 
-    public void OnLoadConfigure(SaveData saveData)
-    {
-
-    }
+    public void OnLoadConfigure(SaveData saveData) { } // Nothing to configure
 
     private string GetLocationId()
     {
+        // Returns a unique string id based on object location in the world
         return (int)transform.position.x + "_" + (int)transform.position.y + "_" + (int)transform.position.z;
     }
 
@@ -122,6 +126,7 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
     {
         if(other.gameObject.CompareTag("Player"))
         {
+            // The player entered the trigger area, activate this dynamic audio
             ActivateAudioArea();
         }
     }
@@ -161,6 +166,8 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
 
     public void DeactivateAudioArea()
     {
+        // Deactivate this area and fade its music out
+
         FadeOut();
 
         active = false;
@@ -168,8 +175,13 @@ public class DynamicAudioArea : MonoBehaviour, IPersistentObject
 
     public void UpdateSourceVolume(float volume)
     {
+        // Update the base volume, and instantly set the music source to have the
+        //   new volume if it's already active/playing
+
         Debug.Log("Updating source volume: " + musicToTrigger.name);
 
+        // Multiplying from the set MusicClass volume so the saved volume and default
+        //  volume level are both used to determine the overall volume
         baseVolume = musicToTrigger.Volume * volume;
 
         if(active)

@@ -155,7 +155,7 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        UpdateAudioSourcesVolume(SaveLoadManager.Instance.GetIntFromPlayerPrefs("musicVolume"));
+        UpdateMusicSourcesVolume(SaveLoadManager.Instance.GetIntFromPlayerPrefs("musicVolume"));
     }
 
     public void PlayMusic(MusicClass music, bool loop)
@@ -337,12 +337,18 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void UpdateAudioSourcesVolume(int savedMusicVolume)
+    public void UpdateMusicSourcesVolume(int savedMusicVolume)
     {
+        // Updates the volume of the main music source and any active
+        //   dynamic audio sources
+
+        // Saved volume is stored as an int between 0 and 20, multiplying to get a float from 0.0 to 1.0
         float volumeVal = savedMusicVolume * 0.05f;
 
+        // Set the volume of the main audio source used for playing music
         musicSource.volume = volumeVal;
 
+        // Also update the volume of all active dynamic sources
         if (currentSceneMusic.PlayMode == MusicPlayMode.Dynamic)
         {
             for (int i = 0; i < dynamicAudioAreas.Length; i++)
@@ -356,8 +362,13 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateActiveLoopingSoundsVolume(int savedSoundEffectsVolume)
     {
+        // Updates the volume of all looping sound effects that are currently playing
+
+        // Saved volume is stored as an int between 0 and 20, multiplying to get a float from 0.0 to 1.0
         float volumeVal = savedSoundEffectsVolume * 0.05f;
 
+        // Update the volume of all active loop sources, multiplying by the base
+        //   volume that was chosen when the sound first started playing
         foreach (LoopingSoundSource loopSource in loopingSoundSources)
         {
             loopSource.Source.volume = volumeVal * loopSource.BaseVolume;
@@ -413,6 +424,9 @@ public class LoopType
                                                };}
 }
 
+// LoopingSoundSource: Contains info about a sound effect that is currently looping
+//=================================================================================
+
 public struct LoopingSoundSource
 {
     public LoopingSoundSource(AudioSource source, float baseVolume)
@@ -421,6 +435,6 @@ public struct LoopingSoundSource
         BaseVolume = baseVolume;
     }
 
-    public AudioSource Source;
-    public float       BaseVolume;
+    public AudioSource Source;      // The audio source playing the looping sound
+    public float       BaseVolume;  // The volume chosen when the sound was started
 }
