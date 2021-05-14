@@ -78,7 +78,7 @@ MonoBehaviour:
   patrolWanderDistance: 30
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
-  baseDamage: 0.2
+  baseDamage: 0.1
   timeBetweenAttacks: 2
   attackDistance: 4
   manager: {fileID: 0}

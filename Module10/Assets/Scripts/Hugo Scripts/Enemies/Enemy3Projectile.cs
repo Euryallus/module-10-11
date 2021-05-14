@@ -89,6 +89,19 @@ public class Enemy3Projectile : MonoBehaviour
         // Checks if the collision took place on a layer other than enemies
         if (collision.transform.gameObject.layer != mask)
         {
+            // Collects array of colliders within blast radius using OverlapSphere
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1);
+
+            // Cycles each collider in array & checks if one is the player
+            foreach (Collider hit in hitColliders)
+            {
+                // If player is in hit array, suffer damage
+                if (hit.gameObject.CompareTag("Player"))
+                {
+                    hit.gameObject.GetComponent<PlayerStats>().DecreaseHealth(0.2f);
+                }
+            }
+
             // When proj. collides with a collider that isn't attacked to an enemy, Die();
             Die();
         }

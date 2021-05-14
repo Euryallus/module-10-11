@@ -266,18 +266,19 @@ MonoBehaviour:
   viewAngle: 120
   stationaryTurnSpeed: 5
   difficulty: 2
-  playerLastSeen: {x: 0, y: 0, z: 0}
   noOfSearchPoints: 8
+  searchPointsVisited: 0
   patrolWanderDistance: 15
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
-  baseDamage: 0.5
+  baseDamage: 0.2
   timeBetweenAttacks: 5
   attackDistance: 25
   manager: {fileID: 0}
-  maxAtEachPatrolPoint: 0
-  patrolSpeed: 0
-  currentState: 2
+  maxAtEachPatrolPoint: 6
+  patrolSpeed: 1
+  defaultSpeed: 0
+  canSee: 0
   projectilePrefab: {fileID: 4263906348936956817, guid: f652e8c3a6c7eb343a2fd48b1ca7937e, type: 3}
   projSpawnPoint: {fileID: 4965792044581229646}
   spawnToLaunchTime: 1.5
@@ -308,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079f6c5b0cb3c0443b5247364cee6859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 1.5
 --- !u!1 &789852499244566098
 GameObject:
   m_ObjectHideFlags: 0
