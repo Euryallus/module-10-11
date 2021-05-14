@@ -17,6 +17,7 @@ public class NPC : MonoBehaviour
 
     [Header("Dialogue data")]
 
+    [TextArea(1, 5)]
     [SerializeField]    private string[] dialogueLines;             // List of dialogue lines NPC will say if interacted with
     [HideInInspector]   public bool haveTalkedToBefore = false;     // Flags if player has talked to the NPC before 
                         private int dialogueProgression = 0;        // Stores player progression through dialogue lines
