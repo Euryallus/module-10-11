@@ -203,7 +203,6 @@ GameObject:
   - component: {fileID: 789852498807955422}
   - component: {fileID: 789852498807955423}
   - component: {fileID: 703092681658125245}
-  - component: {fileID: -732919281130705362}
   - component: {fileID: -2758398102635987843}
   m_Layer: 6
   m_Name: Enemy2
@@ -282,21 +281,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4263906348936956817, guid: f652e8c3a6c7eb343a2fd48b1ca7937e, type: 3}
   projSpawnPoint: {fileID: 4965792044581229646}
   spawnToLaunchTime: 1.5
---- !u!114 &-732919281130705362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789852498807955393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
 --- !u!114 &-2758398102635987843
 MonoBehaviour:
   m_ObjectHideFlags: 0

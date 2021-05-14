@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 231932873321469037}
   - component: {fileID: 231932873321469036}
   - component: {fileID: 231932873321469039}
-  - component: {fileID: -7743951531005606024}
   m_Layer: 6
   m_Name: EnemyBasic
   m_TagString: Untagged
@@ -153,8 +152,8 @@ MonoBehaviour:
   viewAngle: 160
   stationaryTurnSpeed: 5
   difficulty: 3
-  playerLastSeen: {x: 0, y: 0, z: 0}
   noOfSearchPoints: 8
+  searchPointsVisited: 0
   patrolWanderDistance: 15
   searchDiameter: 10
   centralHubPos: {x: 0, y: 0, z: 0}
@@ -164,22 +163,8 @@ MonoBehaviour:
   manager: {fileID: 0}
   maxAtEachPatrolPoint: 0
   patrolSpeed: 0
-  currentState: 0
---- !u!114 &-7743951531005606024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231932873321469042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  defaultSpeed: 0
+  canSee: 0
 --- !u!1 &231932873496376031
 GameObject:
   m_ObjectHideFlags: 0

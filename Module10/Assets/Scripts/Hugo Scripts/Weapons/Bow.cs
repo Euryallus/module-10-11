@@ -47,7 +47,7 @@ public class Bow : Weapon
             }
 
             // Changes scale of bow to reflect charge amount (will be replaced with something less simple in prod. phase)
-            transform.localScale = new Vector3(transform.localScale.x, 1.75f - (heldTime / 2) , transform.localScale.z);
+            transform.localScale = new Vector3(transform.localScale.x, 1 - (heldTime / 4) , transform.localScale.z);
         }
     }
 
@@ -73,11 +73,13 @@ public class Bow : Weapon
         }
         else
         {
+            transform.localScale = new Vector3(1, 1, 1);
             // No arrows are available
             Debug.LogWarning("No arrow in inventory!");
+
         }
         // Resets bow scale
-        transform.localScale = new Vector3(transform.localScale.x, 1.75f, transform.localScale.z);
+        transform.localScale = new Vector3(1, 1, 1);
 
     }
 
