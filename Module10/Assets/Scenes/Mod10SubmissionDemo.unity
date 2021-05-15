@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.57254905, g: 0.8963358, b: 0.94509804, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -70473,7 +70473,7 @@ MonoBehaviour:
   id: platformDoorTest
   manualOpen: 0
   unlockItem: {fileID: 0}
-  closeAfterTime: 5
+  closeAfterTime: 15
   animator: {fileID: 9082215636239592139}
   triggers:
   - {fileID: 2825865169439848763}
@@ -70501,6 +70501,10 @@ MonoBehaviour:
   - You'll find quite a few weapons and tools around here, some  of which have quite
     unique abilities unlocked when you hold the left mouse button down. Feel free
     to tell me to move on if you've heard this before.
+  - Crafting - You can use a crafting bench like the one to my right to craft items,
+    tools and structures. Each item will require components for you to make it. You
+    can also upgrade things like tools, for example increasing the jump height of
+    the hammer.
   - The axe - The most trustworthy of them all. You can use it to cut down fir trees,
     like those ones just outside the village gate. You can also use it to freeze
     certain objects - chop a tree down and freeze it to make a ladder!
@@ -70510,14 +70514,18 @@ MonoBehaviour:
   - The hammer - Possibly the most entertaining one of the lot. It can be used to
     harvest crystals, but when used properly can launch you into the air like a bird.
     It can also be upgraded using the Customisation bench!
+  - The glider - Now this is a good one. The glider can be opened by pressing SPACE
+    when you're a ways above ground. You can use it to strafe left and right as you
+    fall, and press SPACE again to close it. Be careful not to close it mid-air!
   - There are two weapons around here - the sword and the bow. The sword can be swung
     at enemies, whereas the bow requires arrows to shoot (they can be crafted using
     a crafting bench)
   - There's a few areas of interest around here - the outpst to the left of the village
-    is swarming with enemies right now, and the old training camp to the right is
-    just full of old traps. A few other folks are scattered around these parts, make
-    sure you say hello!
-  - Well, it's been lovely talking to you! Feel free to return at any time if you
+    is swarming with enemies right now, and the old training camps to the right are
+    just full of old traps. You can press M to bring up a map of the area - it'll
+    reveal more as you explore. A few other folks are scattered around these parts,
+    make sure you say hello!
+  - Well, it's been great talking to you! Feel free to return at any time if you
     need a reminder of anything.
   haveTalkedToBefore: 0
   cameraFocusPoint: {fileID: 7781442544448202304}

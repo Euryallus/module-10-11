@@ -25,6 +25,7 @@ public class QuestUI : MonoBehaviour
     [Header("Quest HUD list")]                                          // References to quest HUD elements
     [SerializeField]    private TMP_Text questTitleHUD;
     [SerializeField]    private GameObject questMarkerBackground;
+    [SerializeField]    private float questNameHeight = 35f;
 
     [Header("Canvas groups")]                                           // References to UI canvas groups
     [SerializeField]    private CanvasGroup questAcceptCanvasGroup;
@@ -87,6 +88,12 @@ public class QuestUI : MonoBehaviour
         questCompleteMessage.text = quest.questCompleteDialogue;
         // Rewards system still being worked out - will be added in production phase
         string rewardText = "ADD LATER";
+
+        foreach(ItemGroup reward in quest.rewards)
+        {
+            rewardText += reward.Item.UIName + " x" + reward.Quantity.ToString() + "\n";
+        }
+
         questReward.text = rewardText;
 
         // Displays UI 
@@ -115,7 +122,7 @@ public class QuestUI : MonoBehaviour
         // If there are already quest names in list, adjust position to be at bottom of list
         if(questNamesHUD.Count != 0)
         {
-            newName.rectTransform.anchoredPosition = new Vector2(defaultName.rectTransform.anchoredPosition.x, defaultName.rectTransform.anchoredPosition.y - (60 * questNamesHUD.Count));
+            newName.rectTransform.anchoredPosition = new Vector2(defaultName.rectTransform.anchoredPosition.x, defaultName.rectTransform.anchoredPosition.y - ((questNameHeight + 5) * questNamesHUD.Count));
         }
         else
         {
