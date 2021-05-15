@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 789852498807955423}
   - component: {fileID: 703092681658125245}
   - component: {fileID: -2758398102635987843}
+  - component: {fileID: 8213254221157574113}
   m_Layer: 6
   m_Name: Enemy2
   m_TagString: Untagged
@@ -294,6 +295,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1.5
+--- !u!136 &8213254221157574113
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789852498807955393}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &789852499244566098
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +487,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 789852499711793226}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
