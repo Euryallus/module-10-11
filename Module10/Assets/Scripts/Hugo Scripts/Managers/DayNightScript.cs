@@ -15,8 +15,8 @@ public class DayNightScript : MonoBehaviour
     [SerializeField]    private float timeOfDay         = 0;        // Saves time of day (0 to 24)
     [SerializeField]    private float timeProgression   = 50f;      // Time modifier
     [SerializeField]    private float cloudScrollSpeed  = 0.05f;    // Speed at which clouds move
-    [SerializeField]    private float fogDensityNight   = 0.2f;     // Fog density at night
-    [SerializeField]    private float fogDensityDay     = 0.005f;   // Fog density 
+    [SerializeField]    private float fogStartPointNight   = 5f;     // Fog density at night
+    [SerializeField]    private float fogStartPointDay     = 50f;   // Fog density 
     [SerializeField]    private float ambientLightNight = 0.5f;     // Intensity of ambient light at night (default brightness of scene)
     [SerializeField]    private Color dayFogColour;                 // Colour of fog durng the day
     [SerializeField]    private Color nightFogColour;               // Colour of fog at night
@@ -38,6 +38,10 @@ public class DayNightScript : MonoBehaviour
 
         //Resets cloud offset
         cloudOffset = new Vector4(0, 0, 0, 0);
+
+        RenderSettings.ambientIntensity = 1.0f;
+        RenderSettings.fogDensity = fogStartPointDay;
+        RenderSettings.fogColor = dayFogColour;
     }
 
     void Update()
@@ -55,22 +59,22 @@ public class DayNightScript : MonoBehaviour
         // Checks if sun is setting - if so, lerp between day & night settings for fog and light intensity
         if(timeOfDay > 20.0f)
         {
-            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, ambientLightNight, Time.deltaTime * timeProgression);
-            RenderSettings.fogDensity =         Mathf.Lerp(RenderSettings.fogDensity, fogDensityNight, Time.deltaTime * timeProgression);
-            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, nightFogColour, Time.deltaTime * timeProgression);
+            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, ambientLightNight, Time.deltaTime * (1f / timeProgression));
+            RenderSettings.fogStartDistance =         Mathf.Lerp(RenderSettings.fogStartDistance, fogStartPointNight, Time.deltaTime * (1f / timeProgression));
+            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, nightFogColour, Time.deltaTime * (1f / timeProgression));
         }
         // Checks if sun is rising - if so, lerp between night and day settings for fog and light intensity
         if(timeOfDay < 6.0f)
         {
-            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, 1.0f, Time.deltaTime * timeProgression);
-            RenderSettings.fogDensity =         Mathf.Lerp(RenderSettings.fogDensity, fogDensityDay, Time.deltaTime * timeProgression);
-            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, dayFogColour, Time.deltaTime * timeProgression);
+            RenderSettings.ambientIntensity =   Mathf.Lerp(RenderSettings.ambientIntensity, 1.0f, Time.deltaTime * (1f / timeProgression));
+            RenderSettings.fogDensity =         Mathf.Lerp(RenderSettings.fogStartDistance, fogStartPointDay, Time.deltaTime * (1f / timeProgression));
+            RenderSettings.fogColor =           Color.Lerp(RenderSettings.fogColor, dayFogColour, Time.deltaTime * (1f / timeProgression));
         }
         // If sun has risen, "snap" all values to what they should be during the day
         if(timeOfDay > 6.0f && timeOfDay < 20.0f)
         {
             RenderSettings.ambientIntensity =   1.0f;
-            RenderSettings.fogDensity =         fogDensityDay;
+            RenderSettings.fogDensity =         fogStartPointDay;
             RenderSettings.fogColor =           dayFogColour;
         }
 
