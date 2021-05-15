@@ -29,12 +29,11 @@ public class Arrow : MonoBehaviour
             hasHit = true;
             rb.velocity = Vector3.zero;
 
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-
             if (collision.transform.gameObject.isStatic)
             {
                 // Checks if object collided with is static - if so, child arrow to collided object & freeze in place
                 gameObject.transform.parent = collision.gameObject.transform;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
                 return;
             }
 
