@@ -87,7 +87,7 @@ public class QuestUI : MonoBehaviour
         questCompleteTitle.text = quest.questName;
         questCompleteMessage.text = quest.questCompleteDialogue;
         // Rewards system still being worked out - will be added in production phase
-        string rewardText = "ADD LATER";
+        string rewardText = "";
 
         foreach(ItemGroup reward in quest.rewards)
         {

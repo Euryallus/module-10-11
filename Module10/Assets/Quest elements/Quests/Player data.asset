@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pendingQuest: {fileID: 11400000, guid: fa05cb99784721b4ba3653f739d13d43, type: 2}
   offer: {fileID: 11400000, guid: 863790949db486b428cd5174f109f656, type: 2}
-  questBacklog:
-  - {fileID: 11400000, guid: 9301281eda2e5fb4baf96738d2fddd5d, type: 2}
-  - {fileID: 11400000, guid: 82c5f4830ec6bf243803b865c53127da, type: 2}
-  - {fileID: 11400000, guid: 9c2362113b55bb841a804e93892376b4, type: 2}
+  questBacklog: []
   completedQuests: []
   questGivers:
   - {fileID: 11400000, guid: 52aa68ba7f2b98b4c950b08211cc6d0e, type: 2}

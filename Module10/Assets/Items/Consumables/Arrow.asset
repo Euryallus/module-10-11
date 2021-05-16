@@ -17,7 +17,7 @@ MonoBehaviour:
   m_uiDescription: An arrow
   m_stackSize: 24
   m_weight: 0
-  m_sprite: {fileID: 21300000, guid: 2dfe566b12faa344aa536a7781506dd7, type: 3}
+  m_sprite: {fileID: 21300000, guid: e4371aa02f857fa47ba9eedfa2d90941, type: 3}
   m_heldItemGameObject: {fileID: 0}
   m_customisable: 0
   m_currencyItemId: 
